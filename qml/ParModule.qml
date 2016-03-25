@@ -126,7 +126,7 @@ Widget {
 
         #Center labels
         if(label_items.length == content_items.length && true)
-            (1...N).each do |i|
+            (1...n).each do |i|
                 li = label_items[i]
                 ci = content_items[i]
                 l.sheq([li.x, li.w, ci.x, ci.w],

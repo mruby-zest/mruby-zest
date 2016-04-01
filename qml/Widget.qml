@@ -35,19 +35,34 @@ Object {
         "Widget"
     }
 
-    function to_s(i=1)
+    function root()
     {
-        base = "<"+widget.class_name()+"##{widget.ui_path}:" + widget.label
-        child_s = []
-
-        widget.children.each do |x|
-            child_s << x.to_s(i+1)
-        end
-
-        if(child_s.empty?)
-            base + ">"
+        if(parent.respond_to?(:root))
+            parent.root
         else
-            base + "\n" + " "*i + "[" + child_s.join(", ") + "]>"
+            parent
         end
+    }
+
+    //(defun print-tree (tree &optional (offset 0))
+    //  (loop for node in tree do
+    //         (terpri)
+    //                (loop repeat offset do (princ " |"))
+    //                       (format t "-~a" (car node))
+    //                              (print-tree (cdr node) (1+ offset))))
+    function to_s(i=0)
+    {
+        out = ""
+        i.times do 
+            out += " |"
+        end
+
+        out += "- <"+widget.class_name()+"##{widget.ui_path}:" + widget.label
+        out += ">\n"
+        widget.children.each do |x|
+            out += x.to_s(i+1)
+        end
+
+        out
     }
 }

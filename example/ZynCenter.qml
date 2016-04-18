@@ -96,9 +96,9 @@ Widget {
             header.children.each do |ch|
                 box = ch.layout(l)
                 l.contains(selfBox,box)
-                bw,bh = measure(ch.label)
+                #bw,bh = measure(ch.label)
 
-                l.aspect(box, bh, bw)
+                #l.aspect(box, bh, bw)
                 if(prev)
                     l.rightOf(prev, box)
                 end

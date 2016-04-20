@@ -10,6 +10,8 @@ Object {
 
     property Array layoutOpts: []
 
+    property Int layer: 0;
+
     property Int x: nil;
     property Int y: nil;
     property Int w: nil;
@@ -64,5 +66,25 @@ Object {
         end
 
         out
+    }
+
+    function abs_x()
+    {
+        p = parent
+        if(p.respond_to?(:root))
+            widget.x + p.abs_x
+        else
+            widget.x
+        end
+    }
+    
+    function abs_y()
+    {
+        p = parent
+        if(p.respond_to?(:root))
+            widget.y + p.abs_y
+        else
+            widget.y
+        end
     }
 }

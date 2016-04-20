@@ -20,10 +20,13 @@ Widget {
         else
             value = v
         end
+
+        puts "setValue..."
+        root.damage(Rect.new(abs_x, abs_y, valuator.w, valuator.h), 0)
     }
 
     function onMousePress(ev) {
-        #puts "I got a mouse press (value)"
+        puts "I got a mouse press (value)"
         valuator.prev = ev.pos
     }
 
@@ -44,6 +47,8 @@ Widget {
         else
             valuator.value = nvalue
         end
+        root.draw_damage(Rect.new(abs_x, abs_y, valuator.w, valuator.h), 0)
+        #root.draw_damage(Rect.new(0,0,512,512), 0)
     }
 
     function onMerge(val)

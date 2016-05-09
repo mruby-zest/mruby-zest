@@ -8,6 +8,15 @@ Widget {
     property Float value: 1.0;
     property Float norm_value: valuator.value;
 
+    onExtern: {
+        puts("on extern...")
+        meta = OSC::RemoteMetadata.new($remote, valuator.extern)
+        valuator.label = meta.short_name
+        puts(meta.short_name)
+        puts("extern done...")
+
+    }
+
     onValueRef: {
         puts("entering onValueRef")
         if(valuator.valueRef)

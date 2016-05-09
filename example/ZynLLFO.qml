@@ -1,7 +1,7 @@
 ParModule {
     w: 500*4
     h: 300*4
-    extern: "/part0/kit0/ADnoteParameters/GlobalPars/FreqLFO/"
+    extern: "/part0/kit0/adpars/GlobalPar/FreqLfo/"
     label:  "generic lfo"
     id:    lfo_mod
     Knob     {extern: lfo_mod.extern+"Pfreq"}
@@ -10,9 +10,9 @@ ParModule {
     Knob     {extern: lfo_mod.extern+"PLFOtype"}
     Knob     {extern: lfo_mod.extern+"Pstretch"}
     Knob     {extern: lfo_mod.extern+"Prandomness"}
-    Knob     {extern: lfo_mod.extern+"f.r."}
+    Knob     {extern: lfo_mod.extern+"Pfreqrand"}
     DropDown {extern: lfo_mod.extern+"PLFOType"}
-    Button   {extern: lfo_mod.extern+"Pcontinous"}
+    Button   {extern: lfo_mod.extern+"Pcontinous"; label: "C"}
 }
 //
 //onExtern

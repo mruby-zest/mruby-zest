@@ -1,7 +1,8 @@
 Widget {
     id: button
     property signal action: nil;
-    property Bool value: false;
+    property String extern:   "";
+    property Bool   value:    false;
     property String renderer: nil;
     
     function onMousePress(ev) {

@@ -2,6 +2,7 @@ Widget {
     id: mod
     property Bool copyable: false;
     property Bool editable: false;
+    property String extern: "";
 
     layoutOpts: [:horizontal]
 

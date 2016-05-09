@@ -1,7 +1,9 @@
 Widget {
     id: valuator
     property Object valueRef: nil;
-    property Object  prev: nil;
+    property Object prev:     nil;
+
+    property String extern:   ""
 
     property Float value: 1.0;
     property Float norm_value: valuator.value;

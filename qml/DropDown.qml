@@ -1,5 +1,6 @@
 Widget {
-    property String text: "text";
+    property String extern: ""
+    property String text:   "text";
     function draw(vg)
     {
         #puts("draw dropdown...")

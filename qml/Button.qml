@@ -8,6 +8,9 @@ Widget {
     function onMousePress(ev) {
         puts "Button Press"
         button.value = !button.value
+        if(root)
+            root.damage_item self
+        end
     }
     
     function onMerge(val)

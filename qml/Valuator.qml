@@ -10,34 +10,33 @@ Widget {
 
     onExtern: {
         puts("on extern...")
+        print "remote = "
+        puts $remote
+        print "extern = "
+        puts valuator.extern
         meta = OSC::RemoteMetadata.new($remote, valuator.extern)
+        puts meta
         valuator.label = meta.short_name
         puts(meta.short_name)
+
+        valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
+        valuator.valueRef.callback = Proc.new {|x| valuator.setValue(x)}
+        #valuator.valueRef.value    = 0.3
         puts("extern done...")
 
     }
 
-    onValueRef: {
-        puts("entering onValueRef")
-        if(valuator.valueRef)
-            registerExternal(valuator.valueRef)
-            bind(valuator, "value", "valuator.valueRef.value")
-        end
-    }
-
+    //Callback function which does not propagate info to remote API
     function setValue(v) {
-        if(valueRef)
-            valuator.valueRef.setValue(v)
-        else
-            value = v
+        #puts "setValue..."
+        if(valuator.root)
+            valuator.value = v
+            valuator.root.damage_item(valuator)
         end
-
-        puts "setValue..."
-        root.damage(Rect.new(abs_x, abs_y, valuator.w, valuator.h), 0)
     }
 
     function onMousePress(ev) {
-        puts "I got a mouse press (value)"
+        #puts "I got a mouse press (value)"
         valuator.prev = ev.pos
     }
 
@@ -51,15 +50,16 @@ Widget {
     }
 
     function updatePos(delta) {
+        #puts "updatePos..."
         tmp = valuator.value - delta
         nvalue = limit(tmp, 0, 1)
-        if(valueRef)
-            valuator.valueRef.update(nvalue)
+        if(valuator.valueRef)
+            valuator.valueRef.value = nvalue
+            valuator.value = nvalue
         else
             valuator.value = nvalue
         end
-        root.draw_damage(Rect.new(abs_x, abs_y, valuator.w, valuator.h), 0)
-        #root.draw_damage(Rect.new(0,0,512,512), 0)
+        root.damage_item(valuator)
     }
 
     function onMerge(val)

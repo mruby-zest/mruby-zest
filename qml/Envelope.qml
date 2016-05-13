@@ -1,4 +1,71 @@
 Widget {
+    id: env
+
+    property Object prev: nil;
+    property Int    selected: nil;
+    //                      0         1         2         3         4
+    property Array points: [0.0, 0.0, 0.5, 0.2, 0.3, 0.7,-0.9, 0.8, 0.0, 1.0];
+
+    function onMousePress(ev) {
+        puts "I got a mouse press (value)"
+        #//Try to identify the location  of the nearest grabbable point
+        #valuator.prev = ev.pos
+        dat = env.points
+        next_sel = 0
+        best_dist = 1e10
+        (0...(dat.length/2)).each do |i|
+            xx = w*dat[2*i+1];
+            yy = h/2-h/2*dat[2*i];
+
+            dst = (ev.pos.x-xx)**2 + (ev.pos.y-yy)**2
+            if(dst < best_dist)
+                best_dist = dst
+                next_sel  = i
+            end
+        end
+        print "selected = "
+        puts next_sel
+        if(env.selected != next_sel)
+            env.selected = next_sel
+            env.root.damage_item env
+        end
+        env.prev = ev.pos
+    }
+
+    function onMouseMove(ev) {
+        puts "I got a mouse move (value)"
+        if(ev.buttons.include?(:leftButton)&& env.selected)
+            dy = 2*(ev.pos.y - env.prev.y)/env.h
+            dx = (ev.pos.x - env.prev.x)/env.w
+            if(env.selected == 0 || env.selected == (env.points.length)/2-1)
+                env.points[env.selected*2] -= dy
+            else
+                env.points[env.selected*2+1] += dx
+                env.points[env.selected*2]   -= dy
+            end
+            print "("
+            print dx
+            print ","
+            print dy
+            print ")\n"
+            #updatePos(dy/200.0)
+            (0...env.points.length).each do |i|
+                if(env.points[i] < -1)
+                    env.points[i] = -1 
+                elsif(env.points[i] > 1)
+                    env.points[i] = 1
+                end
+            end
+            env.prev = ev.pos
+            env.root.damage_item env
+        end
+        #if(ev.buttons.include? :leftButton)
+        #    dy = ev.pos.y - valuator.prev.y
+        #    updatePos(dy/200.0)
+        #    valuator.prev = ev.pos
+        #end
+    }
+
     function class_name()
     {
         "Envelope"
@@ -11,15 +78,18 @@ Widget {
             v.fill_color(NVG.rgba(128, 128, 128, 255))
             v.fill
         end
-        #      0         1         2         3         4
-        dat = [0.0, 0.0, 0.5, 0.2, 0.3, 0.7,-0.9, 0.8, 0.0, 1.0];
+
+        dat = env.points
+
         fill_color   = NVG.rgba(0x0d, 0x0d, 0x0d,255)
         stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
 
         light_fill   = NVG.rgba(0x11,0x45,0x75,55)
         bright       = NVG.rgba(0x3a,0xc5,0xec,255)
 
-        dim          =  NVG.rgba(0x11,0x45,0x75,255)
+        dim          = NVG.rgba(0x11,0x45,0x75,255)
+
+        sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
 
         vg.path do |v|
             v.rect(0,0,w,h)
@@ -98,7 +168,12 @@ Widget {
             vg.path do |vg|
                 vg.rect(xx-scale,yy-scale,scale*2,scale*2);
                 vg.fill_color NVG.rgba(0,0,0,255)
-                vg.stroke_color bright
+                if(env.selected == i)
+                    vg.stroke_color sel_color
+                else
+                    vg.stroke_color bright
+                end
+
                 vg.stroke_width scale*0.5
                 vg.fill
                 vg.stroke

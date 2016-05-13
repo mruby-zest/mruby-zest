@@ -8,6 +8,8 @@ Object {
 
     property String label: ""
 
+    property String tooltip: ""
+
     property Array layoutOpts: []
 
     property Int layer: 0;

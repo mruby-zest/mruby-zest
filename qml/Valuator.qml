@@ -16,7 +16,8 @@ Widget {
         puts valuator.extern
         meta = OSC::RemoteMetadata.new($remote, valuator.extern)
         puts meta
-        valuator.label = meta.short_name
+        valuator.label   = meta.short_name
+        valuator.tooltip = meta.tooltip
         puts(meta.short_name)
 
         valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
@@ -49,6 +50,12 @@ Widget {
         end
     }
 
+    function onMouseEnter(ev) {
+        if(valuator.tooltip != "")
+            valuator.root.log(:tooltip, valuator.tooltip)
+        end
+    }
+
     function updatePos(delta) {
         #puts "updatePos..."
         tmp = valuator.value - delta
@@ -56,6 +63,7 @@ Widget {
         if(valuator.valueRef)
             valuator.valueRef.value = nvalue
             valuator.value = nvalue
+            valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         else
             valuator.value = nvalue
         end

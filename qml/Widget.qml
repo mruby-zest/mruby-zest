@@ -39,6 +39,15 @@ Object {
         "Widget"
     }
 
+    function window()
+    {
+        if(parent.respond_to?(:root))
+            parent.window
+        else
+            self
+        end
+    }
+
     function root()
     {
         if(parent.respond_to?(:root))
@@ -57,7 +66,7 @@ Object {
     function to_s(i=0)
     {
         out = ""
-        i.times do 
+        i.times do
             out += " |"
         end
 
@@ -79,7 +88,7 @@ Object {
             widget.x
         end
     }
-    
+
     function abs_y()
     {
         p = parent

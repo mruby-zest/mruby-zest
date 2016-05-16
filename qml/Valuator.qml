@@ -38,12 +38,34 @@ Widget {
 
     function onMousePress(ev) {
         #puts "I got a mouse press (value)"
-        valuator.prev = ev.pos
+        if(ev.buttons.include? :leftButton)
+            valuator.prev = ev.pos
+        elsif(ev.buttons.include? :rightButton)
+            #now things get interesting
+            puts "bring it"
+            puts valuator.window
+            #generate ideal size
+            #but make it realistic
+            ideal_w = valuator.w
+            ideal_h = valuator.h
+            if(children.empty?)
+                widget = RadialMenu.new(valuator.db)
+                widget.w = ideal_w
+                widget.h = ideal_h
+                widget.x = 0
+                widget.y = 0
+                Qml::add_child(valuator, widget)
+                valuator.root.smash_draw_seq
+                valuator.root.damage_item self
+            end
+        else
+            valuator.prev = nil
+        end
     }
 
     function onMouseMove(ev) {
         #puts "I got a mouse move (value)"
-        if(ev.buttons.include? :leftButton)
+        if(valuator.prev)
             dy = ev.pos.y - valuator.prev.y
             updatePos(dy/200.0)
             valuator.prev = ev.pos

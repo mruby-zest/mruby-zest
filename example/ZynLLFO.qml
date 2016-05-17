@@ -7,11 +7,10 @@ ParModule {
     Knob     {extern: lfo_mod.extern+"Pfreq"}
     Knob     {extern: lfo_mod.extern+"Pintensity"}
     Knob     {extern: lfo_mod.extern+"Pstartphase"}
-    Knob     {extern: lfo_mod.extern+"PLFOtype"}
     Knob     {extern: lfo_mod.extern+"Pstretch"}
     Knob     {extern: lfo_mod.extern+"Prandomness"}
     Knob     {extern: lfo_mod.extern+"Pfreqrand"}
-    DropDown {extern: lfo_mod.extern+"PLFOType"}
+    Selector {extern: lfo_mod.extern+"PLFOtype"}
     Button   {extern: lfo_mod.extern+"Pcontinous"; label: "C"}
 }
 //

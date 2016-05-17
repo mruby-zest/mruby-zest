@@ -36,27 +36,42 @@ Widget {
         end
     }
 
+    function create_radial()
+    {
+        puts "creating the radial menu..."
+        gbl_cx = valuator.global_x + 0.5*valuator.w
+        gbl_cy = valuator.global_y + 0.5*valuator.y
+        gbl_w  = window.w
+        gbl_h  = window.h
+
+        ropt = [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy].min
+        print "maximum radius is "
+        puts ropt
+        puts [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy]
+
+        diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
+
+        widget = RadialMenu.new(valuator.db)
+        widget.w = diameter
+        widget.h = diameter
+        widget.x = valuator.w/2-diameter/2
+        widget.y = valuator.h/2-diameter/2
+        widget.layer = 1
+        print "widget.x = "
+        puts widget.x
+
+        Qml::add_child(valuator, widget)
+        valuator.root.smash_draw_seq
+        valuator.root.damage_item widget
+    }
+
     function onMousePress(ev) {
         #puts "I got a mouse press (value)"
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos
         elsif(ev.buttons.include? :rightButton)
-            #now things get interesting
-            puts "bring it"
-            puts valuator.window
-            #generate ideal size
-            #but make it realistic
-            ideal_w = valuator.w
-            ideal_h = valuator.h
             if(children.empty?)
-                widget = RadialMenu.new(valuator.db)
-                widget.w = ideal_w
-                widget.h = ideal_h
-                widget.x = 0
-                widget.y = 0
-                Qml::add_child(valuator, widget)
-                valuator.root.smash_draw_seq
-                valuator.root.damage_item self
+                create_radial
             end
         else
             valuator.prev = nil

@@ -57,6 +57,24 @@ Object {
         end
     }
 
+    function global_x()
+    {
+        par = 0
+        if(parent.respond_to?(:global_x))
+            par = parent.global_x
+        end
+        par + widget.x
+    }
+
+    function global_y()
+    {
+        par = 0
+        if(parent.respond_to?(:global_y))
+            par = parent.global_y
+        end
+        par + widget.y
+    }
+
     //(defun print-tree (tree &optional (offset 0))
     //  (loop for node in tree do
     //         (terpri)

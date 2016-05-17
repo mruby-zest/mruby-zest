@@ -18,12 +18,12 @@ Widget {
         end_   = pi*3.0/4.0;
         start = 0
         end_  = -2.0*pi
-        
+
         vg.path do |v|
             v.arc(cx, cy, outer, start, end_, 1);
             v.arc(cx, cy, inner, end_, start, 2);
             v.close_path
-            v.fill_color(NVG.rgba(0x11,0x45,0x75,155));
+            v.fill_color(NVG.rgba(0x11,0x45,0x75,205));
             v.fill
         end
 
@@ -64,7 +64,7 @@ Widget {
             return x
         end
     }
-    
+
     function onMousePress(ev) {
         puts "I got a mouse press (radial)"
         dx = ev.pos.x-radial.w/2

@@ -45,12 +45,18 @@ Widget {
         vg.text(w*1.25/2,h/2,label.upcase)
         
     }
+
+    function layout(l)
+    {
+        selfBox = l.genBox :fancyButton, self
+        chldBox = l.genBox :fancyButtonPow, pow
+        l.fixed(chldBox, selfBox, 0, 0, 0.25, 1)
+        selfBox
+    }
+
     PowButton {
+        id: pow
         function class_name() { "PowButton" }
-        x: 0
-        y: 0
-        w: fancy.w/4
-        h: fancy.h
     }
 
 }

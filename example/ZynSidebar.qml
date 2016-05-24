@@ -3,119 +3,84 @@ Widget {
     function class_name() { "ZynSidebar" }
     SidebarButton {
         id: partsetting
-        x: 0.1*side.w
-        y: 0
-        w: side.w*0.8
-        h: side.h*0.045
         label: "part settings"
     }
     Indent {
         id: part
-        x: 0.1*side.w
-        y: side.h*0.05
-        w: side.w*0.8
-        h: side.h*0.19
-        KitButtons {
-            x: 0.025*part.w 
-            y: 0.025*part.h
-            w: 0.95*part.w
-            h: 0.9*part.h
-        }
+        KitButtons {}
     }
     SidebarButton {
         id: browser
-        x: 0.1*side.w
-        y: side.h*0.248
-        w: side.w*0.8
-        h: side.h*0.045
         label: "browser"
     }
     SidebarButton {
         id: mixer
-        x: 0.1*side.w
-        y: side.h*0.3
-        w: side.w*0.8
-        h: side.h*0.045
         label: "mixer"
     }
     FancyButton {
+        id: kitedit
         label: "kit editor"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.35*side.h
     }
     Indent {
         id: kit
-        x: 0.1*side.w
-        y: side.h*0.405
-        w: side.w*0.8
-        h: side.h*0.187
-        KitButtons {
-            id: kitb
-            x: 0.025*kit.w 
-            y: 0.025*kit.h
-            w: 0.95*kit.w
-            h: 0.9*kit.h
-        }
+        KitButtons {}
     }
     FancyButton {
+        id: arp
         label: "arp"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.6*side.h
     }
     FancyButton {
+        id: eff
         label: "effects"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.65*side.h
     }
     FancyButton {
+        id: add
         label: "add"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.7*side.h
         value: true;
     }
     Indent {
         id: voices
-        x: 0.1*side.w
-        y: side.h*0.75
-        w: side.w*0.8
-        h: side.h*0.13
-        KitButtons {
-            id: voice_buttons
-            x: 0
-            y: 0
-            w: voices.w
-            h: voices.h
-        }
+        KitButtons {}
     }
     FancyButton {
+        id: subButton
         label: "sub"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.88*side.h
     }
     FancyButton {
+        id: padButton
         label: "pad"
-        w: side.w*0.8
-        h: side.h*0.045
-        x: 0.1*side.w
-        y: 0.94*side.h
     }
 
     function layout(l)
     {
-        #box = kitb.layout(l)
-        #l.sheq([box.w], [1], kitb.w)
-        #l.sheq([box.h], [1], kitb.h)
-        #l.sheq([box.x], [1], kitb.x)
-        #l.sheq([box.y], [1], kitb.y)
+        puts "LAYOUT HERE"
+        selfBox = l.genBox :sidebar, side
+        psBox   = partsetting.layout(l)
+        partBox = part.layout(l)
+        browBox = browser.layout(l)
+        mixrBox = mixer.layout(l)
+        kiteBox = kitedit.layout(l)
+        kitsBox = kit.layout(l)
+        arpsBox = arp.layout(l)
+        effsBox = eff.layout(l)
+        addsBox = add.layout(l)
+        vcesBox = voices.layout(l)
+        subsBox = subButton.layout(l)
+        padsBox = padButton.layout(l)
+
+        l.fixed(psBox,   selfBox, 0.1, 0,     0.8, 0.045)
+        l.fixed(partBox, selfBox, 0.1, 0.05,  0.8, 0.19)
+        l.fixed(browBox, selfBox, 0.1, 0.248, 0.8, 0.045)
+        l.fixed(mixrBox, selfBox, 0.1, 0.3,   0.8, 0.045)
+        l.fixed(kiteBox, selfBox, 0.1, 0.35,  0.8, 0.045)
+        l.fixed(kitsBox, selfBox, 0.1, 0.405, 0.8, 0.187)
+        l.fixed(arpsBox, selfBox, 0.1, 0.6,   0.8, 0.045)
+        l.fixed(effsBox, selfBox, 0.1, 0.65,  0.8, 0.045)
+        l.fixed(addsBox, selfBox, 0.1, 0.7,   0.8, 0.045)
+        l.fixed(vcesBox, selfBox, 0.1, 0.75,  0.8, 0.13)
+        l.fixed(subsBox, selfBox, 0.1, 0.88,  0.8, 0.045)
+        l.fixed(padsBox, selfBox, 0.1, 0.94,  0.8, 0.045)
+
+        selfBox
     }
 }

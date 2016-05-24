@@ -9,12 +9,12 @@ Widget {
         puts "Main Window layout"
         t = widget.class_name.to_sym
         selfBox = l.genBox t, widget
-        chBox = main_widget.layout(l)
-        l.sheq([chBox.x, selfBox.w], [1, -0.102], 0)
-        l.sheq([chBox.w, selfBox.w], [1, -0.89], 0)
-        l.sheq([chBox.y, selfBox.h], [1, -0.1], 0)
-        l.sheq([chBox.h, selfBox.h], [1, -0.78], 0)
-        side.layout(l)
+        chBox   = main_widget.layout(l)
+        sideBox = side.layout(l)
+
+        l.fixed(chBox, selfBox, 0.102, 0.1, 0.89, 0.78)
+        l.fixed(sideBox, selfBox, 0, 0.1, 0.1, 0.8)
+
         selfBox
     }
 
@@ -29,10 +29,6 @@ Widget {
     
     ZynSidebar {
         id: side
-        x: 0
-        y: 0.1*window.h
-        w: 0.1*window.w
-        h: 0.8*window.h
         function draw(vg)
         {
             vg.path do |v|

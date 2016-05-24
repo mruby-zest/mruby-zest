@@ -1,10 +1,10 @@
 Widget {
-    id: ident
+    id: indent
 
     function class_name() { "Indent" }
     function layout(l)
     {
-        selfBox = l.genBox :indent, ident
+        selfBox = l.genBox :indent, indent
         if(!indent.children.empty?)
             ch = indent.children[0].layout l
             l.contains selfBox, ch

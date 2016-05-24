@@ -3,7 +3,7 @@ Widget {
     function class_name() {"ZynHeader"}
     Text {
         id: logo
-        label: "ZynAddSubFX"
+        label: "Zyn"
         x: 0.016*head.w
         w: 0.16*head.w
         y: head.h*0.2
@@ -46,19 +46,12 @@ Widget {
         w: head.w*0.32
         h: head.h*0.7
 
-        Text {
+        LogWidget {
             x: 0
             y: 0
             w: status.w
-            h: status.h/2
-            label: "preset"
-        }
-        Text {
-            x: 0
-            y: status.h/2
-            w: status.w
-            h: status.h/2
-            label: "knob name"
+            h: status.h
+            label: "console log"
         }
     }
 

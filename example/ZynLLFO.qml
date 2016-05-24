@@ -13,13 +13,3 @@ ParModule {
     Selector {extern: lfo_mod.extern+"PLFOtype"}
     Button   {extern: lfo_mod.extern+"Pcontinous"; label: "C"}
 }
-//
-//onExtern
-//_handle = $schema.get self.extern
-//label   = _handle.shortname
-//tooltip = _handle.tooltip
-//$bridge.map(self.extern, self.value, 0.0, 1.0)
-//
-//extra for dropdown
-//options         = _handle.options
-//options_mapping = _handle.options_mapping

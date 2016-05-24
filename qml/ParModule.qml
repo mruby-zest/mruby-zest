@@ -5,6 +5,8 @@ Widget {
     property String extern: "";
 
     layoutOpts: [:horizontal]
+    
+    function class_name() { "ParModule" }
 
     onChildren: {
         mch = mod.children
@@ -27,7 +29,6 @@ Widget {
             end
         end
     }
-
 
     //1. This widget forms a bounding box
     //2. The children of this widget exist

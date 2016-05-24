@@ -73,7 +73,7 @@ Widget {
             end
         }
     }
-    ZynCenter {
+    ZynAddGlobal {
         id: main_widget
     }
 }

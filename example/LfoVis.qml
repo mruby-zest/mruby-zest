@@ -1,29 +1,125 @@
 Widget {
     id: lfo_vis
 
-    property Array points: []
+    property Array  points: []
+    property Symbol type: :triangle
+    property Symbol drag_type: nil
+    property Pos    drag_prev: nil
 
-    function onSetup(old=nil)
+    property Float    phase:      0.0
+    property Float    depth:      0.5
+    property MilliSec delay_time: 100
+    property MilliSec period:     1000
+
+    property Time     time: nil
+
+    function class_name()
     {
-        p = lfo_vis.points
+        "LfoVis"
+    }
+
+    //Identify the region of the window used for drag events
+    function onMousePress(ev)
+    {
+        loc_x = ev.pos.x - lfo_vis.global_x
+        if(loc_x < 0.2*lfo_vis.w)
+            lfo_vis.drag_type = :delay
+        else
+            lfo_vis.drag_type = :lfo
+        end
+        lfo_vis.drag_prev = ev.pos
+    }
+
+    function onMouseMove(ev)
+    {
+        if(lfo_vis.drag_prev)
+            dx = ev.pos.x - lfo_vis.drag_prev.x
+            dy = ev.pos.y - lfo_vis.drag_prev.y
+
+            if(lfo_vis.drag_type == :delay)
+                #dv = lfo_vis.phase + dy/100.0
+                #dv_ = [1, [0, dv].max].min
+                #lfo_vis.phase = dv_
+                #lfo_vis.drag_prev.y = ev.pos.y if(dv == dv_)
+                #lfo_vis.updateType
+
+                dt = 100*Math.exp(Math.log(0.01*lfo_vis.delay_time) + dx/100.0)
+                dt_ = [4000, [0, dt].max].min
+                lfo_vis.delay_time = dt_
+                lfo_vis.drag_prev.x = ev.pos.x if(dt == dt_)
+                root.damage_item self
+            elsif(lfo_vis.drag_type == :lfo)
+                lfo_vis.drag_prev = ev.pos
+                dv = lfo_vis.depth + dy/100.0
+                dv = [1, [0, dv].max].min
+                lfo_vis.depth = dv
+
+                dt = 100*Math.exp(Math.log(0.01*lfo_vis.period) + dx/100.0)
+                #dt = lfo_vis.delay_time + dx/2.0
+                dt = [1500, [20, dt].max].min
+                lfo_vis.period = dt
+                root.damage_item self
+            end
+        end
+    }
+
+    function updateType()
+    {
+        shape = case lfo_vis.type
+        when :triangle
+            Proc.new {|phase|
+                if(phase >= 0 && phase < 0.25)
+                    4.0 * phase
+                elsif(phase >= 0.25 && phase < 0.75)
+                    2.0 - 4 * phase
+                else
+                    4.0 * phase - 4;
+                end
+            }
+        when :square
+            Proc.new {|phase|
+                if(phase < 0.5)
+                    -1.0
+                else
+                    1.0
+                end
+            }
+        when :rampup
+            Proc.new {|phase| (phase - 0.5) * 2.0}
+        when :rampdown
+            Proc.new {|phase| (0.5 - phase) * 2.0};
+        when :exp1
+            Proc.new {|phase| (0.05 ** phase) * 2.0 - 1.0}
+        when :exp2
+            Proc.new {|phase| (0.001 ** phase) * 2.0 - 1.0}
+        else
+            Proc.new {|x| Math.sin(2*3.14*x) }
+        end
+
         # root point
-        p << 0
-        p << 0
-        # sine points
-        resolution = 64
+        p = [0,0, 0, 0.2]
+        # func points
+        resolution = 128
         (0..resolution).each do |i|
             x = 0.2+0.8*i/resolution
-            y = Math.sin(2*3.14*i/resolution)
+            phase = i/resolution + lfo_vis.phase
+            phase -= 1 if phase > 1
+
+            y = shape.call(phase)
             p << y
             p << x
         end
         lfo_vis.points = p
-        puts lfo_vis.root
+    }
+
+    onType: {
+        lfo_vis.updateType
     }
 
     function draw_grid(vg, r, c, x, w)
     {
         light_fill   = NVG.rgba(0x11,0x45,0x75,100)
+        med_fill   = NVG.rgba(0x11,0x45,0x75,200)
 
         h = lfo_vis.h
 
@@ -34,17 +130,27 @@ Widget {
                  vg.line_to(x+w, h/2+off)
                  vg.move_to(x, h/2-off);
                  vg.line_to(x+w, h/2-off)
-                 v.stroke_color light_fill
+                 if((ln%10) == 0)
+                     v.stroke_color med_fill
+                 else
+                     v.stroke_color light_fill
+                 end
+                 v.stroke_width 2.0
                  v.stroke
              end
          end
-         
+
          (1..c).each do |ln|
              vg.path do |v|
                  off = (ln/c)*(w)
                  vg.move_to(x+off, 0)
                  vg.line_to(x+off, h)
-                 v.stroke_color light_fill
+                 if((ln%10) == 0)
+                     v.stroke_color med_fill
+                 else
+                     v.stroke_color light_fill
+                 end
+                 v.stroke_width 2.0
                  v.stroke
              end
          end
@@ -52,6 +158,15 @@ Widget {
 
     function draw(vg)
     {
+        puts "?"
+        if(lfo_vis.time.nil?)
+            lfo_vis.time = Time.new
+        else
+            ntime = Time.new
+            puts ntime - lfo_vis.time
+            lfo_vis.time = ntime
+        end
+
         vg.path do |v|
             v.rect(0,0,w,h)
             v.fill_color(NVG.rgba(128, 128, 128, 255))
@@ -83,8 +198,8 @@ Widget {
             v.stroke
         end
 
-        draw_grid(vg, 4, 4, 0.2*w, 0.8*w)
-        draw_grid(vg, 4, 8, 0, 0.2*w)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.period/10, 0.2*w, 0.8*w)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.delay_time/100, 0, 0.2*w)
 
         #weak highlight
         vg.path do |vg|
@@ -176,5 +291,83 @@ Widget {
                 vg.stroke
             end
         end
+    }
+
+
+    Widget {
+        id: run_view
+        //animation layer
+        layer: 1
+
+        //extern is cloned
+        extern: lfo_vis.extern
+        
+        function class_name()
+        {
+            "LfoVisAnimation"
+        }
+
+        //Workaround due to buggy nested properties
+        function valueRef=(value_ref)
+        {
+            @value_ref = value_ref
+        }
+
+        function valueRef()
+        {
+            @value_ref
+        }
+
+        function runtime_points=(pts)
+        {
+            @runtime_points = pts
+        }
+
+        onExtern: {
+            puts
+            puts "extern"
+            meta = OSC::RemoteMetadata.new($remote, run_view.extern)
+
+            puts run_view.methods.sort
+            run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
+            run_view.valueRef.callback = Proc.new {|x|
+                run_view.runtime_points = x;
+                run_view.root.damage_item run_view
+                run_view.valueRef.watch run_view.extern
+            }
+            run_view.valueRef.watch run_view.extern
+        }
+
+        function draw(vg)
+        {
+            sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
+            dim_color    = NVG.rgba(0x11,0x45,0x75,155)
+            #Draw the data
+            print '*'
+            pts   = @runtime_points
+            pts ||= []
+            (0...(pts.length/2)).each do |i|
+                xx = 0.2*w+0.8*w*pts[2*i]
+                yy = h/2-h/2*pts[2*i+1]/127
+
+                scale = h/80
+                vg.path do |vg|
+                    vg.rect(xx-scale,yy-scale,scale*2,scale*2);
+                    vg.fill_color NVG.rgba(0,0,0,255)
+                    vg.stroke_color sel_color
+
+                    vg.stroke_width scale*0.5
+                    vg.fill
+                    vg.stroke
+                end
+                
+                vg.path do |v|
+                    v.move_to(xx, 0)
+                    v.line_to(xx, h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
+        }
     }
 }

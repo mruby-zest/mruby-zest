@@ -25,13 +25,17 @@ Widget {
     function layout(l)
     {
         t = widget.class_name.to_sym
-        scale = 100
-        $vg.font_size scale
-        bb = $vg.text_bounds(0, 0, label.upcase)
         selfBox = l.genBox t, button
-        if(bb != 0)
-            #Width cannot be so small that letters overflow
-            l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+        if(!button.layoutOpts.include?(:no_constraint))
+            scale = 100
+            $vg.font_size scale
+            bb = $vg.text_bounds(0, 0, label.upcase)
+            if(bb != 0)
+                #Width cannot be so small that letters overflow
+                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+            end
+        else
+            #puts "NONONONONONONONONN"
         end
         selfBox
     }

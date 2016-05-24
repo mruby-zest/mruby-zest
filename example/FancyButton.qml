@@ -13,7 +13,7 @@ Widget {
             v.rect(0,0,w/4,h)
             v.fill_paint(grad)
             v.fill
-            v.stroke_width 3
+            v.stroke_width 1
             v.stroke
         end
 

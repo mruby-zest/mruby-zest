@@ -73,7 +73,7 @@ Widget {
         TabButton { label: "voice"}
         TabButton { label: "global parameters"; value: true}
         TabButton { label: "voice parameters"}
-        TabButton { label: "voice & modulator oscillators"}
+        TabButton { label: "oscillators"}
         TabButton { label: "voice list"}
         TabButton { label: "resonance"}
         Button { label: "c"; layoutOpts: [:no_constraint]}

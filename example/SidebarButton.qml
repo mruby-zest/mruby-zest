@@ -21,7 +21,7 @@ Widget {
             else
                 v.fill_paint(grad2)
             end
-            v.stroke_width 3
+            v.stroke_width 1
             v.fill
             v.stroke
         end

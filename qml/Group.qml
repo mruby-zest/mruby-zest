@@ -74,7 +74,7 @@ Widget {
 
 
         innerspace = [0, mod.h*0.2, mod.w, mod.h*0.8];
-        border(h*0.01, innerspace);
+        border(w*0.003, innerspace);
         #//paint the inner panel
         vg.path do |v|
             v.rect(*innerspace)

@@ -18,10 +18,10 @@ Widget {
         h=self.h
         textColor = NVG.rgba(0x3a,0xc5,0xec,255);
         vg.font_face("bold")
-        vg.font_size h/self.lines/2
+        vg.font_size h/self.lines*0.8
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
-        vg.text(w/2,h/2,self.label.upcase)
+        vg.text_box(0,h/4,w,self.label.upcase)
 
     }
 }

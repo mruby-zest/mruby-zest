@@ -74,7 +74,7 @@ Widget {
         y: 0.65*side.h
     }
     FancyButton {
-        label: "adsynth"
+        label: "add"
         w: side.w*0.8
         h: side.h*0.045
         x: 0.1*side.w
@@ -96,14 +96,14 @@ Widget {
         }
     }
     FancyButton {
-        label: "subsynth"
+        label: "sub"
         w: side.w*0.8
         h: side.h*0.045
         x: 0.1*side.w
         y: 0.88*side.h
     }
     FancyButton {
-        label: "padsynth"
+        label: "pad"
         w: side.w*0.8
         h: side.h*0.045
         x: 0.1*side.w

@@ -31,6 +31,13 @@ Object {
     {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, widget
+        widget.children.each do |child|
+            if(child.respond_to?(:layout))
+                box = child.layout(l)
+                l.contains(selfBox, box)
+            end
+        end
+        selfBox
     }
     //
 

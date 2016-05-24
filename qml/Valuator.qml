@@ -38,14 +38,15 @@ Widget {
     {
         puts "creating the radial menu..."
         gbl_cx = valuator.global_x + 0.5*valuator.w
-        gbl_cy = valuator.global_y + 0.5*valuator.y
+        gbl_cy = valuator.global_y + 0.5*valuator.h
         gbl_w  = window.w
         gbl_h  = window.h
 
         ropt = [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy].min
-        print "maximum radius is "
-        puts ropt
-        puts [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy]
+        #print "maximum radius is "
+        #puts ropt
+        #puts [gbl_cx, gbl_cy, gbl_w, gbl_h]
+        #puts [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy]
 
         diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
 

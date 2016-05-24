@@ -12,6 +12,8 @@ Object {
 
     property Array layoutOpts: []
 
+    property String extern: nil
+
     property Int layer: 0;
 
     property Int x: nil;

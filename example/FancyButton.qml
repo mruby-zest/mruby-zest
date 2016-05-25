@@ -17,7 +17,7 @@ Widget {
             v.stroke
         end
 
-        off_color     = color("424B56")
+        off_color     = color("505E6C")
         grey1 = color("4a4a4a")
         grey2 = color("373737")
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
@@ -33,15 +33,15 @@ Widget {
             v.stroke
         end
 
-        textcolor1 = NVG.rgba(0x7a, 0xff, 0xf7, 0xff)
-        textcolor2 = bright_green
+        text_color1   = color("52FAFE")
+        text_color2   = color("B9CADE")
         vg.font_face("bold")
         vg.font_size h*0.6
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         if(value)
-            vg.fill_color(textcolor1)
+            vg.fill_color(text_color1)
         else
-            vg.fill_color(textcolor2)
+            vg.fill_color(text_color2)
         end
         vg.text(w*1.25/2,h/2,label.upcase)
         

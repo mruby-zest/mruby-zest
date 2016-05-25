@@ -16,19 +16,11 @@ Widget {
         }
     }
 
-    Indent {
-        id: keybox
+    Keyboard {
+        id: key
         x: 0.032*foot.w
         w: 0.536*foot.w
-        y: foot.h*0.15
-        h: foot.h*0.7
-        Keyboard {
-            id: key
-            label: "Keyboard"
-            x: 0.008*keybox.w
-            w: 0.985*keybox.w
-            y: 0.053*keybox.h
-            h: 0.9*keybox.h
-        }
+        y: foot.h*0.10
+        h: foot.h*0.8
     }
 }

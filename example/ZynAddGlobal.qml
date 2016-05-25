@@ -32,7 +32,7 @@ Widget {
 
         l.sheq([headBox.h, selfBox.h], [1, -0.05], 0)
         l.sheq([footBox.h, selfBox.h], [1, -0.05], 0)
-        l.sheq([row1Box.h, row2Box.h], [1, -1], 0)
+        l.sheq([row1Box.h, row2Box.h], [1, -1.2], 0)
 
         #l.sheq([row1Box.h, row3Box.h], [1, -1], 0)
         #l.le([row1Box.h, selfBox.h], [1, -0.2])

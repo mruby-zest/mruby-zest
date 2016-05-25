@@ -7,13 +7,16 @@ Widget {
         white_keys = 8*7-3;
         black_pattern = [1,0,1,1,0,1,1];
 
+        white_color = color("9AA1A8")
+        black_color = color("2A353F")
+
         #//draw the white keys 7 octaves + 2
         (0..white_keys).each do |i|
             box = [i*w*1.0/(white_keys-1), 0, w*1.0/(white_keys), h];
             pad(0.9, box);
             vg.path do |vg|
                 vg.rect(*box)
-                vg.fill_color(NVG.rgba(0xaa, 0xaa, 0xaa, 255))
+                vg.fill_color white_color
                 vg.fill
             end
         end
@@ -27,7 +30,7 @@ Widget {
             pad(0.9, box);
             vg.path do |vg|
                 vg.rect(*box)
-                vg.fill_color(NVG.rgba(0x0C, 0x0C, 0x0C, 255))
+                vg.fill_color black_color
                 vg.fill
             end
         end

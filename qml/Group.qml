@@ -3,10 +3,15 @@ Widget {
     property Bool copyable: false;
     property Bool editable: false;
     property String extern: "";
+    property Function whenClick: nil
 
     layoutOpts: [:horizontal]
 
     function class_name() { "Group" }
+    
+    function onMousePress(ev) {
+        whenClick.call if whenClick
+    }
 
     onChildren: {
         mch = mod.children

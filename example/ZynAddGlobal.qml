@@ -1,5 +1,15 @@
 Widget {
     id: center
+
+    function draw(vg)
+    {
+        bg_color      = color("424B56")
+        vg.path do |v|
+            v.rect(0, 0, self.w, self.h)
+            v.fill_color(bg_color)
+            v.fill
+        end
+    }
     function layout(l)
     {
         #puts "Center layout"
@@ -20,9 +30,10 @@ Widget {
         l.topOf(row1Box, row2Box)
         l.topOf(row2Box, footBox)
 
-        l.sheq([headBox.h, selfBox.h], [1, -0.2*0.3], 0)
-        l.sheq([footBox.h, selfBox.h], [1, -0.2*0.3], 0)
+        l.sheq([headBox.h, selfBox.h], [1, -0.05], 0)
+        l.sheq([footBox.h, selfBox.h], [1, -0.05], 0)
         l.sheq([row1Box.h, row2Box.h], [1, -1], 0)
+
         #l.sheq([row1Box.h, row3Box.h], [1, -1], 0)
         #l.le([row1Box.h, selfBox.h], [1, -0.2])
         #l.le([content.h, selfBox.h], [1, -0.36])
@@ -34,6 +45,7 @@ Widget {
     }
     Widget {
         id: header
+
 
         function layout(l)
         {
@@ -54,9 +66,11 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                #l.aspect(box, bh, bw)
-                #l.sheq([box.h, selfBox.h], [1, -1], 0)
-                l.sheq([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
+                l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
+
+                #add in the aspect constraint
+                l.aspect(box, 100, weights[idx])
+
                 print "layout weights "
                 puts weights[idx]/total
                 if(prev)
@@ -140,7 +154,11 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                l.sheq([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
+                l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
+
+                #add in the aspect constraint
+                l.aspect(box, 100, weights[idx])
+
                 if(prev)
                     l.rightOf(prev, box)
                 end

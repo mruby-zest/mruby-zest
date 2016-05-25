@@ -17,8 +17,8 @@ Widget {
             v.stroke
         end
 
-        grey1 = NVG.rgba(0x4a,0x4a,0x4a, 255)
-        grey2 = NVG.rgba(0x37,0x37,0x37,0xff)
+        grey1 = color("4a4a4a")
+        grey2 = color("373737")
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             pad = 0

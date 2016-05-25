@@ -35,12 +35,12 @@ Widget {
         l.contains(selfBox,titleBox)
         l.contains(selfBox,contentBox)
         l.topOf(titleBox,contentBox)
-        l.sheq([contentBox.h, selfBox.h], [1, -0.8], 0)
+        l.sheq([contentBox.h, selfBox.h], [1, -0.9], 0)
         l.sheq([contentBox.w, selfBox.w], [1, -1], 0)
 
         l.contains(selfBox, titleBox)
         l.sheq([titleBox.x],[1],0)
-        l.sheq([titleBox.h, selfBox.h], [1, -0.2], 0)
+        l.sheq([titleBox.h, selfBox.h], [1, -0.1], 0)
 
 
         selfBox
@@ -54,12 +54,11 @@ Widget {
             v.fill
         end
         #//paint the top half
-        pos = [0, 0, mod.w, mod.h]
-        pos[3] *= 0.2;
+        pos = [0, 0, mod.w, 0.1*mod.h]
         vg.path do |v|
             border(pos[3]*0.01, pos);
             vg.rect(*pos);
-            vg.fill_color(NVG.rgba(0xa, 0x2e, 0x4c, 255))
+            vg.fill_color(color("2A3944"))
             vg.fill
         end
 
@@ -73,12 +72,12 @@ Widget {
 
 
 
-        innerspace = [0, mod.h*0.2, mod.w, mod.h*0.8];
+        innerspace = [0, mod.h*0.1, mod.w, mod.h*0.9];
         border(w*0.003, innerspace);
         #//paint the inner panel
         vg.path do |v|
             v.rect(*innerspace)
-            v.fill_color(NVG.rgba(0x6, 0x27, 0x37, 255))
+            v.fill_color(color("334454"))
             v.fill
         end
 
@@ -94,6 +93,7 @@ Widget {
             selfBox = l.genBox :titleBox, titleW
             t  = title.layout(l)
             l.contains(selfBox,t)
+            l.sheq([t.x, selfBox.w], [1, -0.02], 0)
 
             bc = button_c.layout(l)
             l.contains(selfBox,bc)
@@ -109,6 +109,7 @@ Widget {
         Text {
             id: title
             label: mod.label
+            height: 0.8
         }
 
         Button {

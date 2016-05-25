@@ -14,12 +14,12 @@ Widget {
 
     function draw(vg)
     {
-        bg_color      = NVG.rgba(0x42,0x4B,0x56,255)
+        bg_color      = color("424B56")
         bg_on_color   = NVG.rgba(0x00,0x81,0x8E,255)
         off_color     = NVG.rgba(0x04,0x37,0x5e,255)
         outline_color = NVG.rgba(0x00,0x00,0x00,255)
-        text_color1   = NVG.rgba(0x52,0xFA,0xFE,255)
-        text_color2   = NVG.rgba(0xB9,0xCA,0xDE,255)
+        text_color1   = color("52FAFE")
+        text_color2   = color("B9CADE")
         vg.path do |v|
             v.rect(0, 0, w, h)
             v.fill_color(bg_color)
@@ -50,7 +50,7 @@ Widget {
 
 
         vg.font_face("bold")
-        vg.font_size h*0.55
+        vg.font_size h*0.65
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         if(button.value)
             vg.fill_color(text_color1)

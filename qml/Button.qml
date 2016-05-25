@@ -42,20 +42,21 @@ Widget {
 
     function draw(vg)
     {
-        off_color     = NVG.rgba(0x04,0x37,0x5e,255)
-        outline_color = NVG.rgba(0x00,0x89,0xb9,255)
-        text_color1   = NVG.rgba(0x00,0xc2,0xea,255)
-        text_color2   = NVG.rgba(0x00,0xc2,0xea,255)
+        off_color     = color("424B56")
+        outline_color = color("0089b9")
+        text_color1   = color("52FAFE")
+        text_color2   = color("B9CADE")
+        pad = 1/64
         vg.path do |v|
-            v.rect(w/8, h/8, w*0.75, h*0.75)
+            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)
                 v.fill_color(NVG.rgba(0, 255, 0, 255))
             else
                 v.fill_color(off_color)
             end
-            v.stroke_color(outline_color)
+            #v.stroke_color(outline_color)
             v.fill
-            v.stroke_width 2
+            #v.stroke_width 1
             v.stroke
         end
 

@@ -1,7 +1,8 @@
 Widget {
     id: text
     property signal action: nil;
-    property Color textColor: NVG.rgba(0x3a,0xc5,0xec,255);
+    property Color textColor: color("B9CADE")
+    property Float height: 0.5
 
     function class_name()
     {
@@ -18,7 +19,7 @@ Widget {
         #    v.fill
         #end
         vg.font_face("bold")
-        vg.font_size h/2
+        vg.font_size text.height*h
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
         vg.text(w/2,h/2,label.upcase)

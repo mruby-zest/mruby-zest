@@ -17,7 +17,7 @@ Group {
         Knob     {extern: box.extern+"Pfreqrand"}
         Col {
             Selector {extern: box.extern+"PLFOtype"}
-            Button   {extern: box.extern+"Pcontinous"; label: "C"}
+            Button   {extern: box.extern+"Pcontinous"; label: "sync"}
         }
     }
 }

@@ -43,7 +43,7 @@ Widget {
     function draw(vg)
     {
         off_color     = color("424B56")
-        outline_color = color("0089b9")
+        outline_color = color("707070")
         text_color1   = color("52FAFE")
         text_color2   = color("B9CADE")
         pad = 1/64
@@ -56,12 +56,12 @@ Widget {
             end
             #v.stroke_color(outline_color)
             v.fill
-            #v.stroke_width 1
+            v.stroke_width 1
             v.stroke
         end
 
         vg.font_face("bold")
-        vg.font_size h*0.55
+        vg.font_size h*0.75
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         if(value)
             vg.fill_color(text_color1)

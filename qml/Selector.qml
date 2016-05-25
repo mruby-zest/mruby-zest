@@ -25,6 +25,7 @@ Widget {
         $vg.font_size scale
         bb = 1
         selector.options.each do |x|
+            x = x[0..5] if x.length > 5
             bbl  = $vg.text_bounds(0, 0, x.upcase)
             bb   = [bb, bbl].max
         end
@@ -55,16 +56,23 @@ Widget {
 
     function draw(vg)
     {
+        off_color     = color("424B56")
+        outline_color = color("0089b9")
+        text_color2   = color("B9CADE")
+        pad = 1/64
         vg.path do |v|
-            v.rect(w/4, h/4, w/2, h/2)
-            v.fill_color(NVG.rgba(0, 0, 128, 255))
+            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
+            v.fill_color(off_color)
+            #v.stroke_color(outline_color)
             v.fill
+            v.stroke_width 1
+            v.stroke
         end
 
         vg.font_face("bold")
-        vg.font_size h/2
+        vg.font_size h*0.8
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-        vg.fill_color(NVG.rgba(0x3a,0xc5,0xec,255))
+        vg.fill_color text_color2
         vg.text(w/2,h/2,options[selected].upcase)
     }
 }

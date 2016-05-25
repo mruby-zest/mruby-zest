@@ -3,12 +3,15 @@ Widget {
     property Function whenClick:     nil
     property Symbol   highlight_pos: :bottom
     property Bool      value:    false;
-    
+
     function onMousePress(ev) {
         puts "Button Press"
         button.value = !button.value
         if(root)
             root.damage_item self
+        end
+        if(self.whenClick)
+            self.whenClick.call
         end
     }
 
@@ -18,6 +21,7 @@ Widget {
         bg_on_color   = NVG.rgba(0x00,0x81,0x8E,255)
         off_color     = NVG.rgba(0x04,0x37,0x5e,255)
         outline_color = NVG.rgba(0x00,0x00,0x00,255)
+        dark_off      = color("325A6E")
         text_color1   = color("52FAFE")
         text_color2   = color("B9CADE")
         vg.path do |v|
@@ -36,14 +40,15 @@ Widget {
             v.stroke
         end
 
-        if(button.value)
-            pos = 0 
+        begin
+            pos = 0
             if(button.highlight_pos == :bottom)
                 pos = h*7/8
             end
             vg.path do |v|
                 v.rect(0,pos,w,h/8)
-                v.fill_color(text_color1)
+                v.fill_color(text_color1) if  button.value
+                v.fill_color(dark_off)    if !button.value
                 v.fill
             end
         end

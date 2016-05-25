@@ -11,15 +11,16 @@ Widget {
         grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
         vg.stroke_color(NVG.rgba(0,0,0,0x80))
 
+        off_color     = color("424B56")
         grey1 = NVG.rgba(0x4a,0x4a,0x4a, 255)
         grey2 = NVG.rgba(0x37,0x37,0x37,0xff)
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             v.rect(0,0,w,h)
             if(value)
-                v.fill_paint(grad)
+                v.fill_color(NVG.rgba(0, 255, 0, 255))
             else
-                v.fill_paint(grad2)
+                v.fill_color off_color
             end
             v.stroke_width 1
             v.fill

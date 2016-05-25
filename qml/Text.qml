@@ -32,7 +32,7 @@ Widget {
         $vg.font_size scale
         bb = $vg.text_bounds(0, 0, label.upcase)
         selfBox = l.genBox t, text
-        if(bb != 0)
+        if(bb != 0 && !self.layoutOpts.include?(:ignoreAspect))
             #Width cannot be so small that letters overflow
             l.sh([selfBox.w, selfBox.h], [-1.5, bb/scale], 0)
         end

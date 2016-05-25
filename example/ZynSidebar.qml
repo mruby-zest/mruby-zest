@@ -40,7 +40,7 @@ Widget {
     }
     Indent {
         id: voices
-        KitButtons {}
+        KitButtons { rows: 2}
     }
     FancyButton {
         id: subButton

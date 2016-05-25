@@ -80,16 +80,30 @@ Widget {
             end
             selfBox
         }
+        
+        function setTab(id)
+        {
+            N = children.length
+            tab_id = 0
+            (0..N).each do |ch_id|
+                child = children[ch_id]
+                if(child.class == Qml::TabButton)
+                    child.value = (tab_id == id)
+                    tab_id += 1
+                    self.root.damage_item child
+                end
+            end
+        }
 
         Button { label: "<"; layoutOpts: [:no_constraint]}
         Button { label: "4"; layoutOpts: [:no_constraint]}
         Button { label: ">"; layoutOpts: [:no_constraint]}
-        TabButton { label: "voice"}
-        TabButton { label: "global parameters"; value: true}
-        TabButton { label: "voice parameters"}
-        TabButton { label: "oscillators"}
-        TabButton { label: "voice list"}
-        TabButton { label: "resonance"}
+        TabButton { whenClick: lambda {header.setTab(0)}; label: "voice"}
+        TabButton { whenClick: lambda {header.setTab(1)}; label: "global parameters"; value: true}
+        TabButton { whenClick: lambda {header.setTab(2)}; label: "voice parameters"}
+        TabButton { whenClick: lambda {header.setTab(3)}; label: "oscillators"}
+        TabButton { whenClick: lambda {header.setTab(4)}; label: "voice list"}
+        TabButton { whenClick: lambda {header.setTab(5)}; label: "resonance"}
         Button { label: "c"; layoutOpts: [:no_constraint]}
         Button { label: "p"; layoutOpts: [:no_constraint]}
     }
@@ -167,8 +181,16 @@ Widget {
             selfBox
         }
 
-        TabButton { label: "amplitude"; highlight_pos: :top; value: true}
-        TabButton { label: "frequency"; highlight_pos: :top}
-        TabButton { label: "filter";    highlight_pos: :top}
+        function setTab(id)
+        {
+            (0..2).each do |ch_id|
+                children[ch_id].value = (ch_id == id)
+                self.root.damage_item children[ch_id]
+            end
+        }
+
+        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
+        TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
+        TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }
 }

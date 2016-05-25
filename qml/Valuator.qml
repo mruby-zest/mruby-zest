@@ -55,7 +55,7 @@ Widget {
         widget.h = diameter
         widget.x = valuator.w/2-diameter/2
         widget.y = valuator.h/2-diameter/2
-        widget.layer = 1
+        widget.layer = 2
         print "widget.x = "
         puts widget.x
 

@@ -118,8 +118,8 @@ Widget {
 
     function draw_grid(vg, r, c, x, w)
     {
-        light_fill   = NVG.rgba(0x11,0x45,0x75,100)
-        med_fill   = NVG.rgba(0x11,0x45,0x75,200)
+        light_fill   = NVG.rgba(0x11,0x45,0x75,200)
+        med_fill   = NVG.rgba(0x11,0x45,0x75,240)
 
         h = lfo_vis.h
 
@@ -132,10 +132,11 @@ Widget {
                  vg.line_to(x+w, h/2-off)
                  if((ln%10) == 0)
                      v.stroke_color med_fill
+                     v.stroke_width 2.0
                  else
                      v.stroke_color light_fill
+                     v.stroke_width 1.0
                  end
-                 v.stroke_width 2.0
                  v.stroke
              end
          end
@@ -147,10 +148,11 @@ Widget {
                  vg.line_to(x+off, h)
                  if((ln%10) == 0)
                      v.stroke_color med_fill
+                     v.stroke_width 2.0
                  else
                      v.stroke_color light_fill
+                     v.stroke_width 1.0
                  end
-                 v.stroke_width 2.0
                  v.stroke
              end
          end
@@ -169,7 +171,7 @@ Widget {
 
         vg.path do |v|
             v.rect(0,0,w,h)
-            v.fill_color(NVG.rgba(128, 128, 128, 255))
+            v.fill_color color("232C36")
             v.fill
         end
 
@@ -179,7 +181,7 @@ Widget {
             return
         end
 
-        fill_color   = NVG.rgba(0x0d, 0x0d, 0x0d,255)
+        fill_color   = color("232C36")
         stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
 
         light_fill   = NVG.rgba(0x11,0x45,0x75,55)

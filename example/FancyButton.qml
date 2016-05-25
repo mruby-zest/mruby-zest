@@ -17,6 +17,7 @@ Widget {
             v.stroke
         end
 
+        off_color     = color("424B56")
         grey1 = color("4a4a4a")
         grey2 = color("373737")
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
@@ -26,7 +27,7 @@ Widget {
             if(value)
                 v.fill_paint(grad)
             else
-                v.fill_paint(grad2)
+                v.fill_color off_color
             end
             v.fill
             v.stroke

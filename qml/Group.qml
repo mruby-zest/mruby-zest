@@ -5,7 +5,7 @@ Widget {
     property String extern: "";
 
     layoutOpts: [:horizontal]
-    
+
     function class_name() { "Group" }
 
     onChildren: {

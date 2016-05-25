@@ -1,3 +1,45 @@
-import QtQuick 2.0
+Button {
+    function layout(l)
+    {
+        t = widget.class_name.to_sym
+        selfBox = l.genBox t, self
+    }
+    
+    function draw(vg)
+    {
+        off_color     = color("424B56")
+        outline_color = color("707070")
+        text_color1   = color("505050")
+        text_color2   = color("B9CADE")
+        pad = 1/64
+        vg.path do |v|
+            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
+            v.fill_color(off_color)
+            #v.stroke_color(outline_color)
+            v.fill
+            v.stroke_width 1
+            v.stroke
+        end
+        vg.path do |v|
+            angle = 30*3.14/180
+            delta = 0.4*[w,h].min
+            dy = delta*Math.sin(angle)
+            dx = delta*Math.cos(angle)
+            cy = 0.6*h
+            v.move_to(0.5*w,    cy-delta)
+            v.line_to(0.5*w+dx, cy+dy)
+            v.line_to(0.5*w-dx, cy+dy)
+            v.close_path
+            v.fill_color(text_color2)
+            v.fill
+        end
+        
+        vg.font_face("bold")
+        vg.font_size h*0.75
+        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.fill_color(text_color1)
+        vg.text(w/2,h/2,"!")
 
-Button {}
+    }
+
+}

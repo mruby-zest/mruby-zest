@@ -4,10 +4,6 @@ Widget {
     Text {
         id: logo
         label: "Zyn"
-        x: 0.016*head.w
-        w: 0.16*head.w
-        y: head.h*0.2
-        h: head.h*0.6
 
         function draw(vg)
         {
@@ -21,73 +17,79 @@ Widget {
             vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
             vg.fill_color(NVG.rgba(0xff, 0xff, 0xff, 255))
             vg.text(w/16,h/2,label.upcase)
-            
         }
+
+        layoutOpts: [:ignoreAspect]
     }
     Indent {
         id: menu
-        x: 0.192*head.w
-        y: head.h*0.15
-        w: head.w*0.112
-        h: head.h*0.7
         Button {
-            x: 0
-            y: 0
-            w: menu.w
-            h: menu.h
             label: "midi learn"
+            layoutOpts: [:no_constraint]
         }
     }
 
     Indent {
         id: status
-        x: 0.314*head.w
-        y: head.h*0.15
-        w: head.w*0.32
-        h: head.h*0.7
 
         LogWidget {
-            x: 0
-            y: 0
-            w: status.w
-            h: status.h
             label: "console log"
         }
     }
 
     Indent {
         id: shortcuts
-        x: 0.645*head.w
-        y: head.h*0.15
-        w: head.w*0.32
-        h: head.h*0.7
-        Text {
-            x: 0
-            y: 0
-            w: shortcuts.w/4
-            h: shortcuts.h/2
-            label: "fine detune"
-        }
-        Text {
-            x: shortcuts.w/4
-            y: 0
-            w: shortcuts.w/4
-            h: shortcuts.h/2
-            label: "master volume"
-        }
-        Text {
-            x: shortcuts.w/2
-            y: 0
-            w: shortcuts.w/4
-            h: shortcuts.h/2
-            label: "volume meters"
-        }
-        Text {
-            x: shortcuts.w*3/4
-            y: 0
-            w: shortcuts.w/4
-            h: shortcuts.h/2
-            label: "panic"
-        }
+        //Text {
+        //    x: 0
+        //    y: 0
+        //    w: shortcuts.w/4
+        //    h: shortcuts.h/2
+        //    label: "fine detune"
+        //}
+        //Text {
+        //    x: shortcuts.w/4
+        //    y: 0
+        //    w: shortcuts.w/4
+        //    h: shortcuts.h/2
+        //    label: "master volume"
+        //}
+        //Text {
+        //    x: shortcuts.w/2
+        //    y: 0
+        //    w: shortcuts.w/4
+        //    h: shortcuts.h/2
+        //    label: "volume meters"
+        //}
+        //Text {
+        //    x: shortcuts.w*3/4
+        //    y: 0
+        //    w: shortcuts.w/4
+        //    h: shortcuts.h/2
+        //    label: "panic"
+        //}
+    }
+
+    PanicButton {
+        id: panic
+        layoutOpts: [:no_constraint]
+    }
+
+    function layout(l)
+    {
+        selfBox = l.genBox :header, head
+
+        logoBox = logo.layout(l)
+        menuBox = menu.layout(l)
+        statBox = status.layout(l)
+        shrtBox = shortcuts.layout(l)
+        paniBox = panic.layout(l)
+
+        l.fixed(logoBox, selfBox, 0.016, 0.2,  0.16,  0.6)
+        l.fixed(menuBox, selfBox, 0.192, 0.15, 0.112, 0.7)
+        l.fixed(statBox, selfBox, 0.314, 0.15, 0.32,  0.7)
+        l.fixed(shrtBox, selfBox, 0.645, 0.15, 0.27,  0.7)
+        l.fixed(paniBox, selfBox, 0.92, 0.15, 0.05,  0.7)
+
+        selfBox
     }
 }

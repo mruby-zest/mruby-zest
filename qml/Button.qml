@@ -4,6 +4,7 @@ Widget {
     property String extern:   "";
     property Bool   value:    false;
     property String renderer: nil;
+    property Float  textScale: 0.75;
     
     function onMousePress(ev) {
         puts "Button Press"
@@ -61,7 +62,7 @@ Widget {
         end
 
         vg.font_face("bold")
-        vg.font_size h*0.75
+        vg.font_size h*self.textScale
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         if(value)
             vg.fill_color(text_color1)

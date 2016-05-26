@@ -42,7 +42,7 @@ Widget {
         w: window.w
         h: 0.1*window.h
     }
-    ZynAddGlobal {
+    ZynAddSynth {
         id: main_widget
     }
 }

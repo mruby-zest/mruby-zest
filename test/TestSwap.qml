@@ -1,23 +1,25 @@
 Widget {
     id: container
-    x: 0
-    y: 0
-    w: 512
-    h: 512
+
+    function layout(l)
+    {
+        selfBox = l.genBox :testRoot, self
+        swapBox = swap.layout(l)
+        buttBox = but.layout(l)
+
+        l.fixed(swapBox, selfBox, 0,0,0.5,1)
+        l.fixed(buttBox, selfBox, 0.5,0,0.5,1)
+        selfBox
+    }
     Swappable {
         id: swap
         content: Qml::Knob
-        x: 0
-        y: 0
-        w: container.w/2
-        h: container.h
     }
 
     Button {
-        x: container.w/2 
-        y: 0
-        w: container.w/2
-        h: container.h
+        id: but
+
+        layoutOpts: [:no_constraint]
 
         onValue: {
             puts "value changed..."

@@ -108,7 +108,7 @@ Widget {
 
     function onMerge(val)
     {
-        valuator.value = val.value
+        valuator.value = val.value if(val.respond_to?(:value))
     }
 
 }

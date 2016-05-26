@@ -1,5 +1,4 @@
 Widget {
-    property String extern: ""
     property String text:   "text";
     function draw(vg)
     {

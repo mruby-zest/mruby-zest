@@ -8,8 +8,8 @@ Widget {
     function onMousePress(ev) {
         puts "Button Press"
         button.value = !button.value
-        if(root)
-            root.damage_item self
+        if(button.root)
+            button.root.damage_item self
         end
     }
 
@@ -32,6 +32,7 @@ Widget {
     function draw(vg)
     {
         off_color     = NVG.rgba(0x3A,0x42,0x4D,255)
+        on_color      = color("00828C")
         outline_color = NVG.rgba(0x00,0x89,0xb9,255)
         text_color1   = color("52FAFE")
         text_color2   = color("B9CADE")
@@ -39,9 +40,9 @@ Widget {
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)
-                v.fill_color(NVG.rgba(0, 255, 0, 255))
+                v.fill_color on_color
             else
-                v.fill_color(off_color)
+                v.fill_color off_color
             end
             #v.stroke_color(outline_color)
             v.fill

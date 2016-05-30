@@ -6,8 +6,9 @@ Widget {
         puts "on setup kit buttons<#{kit.w},#{kit.h}>..."
         (0...rows).each do |r|
             [0,1,2,3].each do |c|
-                but = createInstance("KitButton", self, db)
+                but = Qml::KitButton.new(db)
                 but.label = (1+c + 4*r).to_s
+                Qml::add_child(self, but)
             end
         end
     }

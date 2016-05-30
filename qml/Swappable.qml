@@ -11,7 +11,7 @@ Widget {
         end
         #Add all children properties to the list
         widget.children.each do |ch|
-            recDelProps(ch, plist)
+            rec_del_props(ch, plist)
         end
         plist
     }
@@ -44,21 +44,41 @@ Widget {
         return if self.content.nil?
 
         widget = swappable.content.new(swappable.db)
-        widget.w = self.w
-        widget.h = self.h
         widget.x = 0
         widget.y = 0
+        widget.w = self.w
+        widget.h = self.h
         Qml::add_child(self, widget)
 
         if(root)
-            root.smash_draw_seq
+            root.smash_layout
             root.damage_item widget
+        else
+            puts "MISSING ROOT"
         end
+        #puts "my children should just be :"
+        #puts widget
+
     }
 
     onContent: {
         swappable.remove_old_child
-
         swappable.create_new_child
+    }
+    
+    function layout(l)
+    {
+        #puts "swappable layout"
+        #puts "swappable content is"
+        #puts self.children[0].class
+        t = self.class_name.to_sym
+        selfBox = l.genBox t, widget
+        self.children.each do |child|
+            if(child.respond_to?(:layout))
+                box = child.layout(l)
+                l.contains(selfBox, box)
+            end
+        end
+        selfBox
     }
 }

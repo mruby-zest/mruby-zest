@@ -35,7 +35,11 @@ Widget {
         if(bb != 0 && !self.layoutOpts.include?(:ignoreAspect) &&
            !self.layoutOpts.include?(:no_constraint))
             #Width cannot be so small that letters overflow
-            l.sh([selfBox.w, selfBox.h], [-1.5, bb/scale], 0)
+            if(height == 0.5)
+                l.sh([selfBox.w, selfBox.h], [-1.5, bb/scale], 0)
+            else
+                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+            end
         end
         selfBox
     }

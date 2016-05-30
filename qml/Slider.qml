@@ -1,7 +1,3 @@
-import QtQuick 2.0
-import ZynAddSubFX 1.0
-import "qrc:/qml/"
-
 Valuator {
     id: slider
 
@@ -10,25 +6,35 @@ Valuator {
         "Slider"
     }
 
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, widget
-        l.aspect(selfBox, 4, 1)
-        selfBox
-    }
+    //function layout(l)
+    //{
+    //    t = widget.class_name.to_sym
+    //    selfBox = l.genBox t, widget
+    //    l.aspect(selfBox, 4, 1)
+    //    selfBox
+    //}
 
     function draw(vg)
     {
-        w = slider.w
-        h = slider.h
-        norm_value = slider.norm_value
-        vg.draw(w,h,1.0) do |vg|
+        pad  = 0.1
+        pad2 = (1-2*pad)
+        vg.path do |v|
+            v.rect(pad*w, pad*h, pad2*w, pad2*h)
+            v.fill_color color("0f0000")
+            v.fill
+        end
+        if(value > 0.5)
+            src = (h/2-h*pad2*(value-0.5))
+            dst = h/2
             vg.path do |v|
-                v.rect(w/4, h/4+(1-norm_value)*h/2, w/2, norm_value*h/2)
-                #v.rect(0, 1-norm_value)*h, w, norm_value*h)
-                #puts("rect(#{w/4},#{h/4},#{w/2},#{h/2})")
-                v.fill_color(NVG.rgba(128, 0, 0, 255))
+                v.rect(pad*w, src, pad2*w, (src-dst).abs)
+                v.fill_color Theme::SliderActive
+                v.fill
+            end
+        else
+            vg.path do |v|
+                v.rect(pad*w, h/2, pad2*w, pad2*h*(0.5-value))
+                v.fill_color Theme::SliderActive
                 v.fill
             end
         end

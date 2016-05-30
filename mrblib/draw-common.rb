@@ -170,7 +170,12 @@ def color(c)
 end
 
 module Theme
-    HarmonicColor = color("026392")
+    GeneralBackground   = color("334454")
+    SliderActive        = color("00FFFF")
+    HarmonicColor       = color("026392")
+    ScrollInactive      = color("06354B")
+    ScrollActive        = color("007C93")
+    TitleBar            = color("042E4D")
 end
 
 #Draw a linear x/y grid

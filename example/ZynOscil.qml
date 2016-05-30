@@ -3,6 +3,7 @@ Widget {
 
     TitleBar {
         id: base_title
+        label: "base waveform"
     }
 
     HarmonicView {
@@ -15,6 +16,7 @@ Widget {
 
     TitleBar {
         id: full_title
+        label: "full oscillator"
     }
 
     HarmonicView {
@@ -97,36 +99,66 @@ Widget {
 
     ColorBox {
         id: middle_panel
-        bg: color("228855")
+        bg: color("222222")
 
         ColorBox {
             id: shape
-            bg: color("184923")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Selector {}
+            Knob {}
         }
 
         ColorBox {
             id: filter
-            bg: color("884923")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Selector {}
+            Knob {}
+            Knob {}
+            Button {label: "Pre/Post"}
         }
 
         ColorBox {
             id: shift
-            bg: color("223999")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Knob {}
+            Button {label: "R"}
+            Button {label: "pre/post"}
         }
 
         ColorBox {
             id: adapt
-            bg: color("22f999")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Selector {}
+            Knob {}
+            Knob {}
         }
 
         ColorBox {
             id: modulate
-            bg: color("92a929")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Selector {}
+            Knob {}
+            Knob {}
+            Knob {}
         }
 
         ColorBox {
             id: spec_adjust
-            bg: color("f239f9")
+            bg: Theme::GeneralBackground
+            pad: 0.01
+            layoutOpts: [:think_of_the_children]
+            Selector {}
+            Knob {}
         }
 
         function layout(l)

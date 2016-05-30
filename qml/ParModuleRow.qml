@@ -30,6 +30,7 @@ Widget {
     {
         #Create A list of boxes
         blist = []
+        return blist if children.empty?
         fixed_height = nil
         fixed_width  = nil
         if(mode == :labels)

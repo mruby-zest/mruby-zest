@@ -16,7 +16,7 @@ Widget {
     
     function onMerge(val)
     {
-        button.value = val.value
+        button.value = val.value if(val.respond_to? :value)
     }
 
     function class_name()

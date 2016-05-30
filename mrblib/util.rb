@@ -15,11 +15,3 @@ def pad(scale, bb)
     bb[2] = w;
     bb[3] = h;
 end
-
-def color(c)
-    r = c[0..1].to_i 16
-    g = c[2..3].to_i 16
-    b = c[4..5].to_i 16
-    a = 255
-    NVG.rgba(r,g,b,a)
-end

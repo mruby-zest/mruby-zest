@@ -1,5 +1,36 @@
 
 module Draw
+    module WaveForm
+        def self.sin(vg, bb, pts=128)
+            xpts = Draw::DSP::linspace(0,1,pts)
+            vg.path do |v|
+                vg.move_to(bb.x, bb.y+bb.h/2)
+                (1...pts).each do |pt|
+                    vg.line_to(bb.x+bb.w*xpts[pt],
+                               bb.y+bb.h/2+bb.h/2*Math.sin(2*3.14*xpts[pt]))
+                end
+                v.stroke_color color("4195a5")
+                v.stroke
+            end
+        end
+
+        def self.bar(vg, data, bb, bar_color)
+            n    = data.length
+            xpts = Draw::DSP::linspace(0,1,n)
+            (0...n).each do |i|
+                x = bb.x+xpts[i]*bb.w
+                y = bb.y+bb.h
+                vg.path do |v|
+                    v.move_to(x, y)
+                    v.line_to(x, y-bb.h*data[i])
+                    v.stroke_color bar_color
+                    v.stroke_width 2.0
+                    v.stroke
+                end
+            end
+
+        end
+    end
     module Grid
         def self.log_y(vg, min, max, bb)
             med_fill     = color("114575")
@@ -15,7 +46,7 @@ module Draw
                 (0...10).each do |shift|
                     delta = Math.log((shift+1)*1.0)/(log10*(max_-min_))
                     dy = bb.h*(base+delta);
-                    
+
                     next if(dy < 0 || dy > bb.h)
                     vg.path do |v|
                         v.move_to(bb.x,      bb.y+dy);
@@ -41,7 +72,7 @@ module Draw
                 (0...10).each do |shift|
                     delta = Math.log((shift+1)*1.0)/(log10*(max_-min_))
                     dx = bb.w*(base+delta);
-                    
+
                     next if(dx < 0 || dx > bb.w)
                     vg.path do |v|
                         v.move_to(bb.x+dx, bb.y);
@@ -58,11 +89,11 @@ module Draw
             med_fill     = color("114575")
             light_fill   = color("114575")
             c = 40
-            (1..c).each do |ln|
+            (0..c).each do |ln|
                 vg.path do |v|
                     off = (ln/c)*(bb.w)
-                    vg.move_to(bb.x+off, 0)
-                    vg.line_to(bb.x+off, bb.h)
+                    vg.move_to(bb.x+off, bb.y)
+                    vg.line_to(bb.x+off, bb.y+bb.h)
                     if((ln%10) == 0)
                         v.stroke_color med_fill
                         v.stroke_width 4.0
@@ -78,7 +109,7 @@ module Draw
             med_fill     = color("114575")
             light_fill   = color("114575")
             c = 40
-            (1..c).each do |ln|
+            (0..c).each do |ln|
                 vg.path do |v|
                     off = (ln/c)*(bb.h)
                     vg.move_to(bb.x,      bb.y+off)
@@ -128,6 +159,18 @@ module Draw
             out
         end
     end
+end
+
+def color(c)
+    r = c[0..1].to_i 16
+    g = c[2..3].to_i 16
+    b = c[4..5].to_i 16
+    a = 255
+    NVG.rgba(r,g,b,a)
+end
+
+module Theme
+    HarmonicColor = color("026392")
 end
 
 #Draw a linear x/y grid

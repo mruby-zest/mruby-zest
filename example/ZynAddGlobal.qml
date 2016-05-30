@@ -29,7 +29,20 @@ Widget {
 
     Swappable {
         id: row1
-        content: LfoVis
+        content: Qml::LfoVis
+
+        function setDataVis(type)
+        {
+            if(type == :lfo)
+                self.content = Qml::LfoVis
+                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
+                self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
+            elsif(type == :env)
+                self.content = Qml::Envelope
+                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+                self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+            end
+        }
     }
 
     Widget {
@@ -52,13 +65,17 @@ Widget {
 
             selfBox
         }
+
+
         ZynAmpGeneral {
             id: amp_gen
         }
         ZynAmpEnv {
+            whenClick: lambda {row1.setDataVis(:env)}
             id: amp_env
         }
         ZynLFO {
+            whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
         }
     }

@@ -116,47 +116,6 @@ Widget {
         lfo_vis.updateType
     }
 
-    function draw_grid(vg, r, c, x, w)
-    {
-        light_fill   = NVG.rgba(0x11,0x45,0x75,200)
-        med_fill   = NVG.rgba(0x11,0x45,0x75,240)
-
-        h = lfo_vis.h
-
-        (1..r).each do |ln|
-             vg.path do |v|
-                 off = (ln/r)*(h/2)
-                 vg.move_to(x, h/2+off);
-                 vg.line_to(x+w, h/2+off)
-                 vg.move_to(x, h/2-off);
-                 vg.line_to(x+w, h/2-off)
-                 if((ln%10) == 0)
-                     v.stroke_color med_fill
-                     v.stroke_width 2.0
-                 else
-                     v.stroke_color light_fill
-                     v.stroke_width 1.0
-                 end
-                 v.stroke
-             end
-         end
-
-         (1..c).each do |ln|
-             vg.path do |v|
-                 off = (ln/c)*(w)
-                 vg.move_to(x+off, 0)
-                 vg.line_to(x+off, h)
-                 if((ln%10) == 0)
-                     v.stroke_color med_fill
-                     v.stroke_width 2.0
-                 else
-                     v.stroke_color light_fill
-                     v.stroke_width 1.0
-                 end
-                 v.stroke
-             end
-         end
-    }
 
     function draw(vg)
     {
@@ -175,6 +134,8 @@ Widget {
             v.fill
         end
 
+        dat = lfo_vis.points
+        updateType if dat.empty?
         dat = lfo_vis.points
         if(dat.empty?)
             puts "um, it's empty..."
@@ -200,8 +161,8 @@ Widget {
             v.stroke
         end
 
-        draw_grid(vg, lfo_vis.depth*16, lfo_vis.period/10, 0.2*w, 0.8*w)
-        draw_grid(vg, lfo_vis.depth*16, lfo_vis.delay_time/100, 0, 0.2*w)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.period/10, 0.2*w, 0.8*w,  h)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.delay_time/100, 0, 0.2*w, h)
 
         #weak highlight
         vg.path do |vg|
@@ -303,7 +264,7 @@ Widget {
 
         //extern is cloned
         extern: lfo_vis.extern
-        
+
         function class_name()
         {
             "LfoVisAnimation"
@@ -326,8 +287,11 @@ Widget {
         }
 
         onExtern: {
-            puts
-            puts "extern"
+            #puts
+            #puts "extern"
+            #puts "extern value is"
+            #puts run_view.extern.inspect
+            return if run_view.extern.nil?
             meta = OSC::RemoteMetadata.new($remote, run_view.extern)
 
             puts run_view.methods.sort
@@ -337,6 +301,7 @@ Widget {
                 run_view.root.damage_item run_view
                 run_view.valueRef.watch run_view.extern
             }
+            #puts "watching"
             run_view.valueRef.watch run_view.extern
         }
 

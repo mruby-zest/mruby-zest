@@ -13,18 +13,21 @@ Widget {
         dat = env.points
         next_sel = 0
         best_dist = 1e10
+
+        mx = ev.pos.x-global_x
+        my = ev.pos.y-global_y
         (0...(dat.length/2)).each do |i|
             xx = w*dat[2*i+1];
             yy = h/2-h/2*dat[2*i];
 
-            dst = (ev.pos.x-xx)**2 + (ev.pos.y-yy)**2
+            dst = (mx-xx)**2 + (my-yy)**2
             if(dst < best_dist)
                 best_dist = dst
                 next_sel  = i
             end
         end
-        print "selected = "
-        puts next_sel
+        #print "selected = "
+        #puts next_sel
         if(env.selected != next_sel)
             env.selected = next_sel
             env.root.damage_item env
@@ -33,8 +36,8 @@ Widget {
     }
 
     function onMouseMove(ev) {
-        puts "I got a mouse move (value)"
-        if(ev.buttons.include?(:leftButton)&& env.selected)
+        #puts "I got a mouse move (value)"
+        if(env.selected)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = (ev.pos.x - env.prev.x)/env.w
             if(env.selected == 0 || env.selected == (env.points.length)/2-1)
@@ -43,11 +46,11 @@ Widget {
                 env.points[env.selected*2+1] += dx
                 env.points[env.selected*2]   -= dy
             end
-            print "("
-            print dx
-            print ","
-            print dy
-            print ")\n"
+            #print "("
+            #print dx
+            #print ","
+            #print dy
+            #print ")\n"
             #updatePos(dy/200.0)
             (0...env.points.length).each do |i|
                 if(env.points[i] < -1)
@@ -73,15 +76,9 @@ Widget {
 
     function draw(vg)
     {
-        vg.path do |v|
-            v.rect(0,0,w,h)
-            v.fill_color(NVG.rgba(128, 128, 128, 255))
-            v.fill
-        end
-
         dat = env.points
 
-        fill_color   = NVG.rgba(0x0d, 0x0d, 0x0d,255)
+        fill_color   = color("232C36")
         stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
 
         light_fill   = NVG.rgba(0x11,0x45,0x75,55)
@@ -179,5 +176,86 @@ Widget {
                 vg.stroke
             end
         end
+    }
+    Widget {
+        id: run_view
+        //animation layer
+        layer: 1
+
+        //extern is cloned
+        extern: run_view.parent.extern
+
+        function class_name()
+        {
+            "LfoVisAnimation"
+        }
+
+        //Workaround due to buggy nested properties
+        function valueRef=(value_ref)
+        {
+            @value_ref = value_ref
+        }
+
+        function valueRef()
+        {
+            @value_ref
+        }
+
+        function runtime_points=(pts)
+        {
+            @runtime_points = pts
+            puts pts
+        }
+
+        onExtern: {
+            puts
+            puts "extern"
+            puts "extern value is"
+            puts run_view.extern.inspect
+            return if run_view.extern.nil?
+            meta = OSC::RemoteMetadata.new($remote, run_view.extern)
+
+            puts run_view.methods.sort
+            run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
+            run_view.valueRef.callback = Proc.new {|x|
+                run_view.runtime_points = x;
+                run_view.root.damage_item run_view
+                run_view.valueRef.watch run_view.extern
+            }
+            puts "watching"
+            run_view.valueRef.watch run_view.extern
+        }
+
+        function draw(vg)
+        {
+            sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
+            dim_color    = NVG.rgba(0x11,0x45,0x75,155)
+            #Draw the data
+            print '*'
+            pts   = @runtime_points
+            pts ||= []
+            (0...(pts.length/2)).each do |i|
+                xx = w*(pts[2*i]-1)*0.33
+                yy = h-h*pts[2*i+1]
+
+                scale = h/80
+                vg.path do |vg|
+                    vg.rect(xx-scale,yy-scale,scale*2,scale*2);
+                    vg.fill_color NVG.rgba(0,0,0,255)
+                    vg.stroke_color sel_color
+
+                    vg.stroke_width scale*0.5
+                    vg.fill
+                    vg.stroke
+                end
+                
+                vg.path do |v|
+                    v.move_to(xx, 0)
+                    v.line_to(xx, h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
+        }
     }
 }

@@ -91,6 +91,10 @@ Widget {
     Widget {
         id: titleW
 
+        function onMousePress(ev) {
+            mod.whenClick.call if mod.whenClick
+        }
+
         function class_name() { "TitleBox" }
 
         function layout(l)

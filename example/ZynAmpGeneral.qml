@@ -1,7 +1,7 @@
 Group {
     id: box
     label: "General"
-    property String extern: "/part0/kit0/adpars/"
+    extern: "/part0/kit0/adpars/"
 
     ParModuleRow {
         id: top

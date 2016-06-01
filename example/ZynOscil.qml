@@ -1,5 +1,6 @@
 Widget {
-    id: oscil_top
+    extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
+    id: base_osc
 
     TitleBar {
         id: base_title
@@ -57,10 +58,10 @@ Widget {
                 v.fill
             end
         }
+        Selector { extern: base_osc.extern + "Phmagtype"}
+        Knob     {}
         Selector {}
-        Knob {}
-        Selector {}
-        Knob {}
+        Knob     { extern: base_osc.extern + "Pamprandpower"}
     }
 
     ParModuleRow {
@@ -74,12 +75,12 @@ Widget {
             end
         }
 
-        Selector {}
-        Knob {}
-        Selector {}
-        Knob {}
-        Knob {}
-        Knob {}
+        Selector { extern: base_osc.extern + "Pcurrentbasefunc"}
+        Knob     { extern: base_osc.extern + "Pbasefuncpar"}
+        Selector { id: modsel; extern: base_osc.extern + "Pbasefuncmodulation"}
+        Knob     { extern: modsel.extern + "par1"}
+        Knob     { extern: modsel.extern + "par2"}
+        Knob     { extern: modsel.extern + "par3"}
     }
 
     ParModuleRow {
@@ -106,8 +107,8 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector {}
-            Knob {}
+            Selector {extern: base_osc.extern + "Pwaveshapingfunction"}
+            Knob     {extern: base_osc.extern + "Pwaveshaping"}
         }
 
         ColorBox {

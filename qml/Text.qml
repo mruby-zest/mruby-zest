@@ -15,7 +15,7 @@ Widget {
         h=text.h
         #vg.path do |v|
         #    v.rect(w/32, h/4, w*30/32, h/2)
-        #    v.fill_color(NVG.rgba(128, 128, 128, 255))
+        #    v.fill_color color("802080")
         #    v.fill
         #end
         vg.font_face("bold")

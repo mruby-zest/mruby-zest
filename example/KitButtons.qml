@@ -3,7 +3,7 @@ Widget {
     property Int rows: 4
     function onSetup(old=nil)
     {
-        puts "on setup kit buttons<#{kit.w},#{kit.h}>..."
+        #puts "on setup kit buttons<#{kit.w},#{kit.h}>..."
         (0...rows).each do |r|
             [0,1,2,3].each do |c|
                 but = Qml::KitButton.new(db)
@@ -15,7 +15,7 @@ Widget {
 
     function layout(l)
     {
-        puts("kitlayout...")
+        #puts("kitlayout...")
         selfBox = l.genBox :kitButtons, self
         b = 0
         ch = self.children

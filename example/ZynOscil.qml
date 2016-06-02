@@ -2,6 +2,13 @@ Widget {
     extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
     id: base_osc
 
+    function onSetup(old=nil)
+    {
+        (0..10).each do |i|
+            puts "asdlkfjas;fkj;askjf;asdkfasl;jdf;lkasjd;"
+        end
+    }
+
     TitleBar {
         id: base_title
         label: "base waveform"
@@ -50,14 +57,7 @@ Widget {
 
     ParModuleRow {
         id: base_pars
-        function draw(vg)
-        {
-            vg.path do |v|
-                v.rect(0, 0, w, h)
-                v.fill_color(color("334454"))
-                v.fill
-            end
-        }
+        function draw(vg) { background color("334454") }
         Selector { extern: base_osc.extern + "Phmagtype"}
         Knob     {}
         Selector {}
@@ -66,14 +66,7 @@ Widget {
 
     ParModuleRow {
         id: oscil_pars
-        function draw(vg)
-        {
-            vg.path do |v|
-                v.rect(0, 0, w, h)
-                v.fill_color(color("334454"))
-                v.fill
-            end
-        }
+        function draw(vg) { background color("334454") }
 
         Selector { extern: base_osc.extern + "Pcurrentbasefunc"}
         Knob     { extern: base_osc.extern + "Pbasefuncpar"}
@@ -85,14 +78,7 @@ Widget {
 
     ParModuleRow {
         id: more_pars
-        function draw(vg)
-        {
-            vg.path do |v|
-                v.rect(0, 0, w, h)
-                v.fill_color(color("334454"))
-                v.fill
-            end
-        }
+        function draw(vg) { background color("334454") }
         Button { layoutOpts: [:no_constraint]; label: "use as base" }
         Button { label: "sine" }
         Button { layoutOpts: [:no_constraint]; label: "clear" }
@@ -116,10 +102,10 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector {}
-            Knob {}
-            Knob {}
-            Button {label: "Pre/Post"}
+            Selector { extern: base_osc.extern + "Pfiltertype";}
+            Knob     { extern: base_osc.extern + "Pfilterpar1";}
+            Knob     { extern: base_osc.extern + "Pfilterpar2";}
+            Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
         }
 
         ColorBox {
@@ -127,9 +113,9 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Knob {}
+            Knob   {extern: base_osc.extern + "Pharmonicshift"}
             Button {label: "R"}
-            Button {label: "pre/post"}
+            Button {extern: base_osc.extern + "Pharmonicshiftfirst"; label: "pre/post"}
         }
 
         ColorBox {
@@ -137,9 +123,10 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector {}
-            Knob {}
-            Knob {}
+            Selector {extern: base_osc.extern + "Padaptiveharmonics"}
+            Knob     {extern: base_osc.extern + "Padaptiveharmonicspower"}
+            Knob     {extern: base_osc.extern + "Padaptiveharmonicsbasefreq"}
+            Knob     {extern: base_osc.extern + "Padaptiveharmonicspar"}
         }
 
         ColorBox {
@@ -147,10 +134,10 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector {}
-            Knob {}
-            Knob {}
-            Knob {}
+            Selector { extern: base_osc.extern + "Pmodulation"}
+            Knob     { extern: base_osc.extern + "Pmodulationpar1"}
+            Knob     { extern: base_osc.extern + "Pmodulationpar2"}
+            Knob     { extern: base_osc.extern + "Pmodulationpar3"}
         }
 
         ColorBox {

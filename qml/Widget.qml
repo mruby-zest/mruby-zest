@@ -41,7 +41,16 @@ Object {
         end
         selfBox
     }
-    //
+
+    function background(c)
+    {
+        $vg.path do |v|
+            v.rect(0,0,w,h)
+            v.fill_color c
+            v.fill
+        end
+    }
+
 
     function class_name()
     {

@@ -39,6 +39,14 @@ Widget {
         end
     }
 
+    function setup_widget(w)
+    {
+        w.onSetup if w.respond_to?(:onSetup)
+        w.children.each do |c|
+            setup_widget c
+        end
+    }
+
     function create_new_child()
     {
         return if self.content.nil?
@@ -49,6 +57,9 @@ Widget {
         widget.w = self.w
         widget.h = self.h
         Qml::add_child(self, widget)
+        self.db.force_update
+        setup_widget widget
+        self.db.force_update
 
         if(root)
             root.smash_layout
@@ -61,11 +72,20 @@ Widget {
 
     }
 
-    onContent: {
-        swappable.remove_old_child
-        swappable.create_new_child
+    function onMerge(val)
+    {
+        self.content = val.content if(val.respond_to?(:content))
     }
-    
+
+    onContent: {
+        puts("on content start")
+        puts("on content remove old child begin")
+        swappable.remove_old_child
+        puts("create new child begin")
+        swappable.create_new_child
+        puts("on content done")
+    }
+
     function layout(l)
     {
         #puts "swappable layout"

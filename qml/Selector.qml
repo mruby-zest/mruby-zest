@@ -25,7 +25,7 @@ Widget {
         $vg.font_size scale
         bb = 1
         selector.options.each do |x|
-            x = x[0..5] if x.length > 5
+            x = x[0..8] if x.length > 8
             bbl  = $vg.text_bounds(0, 0, x.upcase)
             bb   = [bb, bbl].max
         end

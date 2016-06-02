@@ -13,17 +13,17 @@ Widget {
 
     Widget {
         //0
-        ColorBox {}
+        ColorBox {bg: Theme::TitleBar}
         //1
-        ColorBox {}
+        ColorBox {bg: Theme::TitleBar}
         //2
-        TextBox  {label: "volume"}
+        TextBox  {bg: Theme::TitleBar; label: "volume"}
         //3
-        TextBox  {label: "panning"}
+        TextBox  {bg: Theme::TitleBar; label: "panning"}
         //4
-        TextBox  {label: "detune"}
+        TextBox  {bg: Theme::TitleBar; label: "detune"}
         //5
-        TextBox  {label: "vib-depth"}
+        TextBox  {bg: Theme::TitleBar; label: "vib-depth"}
         function layout(l)
         {
             selfBox = l.genBox :zavlh, self

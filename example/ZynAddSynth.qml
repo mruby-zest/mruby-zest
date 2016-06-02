@@ -60,8 +60,8 @@ Widget {
                 #add in the aspect constraint
                 l.aspect(box, 100, weights[idx])
 
-                print "layout weights "
-                puts weights[idx]/total
+                #print "layout weights "
+                #puts weights[idx]/total
                 if(prev)
                     l.rightOf(prev, box)
                 end
@@ -69,7 +69,7 @@ Widget {
             end
             selfBox
         }
-        
+
         function setTab(id)
         {
             N = children.length
@@ -82,6 +82,16 @@ Widget {
                     self.root.damage_item child
                 end
             end
+
+            #Define a mapping from tabs to values
+            mapping = {0 => Qml::ZynAddVoice,
+                       1 => Qml::ZynAddGlobal,
+                       2 => Qml::ZynAddVoice,
+                       3 => Qml::ZynOscil,
+                       4 => Qml::ZynAddVoiceList,
+                       5 => Qml::ZynResonance}
+
+            swap.content = mapping[id]
         }
 
         Button { label: "<"; layoutOpts: [:no_constraint]}

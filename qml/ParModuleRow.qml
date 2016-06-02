@@ -2,8 +2,6 @@ Widget {
     id: row
 
     onChildren: {
-        puts
-        puts "onChildren.."
         mch = row.children
         cch = content.children
         if(mch.length > 2)
@@ -35,6 +33,7 @@ Widget {
         fixed_width  = nil
         if(mode == :labels)
             fixed_height = l.gensym :modlabelHeight
+            fixed_width  = l.gensym :modWidgetWidth
         else
             fixed_width  = l.gensym :modWidgetWidth
         end
@@ -47,6 +46,7 @@ Widget {
                     l.contains(box, bb)
                     if(mode == :labels)
                         l.sheq([fixed_height, bb.h], [1, -1], 0)
+                        l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     else
                         l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     end

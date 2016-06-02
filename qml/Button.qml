@@ -43,7 +43,8 @@ Widget {
 
     function draw(vg)
     {
-        off_color     = color("424B56")
+        off_color     = Theme::ButtonInactive
+        on_color      = Theme::ButtonActive
         outline_color = color("707070")
         text_color1   = color("52FAFE")
         text_color2   = color("B9CADE")
@@ -51,9 +52,9 @@ Widget {
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)
-                v.fill_color(NVG.rgba(0, 255, 0, 255))
+                v.fill_color on_color
             else
-                v.fill_color(off_color)
+                v.fill_color off_color
             end
             #v.stroke_color(outline_color)
             v.fill

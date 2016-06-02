@@ -15,6 +15,7 @@ Widget {
 
     function onSetup(old=nil) {
         n = content.children.length
+        labels.children = []
         (0...n).each do |i|
             label = createInstance("Text", labels, row.db)
             label.layoutOpts = [:ignoreAspect]

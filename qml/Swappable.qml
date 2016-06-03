@@ -1,6 +1,7 @@
 Widget {
     id: swappable
     property String content: nil
+    property Callback whenSwapped: nil
 
     function rec_del_props(widget, plist=[])
     {
@@ -69,6 +70,7 @@ Widget {
         end
         #puts "my children should just be :"
         #puts widget
+        self.whenSwapped.call if self.whenSwapped
 
     }
 

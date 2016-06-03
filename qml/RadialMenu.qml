@@ -8,6 +8,8 @@ Widget {
     //The mouse's favorite flavor of pie (or shredded wheaties) 0=N,1=E,2=S,3=W
     property Int   flavor: nil
 
+    property Function callback: nil
+
     function draw(vg)
     {
         #vg.path do |v|
@@ -86,7 +88,6 @@ Widget {
 
     function onMouseMove(ev)
     {
-        puts "MOUSE MOUSE MOUSE LOOK AT THE MOUSE..."
         dx = ev.pos.x-self.global_x-radial.w/2
         dy = ev.pos.y-self.global_y-radial.h/2
         slice = find_slice(dx, dy)
@@ -108,29 +109,25 @@ Widget {
         if(abs(dx) > abs(dy))
             #east vs west
             if(dx > 0)
-                puts "East"
                 return 1
             else
-                puts "West"
                 return 3
             end
         else
             #north vs south
             if(dy < 0)
-                puts "North"
                 return 0
             else
-                puts "South"
                 return 2
             end
         end
     }
         
     function onMousePress(ev) {
-        puts "I got a mouse press (radial)"
         dx = ev.pos.x-radial.w/2
         dy = ev.pos.y-radial.h/2
-        find_slice(dx, dy)
+        slice = find_slice(dx, dy)
+        callback.call slice if callback
         rt = radial.root
         rt.ego_death radial
     }

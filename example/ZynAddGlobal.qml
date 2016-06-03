@@ -45,6 +45,9 @@ Widget {
                 self.content = Qml::Envelope
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
                 self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+            elsif(type == :filter)
+                self.content = Qml::VisFilter
+                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
             end
         }
     }
@@ -71,8 +74,16 @@ Widget {
         }
 
 
-        ZynAmpGeneral {
+        Swappable {
             id: amp_gen
+            content: Qml::ZynAmpGeneral
+            whenSwapped: lambda {
+                puts "whenSwapped callback"
+                if(amp_gen.content == Qml::ZynAnalogFilter)
+                    ch = amp_gen.children[0]
+                    ch.whenClick = lambda {row1.setDataVis(:filter)}
+                end
+            }
         }
         ZynAmpEnv {
             whenClick: lambda {row1.setDataVis(:env)}
@@ -120,9 +131,17 @@ Widget {
 
         function setTab(id)
         {
+            puts "set tab"
             (0..2).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
                 self.root.damage_item children[ch_id]
+            end
+            if(id == 0)
+                amp_gen.content = Qml::ZynAmpGeneral
+            elsif(id == 1)
+                amp_gen.content = Qml::ZynFreqGeneral
+            elsif(id == 2)
+                amp_gen.content = Qml::ZynAnalogFilter
             end
         }
 

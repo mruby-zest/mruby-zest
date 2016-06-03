@@ -22,7 +22,6 @@ Widget {
             end
             vis_filter.xpoints = xpts
             vis_filter.ypoints = ypts
-            vis_filter.valueRef.refresh
             root = vis_filter.root
             root.damage_item vis_filter if root
         }
@@ -34,6 +33,7 @@ Widget {
 
     function draw(vg)
     {
+        background Theme::VisualBackground
         Draw::Grid::log_x(vg, 1, 20000, Rect.new(0, 0, w, h))
         Draw::Grid::linear_y(vg, 1, 20000, Rect.new(0, 0, w, h))
 

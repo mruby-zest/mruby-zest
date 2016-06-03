@@ -56,6 +56,18 @@ Widget {
         widget.x = valuator.w/2-diameter/2
         widget.y = valuator.h/2-diameter/2
         widget.layer = 2
+        widget.callback = lambda {|sel|
+            case sel
+            when 0
+                valueRef.midi_learn if valueRef
+            when 1
+                valueRef.rand if valueRef
+            when 2
+                valueRef.midi_unlearn if valueRef
+            when 3
+                valueRef.default if valueRef
+            end
+        }
         print "widget.x = "
         puts widget.x
 

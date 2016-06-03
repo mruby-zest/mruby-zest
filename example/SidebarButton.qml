@@ -1,6 +1,16 @@
 Widget {
     id: button
-    property Bool value: false;
+    property Function whenClick: nil
+    property Bool value: false
+
+    function onMousePress(ev) {
+        self.value = !self.value
+        if(root)
+            root.damage_item self
+        end
+        self.whenClick.call if whenClick
+    }
+
     function draw(vg)
     {
         h = button.h
@@ -18,7 +28,10 @@ Widget {
         vg.path do |v|
             v.rect(0,0,w,h)
             if(value)
-                v.fill_color(NVG.rgba(0, 255, 0, 255))
+                bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
+                dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+                grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
+                v.fill_paint grad
             else
                 v.fill_color off_color
             end

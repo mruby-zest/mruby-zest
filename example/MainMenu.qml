@@ -2,7 +2,6 @@ Widget {
     id: menu
     function layout(l)
     {
-        puts "MainMenu Layout"
         selfBox = l.genBox :menu, menu
 
         b = []

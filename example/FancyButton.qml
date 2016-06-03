@@ -1,6 +1,7 @@
 Widget {
     id: fancy
-    property Bool value: false;
+    property Function whenClick: nil
+    property Bool     value:     false
     function class_name() { "FancyButton" }
     function draw(vg)
     {
@@ -44,7 +45,14 @@ Widget {
             vg.fill_color(text_color2)
         end
         vg.text(w*1.25/2,h/2,label.upcase)
-        
+    }
+
+    function onMousePress(ev) {
+        self.value = !self.value
+        if(root)
+            root.damage_item self
+        end
+        self.whenClick.call if self.whenClick
     }
 
     function layout(l)

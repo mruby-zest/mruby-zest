@@ -3,24 +3,30 @@ Widget {
     function class_name() {"ZynFooter"}
     Indent {
         id: wheelwell
-        x: 0.010*foot.w
-        y: 0.15*foot.h
-        w: 0.017*foot.w
-        h: (1-2*0.15)*foot.h
-        ModWheel {
-            label: "wheel"
-            x: 0.1*wheelwell.w
-            y: 0.1*wheelwell.h
-            w: 0.8*wheelwell.w
-            h: 0.8*wheelwell.h
+        ModWheel { label: "wheel" }
+
+        function layout(l)
+        {
+            selfBox = l.genBox :modwheelwell, self
+            whelBox = self.children[0].layout l
+
+            l.fixed(whelBox, selfBox, 0.1, 0.1, 0.8, 0.8)
+            selfBox
         }
     }
 
     Keyboard {
         id: key
-        x: 0.032*foot.w
-        w: 0.536*foot.w
-        y: foot.h*0.10
-        h: foot.h*0.8
+    }
+
+    function layout(l)
+    {
+        selfBox = l.genBox :footer, self
+        whelBox = wheelwell.layout l
+        keybBox = key.layout l
+
+        l.fixed(whelBox, selfBox, 0.010, 0.15, 0.017, (1-2*0.15))
+        l.fixed(keybBox, selfBox, 0.032, 0.10, 0.536, 0.8)
+        selfBox
     }
 }

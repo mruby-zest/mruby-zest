@@ -4,6 +4,7 @@ Widget {
     SidebarButton {
         id: partsetting
         label: "part settings"
+        whenClick: lambda { side.set_content :part }
     }
     Indent {
         id: part
@@ -12,31 +13,37 @@ Widget {
     SidebarButton {
         id: browser
         label: "browser"
+        whenClick: lambda { side.set_content :banks }
     }
     SidebarButton {
         id: mixer
         label: "mixer"
+        whenClick: lambda { side.set_content :mixer }
     }
     FancyButton {
         id: kitedit
         label: "kit editor"
+        whenClick: lambda { side.set_content :kits }
     }
     Indent {
         id: kit
         KitButtons {}
     }
-    FancyButton {
+    SidebarButton {
         id: arp
-        label: "arp"
+        label: "midi learn"
+        whenClick: lambda { side.set_content :midi_learn }
     }
     FancyButton {
         id: eff
         label: "effects"
+        whenClick: lambda { side.set_content :effects }
     }
     FancyButton {
         id: add
         label: "add"
         value: true;
+        whenClick: lambda { side.set_content :add_synth }
     }
     Indent {
         id: voices
@@ -45,10 +52,31 @@ Widget {
     FancyButton {
         id: subButton
         label: "sub"
+        whenClick: lambda { side.set_content :sub_synth }
     }
     FancyButton {
         id: padButton
         label: "pad"
+        whenClick: lambda { side.set_content :pad_synth }
+    }
+
+    function set_content(type)
+    {
+        tabs = [:part, :banks, :mixer, :kits, :midi_learn, :effects,
+                :add_synth, :sub_synth, :pad_synth]
+        ind = 0
+        self.children.each do |ch|
+            if([Qml::FancyButton, Qml::SidebarButton].include? ch.class)
+                n = (type == tabs[ind])
+                if(n != ch.value)
+                    ch.value = n
+                    root.damage_item ch if root
+                end
+                ind += 1
+            end
+        end
+
+        parent.set_content(type) if parent.respond_to? :set_content
     }
 
     function layout(l)

@@ -2,13 +2,6 @@ Widget {
     extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
     id: base_osc
 
-    function onSetup(old=nil)
-    {
-        (0..10).each do |i|
-            puts "asdlkfjas;fkj;askjf;asdkfasl;jdf;lkasjd;"
-        end
-    }
-
     TitleBar {
         id: base_title
         label: "base waveform"

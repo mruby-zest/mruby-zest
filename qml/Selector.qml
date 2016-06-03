@@ -7,8 +7,8 @@ Widget {
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote,
                                        selector.extern)
-        print "selector extern = "
-        puts meta.options
+        #print "selector extern = "
+        #puts meta.options
         if(meta.options)
             nopts = []
             meta.options.each do |x|
@@ -17,7 +17,7 @@ Widget {
             selector.options = nopts
         end
     }
-    
+
     function layout(l)
     {
         t = widget.class_name.to_sym

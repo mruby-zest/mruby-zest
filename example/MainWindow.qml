@@ -6,7 +6,6 @@ Widget {
 
     function layout(l)
     {
-        puts "Main Window layout"
         t = widget.class_name.to_sym
         selfBox = l.genBox t, widget
         chBox   = main_widget.layout(l)

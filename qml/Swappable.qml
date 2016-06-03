@@ -3,7 +3,7 @@ Widget {
     property String content: nil
     property Callback whenSwapped: nil
 
-    function rec_del_props(widget, plist=Set.new)
+    function rec_del_props(widget, plist=[])
     {
         return plist if widget.nil?
         #Add all properties to the delete list
@@ -68,10 +68,7 @@ Widget {
         else
             puts "MISSING ROOT"
         end
-        #puts "my children should just be :"
-        #puts widget
         self.whenSwapped.call if self.whenSwapped
-
     }
 
     function onMerge(val)
@@ -81,15 +78,12 @@ Widget {
 
     onContent: {
         srt = Time.new
-        puts("on content start")
-        puts("on content remove old child begin")
         swappable.remove_old_child
         mid = Time.new
-        puts("create new child begin")
         swappable.create_new_child
-        puts("on content done")
         dne = Time.new
-        puts("Content swap took #{dne-srt} (#{100*(mid-srt)/(dne-srt)}% remove) (#{100*(dne-mid)/(dne-srt)}% add)")
+        puts("[INFO] Content chagned to #{swappable.content}")
+        puts("[INFO] Content swap took #{dne-srt} (#{100*(mid-srt)/(dne-srt)}% remove) (#{100*(dne-mid)/(dne-srt)}% add)")
     }
 
     function layout(l)

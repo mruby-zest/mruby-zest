@@ -7,8 +7,8 @@ Group {
         id: top
         Knob { extern: box.extern+"GlobalPar/PVolume" }
         Knob { extern: box.extern+"GlobalPar/PAmpVelocityScaleFunction"}
-        Knob { extern: box.extern+"GlobalPar/Ppanning"}
-        Knob { extern: box.extern+"GlobalPar/PPunchstretch"}
+        Knob { extern: box.extern+"GlobalPar/PPanning"}
+        Knob { extern: box.extern+"GlobalPar/PPunchStretch"}
 
     }
     ParModuleRow {

@@ -31,7 +31,6 @@ Widget {
     //3. The children are packed horizontally
     function layout(l)
     {
-        puts "group layout?"
         selfBox = l.genBox :parmodule, mod
         contentBox = content.layout(l)
         titleBox   = titleW.layout(l)
@@ -149,13 +148,11 @@ Widget {
         function layout(l)
         {
             (0..100).print '&'
-            puts "content layout..."
             selfBox = l.genBox :contentBox, self
             begin
                 prev = nil
                 N = self.children.length
                 self.children.each do |ch|
-                    puts "layout child"
                     ch_box = ch.layout(l)
                     #child.h = 1/N * parent.h
                     l.contains(selfBox, ch_box)

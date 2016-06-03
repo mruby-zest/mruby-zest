@@ -53,7 +53,6 @@ Widget {
 
     function layout(l)
     {
-        puts "LAYOUT HERE"
         selfBox = l.genBox :sidebar, side
         psBox   = partsetting.layout(l)
         partBox = part.layout(l)

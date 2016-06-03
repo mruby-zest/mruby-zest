@@ -3,7 +3,7 @@ Widget {
     property String content: nil
     property Callback whenSwapped: nil
 
-    function rec_del_props(widget, plist=[])
+    function rec_del_props(widget, plist=Set.new)
     {
         return plist if widget.nil?
         #Add all properties to the delete list
@@ -58,9 +58,9 @@ Widget {
         widget.w = self.w
         widget.h = self.h
         Qml::add_child(self, widget)
-        self.db.force_update
+        self.db.update_values
         setup_widget widget
-        self.db.force_update
+        self.db.update_values
 
         if(root)
             root.smash_layout
@@ -80,12 +80,16 @@ Widget {
     }
 
     onContent: {
+        srt = Time.new
         puts("on content start")
         puts("on content remove old child begin")
         swappable.remove_old_child
+        mid = Time.new
         puts("create new child begin")
         swappable.create_new_child
         puts("on content done")
+        dne = Time.new
+        puts("Content swap took #{dne-srt} (#{100*(mid-srt)/(dne-srt)}% remove) (#{100*(dne-mid)/(dne-srt)}% add)")
     }
 
     function layout(l)

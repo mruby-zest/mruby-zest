@@ -1,5 +1,6 @@
 Widget {
     id: selector
+    property Object valueRef: nil;
     property String extern: ""
     property Array  options: ["text", "test", "asdf"];
     property Int    selected: 0
@@ -16,6 +17,16 @@ Widget {
             end
             selector.options = nopts
         end
+        selector.valueRef = OSC::RemoteParam.new($remote, selector.extern)
+        selector.valueRef.mode = :options
+        selector.valueRef.callback = Proc.new {|x| selector.set_value(x)}
+    }
+
+    function set_value(x)
+    {
+        self.selected = x
+        rt = self.root
+        rt.damage_item self if rt
     }
 
     function layout(l)
@@ -49,6 +60,10 @@ Widget {
         else
             selector.selected = selector.selected + 1
         end
+
+        self.valueRef.value = self.selected if self.valueRef
+        self.root.log(:user_value, self.valueRef.display_value, src=self.label)
+
         if(selector.root)
             selector.root.damage_item selector
         end

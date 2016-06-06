@@ -42,6 +42,12 @@ Object {
         selfBox
     }
 
+    function damage_self()
+    {
+        rt = self.root
+        rt.damage_item self if rt
+    }
+
     function background(c)
     {
         $vg.path do |v|

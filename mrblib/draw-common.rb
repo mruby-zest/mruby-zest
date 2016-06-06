@@ -85,7 +85,7 @@ module Draw
                 xx += 1
             }
         end
-        def self.linear_x(vg, min, max, bb)
+        def self.linear_x(vg, min, max, bb, thick=1.0)
             med_fill     = color("114575")
             light_fill   = color("114575")
             c = 40
@@ -96,16 +96,16 @@ module Draw
                     vg.line_to(bb.x+off, bb.y+bb.h)
                     if((ln%10) == 0)
                         v.stroke_color med_fill
-                        v.stroke_width 4.0
+                        v.stroke_width 4.0*thick
                     else
                         v.stroke_color light_fill
-                        v.stroke_width 2.0
+                        v.stroke_width 2.0*thick
                     end
                     v.stroke
                 end
             end
         end
-        def self.linear_y(vg, min, max, bb)
+        def self.linear_y(vg, min, max, bb, thick=1.0)
             med_fill     = color("114575")
             light_fill   = color("114575")
             c = 40
@@ -116,10 +116,10 @@ module Draw
                     vg.line_to(bb.x+bb.w, bb.y+off)
                     if((ln%10) == 0)
                         v.stroke_color med_fill
-                        v.stroke_width 4.0
+                        v.stroke_width 4.0*thick
                     else
                         v.stroke_color light_fill
-                        v.stroke_width 2.0
+                        v.stroke_width 2.0*thick
                     end
                     v.stroke
                 end

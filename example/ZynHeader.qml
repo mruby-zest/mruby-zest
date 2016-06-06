@@ -101,8 +101,8 @@ Widget {
 
         l.fixed(logoBox, selfBox, 0.016, 0.2,  0.16,  0.6)
         l.fixed(menuBox, selfBox, 0.192, 0.15, 0.112, 0.7)
-        l.fixed(statBox, selfBox, 0.314, 0.15, 0.32,  0.7)
-        l.fixed(shrtBox, selfBox, 0.645, 0.15, 0.27,  0.7)
+        l.fixed(statBox, selfBox, 0.314, 0.15, 0.42,  0.7)
+        l.fixed(shrtBox, selfBox, 0.745, 0.15, 0.17,  0.7)
         l.fixed(paniBox, selfBox, 0.92, 0.15, 0.05,  0.7)
         l.fixed(clseBox, selfBox, 0.975, 0.15, 0.015,  0.3)
         l.fixed(miniBox, selfBox, 0.975, 0.54, 0.015,  0.3)

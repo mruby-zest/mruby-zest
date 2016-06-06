@@ -8,8 +8,8 @@ Widget {
 
         background Theme::VisualBackground
         if(grid)
-            Draw::Grid::linear_x(vg,0,10,box)
-            Draw::Grid::linear_y(vg,0,10,box)
+            Draw::Grid::linear_x(vg,0,10,box, 0.3)
+            Draw::Grid::linear_y(vg,0,10,box, 0.4)
         end
         Draw::WaveForm::sin(vg, box)
     }

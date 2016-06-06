@@ -34,6 +34,10 @@ Widget {
         puts type
         if(type == :add_synth)
             main_widget.content = Qml::ZynAddSynth
+        elsif(type == :part)
+            main_widget.content = Qml::ZynPart
+        elsif(type == :pad_synth)
+            main_widget.content = Qml::ZynPadHarmonics
         else
             main_widget.content = Qml::Widget
         end

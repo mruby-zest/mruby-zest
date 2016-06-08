@@ -13,6 +13,41 @@ Widget {
 
     property Time     time: nil
 
+    property Object valueRef: nil
+
+    function onSetup(old=nil)
+    {
+        refs = []
+        base ="/part0/kit0/adpars/GlobalPar/FreqLfo/" 
+        type_var = OSC::RemoteParam.new($remote, base+"PLFOtype")
+        type_var.mode = :options
+        type_var.callback = lambda {|x|
+            lfo_vis.type = [:sine, :triangle, :square, :rampup, 
+                :rampdown, :exp1, :exp2][x]}
+
+        depth_var = OSC::RemoteParam.new($remote, base+"Pintensity")
+        depth_var.callback = lambda {|x|
+            lfo_vis.depth = x
+            lfo_vis.damage_self}
+
+        delay_var = OSC::RemoteParam.new($remote, base+"Pdelay")
+        delay_var.callback = lambda {|x|
+            lfo_vis.delay_time = 2000*x
+            lfo_vis.damage_self}
+
+        freq_var  = OSC::RemoteParam.new($remote, base+"Pfreq")
+        freq_var.callback = lambda {|x|
+            lfo_vis.period = 2000*x
+            lfo_vis.damage_self}
+
+
+
+        refs << type_var
+        refs << depth_var
+        self.valueRef = refs
+
+    }
+
     function class_name()
     {
         "LfoVis"
@@ -110,6 +145,7 @@ Widget {
             p << x
         end
         lfo_vis.points = p
+        damage_self
     }
 
     onType: {
@@ -120,13 +156,13 @@ Widget {
     function draw(vg)
     {
         puts "?"
-        if(lfo_vis.time.nil?)
-            lfo_vis.time = Time.new
-        else
-            ntime = Time.new
-            puts ntime - lfo_vis.time
-            lfo_vis.time = ntime
-        end
+        #if(lfo_vis.time.nil?)
+        #    lfo_vis.time = Time.new
+        #else
+        #    ntime = Time.new
+        #    puts ntime - lfo_vis.time
+        #    lfo_vis.time = ntime
+        #end
 
         vg.path do |v|
             v.rect(0,0,w,h)

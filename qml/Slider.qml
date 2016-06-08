@@ -23,6 +23,8 @@ Valuator {
             v.fill_color color("0f0000")
             v.fill
         end
+        return if value.class != Float
+
         if(value > 0.5)
             src = (h/2-h*pad2*(value-0.5))
             dst = h/2

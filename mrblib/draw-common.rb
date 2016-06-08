@@ -145,6 +145,35 @@ module Draw
     module DSP
         PI = 3.14
 
+        #try to get a -1..1 signal
+        def self.normalize(seq)
+            min = 1
+            max = -1
+            seq.each do |x|
+                min = x if x < min
+                max = x if x > max
+            end
+            mag = [max,-min].max
+            (0...seq.length).each do |i|
+                seq[i] /= mag
+            end
+            seq
+        end
+
+        def self.norm_harmonics(seq)
+            (0...seq.length).each do |i|
+                seq[i] = -seq[i] if seq[i] < 0
+            end
+            max = -1
+            seq.each do |x|
+                max = x if x > max
+            end
+            (0...seq.length).each do |i|
+                seq[i] = (seq[i]/max)**0.1
+            end
+            seq
+        end
+
         def self.magnitude(num, dem, freq, order=1)
             angle = PI*freq
             n = Complex(0,0)

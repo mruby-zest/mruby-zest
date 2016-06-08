@@ -14,6 +14,21 @@ module Draw
             end
         end
 
+        def self.plot(vg, ypts, bb, do_norm=true)
+            ypts = DSP::normalize(ypts) if do_norm
+            xpts = Draw::DSP::linspace(0,1,ypts.length)
+            vg.path do |v|
+                vg.move_to(bb.x, bb.y+bb.h/2-bb.h/2*ypts[0])
+                (1...ypts.length).each do |pt|
+                    vg.line_to(bb.x+bb.w*xpts[pt],
+                               bb.y+bb.h/2-bb.h/2*ypts[pt])
+                end
+                v.stroke_color color("4195a5")
+                v.stroke_width 2.0
+                v.stroke
+            end
+        end
+
         def self.bar(vg, data, bb, bar_color)
             n    = data.length
             xpts = Draw::DSP::linspace(0,1,n)

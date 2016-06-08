@@ -18,8 +18,21 @@ Widget {
         #    v.fill_color color("802080")
         #    v.fill
         #end
+
+        scale = 100
+        $vg.font_size scale
+        bb = $vg.text_bounds(0, 0, label.upcase)
+
+        #puts bb/100
+        #puts "#{w.to_i}/#{h.to_i} = #{w/h}"
+        #puts "  #{bb*h/100}"
+
         vg.font_face("bold")
-        vg.font_size text.height*h
+        if(w/(text.height*h) < bb)
+            vg.font_size text.height*h
+        else
+            vg.font_size text.height*h
+        end
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
         vg.text(w/2,h/2,label.upcase)

@@ -39,7 +39,7 @@ module Draw
                     v.move_to(x, y)
                     v.line_to(x, y-bb.h*data[i])
                     v.stroke_color bar_color
-                    v.stroke_width 2.0
+                    v.stroke_width 1.0
                     v.stroke
                 end
             end

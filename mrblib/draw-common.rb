@@ -178,7 +178,7 @@ module Draw
             angle = PI*freq
             n = Complex(0,0)
             d = Complex(1,0)
-            (0..2).each do |i|
+            (0...num.length).each do |i|
                 n += Complex.polar(num[i], i*angle)
                 d -= Complex.polar(dem[i], i*angle)
             end

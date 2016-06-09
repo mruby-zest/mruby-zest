@@ -203,6 +203,36 @@ module Draw
             out
         end
     end
+    module Layout
+        def self.vpack(l, selfBox, b, x=0, w=0)
+            off = 0
+            n = b.length
+            b.each_with_index do |bb,i|
+                l.fixed(bb, selfBox, x, off, w,  1.0/n)
+                off += 1.0/n
+            end
+            selfBox
+        end
+
+        def self.hpack(l, selfBox, b)
+            off = 0
+            n = b.length
+            b.each_with_index do |bb,i|
+                l.fixed(bb, selfBox, off, 0, 1.0/n, 1.0)
+                off += 1.0/n
+            end
+            selfBox
+        end
+
+        def self.vfill(l, selfBox, b, h)
+            off = 0
+            b.each_with_index do |bb,i|
+            l.fixed(bb, selfBox, 0, off, 1,  h[i])
+            off += h[i]
+            end
+            selfBox
+        end
+    end
 end
 
 def color(c)

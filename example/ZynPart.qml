@@ -37,8 +37,48 @@ Widget {
             vpack(l, selfBox, rows[16..31], 0.2, 0.8)
         }
     }
-    ColorBox { bg: color("ffff00")}
-    ColorBox { bg: color("ff00ff")}
+    ColorBox { 
+        bg: color("ffff00")
+        function vfill(l, selfBox, b, h)
+        {
+            off = 0
+            b.each_with_index do |bb,i|
+            l.fixed(bb, selfBox, 0, off, 1,  h[i])
+            off += h[i]
+            end
+            selfBox
+        }
+        function layout(l)
+        {
+            selfBox = l.genBox :part, self
+            rows = children.map {|x| x.layout l}
+            vfill(l, selfBox, rows, [0.4,0.3,0.3])
+        }
+        ZynInstrumentSettings {}
+        ZynControllers {}
+        ZynPortamento  {}
+    }
+    ColorBox {
+        bg: color("ff00ff")
+        function vfill(l, selfBox, b, h)
+        {
+            off = 0
+            b.each_with_index do |bb,i|
+            l.fixed(bb, selfBox, 0, off, 1,  h[i])
+            off += h[i]
+            end
+            selfBox
+        }
+        function layout(l)
+        {
+            selfBox = l.genBox :part, self
+            rows = children.map {|x| x.layout l}
+            vfill(l, selfBox, rows, [0.2,0.15,0.65])
+        }
+        ColorBox { bg: color("ff0000")}
+        ColorBox { bg: color("00ff00")}
+        ColorBox { bg: color("0000ff")}
+    }
 
     function hfill(l, selfBox, b, w)
     {

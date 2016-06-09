@@ -1,10 +1,21 @@
 Widget {
+    id: hedit
+    property Function whenValue: nil
+
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
+
+
     function onSetup(old=nil)
     {
         (0...32).each do |ev|
-            hm = Qml::HarmonicEditSingle.new(db)
-            hm.pad = 0.03
-            hm.label = ev.to_s
+            hm        = Qml::HarmonicEditSingle.new(db)
+            hm.pad    = 0.03
+            hm.num    = ev
+            hm.extern = self.extern
+            hm.whenValue = lambda {hedit.cb}
             Qml::add_child(self, hm)
         end
     }

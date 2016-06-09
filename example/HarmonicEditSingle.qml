@@ -1,10 +1,20 @@
 ColorBox {
+    property Function whenValue: nil
+    property Int num: 0
     id: hes
     bg: Theme::GeneralBackground
     pad: 0.0
+
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
+
     Slider {
         id: a
         value: 0.5
+        extern: hes.extern + "magnitude" + hes.num.to_s
+        whenValue: lambda {hes.cb}
         //pad: 0.2
         //bg: color("827744")
     }
@@ -12,12 +22,14 @@ ColorBox {
         id: b
         layoutOpts: [:ignoreAspect]
         height: 1.2
-        label: hes.label
+        label: hes.num.to_s
     }
 
     Slider {
         id: c
         value: 0.5
+        extern: hes.extern + "phase" + hes.num.to_s
+        whenValue: lambda {hes.cb}
     }
 
     function layout(l)

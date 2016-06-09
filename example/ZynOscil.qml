@@ -2,6 +2,14 @@ Widget {
     extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
     id: base_osc
 
+    function refresh()
+    {
+        base.refresh
+        full.refresh
+        base_harm.refresh
+        full_harm.refresh
+    }
+
     TitleBar {
         id: base_title
         label: "base waveform"
@@ -9,10 +17,12 @@ Widget {
 
     HarmonicView {
         id: base_harm
+        extern: base_osc.extern + "base-spectrum"
     }
 
     WaveView {
         id: base
+        extern: base_osc.extern + "base-waveform"
     }
 
     TitleBar {
@@ -22,13 +32,17 @@ Widget {
 
     HarmonicView {
         id: full_harm
+        extern: base_osc.extern + "spectrum"
     }
 
     WaveView {
         id: full
+        extern: base_osc.extern + "waveform"
     }
 
     HarmonicEdit {
+        extern: base_osc.extern
+        whenValue: lambda {base_osc.refresh}
         id: hedit
     }
 
@@ -61,12 +75,12 @@ Widget {
         id: oscil_pars
         function draw(vg) { background color("334454") }
 
-        Selector { extern: base_osc.extern + "Pcurrentbasefunc"}
-        Knob     { extern: base_osc.extern + "Pbasefuncpar"}
-        Selector { id: modsel; extern: base_osc.extern + "Pbasefuncmodulation"}
-        Knob     { extern: modsel.extern + "par1"}
-        Knob     { extern: modsel.extern + "par2"}
-        Knob     { extern: modsel.extern + "par3"}
+        Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pcurrentbasefunc"}
+        Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pbasefuncpar"}
+        Selector { whenValue: lambda {base_osc.refresh}; id: modsel; extern: base_osc.extern + "Pbasefuncmodulation"}
+        Knob     { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par1"}
+        Knob     { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par2"}
+        Knob     { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par3"}
     }
 
     ParModuleRow {
@@ -86,8 +100,8 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector {extern: base_osc.extern + "Pwaveshapingfunction"}
-            Knob     {extern: base_osc.extern + "Pwaveshaping"}
+            Selector {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshapingfunction"}
+            Knob     {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshaping"}
         }
 
         ColorBox {
@@ -95,9 +109,9 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector { extern: base_osc.extern + "Pfiltertype";}
-            Knob     { extern: base_osc.extern + "Pfilterpar1";}
-            Knob     { extern: base_osc.extern + "Pfilterpar2";}
+            Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfiltertype";}
+            Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar1";}
+            Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar2";}
             Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
         }
 
@@ -127,10 +141,10 @@ Widget {
             bg: Theme::GeneralBackground
             pad: 0.01
             layoutOpts: [:think_of_the_children]
-            Selector { extern: base_osc.extern + "Pmodulation"}
-            Knob     { extern: base_osc.extern + "Pmodulationpar1"}
-            Knob     { extern: base_osc.extern + "Pmodulationpar2"}
-            Knob     { extern: base_osc.extern + "Pmodulationpar3"}
+            Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulation"}
+            Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar1"}
+            Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar2"}
+            Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar3"}
         }
 
         ColorBox {
@@ -180,8 +194,8 @@ Widget {
         oscpBox = oscil_pars.layout(l)
         moreBox = more_pars.layout(l)
         middBox = middle_panel.layout(l)
-        l.fixed(baseBox, selfBox, 0.00, 0.1,  0.4, 0.4)
-        l.fixed(fullBox, selfBox, 0.60, 0.1,  0.4, 0.4)
+        l.fixed(baseBox, selfBox, 0.00, 0.1,  0.4, 0.38)
+        l.fixed(fullBox, selfBox, 0.60, 0.1,  0.4, 0.38)
         l.fixed(bashBox, selfBox, 0.00, 0.03, 0.4, 0.07)
         l.fixed(fulhBox, selfBox, 0.60, 0.03, 0.4, 0.07)
         l.fixed(bastBox, selfBox, 0.00, 0.00, 0.4, 0.03)

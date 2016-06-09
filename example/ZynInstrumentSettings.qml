@@ -8,7 +8,7 @@ Group {
         Knob {label: "key shift"}
     }
     ParModuleRow {
-        Selector { label: "mode" }
+        Selector { label: "mode"; layoutOpts: [:no_constraint]  }
         Button   { label: "note on"}
         Button   { label: "portamento"}
     }
@@ -16,9 +16,9 @@ Group {
         Selector { label: "k.lmt" }
         Selector { label: "midi channel"}
         Knob     { label: "min" }
-        Button   { label: "m" }
-        Button   { label: "r" }
-        Button   { label: "m" }
+        Button   { label: "m"; layoutOpts: [:no_constraint] }
+        Button   { label: "r"; layoutOpts: [:no_constraint] }
+        Button   { label: "m"; layoutOpts: [:no_constraint] }
         Knob     { label: "max"}
     }
 }

@@ -38,6 +38,10 @@ Widget {
             main_widget.content = Qml::ZynPart
         elsif(type == :pad_synth)
             main_widget.content = Qml::ZynPadHarmonics
+        elsif(type == :midi_learn)
+            main_widget.content = Qml::ZynMidiLearn
+        elsif(type == :mixer)
+            main_widget.content = Qml::ZynMixer
         else
             main_widget.content = Qml::Widget
         end

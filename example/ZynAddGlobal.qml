@@ -48,6 +48,9 @@ Widget {
             elsif(type == :filter)
                 self.content = Qml::VisFilter
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
+                amp_gen.children[0].whenModified = lambda {
+                    row1.children[0].refresh
+                }
             end
         }
     }

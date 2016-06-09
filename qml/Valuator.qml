@@ -85,6 +85,21 @@ Widget {
             if(children.empty?)
                 create_radial
             end
+        elsif(ev.buttons.include? :middleButton)
+            #Reset
+            reset_value = 64/127.0
+            if(valueRef)
+                old_dsp = self.valueRef.display_value
+
+                self.valueRef.value = reset_value
+                self.value = reset_value
+                new_dsp = self.valueRef.display_value
+                whenValue.call if whenValue && old_dsp != new_dsp
+                valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
+            else
+                self.value = reset_value
+            end
+            damage_self
         else
             valuator.prev = nil
         end

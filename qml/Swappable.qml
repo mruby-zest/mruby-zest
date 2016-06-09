@@ -36,6 +36,8 @@ Widget {
         if(!self.children.empty?)
             del_list = rec_del_props(swappable.children[0])
             @db.remove_properties del_list
+
+            root.damage_item(children[0], :all) if root
             self.children = []
         end
     }

@@ -5,6 +5,8 @@ Widget {
 
     property Float value: 1.0;
 
+    property Function whenValue: nil;
+
     onExtern: {
         #puts("on extern...")
         #print "remote = "
@@ -108,8 +110,11 @@ Widget {
         tmp = valuator.value - delta
         nvalue = limit(tmp, 0, 1)
         if(valuator.valueRef)
+            old_dsp = valuator.valueRef.display_value
             valuator.valueRef.value = nvalue
             valuator.value = nvalue
+            new_dsp = valuator.valueRef.display_value
+            whenValue.call if whenValue && old_dsp != new_dsp
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         else
             valuator.value = nvalue

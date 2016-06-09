@@ -44,6 +44,8 @@ Widget {
             main_widget.content = Qml::ZynMidiLearn
         elsif(type == :mixer)
             main_widget.content = Qml::ZynMixer
+        elsif(type == :banks)
+            main_widget.content = Qml::ZynBank
         else
             main_widget.content = Qml::Widget
         end

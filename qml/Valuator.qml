@@ -77,6 +77,11 @@ Widget {
         valuator.root.damage_item widget
     }
 
+    function onScroll(ev)
+    {
+        updatePos(ev.dy/50.0)
+    }
+
     function onMousePress(ev) {
         #puts "I got a mouse press (value)"
         if(ev.buttons.include? :leftButton)

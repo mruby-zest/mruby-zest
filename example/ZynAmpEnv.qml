@@ -3,21 +3,26 @@ Group {
     id: box
     label: "Envelope"
     property String extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
+    property Function whenModified: nil
+
+    function cb()
+    {
+        whenModified.call if whenModified
+    }
 
     ParModuleRow {
         id: top
-        Knob { extern: box.extern+"PA_dt" }
-        Knob { extern: box.extern+"PD_dt"}
-        Knob { extern: box.extern+"PS_val"}
-
+        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PA_dt" }
+        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PD_dt"}
+        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PS_val"}
     }
     ParModuleRow {
         id: bot
-        Knob     {extern: box.extern+"PR_dt"}
-        Knob     {extern: box.extern+"Penvstretch"}
+        Knob     { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt"}
+        Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
         Col {
-            Button   {extern: box.extern+"Pforcedrelease"}
-            Button   {extern: box.extern+"Plinearenvelope"}
+            Button   { whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+            Button   { whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
         }
     }
 }

@@ -43,8 +43,11 @@ Widget {
                 self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
             elsif(type == :env)
                 self.content = Qml::Envelope
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
                 self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+                amp_env.whenModified = lambda {
+                    row1.children[0].refresh
+                }
             elsif(type == :filter)
                 self.content = Qml::VisFilter
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"

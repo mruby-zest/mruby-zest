@@ -3,22 +3,64 @@ Widget {
 
     property Object prev: nil;
     property Int    selected: nil;
-    //                      0         1         2         3         4
-    property Array points: [0.0, 0.0, 0.5, 0.2, 0.3, 0.7,-0.9, 0.8, 0.0, 1.0];
+    property Array  xpoints: [0.0, 0.2, 0.7, 0.8, 1.0]
+    property Array  ypoints: [0.0, 0.5, 0.3, -0.9, 0.0]
+
+    property Int    points: 5
+    property Int    sustain_point: 3
+    property Object valueRef: nil
+
+    onExtern: {
+        ext = env.extern
+        xpts = OSC::RemoteParam.new($remote, ext + "envdt")
+        ypts = OSC::RemoteParam.new($remote, ext + "envval")
+        pts = OSC::RemoteParam.new($remote, ext + "Penvpoints")
+        pts.mode = :selector
+        sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
+        xpts.callback = lambda { |x|
+            env.xpoints = x
+            env.damage_self
+        }
+        ypts.callback = lambda { |x|
+            env.ypoints = x.map {|xx| 2*xx-1}
+            env.damage_self
+        }
+        pts.callback = lambda { |x|
+            env.points = x
+            env.damage_self
+        }
+        sus.callback = lambda { |x|
+            env.sustain_point = x
+            env.damage_self
+        }
+        env.valueRef = [xpts, ypts, pts, sus]
+    }
+
+    function refresh() {
+        env.valueRef.each do |v|
+            v.refresh
+        end
+    }
+
+    function get_x_points() {
+        Draw::DSP::norm_0_1(Draw::DSP::cumsum(xpoints[0...points]))
+    }
 
     function onMousePress(ev) {
         puts "I got a mouse press (value)"
         #//Try to identify the location  of the nearest grabbable point
         #valuator.prev = ev.pos
-        dat = env.points
+        xdat = get_x_points()
+        ydat = env.ypoints
+        n = [xdat.length, ydat.length].min
         next_sel = 0
         best_dist = 1e10
 
         mx = ev.pos.x-global_x
         my = ev.pos.y-global_y
-        (0...(dat.length/2)).each do |i|
-            xx = w*dat[2*i+1];
-            yy = h/2-h/2*dat[2*i];
+        (0...n).each do |i|
+            xx = w*xdat[i];
+            yy = h/2-h/2*ydat[i];
 
             dst = (mx-xx)**2 + (my-yy)**2
             if(dst < best_dist)
@@ -35,38 +77,37 @@ Widget {
         env.prev = ev.pos
     }
 
+    function bound_points(array)
+    {
+        n = array.length
+        (0...n).each do |i|
+            if(array[i] < -1)
+                array[i] = -1 
+            elsif(array[i] > 1)
+                array[i] = 1
+            end
+        end
+    }
+
     function onMouseMove(ev) {
-        #puts "I got a mouse move (value)"
+
         if(env.selected)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = (ev.pos.x - env.prev.x)/env.w
-            if(env.selected == 0 || env.selected == (env.points.length)/2-1)
-                env.points[env.selected*2] -= dy
+            n  = [env.xpoints.length, env.ypoints.length].min
+            if(env.selected == 0 || env.selected == n-1)
+                env.ypoints[env.selected] -= dy
             else
-                env.points[env.selected*2+1] += dx
-                env.points[env.selected*2]   -= dy
+                env.xpoints[env.selected] += dx
+                env.ypoints[env.selected] -= dy
             end
-            #print "("
-            #print dx
-            #print ","
-            #print dy
-            #print ")\n"
-            #updatePos(dy/200.0)
-            (0...env.points.length).each do |i|
-                if(env.points[i] < -1)
-                    env.points[i] = -1 
-                elsif(env.points[i] > 1)
-                    env.points[i] = 1
-                end
-            end
+
+            bound_points(env.xpoints)
+            bound_points(env.ypoints)
+
             env.prev = ev.pos
             env.root.damage_item env
         end
-        #if(ev.buttons.include? :leftButton)
-        #    dy = ev.pos.y - valuator.prev.y
-        #    updatePos(dy/200.0)
-        #    valuator.prev = ev.pos
-        #end
     }
 
     function class_name()
@@ -76,7 +117,9 @@ Widget {
 
     function draw(vg)
     {
-        dat = env.points
+        xdat = get_x_points()
+        ydat = env.ypoints
+        n    = [xdat.length, ydat.length].min
 
         fill_color   = color("232C36")
         stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
@@ -102,8 +145,8 @@ Widget {
         vg.scissor(0, h/2, w, h/2)
         vg.path do |vg|
             vg.move_to(0.0, 0.0);
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
+            (0...n).each do |i|
+                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
             end
             vg.line_to(w, 0.0)
             vg.close_path
@@ -116,8 +159,8 @@ Widget {
         vg.scissor(0, 0, w, h/2);
         vg.path do |vg|
             vg.move_to(w,h)
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
+            (0...n).each do |i|
+                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
             end
             vg.line_to(w,h)
             vg.close_path
@@ -134,23 +177,24 @@ Widget {
             vg.stroke
         end
 
-        n = dat.length
-        m = 2
-        #Draw Sel Line
-        if(m >= 0 && m < n)
-            vg.path do |v|
-                v.move_to(w*dat[2*m+1], 0)
-                v.line_to(w*dat[2*m+1], h)
+        begin
+            m = 2
+            #Draw Sel Line
+            if(m >= 0 && m < n)
+                vg.path do |v|
+                    v.move_to(w*xdat[m], 0)
+                    v.line_to(w*xdat[m], h)
+                end
+                vg.stroke_color(dim);
+                vg.stroke
             end
-            vg.stroke_color(dim);
-            vg.stroke
         end
 
         #Draw Actual Line
         vg.path do |vg|
-            vg.move_to(w*dat[1],h/2-h/2*dat[0])
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
+            vg.move_to(w*xdat[0],h/2-h/2*ydat[0])
+            (0...n).each do |i|
+                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
             end
             vg.stroke_width 3.0
             vg.stroke_color bright
@@ -158,9 +202,9 @@ Widget {
         end
         vg.stroke_width 1.0
 
-        (0...(dat.length/2)).each do |i|
-            xx = w*dat[2*i+1];
-            yy = h/2-h/2*dat[2*i];
+        (0...n).each do |i|
+            xx = w*xdat[i];
+            yy = h/2-h/2*ydat[i];
             scale = h/80
             vg.path do |vg|
                 vg.rect(xx-scale,yy-scale,scale*2,scale*2);

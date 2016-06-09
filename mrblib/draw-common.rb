@@ -202,6 +202,33 @@ module Draw
             end
             out
         end
+
+        def self.cumsum(x)
+            partial = 0
+            n       = x.length
+            (0...n).each do |i|
+                partial += x[i]
+                x[i]     = partial
+            end
+            x
+        end
+
+        def self.ary_max(x)
+            max = -1
+            x.each do |xx|
+                max = xx if xx>max
+            end
+            max
+        end
+
+        def self.norm_0_1(x)
+            max = ary_max(x)
+            n   = x.length
+            (0...n).each do |i|
+                x[i] /= max
+            end
+            x
+        end
     end
     module Layout
         def self.vpack(l, selfBox, b, x=0, w=0)

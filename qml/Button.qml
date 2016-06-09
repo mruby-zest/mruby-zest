@@ -5,6 +5,7 @@ Widget {
     property Bool   value:    false;
     property String renderer: nil;
     property Float  textScale: 0.75;
+    property Function whenValue: nil;
     
     function onMousePress(ev) {
         puts "Button Press"

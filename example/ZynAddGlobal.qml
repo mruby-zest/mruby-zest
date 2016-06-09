@@ -40,11 +40,11 @@ Widget {
             if(type == :lfo)
                 self.content = Qml::LfoVis
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
-                self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
+                self.children[0].children[0].extern = amp_lfo.extern+"out"
             elsif(type == :env)
                 self.content = Qml::Envelope
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
-                self.children[0].children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/out"
+                self.children[0].children[0].extern = amp_env.extern+"out"
                 amp_env.whenModified = lambda {
                     row1.children[0].refresh
                 }
@@ -142,12 +142,19 @@ Widget {
                 children[ch_id].value = (ch_id == id)
                 self.root.damage_item children[ch_id]
             end
+            base = "/part0/kit0/adpars/GlobalPar/"
             if(id == 0)
                 amp_gen.content = Qml::ZynAmpGeneral
+                amp_env.extern  = base + "AmpEnvelope/"
+                amp_lfo.extern  = base + "AmpLfo/"
             elsif(id == 1)
                 amp_gen.content = Qml::ZynFreqGeneral
+                amp_env.extern  = base + "FreqEnvelope/"
+                amp_lfo.extern  = base + "FreqLfo/"
             elsif(id == 2)
                 amp_gen.content = Qml::ZynAnalogFilter
+                amp_env.extern  = base + "FilterEnvelope/"
+                amp_lfo.extern  = base + "FilterLfo/"
             end
         }
 

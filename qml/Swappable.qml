@@ -17,6 +17,23 @@ Widget {
         plist
     }
 
+    function rec_clean_cbs(widget)
+    {
+        if(widget.respond_to? :valueRef)
+            v = widget.valueRef
+            if(v.class == Array)
+                v.each do |vv|
+                    vv.clean
+                end
+            else
+                v.clean if v.respond_to? :clean
+            end
+        end
+        widget.children.each do |ch|
+            rec_clean_cbs(ch)
+        end
+    }
+
     function dump_plist()
     {
         plist = swappable.db.instance_eval{@plist}
@@ -34,6 +51,7 @@ Widget {
     {
         #it should only be possible that there is a single child
         if(!self.children.empty?)
+            rec_clean_cbs(children[0])
             del_list = rec_del_props(swappable.children[0])
             @db.remove_properties del_list
 

@@ -1,20 +1,23 @@
 Valuator {
     property Bool centered: false;
+    property Float pad: 0.02
 
     function draw_centered(vg, pad)
     {
         pad2 = (1-2*pad)
-        if(value > 0.5)
-            src = (w/2-w*pad2*(value-0.5))
-            dst = w/2
+        if(value >= 0.5)
+            vv   = [0.01, value-0.5+0.01].max
+            src = (w*0.5-w*pad2*vv)
+            dst = (w*0.51)
             vg.path do |v|
                 v.rect(src, pad*h, (src-dst).abs, pad2*h)
                 v.fill_color Theme::SliderActive
                 v.fill
             end
         else
+            vv   = [0.01, 0.5-value+0.01].max
             vg.path do |v|
-                v.rect(w/2, pad*h, pad2*w*(0.5-value), pad2*h)
+                v.rect(w*0.49, pad*h, pad2*w*vv, pad2*h)
                 v.fill_color Theme::SliderActive
                 v.fill
             end
@@ -24,13 +27,13 @@ Valuator {
 
     function draw(vg)
     {
-        pad  = 0.1
         pad2 = (1-2*pad)
         vg.path do |v|
             v.rect(pad*w, pad*h, pad2*w, pad2*h)
             v.fill_color color("0f0000")
             v.fill
         end
+
         if(centered)
             draw_centered(vg, pad)
         else
@@ -40,5 +43,12 @@ Valuator {
                 v.fill
             end
         end
+
+        vg.font_face("bold")
+        vg.font_size 0.6*h
+        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.fill_color(Draw::fade(Theme::TextColor))
+        vg.text(w/2,h/2,label.upcase)
+
     }
 }

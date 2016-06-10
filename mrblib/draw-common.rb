@@ -269,6 +269,12 @@ module Draw
             selfBox
         end
     end
+
+    def self.fade(c)
+        cc = c.clone
+        cc.a = 0.8
+        cc
+    end
 end
 
 def color(c)
@@ -299,8 +305,11 @@ end
 module Theme
     VisualBackground    = color("232C36")
     GeneralBackground   = color("334454")
-    SliderActive        = color("00FFFF")
+    SliderActive        = color("032E4E")
     HarmonicColor       = color("026392")
+
+    TextColor           = color("B9CADE")
+    
     ScrollInactive      = color("06354B")
     ScrollActive        = color("007C93")
     TitleBar            = color("042E4D")

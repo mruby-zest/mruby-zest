@@ -7,13 +7,18 @@ Widget {
     //mini wave view
     WaveView { grid: false }
     //volume
-    HSlider {}
+    HSlider { label: "20%"}
     //pan
-    HSlider { centered: true}
+    HSlider { label: "centered"; centered: true; value: 0.5}
     //detune
-    HSlider { centered: true}
+    HSlider { label: "+0 cents"; centered: true; value: 0.5}
     //vib depth
-    HSlider {}
+    HSlider { label: "100%" }
+
+    function draw(vg)
+    {
+        background Theme::GeneralBackground
+    }
 
     function layout(l)
     {

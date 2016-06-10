@@ -1,7 +1,7 @@
 Widget {
     id: text
     property signal action: nil;
-    property Color textColor: color("B9CADE")
+    property Color textColor: Theme::TextColor
     property Float height: 0.5
 
     function class_name()

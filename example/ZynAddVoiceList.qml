@@ -2,6 +2,11 @@ Widget {
     id: vce_list
     property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
 
+    function draw(vg)
+    {
+        background color("000000")
+    }
+
     function onSetup(old=nil)
     {
         (0...16).each do |r|
@@ -44,9 +49,13 @@ Widget {
     {
         selfBox = l.genBox :zavlh, self
         n = children.length
+        off  = 0
+        gap  = 0.002
+        step = (1-(n-1)*gap)/n
         children.each_with_index do |ch, id|
             chBox = ch.layout(l)
-            l.fixed(chBox, selfBox, 0, id/n, 1, 1/n)
+            l.fixed(chBox, selfBox, 0, off, 1, step)
+            off += step + gap
         end
         selfBox
     }

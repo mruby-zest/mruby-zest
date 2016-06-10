@@ -1,12 +1,48 @@
 Widget {
-    ColorBox {bg: color("aa44cc")}
     ColorBox {
-        ColorBox {bg: color("123456")}
-        ColorBox {bg: color("654321")}
+        bg: Theme::GeneralBackground
+
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+        Selector {layoutOpts: [:no_constraint]}
+        HSlider  {}
+
+        function layout(l)
+        {
+            selfBox = l.genBox :eff, self
+            Draw::Layout::vpack(l, selfBox,
+            children.map {|x| x.layout l})
+        }
+    }
+    ColorBox {
+        ColorBox {
+            bg: color("123456")
+            ZynReverb {}
+            ZynEcho {}
+            ZynDistortion {}
+            function layout(l)
+            {
+                selfBox = l.genBox :eff, self
+                Draw::Layout::vpack(l, selfBox,
+                    children.map {|x| x.layout l})
+            }
+
+        }
+        ZynSendToGrid {}
         function layout(l)
         {
             selfBox = l.genBox :effvert, self
-            Draw::Layout::vfill(l, selfBox, children.map {|x| x.layout l}, [0.4, 0.6])
+            Draw::Layout::vfill(l, selfBox, children.map {|x| x.layout l}, [0.6, 0.4])
         }
     }
     function layout(l)

@@ -42,6 +42,8 @@ Widget {
             main_widget.content = Qml::ZynPart
         elsif(type == :kits)
             main_widget.content = Qml::ZynKit
+        elsif(type == :effects)
+            main_widget.content = Qml::ZynEffects
         elsif(type == :midi_learn)
             main_widget.content = Qml::ZynMidiLearn
         elsif(type == :mixer)

@@ -28,27 +28,17 @@ Widget {
         function layout(l)
         {
             selfBox = l.genBox :zavlh, self
-            chBox   = []
+            chBox   = children.map {|c| c.layout l}
 
-            off = 0.0
-            children.each_with_index do |ch, ind|
-                weight = vce_list.weights[ind]
-                box    = ch.layout(l)
-                l.fixed(box, selfBox, off, 0.0, weight, 1.0)
-                off += weight
-            end
-            selfBox
+            Draw::Layout::hfill(l, selfBox, chBox, vce_list.weights)
         }
     }
 
     function layout(l)
     {
         selfBox = l.genBox :zavlh, self
-        n = children.length
-        children.each_with_index do |ch, id|
-            chBox = ch.layout(l)
-            l.fixed(chBox, selfBox, 0, id/n, 1, 1/n)
-        end
-        selfBox
+        chldBox = children.map {|c| c.layout l}
+
+        Draw::Layout::vpack(l, selfBox, chldBox)
     }
 }

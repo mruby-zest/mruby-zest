@@ -1,5 +1,10 @@
 ColorBox {
     id: textBox
     pad: 0.003
-    Text { label: textBox.label; layoutOpts: [:no_constraint]}
+    property Float height: 0.5
+    Text {
+        label:      textBox.label
+        height:     textBox.height
+        layoutOpts: [:no_constraint]
+    }
 }

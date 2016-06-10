@@ -3,7 +3,7 @@ Widget {
     {
         (0...16).each do |r|
             col = Qml::ZynMixerCol.new(db)
-            col.label = r.to_s
+            col.label = (1+r).to_s
             Qml::add_child(self, col)
         end
     }

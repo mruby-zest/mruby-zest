@@ -4,6 +4,7 @@ Widget {
     property Bool editable: false;
     property String extern: "";
     property Function whenClick: nil
+    property Float topSize: 0.1
 
     layoutOpts: [:horizontal]
 
@@ -39,12 +40,12 @@ Widget {
         l.contains(selfBox,titleBox)
         l.contains(selfBox,contentBox)
         l.topOf(titleBox,contentBox)
-        l.sheq([contentBox.h, selfBox.h], [1, -0.9], 0)
+        l.sheq([contentBox.h, selfBox.h], [1, -(1-topSize)], 0)
         l.sheq([contentBox.w, selfBox.w], [1, -1], 0)
 
         l.contains(selfBox, titleBox)
         l.sheq([titleBox.x],[1],0)
-        l.sheq([titleBox.h, selfBox.h], [1, -0.1], 0)
+        l.sheq([titleBox.h, selfBox.h], [1, -topSize], 0)
 
 
         selfBox
@@ -58,7 +59,7 @@ Widget {
             v.fill
         end
         #//paint the top half
-        pos = [0, 0, mod.w, 0.1*mod.h]
+        pos = [0, 0, mod.w, topSize*mod.h]
         vg.path do |v|
             border(pos[3]*0.01, pos);
             vg.rect(*pos);
@@ -71,12 +72,12 @@ Widget {
 
         pos2 = [*pos]
         pos2[2] /= 3;
-        pad(0.9, pos2);
+        pad((1-topSize), pos2);
         #drawLeftLabel(vg, str, SPLAT(pos2));
 
 
 
-        innerspace = [0, mod.h*0.1, mod.w, mod.h*0.9];
+        innerspace = [0, mod.h*topSize, mod.w, mod.h*(1-topSize)];
         border(w*0.003, innerspace);
         #//paint the inner panel
         vg.path do |v|

@@ -80,10 +80,10 @@ Widget {
             end
 
             #Define a mapping from tabs to values
-            mapping = {0 => Qml::ZynAddVoice,
-                       1 => Qml::ZynAddGlobal,
-                       2 => Qml::ZynAddVoice,
-                       3 => Qml::ZynOscil,
+            mapping = {0 => Qml::ZynAddGlobal,
+                       1 => Qml::ZynAddVoice,
+                       2 => Qml::ZynOscil,
+                       3 => Qml::ZynOscilMod,
                        4 => Qml::ZynAddVoiceList,
                        5 => Qml::ZynResonance}
 
@@ -93,10 +93,10 @@ Widget {
         Button { label: "<"; layoutOpts: [:no_constraint]}
         Button { label: "4"; layoutOpts: [:no_constraint]}
         Button { label: ">"; layoutOpts: [:no_constraint]}
-        TabButton { whenClick: lambda {header.setTab(0)}; label: "voice"}
-        TabButton { whenClick: lambda {header.setTab(1)}; label: "global parameters"; value: true}
-        TabButton { whenClick: lambda {header.setTab(2)}; label: "voice parameters"}
-        TabButton { whenClick: lambda {header.setTab(3)}; label: "oscillators"}
+        TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
+        TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
+        TabButton { whenClick: lambda {header.setTab(2)}; label: "oscillators"}
+        TabButton { whenClick: lambda {header.setTab(3)}; label: "modulation"}
         TabButton { whenClick: lambda {header.setTab(4)}; label: "voice list"}
         TabButton { whenClick: lambda {header.setTab(5)}; label: "resonance"}
         Button { label: "c"; layoutOpts: [:no_constraint]}

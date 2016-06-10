@@ -48,6 +48,7 @@ Object {
         rt.damage_item self if rt
     }
 
+    //Utility methods
     function background(c)
     {
         $vg.path do |v|
@@ -55,6 +56,10 @@ Object {
             v.fill_color c
             v.fill
         end
+    }
+
+    function chBoxes(l) {
+        children.map {|x| x.layout l}
     }
 
 

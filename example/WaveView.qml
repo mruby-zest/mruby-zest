@@ -29,6 +29,10 @@ Widget {
             Draw::Grid::linear_x(vg,0,10,box, 0.3)
             Draw::Grid::linear_y(vg,0,10,box, 0.4)
         end
+
+        if(extern.nil? || extern.empty?)
+            Draw::WaveForm::sin(vg, box, 128)
+        end
     }
 
     function refresh()

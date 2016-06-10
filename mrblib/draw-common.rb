@@ -272,6 +272,23 @@ module Draw
 end
 
 def color(c)
+    if(c.class == Symbol)
+        if(c == :red)
+            return color("ff0000")
+        elsif(c == :blue)
+            return color("00ff00")
+        elsif(c == :green)
+            return color("0000ff")
+        elsif(c == :coral)
+            return color("FF7F50")
+        elsif(c == :dark_orange)
+            return color("FF8C00")
+        elsif(c == :gold)
+            return color("FFD700")
+        else
+            raise Exception.new("Invalid Color", c)
+        end
+    end
     r = c[0..1].to_i 16
     g = c[2..3].to_i 16
     b = c[4..5].to_i 16

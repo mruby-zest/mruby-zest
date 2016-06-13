@@ -1,6 +1,7 @@
 Widget {
     id: hedit
     property Function whenValue: nil
+    property Symbol   type: :oscil
 
     function cb()
     {
@@ -15,6 +16,7 @@ Widget {
             hm.pad    = 0.03
             hm.num    = ev
             hm.extern = self.extern
+            hm.type   = self.type
             hm.whenValue = lambda {hedit.cb}
             Qml::add_child(self, hm)
         end

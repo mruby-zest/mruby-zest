@@ -91,7 +91,7 @@ module Draw
                     next if(dx < 0 || dx > bb.w)
                     vg.path do |v|
                         v.move_to(bb.x+dx, bb.y);
-                        v.line_to(bb.x+dx, bb.y+bb.w);
+                        v.line_to(bb.x+dx, bb.y+bb.h);
                         v.stroke_color med_fill
                         v.stroke_width 2
                         v.stroke
@@ -120,10 +120,9 @@ module Draw
                 end
             end
         end
-        def self.linear_y(vg, min, max, bb, thick=1.0)
+        def self.linear_y(vg, min, max, bb, thick=1.0, c=40)
             med_fill     = color("114575")
             light_fill   = color("114575")
-            c = 40
             (0..c).each do |ln|
                 vg.path do |v|
                     off = (ln/c)*(bb.h)
@@ -214,7 +213,7 @@ module Draw
         end
 
         def self.ary_max(x)
-            max = -1
+            max = -1e20
             x.each do |xx|
                 max = xx if xx>max
             end
@@ -357,4 +356,47 @@ def draw_grid(vg, r, c, x, w, h)
             v.stroke
         end
     end
+end
+
+def sub_synth_response(xpts, pars)
+    ypts  = []
+    xnorm = []
+    fs   = 48000.0
+    xpts.each do |x|
+        ypts << 0
+        xnorm << x / fs*2
+    end
+
+    stages = pars[0]
+
+    filters = (pars.length-1)/3
+    log2 = Math.log(2)
+
+    (0...filters).each do |f|
+        freq = pars[f*3+1]
+        bw   = pars[f*3+2]
+        gain = pars[f*3+3]
+
+        omega = 2 * 3.14159 * freq / fs
+        sn    = Math.sin omega
+        cs    = Math.cos omega
+        alpha = sn * Math.sinh(log2 / 2 * bw * omega / sn);
+
+        alpha = 1  if alpha > 1
+        alpha = bw if alpha > bw
+
+        b = [0.0, 0.0, 0.0]
+        a = [0.0, 0.0, 0.0]
+        b[0] =  alpha / (1 + alpha) * gain / stages;
+        b[2] = -alpha / (1 + alpha) * gain / stages;
+        a[1] = 2 * cs / (1 + alpha);
+        a[2] = -(1 - alpha) / (1 + alpha);
+
+        oo = Draw::opt_magnitude(b, a, xnorm, stages)
+        xpts.each_with_index do |x, i|
+            ypts[i] += oo[i]
+        end
+    end
+
+    ypts
 end

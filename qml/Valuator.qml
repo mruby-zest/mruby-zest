@@ -28,11 +28,8 @@ Widget {
 
     //Callback function which does not propagate info to remote API
     function setValue(v) {
-        #puts "setValue..."
-        if(valuator.root)
-            valuator.value = v
-            valuator.root.damage_item(valuator)
-        end
+        self.value = v
+        damage_self
     }
 
     function create_radial()

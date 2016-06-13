@@ -1,13 +1,46 @@
 Widget {
-    ColorBox {bg: color("ff00ff") }
-    ColorBox {
-        bg: color("00ff00")
+    id: subsynth
 
-        ColorBox { bg: color("22cc88") }
+    function refresh()
+    {
+        sub_harmonics.refresh
+    }
+
+    VisSubHarmonics {
+        id:     sub_harmonics
+        extern: "/part0/kit0/subpars/response"
+    }
+    ColorBox {
+        bg: Theme::GeneralBackground
+
+        ColorBox {
+            bg: Theme::GeneralBackground
+            ParModuleRow {
+                Selector {
+                    //layoutOpts: [:no_constraint]
+                    extern: "/part0/kit0/subpars/POvertoneSpread.type"
+                    whenValue: lambda {subsynth.refresh}
+                }
+                Knob {
+                    extern: "/part0/kit0/subpars/POvertoneSpread.par1"
+                    whenValue: lambda {subsynth.refresh}
+                }
+                Knob {
+                    extern: "/part0/kit0/subpars/POvertoneSpread.par2"
+                    whenValue: lambda {subsynth.refresh}
+                }
+                Knob {
+                    extern: "/part0/kit0/subpars/POvertoneSpread.par3"
+                    whenValue: lambda {subsynth.refresh}
+                }
+            }
+        }
         HarmonicEdit {
             extern: "/part0/kit0/subpars/"
+            type:   :subsynth
+            whenValue: lambda { subsynth.refresh }
         }
-        
+
         function layout(l)
         {
             selfBox = l.genBox :subsynthharm, self
@@ -29,7 +62,7 @@ Widget {
             Draw::Layout::hpack(l, selfBox, cols)
         }
     }
-    
+
     function layout(l)
     {
         selfBox = l.genBox :subsynth, self

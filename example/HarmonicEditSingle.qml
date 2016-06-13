@@ -1,6 +1,7 @@
 ColorBox {
     property Function whenValue: nil
-    property Int num: 0
+    property Int      num: 0
+    property Symbol   type: nil
     id: hes
     bg: Theme::GeneralBackground
     pad: 0.0
@@ -13,7 +14,13 @@ ColorBox {
     Slider {
         id: a
         value: 0.5
-        extern: hes.extern + "magnitude" + hes.num.to_s
+        extern: {
+            if(hes.type == :oscil)
+                hes.extern + "magnitude" + hes.num.to_s
+            else
+                hes.extern + "Phmag" + hes.num.to_s
+            end
+        }
         whenValue: lambda {hes.cb}
         //pad: 0.2
         //bg: color("827744")
@@ -28,7 +35,13 @@ ColorBox {
     Slider {
         id: c
         value: 0.5
-        extern: hes.extern + "phase" + hes.num.to_s
+        extern: {
+            if(hes.type == :oscil)
+                hes.extern + "phase" + hes.num.to_s
+            else
+                hes.extern + "Phrelbw" + hes.num.to_s
+            end
+        }
         whenValue: lambda {hes.cb}
     }
 

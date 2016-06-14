@@ -6,6 +6,7 @@ Widget {
     property String renderer: nil;
     property Float  textScale: 0.75;
     property Function whenValue: nil;
+    property Float pad: 1/64
     
     function onMousePress(ev) {
         puts "Button Press"
@@ -49,7 +50,6 @@ Widget {
         outline_color = color("707070")
         text_color1   = color("52FAFE")
         text_color2   = color("B9CADE")
-        pad = 1/64
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)

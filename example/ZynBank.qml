@@ -60,6 +60,7 @@ Widget {
             }
             Group {
                 label: "comments"
+                TextEdit {}
             }
 
             function layout(l)

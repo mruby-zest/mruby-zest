@@ -31,7 +31,7 @@ Widget {
        xpts = Draw::DSP::logspace(1, 20000, 256)
        ypts = []
        xpts.each do |pt|
-           ypts << Math.log10(Draw::DSP::magnitude(b, a, pt/48000, x[0]+1))
+           ypts << Math.log10(Draw::DSP::magnitude(b, a, pt/48000, x[0]+1))/4
        end
        #puts ypts
        #vis_filter.xpoints = xpts
@@ -75,5 +75,6 @@ Widget {
     DataView {
         id: data_view
         normal: false
+        pad: 0
     }
 }

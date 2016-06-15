@@ -2,7 +2,6 @@ Widget {
     id: mod
     property Bool copyable: false;
     property Bool editable: false;
-    property String extern: "";
     property Function whenClick: nil
     property Float topSize: 0.1
 
@@ -121,27 +120,8 @@ Widget {
             height: 0.8
         }
 
-        Button {
-            //square
-            function layout(l)
-            {
-                selfBox = l.genBox :copyButton, button_c
-                l.aspect(selfBox, 1, 1)
-                selfBox
-            }
-            id: button_c
-            label: "C"
-        }
-        Button {
-            function layout(l)
-            {
-                selfBox = l.genBox :copyButton, button_p
-                l.aspect(selfBox, 1, 1)
-                selfBox
-            }
-            id: button_p
-            label: "P"
-        }
+        CopyButton  { extern: mod.extern; id: button_c }
+        PasteButton { extern: mod.extern; id: button_p }
     }
     Widget {
         id: content

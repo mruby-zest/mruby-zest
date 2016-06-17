@@ -250,11 +250,11 @@ module Draw
             selfBox
         end
 
-        def self.hfill(l, selfBox, b, w)
-            off = 0
+        def self.hfill(l, selfBox, b, w, pad=0)
+            off = pad/2
             b.each_with_index do |bb,i|
                 l.fixed(bb, selfBox, off, 0, w[i], 1)
-                off += w[i]
+                off += w[i] + pad
             end
             selfBox
         end

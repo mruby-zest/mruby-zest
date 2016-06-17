@@ -84,75 +84,62 @@ Widget {
         Knob     { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par3"}
     }
 
-    ParModuleRow {
+    ColorBox {
         id: more_pars
-        function draw(vg) { background color("334454") }
-        Button { layoutOpts: [:no_constraint]; label: "use as base" }
-        Button { label: "sine" }
+        bg: Theme::GeneralBackground
+        Button { layoutOpts: [:no_constraint]; label: "as base" }
+        Button { layoutOpts: [:no_constraint]; label: "sine" }
         Button { layoutOpts: [:no_constraint]; label: "clear" }
+        function layout(l) {
+            selfBox = l.genBox :morepars, self
+            ch = children.map {|x| x.layout l}
+            Draw::Layout::hfill(l, selfBox, ch, [0.4, 0.2, 0.25], 0.05)
+        }
     }
 
     ColorBox {
         id: middle_panel
         bg: color("222222")
 
-        ColorBox {
+        VGroup {
             id: shape
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Selector {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshapingfunction"}
             Knob     {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshaping"}
         }
 
-        ColorBox {
+        VGroup {
             id: filter
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfiltertype";}
             Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar1";}
             Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar2";}
             Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
         }
 
-        ColorBox {
+        VGroup {
             id: shift
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Knob   {extern: base_osc.extern + "Pharmonicshift"}
             Button {label: "R"}
             Button {extern: base_osc.extern + "Pharmonicshiftfirst"; label: "pre/post"}
         }
 
-        ColorBox {
+        VGroup {
             id: adapt
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Selector {extern: base_osc.extern + "Padaptiveharmonics"}
             Knob     {extern: base_osc.extern + "Padaptiveharmonicspower"}
             Knob     {extern: base_osc.extern + "Padaptiveharmonicsbasefreq"}
             Knob     {extern: base_osc.extern + "Padaptiveharmonicspar"}
         }
 
-        ColorBox {
+        VGroup {
             id: modulate
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulation"}
             Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar1"}
             Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar2"}
             Knob     { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar3"}
         }
 
-        ColorBox {
+        VGroup {
             id: spec_adjust
-            bg: Theme::GeneralBackground
-            pad: 0.01
-            layoutOpts: [:think_of_the_children]
             Selector {}
             Knob {}
         }

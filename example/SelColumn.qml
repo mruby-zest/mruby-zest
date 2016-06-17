@@ -14,7 +14,6 @@ Widget {
 
     ScrollBar {
         id: scroll
-        orientation: :vertical
         whenValue: lambda { col.tryScroll }
     }
 

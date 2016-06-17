@@ -1,4 +1,6 @@
 Widget {
+    id: base
+    extern: "/part0/kit0/adpars/VoicePar0/"
     ColorBox {
         ColorBox {
             bg: Theme::GeneralBackground
@@ -13,18 +15,26 @@ Widget {
         Group {
             label: "mod amp"
             topSize: 0.2
+            ParModuleRow {
+                Knob { extern: base.extern + "PFMVolume" }
+                Knob { extern: base.extern + "PFMVelocityScaleFunction" }
+                Knob { extern: base.extern + "PFMVolumeDamp" }
+            }
         }
-        Group {
+        ZynModAmpEnv {
             label: "amp env"
             topSize: 0.2
+            extern: base.extern + "FMAmpEnvelope/"
         }
-        Group {
+        ZynModFreqGeneral {
             label: "mod freq"
             topSize: 0.2
+            extern: base.extern
         }
-        Group {
+        ZynModAmpEnv {
             label: "freq env"
             topSize: 0.2
+            extern: base.extern + "FMFreqEnvelope/"
         }
         function layout(l)
         {

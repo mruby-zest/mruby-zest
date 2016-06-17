@@ -16,7 +16,7 @@ Widget {
         bg: Theme::GeneralBackground
         Slider {pad: 0.01}
         Slider {pad: 0.01}
-        ScrollBar {orientation :vertical }
+        ScrollBar {}
         function layout(l)
         {
             selfBox = l.genBox :mixbox, self

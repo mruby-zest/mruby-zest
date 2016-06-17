@@ -5,6 +5,8 @@ Widget {
 
     property Float value: 1.0;
 
+    property Float dragScale: 200.0;
+
     property Function whenValue: nil;
 
     onExtern: {
@@ -111,7 +113,7 @@ Widget {
         #puts "I got a mouse move (value)"
         if(valuator.prev)
             dy = ev.pos.y - valuator.prev.y
-            updatePos(dy/200.0)
+            updatePos(dy/dragScale)
             valuator.prev = ev.pos
         end
     }

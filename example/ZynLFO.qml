@@ -1,7 +1,6 @@
 Group {
     id: box
     label: "LFO"
-    property String extern: "/part0/kit0/adpars/GlobalPar/FreqLfo/"
 
     ParModuleRow {
         id: top

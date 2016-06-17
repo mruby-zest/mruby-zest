@@ -55,6 +55,7 @@ Widget {
                     row1.children[0].refresh
                 }
             end
+            db.update_values
         }
     }
 
@@ -92,10 +93,12 @@ Widget {
             }
         }
         ZynAmpEnv {
+            extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
             whenClick: lambda {row1.setDataVis(:env)}
             id: amp_env
         }
         ZynLFO {
+            extern: "/part0/kit0/adpars/GlobalPar/FreqLfo/"
             whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
         }
@@ -156,6 +159,7 @@ Widget {
                 amp_env.extern  = base + "FilterEnvelope/"
                 amp_lfo.extern  = base + "FilterLfo/"
             end
+            db.update_values
         }
 
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}

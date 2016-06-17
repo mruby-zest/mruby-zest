@@ -7,13 +7,14 @@ Widget {
     property Float  textScale: 0.75;
     property Function whenValue: nil;
     property Float pad: 1/64
-    
+
     function onMousePress(ev) {
         puts "Button Press"
         button.value = !button.value
         damage_self
+        whenValue.call if whenValue
     }
-    
+
     function onMerge(val)
     {
         button.value = val.value if(val.respond_to? :value)

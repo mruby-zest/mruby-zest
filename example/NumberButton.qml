@@ -1,16 +1,14 @@
 Widget {
     id: num
-    property Function whenClick: nil
+    property Function whenValue: nil
     property Bool     value:     false
     property Int      number:       0
     function class_name() { "NumButton" }
 
     function onMousePress(ev) {
         self.value = !self.value
-        if(root)
-            root.damage_item self
-        end
-        self.whenClick.call if self.whenClick
+        damage_self
+        whenValue.call if whenValue
     }
 
     function layout(l)

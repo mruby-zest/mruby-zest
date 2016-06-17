@@ -1,8 +1,6 @@
 Group {
-    //TODO TODO
     id: box
     label: "Envelope"
-    property String extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
     property Function whenModified: nil
 
     function cb()

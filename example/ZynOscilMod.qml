@@ -48,8 +48,15 @@ Widget {
     ColorBox {
         Group {
             label: "vce osc"
-            Selector { layoutOpts: [:no_constraint]}
-            Knob {}
+            ParModuleRow {
+                Selector {
+                    layoutOpts: [:no_constraint]
+                    extern: base.extern + "Pextoscil"
+                }
+            }
+            ParModuleRow {
+                Knob {extern: base.extern + "Poscilphase"}
+            }
             ParModuleRow {
                 Button { label: "sound"}
                 Button { label: "noise"}
@@ -59,23 +66,44 @@ Widget {
         Group {
             label: "unison"
             ParModuleRow {
-                Selector {}
-                Knob {}
+                Selector {
+                    extern: base.extern + "Unison_size"
+                }
+                Knob {
+                    extern: base.extern + "Unison_stereo_spread"
+                }
             }
             ParModuleRow {
-                Knob {}
-                Knob {}
+                Knob {
+                    extern: base.extern + "Unison_frequency_spread"
+                }
+                Knob {
+                    extern: base.extern + "Unison_vibratto"
+                }
             }
             ParModuleRow {
-                Selector {}
-                Knob {}
+                Selector {
+                    extern: base.extern + "Unison_invert_phase"
+                }
+                Knob {
+                    extern: base.extern + "Unison_vibratto_speed"
+                }
             }
         }
         WaveView { }
         Group {
             label: "mod osc"
-            Selector {layoutOpts: [:no_constraint]}
-            Knob {}
+            ParModuleRow {
+                Selector {
+                    extern: base.extern + "PextFMoscil"
+                    layoutOpts: [:no_constraint]
+                }
+            }
+            ParModuleRow{
+                Knob {
+                    extern: base.extern+"PFMoscilphase"
+                }
+            }
         }
         function layout(l)
         {

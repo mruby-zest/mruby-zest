@@ -2,6 +2,7 @@ Group {
     id: box
     label: "Envelope"
     property Function whenModified: nil
+    extern: ""
 
     function cb()
     {

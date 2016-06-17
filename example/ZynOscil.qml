@@ -48,6 +48,7 @@ Widget {
 
     ScrollBar {
         id: scroll
+        vertical: false
     }
 
     Button {

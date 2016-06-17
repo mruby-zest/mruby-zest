@@ -1,6 +1,7 @@
 Group {
     id: box
     label: "LFO"
+    extern: ""
 
     ParModuleRow {
         id: top

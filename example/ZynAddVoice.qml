@@ -1,4 +1,6 @@
 Widget {
+    id: addbase
+    extern: "/part0/kit0/adpars/VoicePar0/"
 
     function draw(vg) { background color("424B56") }
 
@@ -84,10 +86,12 @@ Widget {
             }
         }
         ZynAmpEnv {
+            extern: addbase.extern + "AmpEnvelope/"
             whenClick: lambda {row1.setDataVis(:env)}
             id: amp_env
         }
         ZynLFO {
+            extern: addbase.extern + "AmpLfo/"
             whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
         }

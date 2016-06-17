@@ -125,7 +125,7 @@ Widget {
 
     function selected_val()
     {
-        integer = 1
+        integer = 1+oldOff
         children.each do |child|
             if(child.value == true)
                 return rows[integer] if integer < rows.length

@@ -20,7 +20,7 @@ Widget {
         //2
         TextBox  {bg: Theme::TitleBar; label: "ctrl"}
         //3
-        TextBox  {bg: Theme::TitleBar; label: "aquired controls"}
+        TextBox  {bg: Theme::TitleBar; label: "acquired controls"}
         //4
         TextBox  {bg: Theme::TitleBar; label: "min"}
         //5

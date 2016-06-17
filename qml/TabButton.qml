@@ -2,7 +2,12 @@ Widget {
     id: button
     property Function whenClick:     nil
     property Symbol   highlight_pos: :bottom
-    property Bool      value:    false;
+    property Bool     value:    false;
+
+    function onMerge(val)
+    {
+        button.value = val.value if(val.respond_to?(:value))
+    }
 
     function onMousePress(ev) {
         puts "Button Press"

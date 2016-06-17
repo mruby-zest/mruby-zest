@@ -36,5 +36,5 @@ Widget {
     //4
     Button {id: stop;   renderer: "icon-stop"}
     //5
-    Button {id: aquire; label: "aquire"; layoutOpts: [:no_constraint]}
+    Button {id: acquire; label: "acquire"; layoutOpts: [:no_constraint]}
 }

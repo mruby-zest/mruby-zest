@@ -6,6 +6,7 @@ Widget {
     property Float value: 1.0;
 
     property Float dragScale: 200.0;
+    property Bool  vertical: true
 
     property Function whenValue: nil;
 
@@ -111,10 +112,14 @@ Widget {
 
     function onMouseMove(ev) {
         #puts "I got a mouse move (value)"
-        if(valuator.prev)
-            dy = ev.pos.y - valuator.prev.y
-            updatePos(dy/dragScale)
-            valuator.prev = ev.pos
+        if(prev)
+            delta = if(vertical)
+                ev.pos.y - self.prev.y
+            else
+                ev.pos.x - self.prev.x
+            end
+            updatePos(delta/dragScale)
+            self.prev = ev.pos
         end
     }
 

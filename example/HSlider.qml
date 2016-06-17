@@ -1,6 +1,7 @@
 Valuator {
     property Bool centered: false;
     property Float pad: 0.02
+    vertical: false
 
     function draw_centered(vg, pad)
     {
@@ -27,6 +28,7 @@ Valuator {
 
     function draw(vg)
     {
+        self.dragScale = w
         pad2 = (1-2*pad)
         vg.path do |v|
             v.rect(pad*w, pad*h, pad2*w, pad2*h)
@@ -38,7 +40,7 @@ Valuator {
             draw_centered(vg, pad)
         else
             vg.path do |v|
-                v.rect(pad*w, pad*h, value*w*pad2, pad2*h)
+                v.rect(pad*w, pad*h, (1-value)*w*pad2, pad2*h)
                 v.fill_color Theme::SliderActive
                 v.fill
             end

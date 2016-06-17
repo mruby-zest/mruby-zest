@@ -5,6 +5,7 @@ Widget {
     property Bool skip:   false
     property Bool rows:   nil
     property Function whenValue: nil
+    property Int  oldOff: nil
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
@@ -12,7 +13,9 @@ Widget {
     }
 
     ScrollBar {
+        id: scroll
         orientation: :vertical
+        whenValue: lambda { col.tryScroll }
     }
 
     function onSetup(old=nil)
@@ -43,6 +46,25 @@ Widget {
 
     }
 
+    function tryScroll()
+    {
+        #24 items are visible at a time
+        #center is at item 12     at value 0
+        #center is at item len-12 at value 1
+        stride = 1
+        stride = 2 if skip
+        return if rows.nil?
+        n = rows.length/stride
+        return if n<24
+        center = (n-24)*scroll.value+12
+        off    = (center-12).to_i
+        if(off != self.oldOff)
+            puts "new offset #{off}"
+            self.oldOff = off
+            setValue(rows, off)
+        end
+    }
+
     function cb(ch)
     {
         children[1,99].each do |child|
@@ -54,14 +76,14 @@ Widget {
         damage_self
     }
 
-    function setValue(x)
+    function setValue(x,offset=0)
     {
         self.rows = x
         stride = 1
         stride = 2 if skip
         n = [x.length/stride, children.length].min
         (1...n).each do |i|
-            children[i].label = x[(i-1)*stride]
+            children[i].label = x[(i-1+offset)*stride]
         end
         (n...children.length).each do |i|
             children[i].label = ""

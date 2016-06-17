@@ -137,6 +137,7 @@ Widget {
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         else
             valuator.value = nvalue
+            whenValue.call if whenValue
         end
         root.damage_item(valuator)
     }

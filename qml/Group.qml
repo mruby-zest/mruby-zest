@@ -120,8 +120,14 @@ Widget {
             height: 0.8
         }
 
-        CopyButton  { extern: mod.extern; id: button_c }
-        PasteButton { extern: mod.extern; id: button_p }
+        CopyButton {
+            extern: mod.extern;
+            id: button_c
+        }
+        PasteButton {
+            extern: mod.extern;
+            id: button_p
+        }
     }
     Widget {
         id: content

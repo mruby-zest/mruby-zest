@@ -9,9 +9,10 @@ Widget {
 
     function onSetup(old=nil)
     {
-        (0...16).each do |r|
-            row = Qml::ZynAddVoiceListItem.new(db)
-            row.label = r.to_s
+        (0...8).each do |r|
+            row        = Qml::ZynAddVoiceListItem.new(db)
+            row.extern = "/part0/kit0/adpars/VoicePar#{r}/"
+            row.num    = r
             Qml::add_child(self, row)
         end
     }

@@ -1,19 +1,43 @@
 Widget {
     id: voice_item
+    property Int   num:     0
     property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
 
     //voice ID
-    Button { label: voice_item.label; layoutOpts: [:no_constraint]}
+    Button {
+        label: voice_item.num.to_s;
+        layoutOpts: [:no_constraint]
+    }
     //mini wave view
-    WaveView { grid: false }
+    WaveView {
+        extern: voice_item.extern + "OscilSmp/waveform"
+        grid: false
+    }
     //volume
-    HSlider { label: "20%"}
+    HSlider {
+        extern: voice_item.extern + "PVolume"
+        label: "20%"
+    }
     //pan
-    HSlider { label: "centered"; centered: true; value: 0.5}
+    HSlider {
+        extern: voice_item.extern + "PPanning"
+        label: "centered";
+        centered: true;
+        value: 0.5
+    }
     //detune
-    HSlider { label: "+0 cents"; centered: true; value: 0.5}
+    HSlider {
+        extern: voice_item.extern + "PDetune"
+        label: "+0 cents";
+        centered: true;
+        value: 0.5
+    }
+
     //vib depth
-    HSlider { label: "100%" }
+    HSlider {
+        extern: voice_item.extern + "FreqLfo/Pintensity"
+        label: "100%"
+    }
 
     function draw(vg)
     {

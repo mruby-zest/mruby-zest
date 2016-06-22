@@ -10,12 +10,12 @@ Widget {
             v.fill
         end
     }
-    
+
     function layout(l)
     {
         selfBox = l.genBox :colorBox, self
         prev = nil
-        N = self.children.length
+        n = self.children.length
         self.children.each do |child|
             box = child.layout l
 
@@ -31,7 +31,7 @@ Widget {
             l.topOf(prev, box) if prev
 
             #Equal Spacing
-            #l.sh([box.h, selfBox.h], [1.0, -1/N], 0)
+            #l.sh([box.h, selfBox.h], [1.0, -1/n], 0)
 
             prev = box
         end

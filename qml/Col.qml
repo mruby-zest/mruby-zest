@@ -5,7 +5,7 @@ Widget {
     {
         selfBox = l.genBox :col, col
         prev = nil
-        N = col.children.length
+        n = col.children.length
         col.children.each do |child|
             box = child.layout l
 
@@ -20,7 +20,7 @@ Widget {
             l.topOf(prev, box) if prev
 
             #Equal Spacing
-            l.sheq([box.h, selfBox.h], [1.0, -1/N], 0)
+            l.sheq([box.h, selfBox.h], [1.0, -1/n], 0)
 
             prev = box
         end

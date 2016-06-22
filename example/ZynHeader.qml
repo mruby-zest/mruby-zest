@@ -24,8 +24,6 @@ Widget {
     Indent {
         id: menuIndent
         MainMenu {
-            //label: "midi learn"
-            //layoutOpts: [:no_constraint]
         }
     }
 
@@ -39,34 +37,6 @@ Widget {
 
     Indent {
         id: shortcuts
-        //Text {
-        //    x: 0
-        //    y: 0
-        //    w: shortcuts.w/4
-        //    h: shortcuts.h/2
-        //    label: "fine detune"
-        //}
-        //Text {
-        //    x: shortcuts.w/4
-        //    y: 0
-        //    w: shortcuts.w/4
-        //    h: shortcuts.h/2
-        //    label: "master volume"
-        //}
-        //Text {
-        //    x: shortcuts.w/2
-        //    y: 0
-        //    w: shortcuts.w/4
-        //    h: shortcuts.h/2
-        //    label: "volume meters"
-        //}
-        //Text {
-        //    x: shortcuts.w*3/4
-        //    y: 0
-        //    w: shortcuts.w/4
-        //    h: shortcuts.h/2
-        //    label: "panic"
-        //}
     }
 
     PanicButton {

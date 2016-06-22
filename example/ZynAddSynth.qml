@@ -68,9 +68,9 @@ Widget {
 
         function setTab(id)
         {
-            N = children.length
+            n = children.length
             tab_id = 0
-            (0..N).each do |ch_id|
+            (0..n).each do |ch_id|
                 child = children[ch_id]
                 if(child.class == Qml::TabButton)
                     child.value = (tab_id == id)

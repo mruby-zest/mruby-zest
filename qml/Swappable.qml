@@ -68,27 +68,38 @@ Widget {
         end
     }
 
+    function onSetup(old=nil)
+    {
+        create_new_child
+    }
+
+
     function create_new_child()
     {
         return if self.content.nil?
+        return if !self.children.empty?
 
+        t1=Time.new
         widget = swappable.content.new(swappable.db)
+        t2=Time.new
         widget.x = 0
         widget.y = 0
         widget.w = self.w
         widget.h = self.h
         Qml::add_child(self, widget)
+        t3=Time.new
         self.db.update_values
+        t4=Time.new
         setup_widget widget
-        self.db.update_values
+        #self.db.update_values
+        t5=Time.new
 
         if(root)
             root.smash_layout
             root.damage_item widget
-        else
-            puts "MISSING ROOT"
         end
         self.whenSwapped.call if self.whenSwapped
+        [t2-t1, t4-t3, t5-t4]
     }
 
     function onMerge(val)
@@ -97,13 +108,17 @@ Widget {
     }
 
     onContent: {
+        return if(!swappable.children.empty? && swappable.children[0].class == swappable.content)
         srt = Time.new
         swappable.remove_old_child
-        mid = Time.new
-        swappable.create_new_child
+        #mid = Time.new
+        d2 = swappable.create_new_child
         dne = Time.new
-        puts("[INFO] Content chagned to #{swappable.content}")
-        puts("[INFO] Content swap took #{dne-srt} (#{100*(mid-srt)/(dne-srt)}% remove) (#{100*(dne-mid)/(dne-srt)}% add)")
+        tot = dne-srt
+        #scl = 100/tot
+        puts("[INFO] Content chagned to #{swappable.content} in #{1000*tot}ms")
+        #puts("[INFO] Content swap took #{1000*tot}ms (#{(scl*(mid-srt)).to_i}% remove) (#{(scl*(dne-mid)).to_i}% add)")
+        #puts("[INFO]                                 (#{(scl*d2[0]).to_i}% init) (#{(scl*d2[1]).to_i}% update) (#{(scl*d2[2]).to_i}% setup)")
     }
 
     function layout(l)

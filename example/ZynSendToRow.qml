@@ -4,7 +4,6 @@ Widget {
     property Int cols:   6
     TextBox {
         id: name
-        label: (row.row_id+1).to_s + " reverb"
         bg: Theme::GeneralBackground
     }
 
@@ -15,6 +14,7 @@ Widget {
 
     function onSetup(old=nil)
     {
+        name.label = (row.row_id+1).to_s + " reverb"
         (cols-row_id).times do |x|
             ch = Qml::HSlider.new(db)
             Qml::add_child(self, ch)

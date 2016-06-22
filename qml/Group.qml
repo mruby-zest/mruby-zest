@@ -8,12 +8,12 @@ Widget {
     layoutOpts: [:horizontal]
 
     function class_name() { "Group" }
-    
+
     function onMousePress(ev) {
         whenClick.call if whenClick
     }
 
-    onChildren: {
+    function onSetup(old=nil) {
         mch = mod.children
         cch = content.children
         if(mch.length > 2)
@@ -138,12 +138,12 @@ Widget {
             selfBox = l.genBox :contentBox, self
             begin
                 prev = nil
-                N = self.children.length
+                n = self.children.length
                 self.children.each do |ch|
                     ch_box = ch.layout(l)
-                    #child.h = 1/N * parent.h
+                    #child.h = 1/n * parent.h
                     l.contains(selfBox, ch_box)
-                    l.sheq([ch_box.h, selfBox.h], [1, -1.0/N], 0)
+                    l.sheq([ch_box.h, selfBox.h], [1, -1.0/n], 0)
                     l.topOf(prev, ch_box) if prev
                     prev   = ch_box
                 end

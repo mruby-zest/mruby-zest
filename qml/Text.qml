@@ -1,6 +1,5 @@
 Widget {
     id: text
-    property signal action: nil;
     property Color textColor: Theme::TextColor
     property Float height: 0.5
 
@@ -11,33 +10,22 @@ Widget {
 
     function draw(vg)
     {
-        w=text.w
-        h=text.h
-        #vg.path do |v|
-        #    v.rect(w/32, h/4, w*30/32, h/2)
-        #    v.fill_color color("802080")
-        #    v.fill
-        #end
-
         scale = 100
         $vg.font_size scale
         bb = $vg.text_bounds(0, 0, label.upcase)
 
-        #puts bb/100
-        #puts "#{w.to_i}/#{h.to_i} = #{w/h}"
-        #puts "  #{bb*h/100}"
 
         vg.font_face("bold")
-        if(w/(text.height*h) < bb)
-            vg.font_size text.height*h
+        if(w/(self.height*h) < bb)
+            vg.font_size self.height*h
         else
-            vg.font_size text.height*h
+            vg.font_size self.height*h
         end
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-        vg.fill_color(textColor)
+        vg.fill_color(self.textColor)
         vg.text(w/2,h/2,label.upcase)
     }
-    
+
     function layout(l)
     {
         t = widget.class_name.to_sym

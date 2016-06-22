@@ -30,8 +30,6 @@ Widget {
 
     function set_content(type, offset=0)
     {
-        puts "top window set content"
-        puts type
         if(type == :add_synth)
             main_widget.content = Qml::ZynAddSynth
         elsif(type == :pad_synth)

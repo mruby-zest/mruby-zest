@@ -1,7 +1,7 @@
 Widget {
     id: row
 
-    onChildren: {
+    function onSetup(old=nil) {
         mch = row.children
         cch = content.children
         if(mch.length > 2)
@@ -11,9 +11,7 @@ Widget {
             row.children     = mch
         else
         end
-    }
 
-    function onSetup(old=nil) {
         n = content.children.length
         labels.children = []
         (0...n).each do |i|

@@ -12,7 +12,7 @@ Object {
 
     property Array layoutOpts: []
 
-    property String extern: nil
+    property String extern: ""
 
     property Int layer: 0;
 

@@ -28,7 +28,7 @@ Widget {
     {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, button
-        if(!button.layoutOpts.include?(:no_constraint))
+        if(!self.layoutOpts.include?(:no_constraint))
             scale = 100
             $vg.font_size scale
             bb = $vg.text_bounds(0, 0, label.upcase)

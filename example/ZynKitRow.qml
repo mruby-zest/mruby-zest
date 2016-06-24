@@ -8,15 +8,15 @@ Widget {
     //TODO replace with a button trio
     Button  { layoutOpts: [:no_constraint]; }
     HSlider {}
-    Button { layoutOpts: [:no_constraint]; label: "edit" }
-    Button { layoutOpts: [:no_constraint]; label: "edit" }
-    Button { layoutOpts: [:no_constraint]; label: "edit" }
+    FancyButton { layoutOpts: [:no_constraint]; label: "edit" }
+    FancyButton { layoutOpts: [:no_constraint]; label: "edit" }
+    FancyButton { layoutOpts: [:no_constraint]; label: "edit" }
     Selector { layoutOpts: [:no_constraint]; label: "off" }
 
     function layout(l)
     {
         selfBox = l.genBox :kitrow, self
         chBox   = children.map {|x| x.layout l}
-        Draw::Layout::hfill(l, selfBox, chBox, kit_item.weights)
+        Draw::Layout::hfill(l, selfBox, chBox, kit_item.weights, 0, 3)
     }
 }

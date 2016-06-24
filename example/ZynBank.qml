@@ -100,10 +100,6 @@ Widget {
                 selfBox
             }
         }
-        function draw(vg)
-        {
-            background color("123456")
-        }
 
         function layout(l)
         {

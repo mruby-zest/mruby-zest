@@ -3,8 +3,7 @@ ColorBox {
     property Int      num: 0
     property Symbol   slidetype: nil
     id: hes
-    bg: Theme::GeneralBackground
-    pad: 0.0
+    bg: nil
 
     function cb()
     {
@@ -13,6 +12,7 @@ ColorBox {
 
     Slider {
         value: 0.5
+        pad: 0
         extern: {
             if(hes.slidetype == :oscil)
                 hes.extern + "magnitude" + hes.num.to_s
@@ -21,17 +21,16 @@ ColorBox {
             end
         }
         whenValue: lambda {hes.cb}
-        //pad: 0.2
-        //bg: color("827744")
     }
     Text {
         layoutOpts: [:ignoreAspect]
-        height: 1.2
+        height: 1.0
         label: hes.num.to_s
     }
 
     Slider {
         value: 0.5
+        pad: 0
         extern: {
             if(hes.slidetype == :oscil)
                 hes.extern + "phase" + hes.num.to_s
@@ -45,12 +44,10 @@ ColorBox {
     function layout(l)
     {
         selfBox = l.genBox :harmonicEdit, self
-        aaaaBox = children[0].layout(l)
-        bbbbBox = children[1].layout(l)
-        ccccBox = children[2].layout(l)
-        l.fixed(aaaaBox, selfBox, 0.0, 0.00, 1.0, 0.45)
-        l.fixed(bbbbBox, selfBox, 0.0, 0.45, 1.0, 0.10)
-        l.fixed(ccccBox, selfBox, 0.0, 0.55, 1.0, 0.45)
+        chBox   = children.map {|x| x.layout l}
+        l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.47)
+        l.fixed(chBox[1], selfBox, 0.0, 0.48, 1.0, 0.08)
+        l.fixed(chBox[2], selfBox, 0.0, 0.57, 1.0, 0.43)
         selfBox
     }
 }

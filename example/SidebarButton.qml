@@ -5,9 +5,7 @@ Widget {
 
     function onMousePress(ev) {
         self.value = !self.value
-        if(root)
-            root.damage_item self
-        end
+        damage_self
         self.whenClick.call if whenClick
     }
 
@@ -21,9 +19,8 @@ Widget {
         grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
         vg.stroke_color(NVG.rgba(0,0,0,0x80))
 
-        off_color     = color("505E6C")
-        grey1 = NVG.rgba(0x4a,0x4a,0x4a, 255)
-        grey2 = NVG.rgba(0x37,0x37,0x37,0xff)
+        grey1 = Theme::ButtonGrad1
+        grey2 = Theme::ButtonGrad2
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             v.rect(0,0,w,h)
@@ -33,7 +30,7 @@ Widget {
                 grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
                 v.fill_paint grad
             else
-                v.fill_color off_color
+                v.fill_paint grad2
             end
             v.stroke_width 1
             v.fill
@@ -41,7 +38,7 @@ Widget {
         end
 
         text_color1   = color("52FAFE")
-        text_color2   = color("B9CADE")
+        text_color2   = Theme::TextColor
         vg.font_face("bold")
         vg.font_size h*0.55
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
@@ -51,7 +48,7 @@ Widget {
             vg.fill_color(text_color2)
         end
         vg.text(w/2,h/2,label.upcase)
-        
+
     }
 
 }

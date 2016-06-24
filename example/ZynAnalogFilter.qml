@@ -18,7 +18,7 @@ Group {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
         Selector {
-            layoutOpts: [:no_constraint]
+            //layoutOpts: [:no_constraint]
             whenValue: lambda { box.cb}
             extern: box.extern + "Pstages"
         }

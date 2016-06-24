@@ -1,14 +1,13 @@
 Widget {
     id: col
-    property Array weights: [0.05, 0.1, 0.65, 0.1, 0.05, 0.05]
+    property Array weights: [0.05, 0.1, 0.70, 0.05, 0.05, 0.05]
 
-    TextBox {
-        bg: Theme::ButtonActive;
-        height: 0.8;
+    Button {
         label: col.label
+        layoutOpts: [:no_constraint]
     }
     TextBox {
-        bg: Theme::ButtonInactive
+        bg: nil
         height: 0.4
         label: "synth"
     }
@@ -24,9 +23,9 @@ Widget {
             Draw::Layout::hpack(l, selfBox, ch)
         }
     }
-    HSlider {}
+    HSlider { label: "pan"}
     Selector {layoutOpts: [:no_constraint] }
-    TextBox { label: "edit" }
+    Button { layoutOpts: [:no_constraint]; label: "edit" }
 
     function layout(l)
     {
@@ -34,10 +33,12 @@ Widget {
         chBox   = []
 
         off = 0.0
+        fixed_pad = 2
         children.each_with_index do |ch, ind|
             weight = weights[ind]
             box    = ch.layout(l)
-            l.fixed(box, selfBox, 0, off, 1.0, weight)
+            l.fixed_long(box, selfBox, 0, off, 1.0, weight,
+                         0, fixed_pad, 0, -2*fixed_pad)
             off += weight
         end
         selfBox

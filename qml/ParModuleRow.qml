@@ -1,5 +1,7 @@
 Widget {
     id: row
+    property Float lsize: 0.3
+    
 
     function onSetup(old=nil) {
         mch = row.children
@@ -16,6 +18,7 @@ Widget {
         labels.children = []
         (0...n).each do |i|
             label = createInstance("Text", labels, row.db)
+            label.height = 0.7
             label.layoutOpts = [:ignoreAspect]
             if(content.children[i].class_name != "Button")
                 label.label = content.children[i].label
@@ -50,7 +53,7 @@ Widget {
                         l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     end
                     if(prev)
-                        l.rightOf(prev, bb, mode == :normal)
+                        l.rightOf(prev, bb, false && mode == :normal)
                     end
                     prev = bb
                 end
@@ -99,9 +102,9 @@ Widget {
         l.contains(selfBox,labelBox)
         l.topOf(contentBox,labelBox)
 
-        l.sheq([contentBox.h, selfBox.h], [1, -0.7], 0)
+        l.sh([contentBox.h, selfBox.h], [1, -(1-lsize)], 0)
         l.sheq([contentBox.w, selfBox.w], [1, -1],   0)
-        l.sheq([labelBox.h,   selfBox.h], [1, -0.3], 0)
+        l.sh([labelBox.h,   selfBox.h], [1, -lsize], 0)
         l.sheq([labelBox.w,   selfBox.w], [1, -1],   0)
 
         content_items = layout_hpack(l, selfBox, contentBox, row.content.children, :normal)

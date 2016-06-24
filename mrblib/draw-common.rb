@@ -9,7 +9,8 @@ module Draw
                     vg.line_to(bb.x+bb.w*xpts[pt],
                                bb.y+bb.h/2+bb.h/2*Math.sin(2*3.14*xpts[pt]))
                 end
-                v.stroke_color color("4195a5")
+                v.stroke_color Theme::VisualLine
+                v.stroke_width 2.0
                 v.stroke
             end
         end
@@ -23,7 +24,7 @@ module Draw
                     vg.line_to(bb.x+bb.w*xpts[pt],
                                bb.y+bb.h/2-bb.h/2*ypts[pt])
                 end
-                v.stroke_color color("4195a5")
+                v.stroke_color Theme::VisualLine
                 v.stroke_width 2.0
                 v.stroke
             end
@@ -101,9 +102,9 @@ module Draw
             }
         end
         def self.linear_x(vg, min, max, bb, thick=1.0)
-            med_fill     = color("114575")
-            light_fill   = color("114575")
-            c = 40
+            med_fill     = Theme::GridLine
+            light_fill   = Theme::GridLine
+            c = max
             (0..c).each do |ln|
                 vg.path do |v|
                     off = (ln/c)*(bb.w)
@@ -121,8 +122,9 @@ module Draw
             end
         end
         def self.linear_y(vg, min, max, bb, thick=1.0, c=40)
-            med_fill     = color("114575")
-            light_fill   = color("114575")
+            med_fill     = Theme::GridLine
+            light_fill   = Theme::GridLine
+            c = max
             (0..c).each do |ln|
                 vg.path do |v|
                     off = (ln/c)*(bb.h)
@@ -230,30 +232,33 @@ module Draw
         end
     end
     module Layout
-        def self.vpack(l, selfBox, b, x=0, w=1)
+        def self.vpack(l, selfBox, b, x=0, w=1,fixed_pad=0)
             off = 0
-            n = b.length
+            delta = 1.0/b.length
             b.each_with_index do |bb,i|
-                l.fixed(bb, selfBox, x, off, w,  1.0/n)
-                off += 1.0/n
+                l.fixed_long(bb, selfBox, x, off, w, delta,
+                        0, fixed_pad, 0, -2*fixed_pad)
+                off += delta
             end
             selfBox
         end
 
-        def self.hpack(l, selfBox, b)
+        def self.hpack(l, selfBox, b, y=0, h=1, fixed_pad=0)
             off = 0
-            n = b.length
+            delta = 1.0/b.length
             b.each_with_index do |bb,i|
-                l.fixed(bb, selfBox, off, 0, 1.0/n, 1.0)
-                off += 1.0/n
+                l.fixed_long(bb, selfBox, off, y, delta, h,
+                            fixed_pad, 0, -2*fixed_pad, 0)
+                off += delta
             end
             selfBox
         end
 
-        def self.hfill(l, selfBox, b, w, pad=0)
+        def self.hfill(l, selfBox, b, w, pad=0, fixed_pad=0)
             off = pad/2
             b.each_with_index do |bb,i|
-                l.fixed(bb, selfBox, off, 0, w[i], 1)
+                l.fixed_long(bb, selfBox, off, 0, w[i], 1,
+                            fixed_pad, 0, -2*fixed_pad, 0)
                 off += w[i] + pad
             end
             selfBox
@@ -267,6 +272,32 @@ module Draw
             end
             selfBox
         end
+        
+        def self.grid(l, selfBox, children, rows, cols, padw=0, padh=0)
+            width  = 1.0/cols
+            height = 1.0/rows
+
+            children.each_with_index do |bb,i|
+                r = (i/cols).to_i
+                c = i%cols
+                l.fixed_long(bb, selfBox, c*width, r*height, width, height,
+                            padw, padh, -2*padw, -2*padh)
+            end
+            selfBox
+        end
+        #Transposed grid
+        def self.gridt(l, selfBox, children, rows, cols, padw=0, padh=0)
+            width  = 1.0/cols
+            height = 1.0/rows
+
+            children.each_with_index do |bb,i|
+                r = (i%rows).to_i
+                c = (i/rows).to_i
+                l.fixed_long(bb, selfBox, c*width, r*height, width, height,
+                            padw, padh, -2*padw, -2*padh)
+            end
+            selfBox
+        end
     end
 
     def self.fade(c)
@@ -276,7 +307,7 @@ module Draw
     end
 end
 
-def color(c)
+def color(c,alpha=255)
     if(c.class == Symbol)
         if(c == :red)
             return color("ff0000")
@@ -290,6 +321,8 @@ def color(c)
             return color("FF8C00")
         elsif(c == :gold)
             return color("FFD700")
+        elsif(c == :black)
+            return color("000000")
         else
             raise Exception.new("Invalid Color", c)
         end
@@ -297,23 +330,58 @@ def color(c)
     r = c[0..1].to_i 16
     g = c[2..3].to_i 16
     b = c[4..5].to_i 16
-    a = 255
-    NVG.rgba(r,g,b,a)
+    NVG.rgba(r,g,b,alpha)
 end
 
 module Theme
-    VisualBackground    = color("232C36")
-    GeneralBackground   = color("334454")
-    SliderActive        = color("032E4E")
+    GeneralBackground   = color("2C2C2D")
+
+    SliderActive        = color("00586D")
+    SliderBackground    = color("1F2E3A")
+
+    KnobGrad1           = color("4E5050")
+    KnobGrad2           = color("3D3E3E")
+
     HarmonicColor       = color("026392")
 
-    TextColor           = color("B9CADE")
+    TextColor           = color("CECECE")
+    TextActiveColor     = color("52FAFE")
+    TextModColor        = color("5BDBBA")
     
-    ScrollInactive      = color("06354B")
-    ScrollActive        = color("007C93")
-    TitleBar            = color("042E4D")
+    ScrollInactive      = color("212121")
+    ScrollActive        = color("606060")
     ButtonInactive      = color("424B56")
     ButtonActive        = color("00818E")
+
+    ButtonGrad1         = color("4A4B4B")
+    ButtonGrad2         = color("3E3F3F")
+
+    ModuleGrad1         = color("4A4B4B")
+    ModuleGrad2         = color("3E3F3F")
+
+    WindowGrad1         = color("3A3A3B")
+    WindowGrad2         = color("2A2A2B")
+
+    InnerGrad1          = color("4E4E4F")
+    InnerGrad2          = color("39393B")
+    
+    TitleBar            = ButtonGrad1
+    #Visualizations
+    VisualBackground    = color("212121")
+    VisualStroke        = color("014767")
+    VisualLightFill     = color("014767",55)
+    VisualBright        = color("3ac5ec")
+    VisualDim           = color("114575")
+    VisualDimTrans      = color("114575", 155)
+    VisualSelect        = color("00ff00")
+
+    VisualLine          = color("00FAFF")
+
+    GridLine            = color("253743")
+
+    #Bank Elements
+    BankOdd             = color("3B3B3D")
+    BankEven            = color("434344")
 end
 
 Pokemon = [

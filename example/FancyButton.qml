@@ -18,24 +18,23 @@ Widget {
             v.stroke
         end
 
-        off_color     = color("505E6C")
-        grey1 = color("4a4a4a")
-        grey2 = color("373737")
+        grey1 = Theme::ButtonGrad1
+        grey2 = Theme::ButtonGrad2
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             pad = 0
             v.rect(w/4+pad,0,w*3/4,h)
             if(value)
-                v.fill_paint(grad)
+                v.fill_paint grad
             else
-                v.fill_color off_color
+                v.fill_paint grad2
             end
             v.fill
             v.stroke
         end
 
         text_color1   = color("52FAFE")
-        text_color2   = color("B9CADE")
+        text_color2   = Theme::TextColor
         vg.font_face("bold")
         vg.font_size h*0.6
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE

@@ -1,5 +1,6 @@
 Group {
     label: "distortion"
+    topSize: 0.2
     ParModuleRow {
         Knob { label: "pan"}
 

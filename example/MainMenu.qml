@@ -3,25 +3,15 @@ Widget {
     function layout(l)
     {
         selfBox = l.genBox :menu, menu
+        chBox   = children.map {|x| x.layout l}
 
-        b = []
-        menu.children.each do |ch|
-            bb = ch.layout(l)
-            l.contains(selfBox, bb)
-            b << bb
-        end
-        l.rightOf(b[0], b[1])
-        #l.rightOf(b[1], b[2])
-        l.rightOf(b[2], b[3])
-        l.rightOf(b[3], b[4])
-        l.rightOf(b[4], b[5])
-        l.topOf(b[0],b[3])
-        l.topOf(b[1],b[4])
-        l.topOf(b[1],b[5])
-        b.each_with_index do |x,i|
-            l.punish2([selfBox.w], [1.0/3.0], x.w)
-            l.punish2([selfBox.h], [1.0/2.0], x.h)
-        end
+        pad  = 1/32
+        pad2 = 0.5-2*pad
+        l.fixed(chBox[0], selfBox, 0.0+pad, 0.0+pad, pad2, pad2)
+        l.fixed(chBox[1], selfBox, 0.5+pad, 0.0+pad, pad2, pad2)
+        l.fixed(chBox[2], selfBox, 0.0+pad, 0.5+pad, pad2, pad2)
+        l.fixed(chBox[3], selfBox, 0.5+pad, 0.5+pad, pad2, pad2)
+
         selfBox
     }
 
@@ -30,11 +20,7 @@ Widget {
     //1
     Button {id: learn;  label: "midi"; layoutOpts: [:no_constraint]}
     //2
-    Button {id: rec;    renderer: "icon-record"}
+    Record {}
     //3
-    Button {id: pau;    renderer: "icon-pause"}
-    //4
-    Button {id: stop;   renderer: "icon-stop"}
-    //5
-    Button {id: acquire; label: "acquire"; layoutOpts: [:no_constraint]}
+    Button {id: acquire; label: "learn"; layoutOpts: [:no_constraint]}
 }

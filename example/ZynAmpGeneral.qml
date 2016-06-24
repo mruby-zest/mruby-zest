@@ -16,7 +16,7 @@ Group {
         Knob     {extern: box.extern+"GlobalPar/PPunchStrength"}
         Knob     {extern: box.extern+"GlobalPar/PPunchTime"}
         Col {
-            Button   {extern: box.extern+"GlobalPar/Pstereo"}
+            Button   {label: "stereo"; extern: box.extern+"GlobalPar/Pstereo"}
             Button   {label: "rnd grp"}
         }
     }

@@ -1,19 +1,19 @@
 Widget {
-    ColorBox {
-        bg: color("ff0000")
-
+    Widget {
         function onSetup(old=nil)
         {
             return if !children.empty?
             (1..16).each do |i|
                 but = Qml::Button.new(self.db)
                 but.label = i.to_s
+                but.pad   = 1/512
                 but.layoutOpts = [:no_constraint]
                 Qml::add_child(self, but)
             end
             (1..16).each do |i|
                 but = Qml::Button.new(self.db)
                 but.label = "None"
+                but.pad   = 1/512
                 but.layoutOpts = [:no_constraint]
                 Qml::add_child(self, but)
             end

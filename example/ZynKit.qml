@@ -38,7 +38,7 @@ Widget {
             selfBox = l.genBox :widget, self
             chBox   = children.map {|c| c.layout l}
 
-            Draw::Layout::hfill(l, selfBox, chBox, kit.weights)
+            Draw::Layout::hfill(l, selfBox, chBox, kit.weights, 0, 3)
         }
     }
 
@@ -47,6 +47,6 @@ Widget {
         selfBox = l.genBox :kits, self
         chldBox = children.map {|c| c.layout l}
 
-        Draw::Layout::vpack(l, selfBox, chldBox)
+        Draw::Layout::vpack(l, selfBox, chldBox, 0, 1, 2)
     }
 }

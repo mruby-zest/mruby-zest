@@ -6,8 +6,6 @@ Valuator {
         pi = 3.14159
         start = pi/4;
         end_   = pi*3.0/4.0;
-        w = knob.w
-        h = knob.h
         inner  = 0.2*[h,w].min
         outer = 0.4*[h,w].min
         cy = h/2;
@@ -35,15 +33,17 @@ Valuator {
 
     function draw(vg)
     {
+        #background color("123456")
         pi = 3.14159
         start = pi/4;
         end_   = pi*3.0/4.0;
-        w = knob.w
-        h = knob.h
-        radius  = 0.2*[h,w].min
-        inner  = 0.3*[h,w].min
-        outer = 0.4*[h,w].min
-        cy = h/2;
+        radius  = 0.25*[h*1.0,w].min
+        inner  = 0.35*[h*1.0,w].min
+        outer = 0.48*[h*1.0,w].min
+
+        #lowest point is 0.707 cy-outer*0.707
+        #shift by 0.293/2 to compinsate
+        cy = h/2 + h*0.293/4;
         cx = w/2;
         kr = h/4;
         vg.path do |v|
@@ -63,15 +63,18 @@ Valuator {
             v.close_path
             v.fill_color(NVG.rgba(0x3a,0xc5,0xec,255));
             v.fill
+            v.stroke
         end
 
-        knob_back = NVG.rgba(0x57, 0x65, 0x72, 255)
         knob_dash = NVG.rgba(0xe7, 0xe5, 0xe2, 255)
 
         vg.path do |v|
             v.circle(cx, cy, radius)
-            v.fill_color knob_back
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::KnobGrad1, Theme::KnobGrad2)
+            v.fill_paint paint
             v.fill
+            v.stroke
         end
 
         vg.path do |v|
@@ -93,7 +96,7 @@ Valuator {
     {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, widget
-        l.aspect(selfBox, 1, 1)
+        l.aspect(selfBox, 0.9, 1)
         selfBox
     }
 }

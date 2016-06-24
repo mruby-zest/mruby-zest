@@ -155,17 +155,11 @@ Widget {
 
     function draw(vg)
     {
-        puts "?"
-        #if(lfo_vis.time.nil?)
-        #    lfo_vis.time = Time.new
-        #else
-        #    ntime = Time.new
-        #    puts ntime - lfo_vis.time
-        #    lfo_vis.time = ntime
-        #end
+        # 4 pixel border
+        bb = Rect.new(4,4,w-8,h-8)
 
         vg.path do |v|
-            v.rect(0,0,w,h)
+            v.rect(bb.x,bb.y,bb.w,bb.h)
             v.fill_color color("232C36")
             v.fill
         end
@@ -190,7 +184,7 @@ Widget {
         sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
 
         vg.path do |v|
-            v.rect(0,0,w,h)
+            v.rect(bb.x,bb.y,bb.w,bb.h)
             v.fill_color   fill_color
             v.stroke_color stroke_color
             v.fill

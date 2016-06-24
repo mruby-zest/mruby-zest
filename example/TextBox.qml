@@ -1,7 +1,8 @@
 ColorBox {
     id: textBox
     pad: 0.003
-    property Float height: 0.5
+    bg:  nil
+    property Float height: 0.7
     Text {
         label:      textBox.label
         height:     textBox.height

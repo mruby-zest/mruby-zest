@@ -1,5 +1,4 @@
 ColorBox {
-    bg: Theme::GeneralBackground
-    pad: 0.01
+    bg: nil
     layoutOpts: [:think_of_the_children]
 }

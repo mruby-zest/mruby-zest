@@ -24,7 +24,7 @@ Widget {
             ch = if(number)
                 Qml::NumberButton.new(db)
             else
-                Qml::Button.new(db)
+                Qml::SelButton.new(db)
             end
             if(rows.nil? || rows.empty?)
                 ch.label = Pokemon[x]
@@ -40,6 +40,11 @@ Widget {
             ch.layoutOpts = [:no_constraint]
             ch.whenValue  = lambda {col.cb ch}
             ch.number = x if number
+            if(!number)
+                ch.pad = 0
+                ch.bg = Theme::BankEven if x%2 == 0
+                ch.bg = Theme::BankOdd if x%2 == 1
+            end
             Qml::add_child(self, ch)
         end
 
@@ -88,17 +93,6 @@ Widget {
             children[i].label = ""
         end
         damage_self
-    }
-
-    function draw(vg)
-    {
-        pad  = 1/128.0
-        pad2 = (1-2*pad)
-        vg.path do |v|
-            v.rect(pad*w,pad*h,pad2*w,pad2*h)
-            v.fill_color color("123456")
-            v.fill
-        end
     }
 
     function layout(l)

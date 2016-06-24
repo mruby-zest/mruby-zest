@@ -2,6 +2,7 @@ Widget {
     id: text
     property Color textColor: Theme::TextColor
     property Float height: 0.5
+    property Symbol align: :center
 
     function class_name()
     {
@@ -21,9 +22,14 @@ Widget {
         else
             vg.font_size self.height*h
         end
-        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(self.textColor)
-        vg.text(w/2,h/2,label.upcase)
+        if(align == :center)
+            vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+            vg.text(w/2,h/2,label.upcase)
+        else
+            vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
+            vg.text(0,h/2,label.upcase)
+        end
     }
 
     function layout(l)

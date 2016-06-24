@@ -4,19 +4,7 @@ Widget {
     Widget {
         HarmonicView {
         }
-        Group {
-            ParModuleRow {
-                Knob {}
-                Selector {}
-                Selector {extern: base.extern + "Pmode"}
-            }
-            ParModuleRow {
-                Selector {}
-                Knob {}
-                Knob {}
-                Knob {}
-            }
-        }
+        ZynPadOvertone {}
         function layout(l) {
             selfBox = l.genBox :tmp, self
             chiaBox = children[0].layout(l)
@@ -27,35 +15,20 @@ Widget {
         }
     }
     Widget {
-        WaveView {
+        VisHarmonic {
         }
         Group {
             label: "harmonic profile"
-            ParModuleRow {
-                Selector { extern: base.extern + "Php.base.type"}
-                Selector { extern: base.extern + "Php.onehalf"}
-                Button   {}
-            }
-            ParModuleRow {
-                Knob {}
-                Knob {}
-                Knob {}
-                Knob {}
-                Knob {}
-            }
-            ParModuleRow {
-                Selector { extern: base.extern + "Php.amp.type"}
-                Selector { extern: base.extern + "Php.amp.mode"}
-                Knob {}
-                Knob {}
-            }
+            topSize: 0.09
+
+            ZynPadProfile { extern: base.extern}
         }
         function layout(l) {
             selfBox = l.genBox :tmp, self
             chiaBox = children[0].layout(l)
             chibBox = children[1].layout(l)
-            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.6, 1.0)
-            l.fixed(chibBox, selfBox, 0.6, 0.0, 0.4, 1.0)
+            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.7, 1.0)
+            l.fixed(chibBox, selfBox, 0.7, 0.0, 0.3, 1.0)
             selfBox
         }
     }
@@ -63,6 +36,7 @@ Widget {
         WaveView {
         }
         Group {
+            topSize: 0.15
             label: "harmonic content"
             ParModuleRow {
                 Selector {}
@@ -76,20 +50,18 @@ Widget {
             selfBox = l.genBox :tmp, self
             chiaBox = children[0].layout(l)
             chibBox = children[1].layout(l)
-            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.6, 1.0)
-            l.fixed(chibBox, selfBox, 0.6, 0.0, 0.4, 1.0)
+            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.7, 1.0)
+            l.fixed(chibBox, selfBox, 0.7, 0.0, 0.3, 1.0)
             selfBox
         }
     }
 
     function layout(l) {
         selfBox = l.genBox :tmp, self
-        chiaBox = children[0].layout(l)
-        chibBox = children[1].layout(l)
-        chicBox = children[2].layout(l)
-        l.fixed(chiaBox, selfBox, 0.0, 0.00, 1.0, 0.33)
-        l.fixed(chibBox, selfBox, 0.0, 0.33, 1.0, 0.33)
-        l.fixed(chicBox, selfBox, 0.0, 0.66, 1.0, 0.34)
+        chBox   = children.map {|x| x.layout l}
+        l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.17)
+        l.fixed(chBox[1], selfBox, 0.0, 0.17, 1.0, 0.50)
+        l.fixed(chBox[2], selfBox, 0.0, 0.67, 1.0, 0.33)
         selfBox
     }
 }

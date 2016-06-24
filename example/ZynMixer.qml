@@ -1,4 +1,16 @@
 Widget {
+    function draw(vg) { 
+        vg.path do |v|
+            v.rect(0,0,w,h)
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::InnerGrad1, Theme::InnerGrad2)
+            v.fill_paint paint
+            v.fill
+            v.stroke_color color(:black)
+            v.stroke_width 1.0
+            v.stroke
+        end
+    }
     function onSetup(old=nil)
     {
         (0...16).each do |r|
@@ -12,6 +24,6 @@ Widget {
     {
         selfBox = l.genBox :mixer, self
         ch = children.map {|x| x.layout l}
-        Draw::Layout::hpack(l, selfBox, ch)
+        Draw::Layout::hpack(l, selfBox, ch, 0.02, 0.96, 4)
     }
 }

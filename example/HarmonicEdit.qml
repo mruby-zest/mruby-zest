@@ -13,7 +13,6 @@ Widget {
     {
         (0...32).each do |ev|
             hm        = Qml::HarmonicEditSingle.new(db)
-            hm.pad    = 0.03
             hm.num    = ev
             hm.extern = self.extern
             hm.slidetype   = self.type

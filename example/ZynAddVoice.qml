@@ -2,8 +2,6 @@ Widget {
     id: addbase
     extern: "/part0/kit0/adpars/VoicePar0/"
 
-    function draw(vg) { background color("424B56") }
-
     function layout(l)
     {
         #puts "Center layout"
@@ -12,11 +10,11 @@ Widget {
         row2Box  = row2.layout(l)
         footBox  = footer.layout(l)
 
-        l.contains(selfBox, row1Box)
-        l.contains(selfBox, row2Box)
-        l.contains(selfBox, footBox)
+        [row1Box, row2Box, footBox].each do |box|
+            l.contains(selfBox, box)
+        end
 
-        #Global Optimizatoin
+        #Global Optimization
         l.topOf(row1Box, row2Box)
         l.topOf(row2Box, footBox)
         l.sheq([row1Box.h, row2Box.h], [1, -1.2], 0)

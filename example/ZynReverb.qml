@@ -1,5 +1,6 @@
 Group {
     label: "reverb"
+    topSize: 0.2
     ParModuleRow {
         Knob { label: "pan"}
 

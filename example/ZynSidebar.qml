@@ -104,7 +104,7 @@ Widget {
         l.fixed(arpsBox, selfBox, 0.1, 0.6,   0.8, 0.045)
         l.fixed(effsBox, selfBox, 0.1, 0.65,  0.8, 0.045)
         l.fixed(addsBox, selfBox, 0.1, 0.7,   0.8, 0.045)
-        l.fixed(vcesBox, selfBox, 0.1, 0.75,  0.8, 0.13)
+        l.fixed(vcesBox, selfBox, 0.1, 0.76,  0.8, 0.10)
         l.fixed(subsBox, selfBox, 0.1, 0.88,  0.8, 0.045)
         l.fixed(padsBox, selfBox, 0.1, 0.94,  0.8, 0.045)
 

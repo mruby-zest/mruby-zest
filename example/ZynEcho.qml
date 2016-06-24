@@ -1,5 +1,7 @@
 Group {
     label: "echo"
+    topSize: 0.2
+
     ParModuleRow {
         Knob { label: "pan"}
 

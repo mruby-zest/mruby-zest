@@ -21,11 +21,13 @@ Widget {
 
     function draw(vg)
     {
-       vg.path do |v|
-           v.rect(0, 0, w, h)
-           v.fill_color color("353B44")
-           v.fill
-       end
+        vg.path do |v|
+            v.rect(0, 0, w, h)
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::WindowGrad1, Theme::WindowGrad2)
+            v.fill_paint paint
+            v.fill
+        end
     }
 
     function set_content(type, offset=0)

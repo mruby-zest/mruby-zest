@@ -62,7 +62,7 @@ Widget {
         vg.path do |v|
             border(pos[3]*0.01, pos);
             vg.rect(*pos);
-            vg.fill_color(color("2A3944"))
+            v.fill_color Theme::ModuleGrad2
             vg.fill
         end
 
@@ -81,7 +81,9 @@ Widget {
         #//paint the inner panel
         vg.path do |v|
             v.rect(*innerspace)
-            v.fill_color(color("334454"))
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::ModuleGrad1, Theme::ModuleGrad2)
+            v.fill_paint paint
             v.fill
         end
 
@@ -117,6 +119,8 @@ Widget {
         Text {
             id: title
             label: mod.label
+            align: :left
+            textColor: Theme::TextModColor
             height: 0.8
         }
 

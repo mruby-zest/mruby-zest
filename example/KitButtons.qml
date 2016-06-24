@@ -18,14 +18,16 @@ Widget {
         #puts("kitlayout...")
         selfBox = l.genBox :kitButtons, self
         b = 0
+        cols = 4
         ch = self.children
         (0...rows).each do |r|
-            [0,1,2,3].each do |c|
+            (0...cols).each do |c|
                 bb = ch[b].layout(l)
                 b += 1
                 l.fixed(bb, selfBox, c/4, r/self.rows, 0.25, 1/self.rows)
             end
         end
+        l.aspect(selfBox, rows, cols)
         selfBox
     }
 }

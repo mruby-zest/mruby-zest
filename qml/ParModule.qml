@@ -154,11 +154,6 @@ Widget {
 
     function draw(vg)
     {
-        vg.path do |v|
-            v.rect(0, 0, mod.w, mod.h)
-            v.fill_color(NVG.rgba(0,0,0,255))
-            v.fill
-        end
         #//paint the top half
         pos = [0, 0, mod.w, mod.h]
         pos[3] *= 0.2;
@@ -184,7 +179,9 @@ Widget {
         #//paint the inner panel
         vg.path do |v|
             v.rect(*innerspace)
-            v.fill_color(NVG.rgba(0x6, 0x27, 0x37, 255))
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::ModuleGrad1, Theme::ModuleGrad2)
+            v.fill_paint paint
             v.fill
         end
 

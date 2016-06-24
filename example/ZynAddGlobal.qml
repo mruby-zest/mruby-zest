@@ -1,15 +1,5 @@
 Widget {
 
-    function draw(vg)
-    {
-        bg_color      = color("424B56")
-        vg.path do |v|
-            v.rect(0, 0, self.w, self.h)
-            v.fill_color(bg_color)
-            v.fill
-        end
-    }
-
     function layout(l)
     {
         #puts "Center layout"

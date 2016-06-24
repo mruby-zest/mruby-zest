@@ -5,15 +5,15 @@ Widget {
     //voice ID
     Button { label: voice_item.label; layoutOpts: [:no_constraint]}
     //mini wave view
-    TextBox { label: "1" }
+    TextBox { bg: Theme::GeneralBackground; label: "1" }
     //volume
-    TextBox { label: "0"}
+    TextBox { bg: Theme::GeneralBackground;  label: "0"}
     //pan
-    TextBox { label: "/part0/kit0/adpars/Pvolume"}
+    TextBox { bg: Theme::GeneralBackground;  label: "/part0/kit0/adpars/Pvolume"}
     //detune
-    TextBox { label: "0"}
+    TextBox { bg: Theme::GeneralBackground;  label: "0"}
     //vib depth
-    TextBox { label: "127"}
+    TextBox { bg: Theme::GeneralBackground;  label: "127"}
 
     function layout(l)
     {
@@ -21,10 +21,12 @@ Widget {
         chBox   = []
 
         off = 0.0
+        hpad = 1/128
         children.each_with_index do |ch, ind|
             weight = weights[ind]
             box    = ch.layout(l)
-            l.fixed(box, selfBox, off, 0.0, weight, 1.0)
+            puts [off+hpad, 0.0, weight-2*hpad, 1.0]
+            l.fixed(box, selfBox, off+hpad, 0.0, weight-2*hpad, 1.0)
             off += weight
         end
         selfBox

@@ -7,15 +7,14 @@ Button {
     
     function draw(vg)
     {
-        off_color     = color("424B56")
-        outline_color = color("707070")
         text_color1   = color("505050")
         text_color2   = color("B9CADE")
         pad = 1/64
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
-            v.fill_color(off_color)
-            #v.stroke_color(outline_color)
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::ButtonGrad1, Theme::ButtonGrad2)
+            v.fill_paint paint
             v.fill
             v.stroke_width 1
             v.stroke

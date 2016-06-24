@@ -49,7 +49,7 @@ Widget {
             bb = 1
             selector.options.each do |x|
                 x = x[0..8] if x.length > 8
-                bbl  = $vg.text_bounds(0, 0, x.upcase)
+                bbl  = $vg.text_bounds(0, 0, (x+"    ").upcase)
                 bb   = [bb, bbl].max
             end
             if(bb != 0)
@@ -72,10 +72,6 @@ Widget {
         else
             selector.selected = selector.selected + 1
         end
-        #puts selector.options
-        #puts selector.selected
-        #puts options.length
-        #puts options[selector.selected]
 
         if(self.valueRef && self.selected <= opt_vals.length)
             self.valueRef.value = self.opt_vals[self.selected]
@@ -92,24 +88,44 @@ Widget {
 
     function draw(vg)
     {
-        off_color     = color("424B56")
-        outline_color = color("0089b9")
-        text_color2   = color("B9CADE")
-        pad = 1/64
+        text_color = Theme::TextColor
+        pad  = 1/64
+        pad2 = (1-2*pad)
         vg.path do |v|
-            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
-            v.fill_color(off_color)
-            #v.stroke_color(outline_color)
+            v.rect(w*pad, h*pad, w*pad2, h*pad2)
+            paint = v.linear_gradient(0,0,0,h,
+            Theme::ButtonGrad1, Theme::ButtonGrad2)
+            v.fill_paint paint
             v.fill
             v.stroke_width 1
             v.stroke
         end
 
+        #vg.path do |v|
+        #    v.rect(w*pad2-h*pad2, h*pad, h*pad2, h*pad2)
+        #    v.fill_color color("123456")
+        #    v.fill
+        #end
+
+        vg.path do |v|
+            tx = w*pad2-h*pad2
+            tw = h*pad2
+            ty = h*pad
+            th = h*pad2
+
+            v.move_to(tx+0.25*tw, ty+0.3*th)
+            v.line_to(tx+0.50*tw, ty+0.7*th)
+            v.line_to(tx+0.75*tw, ty+0.3*th)
+            v.close_path
+
+            v.fill_color Theme::TextColor
+            v.fill
+        end
+
         vg.font_face("bold")
         vg.font_size h*0.8
-        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-        vg.fill_color text_color2
-        #puts selected
-        vg.text(w/2,h/2,options[selected].upcase)
+        vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
+        vg.fill_color text_color
+        vg.text(3+w*pad*2,h/2,(options[selected]).upcase)
     }
 }

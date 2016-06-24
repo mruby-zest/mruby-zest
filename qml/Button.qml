@@ -29,12 +29,16 @@ Widget {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, button
         if(!self.layoutOpts.include?(:no_constraint))
-            scale = 100
-            $vg.font_size scale
-            bb = $vg.text_bounds(0, 0, label.upcase)
-            if(bb != 0)
-                #Width cannot be so small that letters overflow
-                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+            if(label.length == 1)
+                l.aspect(selfBox, 1, 1)
+            else
+                scale = 100
+                $vg.font_size scale
+                bb = $vg.text_bounds(0, 0, label.upcase)
+                if(bb != 0)
+                    #Width cannot be so small that letters overflow
+                    l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+                end
             end
         else
             #puts "NONONONONONONONONN"
@@ -48,13 +52,15 @@ Widget {
         on_color      = Theme::ButtonActive
         outline_color = color("707070")
         text_color1   = color("52FAFE")
-        text_color2   = color("B9CADE")
+        text_color2   = Theme::TextColor
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)
                 v.fill_color on_color
             else
-                v.fill_color off_color
+                paint = v.linear_gradient(0,0,0,h,
+                Theme::ButtonGrad1, Theme::ButtonGrad2)
+                v.fill_paint paint
             end
             #v.stroke_color(outline_color)
             v.fill

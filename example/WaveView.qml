@@ -26,8 +26,8 @@ Widget {
         background Theme::VisualBackground
 
         if(grid)
-            Draw::Grid::linear_x(vg,0,10,box, 0.3)
-            Draw::Grid::linear_y(vg,0,10,box, 0.4)
+            Draw::Grid::linear_x(vg,0,10,box, 0.5)
+            Draw::Grid::linear_y(vg,0,10,box, 0.5)
         end
 
         if(extern.nil? || extern.empty?)

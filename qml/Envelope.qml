@@ -121,15 +121,12 @@ Widget {
         ydat = env.ypoints
         n    = [xdat.length, ydat.length].min
 
-        fill_color   = color("232C36")
-        stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
-
-        light_fill   = NVG.rgba(0x11,0x45,0x75,55)
-        bright       = NVG.rgba(0x3a,0xc5,0xec,255)
-
-        dim          = NVG.rgba(0x11,0x45,0x75,255)
-
-        sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
+        fill_color   = Theme::VisualBackground
+        stroke_color = Theme::VisualStroke
+        light_fill   = Theme::VisualLightFill
+        bright       = Theme::VisualBright
+        dim          = Theme::VisualDim
+        sel_color    = Theme::VisualSelect
 
         vg.path do |v|
             v.rect(0,0,w,h)
@@ -252,10 +249,6 @@ Widget {
         }
 
         onExtern: {
-            puts
-            puts "extern"
-            puts "extern value is"
-            puts run_view.extern.inspect
             return if run_view.extern.nil?
             meta = OSC::RemoteMetadata.new($remote, run_view.extern)
 
@@ -266,16 +259,14 @@ Widget {
                 run_view.root.damage_item run_view
                 run_view.valueRef.watch run_view.extern
             }
-            puts "watching"
             run_view.valueRef.watch run_view.extern
         }
 
         function draw(vg)
         {
-            sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
-            dim_color    = NVG.rgba(0x11,0x45,0x75,155)
+            sel_color    = Theme::VisualSelect
+            dim_color    = Theme::VisualDimTrans
             #Draw the data
-            print '*'
             pts   = @runtime_points
             pts ||= []
             (0...(pts.length/2)).each do |i|
@@ -285,7 +276,7 @@ Widget {
                 scale = h/80
                 vg.path do |vg|
                     vg.rect(xx-scale,yy-scale,scale*2,scale*2);
-                    vg.fill_color NVG.rgba(0,0,0,255)
+                    vg.fill_color color(:black)
                     vg.stroke_color sel_color
 
                     vg.stroke_width scale*0.5

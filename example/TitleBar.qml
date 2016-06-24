@@ -6,6 +6,7 @@ Widget {
             v.rect(0,0,self.w,self.h)
             v.fill_color Theme::TitleBar
             v.fill
+            v.stroke
         end
     }
     Text {

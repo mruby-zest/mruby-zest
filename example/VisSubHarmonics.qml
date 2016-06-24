@@ -40,9 +40,9 @@ Widget {
     {
         background Theme::VisualBackground
         Draw::Grid::log_x(vg, 400, 20000, Rect.new(0, 0, w, h))
-        Draw::Grid::linear_y(vg, 1, 20000, Rect.new(0, 0, w, h), 1, 40)
+        Draw::Grid::linear_y(vg, 1, 10, Rect.new(0, 0, w, h), 1, 40)
     }
-    
+
     DataView {
         id: data_view
         normal: false

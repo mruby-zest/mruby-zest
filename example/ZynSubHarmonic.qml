@@ -24,7 +24,7 @@ Widget {
                     whenValue: lambda {subsynth.refresh}
                 }
             }
-    
+
             function draw(vg) {
                 Draw::GradBox(vg, Rect.new(0,0,w,h))
             }
@@ -34,7 +34,7 @@ Widget {
             type:   :subsynth
             whenValue: lambda { subsynth.refresh }
         }
-    
+
         function layout(l)
         {
             selfBox = l.genBox :subsynthharm, self

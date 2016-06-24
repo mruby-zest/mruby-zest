@@ -305,6 +305,19 @@ module Draw
         cc.a = 0.8
         cc
     end
+
+    def self.GradBox(vg, bb)
+        vg.path do |v|
+            v.rect(bb.x,bb.y,bb.w,bb.h)
+            paint = v.linear_gradient(0,0,0,bb.h,
+                  Theme::InnerGrad1, Theme::InnerGrad2)
+            v.fill_paint paint
+            v.fill
+            v.stroke_color color(:black)
+            v.stroke_width 1.0
+            v.stroke
+        end
+    end
 end
 
 def color(c,alpha=255)

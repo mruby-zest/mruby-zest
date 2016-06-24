@@ -1,14 +1,30 @@
 Widget {
+    VisResonance {}
+    Indent {
+        ZynResOptions {}
+        function draw(vg)
+        {
+            vg.path do |v|
+                v.rect(0,0,w,h)
+                paint = v.linear_gradient(0,0,0,h,
+                Theme::InnerGrad1, Theme::InnerGrad2)
+                v.fill_paint paint
+                v.fill
+                v.stroke_color color(:black)
+                v.stroke_width 1.0
+                v.stroke
+            end
+        }
+    }
+    function layout(l)
+    {
+        selfBox = l.genBox :res, self
+        chldBox = children.map {|x| x.layout l}
+        l.fixed(chldBox[0], selfBox, 0, 0.0, 1, 0.8)
+        l.fixed(chldBox[1], selfBox, 0, 0.8, 1, 0.2)
+        selfBox
+    }
     function draw(vg)
     {
-        vg.path do |v|
-            v.rect(0,0,w,h)
-            v.fill_color   Theme::VisualBackground
-            v.fill
-        end
-
-        bb = Rect.new(0,0,w,h)
-        Draw::Grid::linear_x(vg, 0, 1, bb)
-        Draw::Grid::linear_y(vg, 0, 1, bb)
     }
 }

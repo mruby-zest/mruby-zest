@@ -17,5 +17,5 @@ Widget {
             Draw::WaveForm::sin(vg, box)
         end
     }
-} 
+}
 

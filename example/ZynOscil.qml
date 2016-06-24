@@ -174,18 +174,8 @@ Widget {
 
         }
 
-        function draw(vg)
-        {
-            vg.path do |v|
-                v.rect(0,0,w,h)
-                paint = v.linear_gradient(0,0,0,h,
-                Theme::InnerGrad1, Theme::InnerGrad2)
-                v.fill_paint paint
-                v.fill
-                v.stroke_color color(:black)
-                v.stroke_width 1.0
-                v.stroke
-            end
+        function draw(vg) {
+            Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
 
 

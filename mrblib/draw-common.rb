@@ -298,6 +298,37 @@ module Draw
             end
             selfBox
         end
+        
+        def self.tabpack(l, base)
+            selfBox = l.genBox(:tabbox, base)
+            prev = nil
+
+            total   = 0
+            weights = []
+            base.children.each do |ch|
+                scale = 100
+                $vg.font_size scale
+                weight   = $vg.text_bounds(0, 0, ch.label.upcase)
+                weights << weight
+                total   += weight
+            end
+
+            base.children.each_with_index do |ch, idx|
+                box = ch.layout(l)
+                l.contains(selfBox,box)
+
+                l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
+
+                #add in the aspect constraint
+                l.aspect(box, 100, weights[idx])
+
+                if(prev)
+                    l.rightOf(prev, box)
+                end
+                prev = box
+            end
+            selfBox
+        end
     end
 
     def self.fade(c)
@@ -369,8 +400,8 @@ module Theme
     ButtonGrad1         = color("4A4B4B")
     ButtonGrad2         = color("3E3F3F")
 
-    ModuleGrad1         = color("4A4B4B")
-    ModuleGrad2         = color("3E3F3F")
+    ModuleGrad1         = color("4E4E4E")
+    ModuleGrad2         = color("393939")
 
     WindowGrad1         = color("3A3A3B")
     WindowGrad2         = color("2A2A2B")

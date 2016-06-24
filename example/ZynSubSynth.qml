@@ -5,68 +5,70 @@ Widget {
     {
         sub_harmonics.refresh
     }
-
-    VisSubHarmonics {
-        id:     sub_harmonics
-        extern: "/part0/kit0/subpars/response"
+    Swappable {
+        id: swap
+        content: Qml::ZynSubHarmonic
     }
-    ColorBox {
-        bg: Theme::GeneralBackground
-
-        ColorBox {
-            bg: Theme::GeneralBackground
-            ParModuleRow {
-                Selector {
-                    //layoutOpts: [:no_constraint]
-                    extern: "/part0/kit0/subpars/POvertoneSpread.type"
-                    whenValue: lambda {subsynth.refresh}
-                }
-                Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par1"
-                    whenValue: lambda {subsynth.refresh}
-                }
-                Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par2"
-                    whenValue: lambda {subsynth.refresh}
-                }
-                Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par3"
-                    whenValue: lambda {subsynth.refresh}
-                }
-            }
-        }
-        HarmonicEdit {
-            extern: "/part0/kit0/subpars/"
-            type:   :subsynth
-            whenValue: lambda { subsynth.refresh }
-        }
-
-        function layout(l)
-        {
-            selfBox = l.genBox :subsynthharm, self
-            rows = children.map {|x| x.layout l}
-            Draw::Layout::vfill(l, selfBox, rows, [0.3, 0.7])
-        }
-    }
-    ColorBox {
-        bg: color("00ffff")
+    Widget {
+        id: subtabs
+        TabButton {value: true; label: "harmonic" }
         TabButton {label: "amplitude" }
         TabButton {label: "bandwidth" }
         TabButton {label: "frequency" }
         TabButton {label: "filter" }
 
-        function layout(l)
+        function onSetup(old=nil) {
+            children.each do |ch|
+                ch.highlight_pos = :top
+            end
+        }
+
+        function layout(l) {
+            Draw::Layout::tabpack(l, self)
+        }
+
+        function get_tab(wid)
         {
-            selfBox = l.genBox :subtabs, self
-            cols = children.map {|x| x.layout l}
-            Draw::Layout::hpack(l, selfBox, cols)
+            n = children.length
+            selected = 0
+            tab_id = 0
+            (0..n).each do |ch_id|
+                child = children[ch_id]
+                if(child.class == Qml::TabButton)
+                    if(wid == child)
+                        child.value = true
+                        selected = tab_id
+                    else
+                        if(child.value)
+                            child.value = false
+                            child.damage_self
+                        end
+                    end
+                    tab_id += 1
+                end
+            end
+            selected
+        }
+
+        function set_tab(wid)
+        {
+            n = children.length
+            selected = get_tab wid
+
+            #Define a mapping from tabs to values
+            mapping = {0 => Qml::ZynSubHarmonic,
+                       1 => Qml::ZynSubAmp,
+                       2 => Qml::ZynSubBandwidth,
+                       3 => Qml::ZynSubFreq,
+                       3 => Qml::ZynSubFilter,
+                       }
+
+            swap.content = mapping[selected]
         }
     }
 
-    function layout(l)
-    {
+    function layout(l) {
         selfBox = l.genBox :subsynth, self
-        rows = children.map {|x| x.layout l}
-        Draw::Layout::vfill(l, selfBox, rows, [0.45, 0.5, 0.05])
+        Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.95, 0.05])
     }
 }

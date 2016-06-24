@@ -29,6 +29,12 @@ Object {
     {
     }
 
+    function self_box(l)
+    {
+        t = widget.class_name.to_sym
+        selfBox = l.genBox t, widget
+    }
+
     function layout(l)
     {
         t = widget.class_name.to_sym

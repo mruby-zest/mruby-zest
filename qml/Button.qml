@@ -70,12 +70,17 @@ Widget {
 
         vg.font_face("bold")
         vg.font_size h*self.textScale
-        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         if(value)
             vg.fill_color(text_color1)
         else
             vg.fill_color(text_color2)
         end
-        vg.text(w/2,h/2,button.label.upcase)
+        if(layoutOpts.include? :left_text)
+            vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
+            vg.text(8,h/2,button.label.upcase)
+        else
+            vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+            vg.text(w/2,h/2,button.label.upcase)
+        end
     }
 }

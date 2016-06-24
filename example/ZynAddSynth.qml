@@ -75,21 +75,6 @@ Widget {
             selfBox
         }
 
-        //#function layout(l)
-        //#{
-        //#    selfBox = l.genBox :adsynthhead, self
-        //#    ch = children.map {|x| x.layout l}
-        //#    l.contains(selfBox, ch[0])
-        //#    l.contains(selfBox, ch[1])
-        //#    l.contains(selfBox, ch[2])
-        //#    l.weak(ch[1].x)
-        //#    l.rightOf(ch[0], ch[1])
-        //#    l.rightOf(ch[1], ch[2])
-        //#    l.sheq([ch[2].x, ch[2].w, selfBox.w], [1, 1, -1], 0)
-        //#    selfBox
-        //#}
-
-
         function setTab(id)
         {
             n = children.length

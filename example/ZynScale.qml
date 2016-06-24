@@ -1,5 +1,4 @@
-ColorBox {
-    bg: color("ff00ff")
+Widget {
     function layout(l)
     {
         selfBox = l.genBox :part, self
@@ -17,8 +16,7 @@ ColorBox {
             Knob { label: "center" }
         }
     }
-    ColorBox {
-        bg: Theme::GeneralBackground
+    Widget {
         Widget {
             ParModuleRow {
                 Text { label: "name:" }
@@ -41,6 +39,9 @@ ColorBox {
         }
         ParModuleRow {
             Knob { label: "shift" }
+        }
+        function draw(vg) {
+            Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
         function layout(l)
         {

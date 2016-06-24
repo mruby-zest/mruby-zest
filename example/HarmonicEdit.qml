@@ -11,6 +11,7 @@ Widget {
 
     function onSetup(old=nil)
     {
+        return if !children.empty?
         (0...32).each do |ev|
             hm        = Qml::HarmonicEditSingle.new(db)
             hm.num    = ev

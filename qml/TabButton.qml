@@ -3,21 +3,17 @@ Widget {
     property Function whenClick:     nil
     property Symbol   highlight_pos: :bottom
     property Bool     value:    false;
+    property Widget   tabbox: nil
 
-    function onMerge(val)
-    {
+    function onMerge(val) {
         button.value = val.value if(val.respond_to?(:value))
     }
 
     function onMousePress(ev) {
-        puts "Button Press"
         button.value = !button.value
-        if(root)
-            root.damage_item self
-        end
-        if(self.whenClick)
-            self.whenClick.call
-        end
+        damage_self
+        whenClick.call if whenClick
+        parent.set_tab(self) if parent.respond_to?(:set_tab)
     }
 
     function draw(vg)

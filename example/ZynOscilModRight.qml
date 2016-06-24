@@ -33,7 +33,7 @@ Widget {
             }
         }
     }
-    Widget { 
+    Widget {
         Widget {
             Group {
                 label: "vce osc"

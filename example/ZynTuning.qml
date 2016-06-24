@@ -5,7 +5,7 @@ Widget {
             ColorBox { pad: 0.03; bg: color("222222") }
         }
         Group {
-            label: "keyboard mapping"
+            label: "key mapping"
             ColorBox { pad: 0.03; bg: color("222222") }
         }
         function layout(l)

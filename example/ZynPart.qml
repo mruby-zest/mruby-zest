@@ -8,13 +8,15 @@ Widget {
                 but.label = i.to_s
                 but.pad   = 1/512
                 but.layoutOpts = [:no_constraint]
+                but.textScale  = 0.5
                 Qml::add_child(self, but)
             end
             (1..16).each do |i|
                 but = Qml::Button.new(self.db)
                 but.label = "None"
                 but.pad   = 1/512
-                but.layoutOpts = [:no_constraint]
+                but.layoutOpts = [:no_constraint, :left_text]
+                but.textScale  = 0.5
                 Qml::add_child(self, but)
             end
         }
@@ -27,8 +29,7 @@ Widget {
             Draw::Layout::vpack(l, selfBox, rows[16..31], 0.2, 0.8)
         }
     }
-    ColorBox { 
-        bg: color("ffff00")
+    Widget {
         function layout(l)
         {
             selfBox = l.genBox :part, self

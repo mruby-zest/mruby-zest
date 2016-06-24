@@ -81,7 +81,7 @@ Widget {
         #//paint the inner panel
         vg.path do |v|
             v.rect(*innerspace)
-            paint = v.linear_gradient(0,0,0,h,
+            paint = v.linear_gradient(0,innerspace[1],0,innerspace[3],
             Theme::ModuleGrad1, Theme::ModuleGrad2)
             v.fill_paint paint
             v.fill

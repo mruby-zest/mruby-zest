@@ -21,7 +21,7 @@ Widget {
     function layout(l)
     {
         selfBox = l.genBox :zavlh, self
-        chBox   = children.map {|c| c.layout l}
+        chBox   = chBoxes(l)
 
         step = 1/(cols+1)
         l.fixed(chBox[0], selfBox, 0, 0, step, 1)

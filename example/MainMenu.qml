@@ -3,7 +3,7 @@ Widget {
     function layout(l)
     {
         selfBox = l.genBox :menu, menu
-        chBox   = children.map {|x| x.layout l}
+        chBox   = chBoxes(l)
 
         pad  = 1/32
         pad2 = 0.5-2*pad

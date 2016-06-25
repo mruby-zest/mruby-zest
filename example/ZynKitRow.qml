@@ -13,10 +13,8 @@ Widget {
     FancyButton { layoutOpts: [:no_constraint]; label: "edit" }
     Selector { layoutOpts: [:no_constraint]; label: "off" }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :kitrow, self
-        chBox   = children.map {|x| x.layout l}
-        Draw::Layout::hfill(l, selfBox, chBox, kit_item.weights, 0, 3)
+    function class_name() { "kitrow" }
+    function layout(l) {
+        Draw::Layout::hfill(l, self_box(l), chBoxes(l), kit_item.weights, 0, 3)
     }
 }

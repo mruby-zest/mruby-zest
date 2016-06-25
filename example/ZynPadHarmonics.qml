@@ -58,7 +58,7 @@ Widget {
 
     function layout(l) {
         selfBox = l.genBox :tmp, self
-        chBox   = children.map {|x| x.layout l}
+        chBox   = chBoxes(l)
         l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.17)
         l.fixed(chBox[1], selfBox, 0.0, 0.17, 1.0, 0.50)
         l.fixed(chBox[2], selfBox, 0.0, 0.67, 1.0, 0.33)

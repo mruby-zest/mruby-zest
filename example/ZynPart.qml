@@ -24,29 +24,24 @@ Widget {
         function layout(l)
         {
             selfBox = l.genBox :part, self
-            rows = children.map {|x| x.layout l}
+            rows = chBoxes(l)
             Draw::Layout::vpack(l, selfBox, rows[0..15],  0.0, 0.2)
             Draw::Layout::vpack(l, selfBox, rows[16..31], 0.2, 0.8)
         }
     }
     Widget {
-        function layout(l)
-        {
-            selfBox = l.genBox :part, self
-            rows = children.map {|x| x.layout l}
-            Draw::Layout::vfill(l, selfBox, rows, [0.4,0.3,0.3])
+        function class_name() { "part" }
+        function layout(l) {
+            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.4,0.3,0.3])
         }
         ZynInstrumentSettings {}
         ZynControllers {}
         ZynPortamento  {}
     }
-    ZynScale {
-    }
+    ZynScale { }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :part, self
-        cols = children.map {|x| x.layout l}
-        Draw::Layout::hfill(l, selfBox, cols, [0.2,0.4,0.4])
+    function class_name() { "part" }
+    function layout(l) {
+        Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.2,0.4,0.4])
     }
 }

@@ -16,11 +16,9 @@ Widget {
         Slider {pad: 0.01}
         Slider {pad: 0.01}
         ScrollBar {}
-        function layout(l)
-        {
-            selfBox = l.genBox :mixbox, self
-            ch = children.map {|x| x.layout l}
-            Draw::Layout::hpack(l, selfBox, ch)
+        function class_name() { "mixbox" }
+        function layout(l) {
+            Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }
     }
     HSlider { label: "pan"}

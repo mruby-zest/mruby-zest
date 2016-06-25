@@ -126,7 +126,7 @@ Widget {
 
             //pad
             Widget {}
-            
+
             //adapt
             Selector {extern: base_osc.extern + "Padaptiveharmonics"}
             HSlider  {extern: base_osc.extern + "Padaptiveharmonicspower"}
@@ -163,13 +163,11 @@ Widget {
                     ch.layoutOpts = [:no_constraint]
                 end
             }
-            
-            function layout(l)
-            {
-                selfBox = l.genBox :oscgrid, self
-                chBox   = children.map {|x| x.layout l}
+
+            function class_name() { "oscgrid" }
+            function layout(l) {
                 pad = 3
-                Draw::Layout::gridt(l, selfBox, chBox, 10, 4, pad, pad)
+                Draw::Layout::gridt(l, self_box(l), chBoxes(l), 10, 4, pad, pad)
             }
 
         }

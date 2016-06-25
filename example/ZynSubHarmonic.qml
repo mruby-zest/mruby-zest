@@ -35,15 +35,13 @@ Widget {
             whenValue: lambda { subsynth.refresh }
         }
 
-        function layout(l)
-        {
-            selfBox = l.genBox :subsynthharm, self
-            rows = children.map {|x| x.layout l}
-            Draw::Layout::vfill(l, selfBox, rows, [0.3, 0.7])
+        function class_name() { "subsynthharm" }
+        function layout(l) {
+            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.3, 0.7])
         }
     }
+    function class_name() { "subsynth" }
     function layout(l) {
-        selfBox = l.genBox :subsynth, self
-        Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.45, 0.55])
+        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.45, 0.55])
     }
 }

@@ -44,7 +44,7 @@ ColorBox {
     function layout(l)
     {
         selfBox = l.genBox :harmonicEdit, self
-        chBox   = children.map {|x| x.layout l}
+        chBox   = chBoxes(l)
         l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.47)
         l.fixed(chBox[1], selfBox, 0.0, 0.48, 1.0, 0.08)
         l.fixed(chBox[2], selfBox, 0.0, 0.57, 1.0, 0.43)

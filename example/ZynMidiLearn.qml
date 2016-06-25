@@ -38,12 +38,9 @@ Widget {
         TextBox  {bg: nil; label: "min"}
         //5
         TextBox  {bg: nil; label: "max"}
-        function layout(l)
-        {
-            selfBox = l.genBox :zavlh, self
-            chBox   = children.map {|c| c.layout l}
-
-            Draw::Layout::hfill(l, selfBox, chBox, vce_list.weights)
+        function class_name() { "zavlh" }
+        function layout(l) {
+            Draw::Layout::hfill(l, self_box(l), chBoxes(l), vce_list.weights)
         }
     }
 

@@ -7,7 +7,7 @@ Widget {
     function layout(l)
     {
         selfBox = l.genBox :headersub, self
-        chBox   = children.map {|x| x.layout l}
+        chBox   = chBoxes(l)
 
         padw  = 1/256
         padw2 = 0.5-2*padw

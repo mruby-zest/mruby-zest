@@ -6,8 +6,8 @@ Widget {
                 x.layoutOpts = [:no_constraint]
             end
         }
-    
-    
+
+
         //row 1
         TextBox { bg: nil; label: "base type"}
         HSlider { label: "str"}
@@ -32,11 +32,10 @@ Widget {
         //row 8
         Selector {extern: padprofile.extern + "Php.amp.mode"}
         HSlider { label: "par2"}
-        function layout(l)
-        {
-            selfBox = l.genBox :overtone, self
-            chBox   = children.map {|x| x.layout l}
-            Draw::Layout::grid(l, selfBox, chBox, 8, 2, 1, 2)
+
+        function class_name() { "overtone" }
+        function layout(l) {
+            Draw::Layout::grid(l, self_box(l), chBoxes(l), 8, 2, 1, 2)
         }
     }
     function layout(l)
@@ -44,7 +43,7 @@ Widget {
         selfBox = l.genBox :overtone, self
         chBox   = children[0].layout l
         pad = 4
-        l.fixed_long(chBox, selfBox, 0, 0, 1, 1, 
+        l.fixed_long(chBox, selfBox, 0, 0, 1, 1,
             pad, pad, -2*pad, -2*pad)
         selfBox
     }

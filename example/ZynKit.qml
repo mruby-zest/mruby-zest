@@ -33,20 +33,13 @@ Widget {
         TextBox  {bg: Theme::TitleBar; label: "padsynth"}
         //8
         TextBox  {bg: Theme::TitleBar; label: "effect route"}
-        function layout(l)
-        {
-            selfBox = l.genBox :widget, self
-            chBox   = children.map {|c| c.layout l}
-
-            Draw::Layout::hfill(l, selfBox, chBox, kit.weights, 0, 3)
+        function layout(l) {
+            Draw::Layout::hfill(l, self_box(l), chBoxes(l), kit.weights, 0, 3)
         }
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :kits, self
-        chldBox = children.map {|c| c.layout l}
-
-        Draw::Layout::vpack(l, selfBox, chldBox, 0, 1, 2)
+    function class_name() { "kits" }
+    function layout(l) {
+        Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 2)
     }
 }

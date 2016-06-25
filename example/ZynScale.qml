@@ -1,9 +1,7 @@
 Widget {
-    function layout(l)
-    {
-        selfBox = l.genBox :part, self
-        rows = children.map {|x| x.layout l}
-        Draw::Layout::vfill(l, selfBox, rows, [0.2,0.15,0.65])
+    function class_name() { "part" }
+    function layout(l) {
+        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.2,0.15,0.65])
     }
     Group {
         topSize: 0.2
@@ -30,11 +28,9 @@ Widget {
                     bg: color("222222")
                 }
             }
-            function layout(l)
-            {
-                selfBox = l.genBox :part, self
-                rows = children.map {|x| x.layout l}
-                Draw::Layout::vpack(l, selfBox, rows)
+            function class_name() { "partsub" }
+            function layout(l) {
+                Draw::Layout::vpack(l, self_box(l), chBoxes(l))
             }
         }
         ParModuleRow {

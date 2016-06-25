@@ -8,11 +8,9 @@ Widget {
             label: "key mapping"
             ColorBox { pad: 0.03; bg: color("222222") }
         }
-        function layout(l)
-        {
-            selfBox = l.genBox :part, self
-            rows = children.map {|x| x.layout l}
-            Draw::Layout::hfill(l, selfBox, rows, [0.5, 0.5])
+        function class_name() { "partsub" }
+        function layout(l) {
+            Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.5, 0.5])
         }
     }
     ColorBox {
@@ -24,10 +22,8 @@ Widget {
         }
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :part, self
-        rows = children.map {|x| x.layout l}
-        Draw::Layout::vfill(l, selfBox, rows, [0.9, 0.1])
+    function class_name() { "part" }
+    function layout(l) {
+        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.9, 0.1])
     }
 }

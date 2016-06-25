@@ -2,18 +2,15 @@ Widget {
     id: row
     property Int row_id: 0
     property Int cols:   6
-    TextBox {
+    Text {
         id: name
-        bg: Theme::GeneralBackground
-    }
-
-    function draw(vg)
-    {
-        background Theme::ButtonInactive
+        align: :left
+        height: 0.7
     }
 
     function onSetup(old=nil)
     {
+        return if children.length > 1
         name.label = (row.row_id+1).to_s + " reverb"
         (cols-row_id).times do |x|
             ch = Qml::HSlider.new(db)

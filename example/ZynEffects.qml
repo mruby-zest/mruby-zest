@@ -1,53 +1,28 @@
 Widget {
-    ColorBox {
-        bg: Theme::GeneralBackground
-
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider  {}
-
-        function layout(l)
+    TabGroup {
+        TabButton {value: true; label: "system" }
+        TabButton {label: "insertion" }
+        TabButton {label: "part insertion" }
+        
+        function set_tab(wid)
         {
-            selfBox = l.genBox :eff, self
-            Draw::Layout::vpack(l, selfBox,
-            children.map {|x| x.layout l})
+            selected = get_tab wid
+            if(selected == 0)
+                swap.content = Qml::ZynEffectsSystem
+            elsif(selected == 1)
+                swap.content = Qml::ZynEffectsInsert
+            elsif(selected == 2)
+                swap.content = Qml::ZynEffectsPart
+            end
         }
     }
-    ColorBox {
-        ColorBox {
-            bg: color("123456")
-            ZynReverb {}
-            ZynEcho {}
-            ZynDistortion {}
-            function layout(l)
-            {
-                selfBox = l.genBox :eff, self
-                Draw::Layout::vpack(l, selfBox,
-                    children.map {|x| x.layout l})
-            }
-
-        }
-        ZynSendToGrid {}
-        function layout(l)
-        {
-            selfBox = l.genBox :effvert, self
-            Draw::Layout::vfill(l, selfBox, children.map {|x| x.layout l}, [0.6, 0.4])
-        }
+    Swappable {
+        id: swap
+        content: Qml::ZynEffectsSystem
     }
+
     function layout(l)
     {
-        selfBox = l.genBox :eff, self
-        Draw::Layout::hfill(l, selfBox, children.map {|x| x.layout l}, [0.1, 0.9])
+        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.05, 0.95])
     }
 }

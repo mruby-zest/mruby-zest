@@ -48,6 +48,14 @@ Valuator {
                 v.fill
             end
         end
+        
+        vg.path do |v|
+            v.move_to(w*pad+w*pad2*(1-value), pad*h)
+            v.line_to(w*pad+w*pad2*(1-value), pad2*h)
+            v.stroke_color Theme::SliderStroke
+            v.stroke_width 2.0
+            v.stroke
+        end
 
         vg.font_face("bold")
         vg.font_size height*h

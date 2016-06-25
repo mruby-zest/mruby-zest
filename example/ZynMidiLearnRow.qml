@@ -9,7 +9,7 @@ Widget {
     //volume
     TextBox { bg: Theme::GeneralBackground;  label: "0"}
     //pan
-    TextBox { bg: Theme::GeneralBackground;  label: "/part0/kit0/adpars/Pvolume"}
+    TextBox { bg: Theme::GeneralBackground;  pad: 0; align: :left; label: "/part0/kit0/adpars/Pvolume"}
     //detune
     TextBox { bg: Theme::GeneralBackground;  label: "0"}
     //vib depth
@@ -25,7 +25,6 @@ Widget {
         children.each_with_index do |ch, ind|
             weight = weights[ind]
             box    = ch.layout(l)
-            puts [off+hpad, 0.0, weight-2*hpad, 1.0]
             l.fixed(box, selfBox, off+hpad, 0.0, weight-2*hpad, 1.0)
             off += weight
         end

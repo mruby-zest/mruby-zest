@@ -272,7 +272,7 @@ module Draw
             end
             selfBox
         end
-        
+
         def self.grid(l, selfBox, children, rows, cols, padw=0, padh=0)
             width  = 1.0/cols
             height = 1.0/rows
@@ -298,7 +298,7 @@ module Draw
             end
             selfBox
         end
-        
+
         def self.tabpack(l, base)
             selfBox = l.genBox(:tabbox, base)
             prev = nil
@@ -380,8 +380,10 @@ end
 module Theme
     GeneralBackground   = color("2C2C2D")
 
-    SliderActive        = color("00586D")
+    #Confirmed with designer
+    SliderActive        = color("0A596F")
     SliderBackground    = color("1F2E3A")
+    SliderStroke        = color("097d89")
 
     KnobGrad1           = color("4E5050")
     KnobGrad2           = color("3D3E3E")
@@ -391,7 +393,7 @@ module Theme
     TextColor           = color("CECECE")
     TextActiveColor     = color("52FAFE")
     TextModColor        = color("5BDBBA")
-    
+
     ScrollInactive      = color("212121")
     ScrollActive        = color("606060")
     ButtonInactive      = color("424B56")
@@ -408,7 +410,7 @@ module Theme
 
     InnerGrad1          = color("4E4E4F")
     InnerGrad2          = color("39393B")
-    
+
     TitleBar            = ButtonGrad1
     #Visualizations
     VisualBackground    = color("212121")

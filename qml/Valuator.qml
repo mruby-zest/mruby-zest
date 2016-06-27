@@ -73,6 +73,7 @@ Widget {
     }
 
     function onMousePress(ev) {
+        $remote.midi_learn extern if(root.learn_mode && extern)
         #puts "I got a mouse press (value)"
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos

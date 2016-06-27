@@ -22,5 +22,5 @@ Widget {
     //2
     Record {}
     //3
-    Button {id: acquire; label: "learn"; layoutOpts: [:no_constraint]}
+    LearnButton { }
 }

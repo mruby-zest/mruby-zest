@@ -3,8 +3,10 @@ Widget {
 
     function display_log(type, message, src)
     {
-        self.label = message
-        self.root.damage_item self
+        if(self.label != message)
+            self.label = message
+            damage_self
+        end
     }
 
     function onSetup(old)

@@ -67,6 +67,7 @@ Widget {
 
     function set_value(val)
     {
+        return if(val == self.selected)
         self.selected = val
         if(self.valueRef && self.selected <= opt_vals.length)
             self.valueRef.value = self.opt_vals[self.selected]

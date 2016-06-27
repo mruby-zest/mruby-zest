@@ -18,16 +18,22 @@ Widget {
     function onSetup(old=nil)
     {
         refs = []
-        base ="/part0/kit0/adpars/GlobalPar/FreqLfo/" 
+        base ="/part0/kit0/adpars/GlobalPar/FreqLfo/"
         type_var = OSC::RemoteParam.new($remote, base+"PLFOtype")
         type_var.mode = :options
         type_var.callback = lambda {|x|
-            lfo_vis.type = [:sine, :triangle, :square, :rampup, 
+            ntype = [:sine, :triangle, :square, :rampup,
+                :rampdown, :exp1, :exp2][x]
+            return if(ntype == lfo_vis.type)
+            puts "#{ntype} vs #{lfo_vis.type}"
+            puts "type callback"
+            lfo_vis.type = [:sine, :triangle, :square, :rampup,
                 :rampdown, :exp1, :exp2][x]}
 
         depth_var = OSC::RemoteParam.new($remote, base+"Pintensity")
         depth_var.callback = lambda {|x|
             lfo_vis.depth = x
+            puts "depth callback"
             lfo_vis.damage_self}
 
         delay_var = OSC::RemoteParam.new($remote, base+"Pdelay")
@@ -82,7 +88,7 @@ Widget {
                 dt_ = [4000, [0, dt].max].min
                 lfo_vis.delay_time = dt_
                 lfo_vis.drag_prev.x = ev.pos.x if(dt == dt_)
-                root.damage_item self
+                damage_self
             elsif(lfo_vis.drag_type == :lfo)
                 lfo_vis.drag_prev = ev.pos
                 dv = lfo_vis.depth + dy/100.0
@@ -93,7 +99,7 @@ Widget {
                 #dt = lfo_vis.delay_time + dx/2.0
                 dt = [1500, [20, dt].max].min
                 lfo_vis.period = dt
-                root.damage_item self
+                damage_self
             end
         end
     }
@@ -311,26 +317,30 @@ Widget {
             @value_ref
         }
 
+        function runtime_points()
+        {
+            @runtime_points
+        }
         function runtime_points=(pts)
         {
             @runtime_points = pts
         }
 
         onExtern: {
-            #puts
-            #puts "extern"
-            #puts "extern value is"
-            #puts run_view.extern.inspect
             return if run_view.extern.nil?
             meta = OSC::RemoteMetadata.new($remote, run_view.extern)
 
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
             run_view.valueRef.callback = Proc.new {|x|
-                run_view.runtime_points = x;
-                run_view.root.damage_item run_view
-                run_view.valueRef.watch run_view.extern
+                if(run_view.runtime_points != x)
+                    run_view.runtime_points = x;
+                    run_view.damage_self
+                end
             }
-            #puts "watching"
+        }
+
+        function animate() {
+            return if run_view.valueRef.nil?
             run_view.valueRef.watch run_view.extern
         }
 
@@ -356,7 +366,7 @@ Widget {
                     vg.fill
                     vg.stroke
                 end
-                
+
                 vg.path do |v|
                     v.move_to(xx, 0)
                     v.line_to(xx, h)

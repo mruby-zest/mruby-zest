@@ -52,20 +52,27 @@ Widget {
         white_keys = 8*7-3;
         black_pattern = [1,0,1,1,0,1,1];
 
-        white_color  = color("9AA1A8")
-        black_color  = color("2A353F")
-        enable_color = color("00ff00")
+        white1       = Theme::KeyWhiteGrad1
+        white2       = Theme::KeyWhiteGrad2
+        white_accent = Theme::KeyWhiteAccent
+        black_color  = Theme::KeyBlack
+        black_accent = Theme::KeyBlackAccent
+        enable_color = Theme::KeyEnable
 
         #//draw the white keys 7 octaves + 2
         (0..white_keys).each do |i|
             box = [i*w*1.0/(white_keys-1), 0, w*1.0/(white_keys), h];
-            pad(0.9, box);
+            pad(0.8, box);
             vg.path do |vg|
                 vg.rect(*box)
-                vg.fill_color white_color
+                paint = vg.linear_gradient(0,0,0,h,white1, white2)
+                vg.fill_paint paint
                 vg.fill_color enable_color if data && data[white_key_id i]
+                vg.stroke_color white_accent
 
                 vg.fill
+                vg.stroke_width 1.2
+                vg.stroke
             end
         end
 
@@ -76,12 +83,28 @@ Widget {
                 next;
             end
             box = [(i+0.55)*w*1.0/(white_keys-1), 0, w*0.8/(white_keys), h*0.7];
-            pad(0.9, box);
+            pad(0.8, box);
             vg.path do |vg|
                 vg.rect(*box)
                 vg.fill_color black_color
                 vg.fill_color enable_color if data && data[id]
                 vg.fill
+            end
+        end
+        #//draw the black keys at the joints
+        (0..white_keys).each do |i|
+            id = black_key_id i
+            if(black_pattern[i%7] == 0)
+                next;
+            end
+            box = [(i+0.55)*w*1.0/(white_keys-1), 0, w*0.8/(white_keys), h*0.7];
+            pad(0.8, box);
+            vg.path do |vg|
+                vg.move_to(box[0],box[1]+box[3])
+                vg.line_to(box[0]+box[2],box[1]+box[3])
+                vg.stroke_color black_accent
+                vg.stroke_width 2.0
+                vg.stroke
             end
         end
     }

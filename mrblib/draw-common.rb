@@ -414,6 +414,15 @@ module Theme
     InnerGrad1          = color("4E4E4F")
     InnerGrad2          = color("39393B")
 
+
+    #Keyboard Widget
+    KeyWhiteGrad1       = color("B0B7C0")
+    KeyWhiteGrad2       = color("91989E")
+    KeyWhiteAccent      = color("AEB7BF")
+    KeyBlack            = color("2F3C45")
+    KeyBlackAccent      = color("3C4F56")
+    KeyEnable           = color("00ff00")
+
     TitleBar            = ButtonGrad1
     #Visualizations
     VisualBackground    = color("212121")

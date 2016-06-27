@@ -16,21 +16,27 @@ Widget {
     }
     Widget {
         Widget {
-            ParModuleRow {
+            Widget {
                 Text { label: "name:" }
                 ColorBox {
                     bg: color("222222")
                 }
+                function layout(l) {
+                    Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.3, 0.7], 0, 4)
+                }
             }
-            ParModuleRow {
+            Widget {
                 Text { label: "comment:" }
                 ColorBox {
                     bg: color("222222")
                 }
+                function layout(l) {
+                    Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.3, 0.7], 0, 4)
+                }
             }
             function class_name() { "partsub" }
             function layout(l) {
-                Draw::Layout::vpack(l, self_box(l), chBoxes(l))
+                Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 4)
             }
         }
         ParModuleRow {

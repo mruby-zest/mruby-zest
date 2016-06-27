@@ -19,10 +19,13 @@ module Draw
             ypts = DSP::normalize(ypts) if do_norm
             xpts = Draw::DSP::linspace(0,1,ypts.length)
             vg.path do |v|
-                vg.move_to(bb.x, bb.y+bb.h/2-bb.h/2*ypts[0])
+                ypos = bb.y+bb.h/2-bb.h/2*ypts[0]
+                ypos = [bb.y, [ypos, bb.y+bb.h].min].max
+                vg.move_to(bb.x, ypos)
                 (1...ypts.length).each do |pt|
-                    vg.line_to(bb.x+bb.w*xpts[pt],
-                               bb.y+bb.h/2-bb.h/2*ypts[pt])
+                    ypos = bb.y+bb.h/2-bb.h/2*ypts[pt]
+                    ypos = [bb.y, [ypos, bb.y+bb.h].min].max
+                    vg.line_to(bb.x+bb.w*xpts[pt], ypos)
                 end
                 v.stroke_color Theme::VisualLine
                 v.stroke_width 2.0

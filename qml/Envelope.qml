@@ -252,7 +252,6 @@ Widget {
             return if run_view.extern.nil?
             meta = OSC::RemoteMetadata.new($remote, run_view.extern)
 
-            puts run_view.methods.sort
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
             run_view.valueRef.callback = Proc.new {|x|
                 run_view.runtime_points = x;

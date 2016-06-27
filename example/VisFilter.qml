@@ -11,12 +11,7 @@ Widget {
 
     function update_coeff(x)
     {
-       #puts x
-       #puts
-       #puts
        return if(x == vis_filter.coeff)
-       #puts "coeff"
-       #puts x
        b = nil
        a = nil
        if(x.length == 7)
@@ -27,7 +22,6 @@ Widget {
            a = x[3..4]
        end
        vis_filter.coeff = x;
-       #puts vis_filter.coeff
        xpts = Draw::DSP::logspace(1, 20000, 256)
        ypts = []
        xpts.each do |pt|
@@ -53,23 +47,7 @@ Widget {
     {
         background Theme::VisualBackground
         Draw::Grid::log_x(vg, 1, 20000, Rect.new(0, 0, w, h))
-        Draw::Grid::linear_y(vg, 1, 20000, Rect.new(0, 0, w, h))
-
-        #puts coeff
-        ##puts ypoints.map {|x| Math.log10(x)}
-        #return if ypoints.empty?
-        #vg.path do |v|
-        #    dx = w
-        #    ch = h/2
-        #    dy = h/8
-        #    v.move_to(0, ch-dy*Math.log10(ypoints[0]))
-        #    N = ypoints.length-1
-        #    (1..N).each do |i|
-        #        v.line_to(dx*i/N, ch-dy*Math.log10(ypoints[i]))
-        #    end
-        #    v.stroke_color color("00ff00")
-        #    v.stroke
-        #end
+        Draw::Grid::linear_y(vg, 1, 20, Rect.new(0, 0, w, h))
     }
 
     DataView {

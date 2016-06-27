@@ -1,5 +1,5 @@
 Widget {
-    id: base
+    id: basemod
     extern: "/part0/kit0/adpars/VoicePar0/"
     Widget {
         Widget {
@@ -16,6 +16,7 @@ Widget {
                 }
                 Swappable {
                     id: env
+                    extern: basemod.extern+"FMAmpEnvelope/"
                     content: Qml::ZynAmpEnv
                 }
                 function layout(l) {
@@ -29,7 +30,7 @@ Widget {
             }
         }
         ZynOscilModRight {
-            extern: base.extern
+            extern: basemod.extern
         }
 
         function layout(l)

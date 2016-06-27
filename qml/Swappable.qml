@@ -86,6 +86,7 @@ Widget {
         widget.y = 0
         widget.w = self.w
         widget.h = self.h
+        widget.extern = self.extern if !self.extern.empty?
         Qml::add_child(self, widget)
         t3=Time.new
         self.db.update_values

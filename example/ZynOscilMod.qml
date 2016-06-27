@@ -40,7 +40,7 @@ Widget {
     }
     Widget {
         id: footer
-        
+
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
 

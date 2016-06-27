@@ -22,7 +22,7 @@ Widget {
 
     //Callback function which does not propagate info to remote API
     function setValue(v) {
-        self.value = v
+        self.value = lim(v, 0.0, 1.0)
         damage_self
     }
 
@@ -126,7 +126,6 @@ Widget {
     }
 
     function updatePos(delta) {
-        puts "updatePos..."
         tmp = valuator.value - delta
         nvalue = lim(tmp, 0.0, 1.0)
         if(valuator.valueRef)

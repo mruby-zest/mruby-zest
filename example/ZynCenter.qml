@@ -2,14 +2,14 @@ Widget {
     id: center
     function layout(l)
     {
-        #puts "Center layout"
+        #Center layout
         selfBox = l.genBox :zynCenter, center
         headBox  = header.layout(l)
         row1Box  = row1.layout(l)
         row2Box  = row2.layout(l)
         content  = explore.layout(l)
         row3Box  = row3.layout(l)
-        #puts "layout the module"
+        #layout the module
         amplBox  = ampl.layout(l)
         freqBox  = freq.layout(l)
         filtBox  = filt.layout(l)
@@ -19,7 +19,7 @@ Widget {
         amplLBox = ampl_lfo.layout(l)
         freqLBox = freq_lfo.layout(l)
         filtLBox = filt_lfo.layout(l)
-        #puts "module layout done"
+        #module layout done
         l.contains(selfBox, headBox)
         l.contains(selfBox, row1Box)
         l.contains(selfBox, row2Box)
@@ -73,8 +73,8 @@ Widget {
         l.le([content.h, selfBox.h], [1, -0.36])
         l.punish_difference(amplBox.w,amplEBox.w)
         l.punish_difference(freqBox.w,freqEBox.w)
-        #puts "Center Layout Done"
-       
+        #Center Layout Done
+
         selfBox
     }
     Widget {

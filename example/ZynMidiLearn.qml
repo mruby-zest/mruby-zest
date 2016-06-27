@@ -37,8 +37,8 @@ Widget {
         puts x
         (0...n).each do |i|
             row = children[i+1]
-            row.children[1].label = x[i*4+0].to_s
-            row.children[2].label = "*"
+            row.children[1].label = "*"
+            row.children[2].label = x[i*4+0].to_s
             row.children[3].label = x[i*4+1].to_s
             row.children[4].label = x[i*4+2].to_s
             row.children[5].label = x[i*4+3].to_s

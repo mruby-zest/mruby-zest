@@ -4,12 +4,10 @@ Widget {
 
     function layout(l)
     {
-        #puts "Center layout"
         selfBox = l.genBox :zynCenter, center
         headBox  = header.layout(l)
         swapBox  = swap.layout(l)
 
-        #puts "module layout done"
         l.contains(selfBox, headBox)
         l.contains(selfBox, swapBox)
 

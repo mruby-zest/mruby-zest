@@ -65,25 +65,23 @@ Widget {
         "Selector"
     }
 
-    function onMousePress(ev)
+    function set_value(val)
     {
-        if(selector.selected  >= (options.length - 1))
-            selector.selected = 0
-        else
-            selector.selected = selector.selected + 1
-        end
-
+        self.selected = val
         if(self.valueRef && self.selected <= opt_vals.length)
             self.valueRef.value = self.opt_vals[self.selected]
         end
-        if(self.valueRef)
+        if(self.valueRef && self.root)
             self.root.log(:user_value, self.valueRef.display_value, src=self.label)
         end
         whenValue.call if whenValue
 
-        if(selector.root)
-            selector.root.damage_item selector
-        end
+        damage_self
+    }
+
+    function onMousePress(ev)
+    {
+        create_menu
     }
 
     function draw(vg)
@@ -100,12 +98,6 @@ Widget {
             v.stroke_width 1
             v.stroke
         end
-
-        #vg.path do |v|
-        #    v.rect(w*pad2-h*pad2, h*pad, h*pad2, h*pad2)
-        #    v.fill_color color("123456")
-        #    v.fill
-        #end
 
         vg.path do |v|
             tx = w*pad2-h*pad2
@@ -128,4 +120,27 @@ Widget {
         vg.fill_color text_color
         vg.text(3+w*pad*2,h/2,(options[selected]).upcase)
     }
+
+    function create_menu()
+    {
+        n = options.length
+        widget = DropDown.new(self.db)
+        widget.w = self.w
+        widget.h = self.h*n
+        widget.x = 0
+        widget.y = 0
+        widget.layer = 2
+        widget.options = options
+        widget.callback = lambda { |v|
+            set_value(v)
+        }
+        print "widget.x = "
+        puts widget.x
+        widget.y = -self.h*(n-1) if(widget.h+global_y > window.h)
+
+        Qml::add_child(self, widget)
+        root.smash_draw_seq
+        root.damage_item widget
+    }
+
 }

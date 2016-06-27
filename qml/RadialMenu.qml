@@ -12,12 +12,6 @@ Widget {
 
     function draw(vg)
     {
-        #vg.path do |v|
-        #    v.rect(0,0,w,h)
-        #    v.fill_color(NVG.rgba(0xff,0xff,0xff,0x80))
-        #    v.fill
-        #end
-
         inner  = 0.1*[h,w].min
         outer = 0.5*[h,w].min
         cx = radial.w/2
@@ -69,7 +63,7 @@ Widget {
 
         #Draw East
         vg.text(w*0.8,h*0.5,fields[1].upcase)
-        
+
         #Draw South
         vg.text(w*0.5,h*0.8,fields[2].upcase)
 
@@ -122,7 +116,7 @@ Widget {
             end
         end
     }
-        
+
     function onMousePress(ev) {
         dx = ev.pos.x-radial.w/2
         dy = ev.pos.y-radial.h/2

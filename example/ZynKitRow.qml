@@ -6,7 +6,7 @@ Widget {
     TextBox { label: "kit name" }
     HSlider { label: "0"}
     //TODO replace with a button trio
-    Button  { layoutOpts: [:no_constraint]; }
+    ZynKitKeyButton  {}
     HSlider {}
     FancyButton { layoutOpts: [:no_constraint]; label: "edit" }
     FancyButton { layoutOpts: [:no_constraint]; label: "edit" }

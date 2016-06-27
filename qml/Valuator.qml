@@ -28,7 +28,6 @@ Widget {
 
     function create_radial()
     {
-        puts "creating the radial menu..."
         gbl_cx = valuator.global_x + 0.5*valuator.w
         gbl_cy = valuator.global_y + 0.5*valuator.h
         gbl_w  = window.w
@@ -120,10 +119,15 @@ Widget {
         end
     }
 
+    function lim(x, low, high)
+    {
+        [low, [x, high].min].max
+    }
+
     function updatePos(delta) {
-        #puts "updatePos..."
+        puts "updatePos..."
         tmp = valuator.value - delta
-        nvalue = limit(tmp, 0, 1)
+        nvalue = lim(tmp, 0.0, 1.0)
         if(valuator.valueRef)
             old_dsp = valuator.valueRef.display_value
             valuator.valueRef.value = nvalue
@@ -135,7 +139,7 @@ Widget {
             valuator.value = nvalue
             whenValue.call if whenValue
         end
-        root.damage_item(valuator)
+        damage_self
     }
 
     function onMerge(val)

@@ -32,7 +32,7 @@ Widget {
 
     function onMousePress(ev) {
         n   = options.length
-        opt = (n*(ev.pos.y-global_y)/h+0.5).to_i - 1
+        opt = (n*(ev.pos.y-global_y)/h).to_i
 
         callback.call opt if callback
         rt = self.root
@@ -44,7 +44,7 @@ Widget {
     {
         n   = options.length
         puts n*(ev.pos.y-global_y)/h
-        opt = (n*(ev.pos.y-global_y)/h+0.5).to_i - 1
+        opt = (n*(ev.pos.y-global_y)/h).to_i
         self.hl = opt
         damage_self
     }

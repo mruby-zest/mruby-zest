@@ -2,7 +2,7 @@ Widget {
     id: vce_list
     property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
 
-    function draw(vg) { 
+    function draw(vg) {
         vg.path do |v|
             v.rect(0,0,w,h)
             paint = v.linear_gradient(0,0,0,h,

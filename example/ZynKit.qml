@@ -1,7 +1,8 @@
 Widget {
     id: kit
+    //0.2
     //                       0     1     2     3     4     5     6     7     8
-    property Array weights: [0.05, 0.10, 0.10, 0.10, 0.05, 0.10, 0.10, 0.10, 0.30]
+    property Array weights: [0.05, 0.19, 0.15, 0.10, 0.15, 0.07, 0.07, 0.07, 0.15]
 
     function onSetup(old=nil)
     {
@@ -26,11 +27,11 @@ Widget {
         //4
         TextBox  {bg: Theme::TitleBar; label: "maximum key"}
         //5
-        TextBox  {bg: Theme::TitleBar; label: "addsynth"}
+        TextBox  {bg: Theme::TitleBar; label: "add"}
         //6
-        TextBox  {bg: Theme::TitleBar; label: "subsynth"}
+        TextBox  {bg: Theme::TitleBar; label: "sub"}
         //7
-        TextBox  {bg: Theme::TitleBar; label: "padsynth"}
+        TextBox  {bg: Theme::TitleBar; label: "pad"}
         //8
         TextBox  {bg: Theme::TitleBar; label: "effect route"}
         function layout(l) {

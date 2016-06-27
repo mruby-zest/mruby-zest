@@ -35,7 +35,7 @@ Widget {
         if(type == :add_synth)
             main_widget.content = Qml::ZynAddSynth
         elsif(type == :pad_synth)
-            main_widget.content = Qml::ZynPadHarmonics
+            main_widget.content = Qml::ZynPadSynth
         elsif(type == :sub_synth)
             main_widget.content = Qml::ZynSubSynth
         elsif(type == :part)

@@ -13,8 +13,8 @@ Widget {
     }
     ColorBox {
         bg: Theme::GeneralBackground
-        Slider {pad: 0.01}
-        Slider {pad: 0.01}
+        Slider {visual: true; centered: false; pad: 0.01}
+        Slider {visual: true; centered: false; pad: 0.01}
         ScrollBar {}
         function class_name() { "mixbox" }
         function layout(l) {

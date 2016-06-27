@@ -48,7 +48,7 @@ Valuator {
                 v.fill
             end
         end
-        
+
         vg.path do |v|
             v.move_to(w*pad+w*pad2*(1-value), pad*h)
             v.line_to(w*pad+w*pad2*(1-value), pad2*h)

@@ -1,4 +1,5 @@
 Widget {
+Widget {
     id: center
 
     function layout(l)
@@ -19,18 +20,13 @@ Widget {
 
         selfBox
     }
-    Widget {
+    TabGroup {
         id: header
-        Button { label: "<"; layoutOpts: [:no_constraint]}
-        Button { label: "4"; layoutOpts: [:no_constraint]}
-        Button { label: ">"; layoutOpts: [:no_constraint]}
-        TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
-        TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
-        TabButton { whenClick: lambda {header.setTab(2)}; label: "oscillators"}
-        TabButton { whenClick: lambda {header.setTab(3)}; label: "modulation"}
-        TabButton { whenClick: lambda {header.setTab(4)}; label: "voice list"}
-        TabButton { whenClick: lambda {header.setTab(5)}; label: "resonance"}
+        TabButton { label: "harmonic structure"}
+        TabButton { label: "oscillator"; value: true}
+        TabButton { label: "envelopes & lfos"}
 
+        Button { layoutOpts: [:no_constraint]; label: "export"}
         CopyButton {}
         PasteButton {}
         function gen_weights()
@@ -58,12 +54,13 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                if(idx < 9)
+                if(idx < 3)
                     l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
 
                     #add in the aspect constraint
                     l.aspect(box, 100, weights[idx])
-                elsif(idx == 9)
+                elsif(idx == 3)
+                    l.aspect(box, 100, weights[idx])
                     l.weak(box.x)
                 end
 
@@ -75,34 +72,23 @@ Widget {
             selfBox
         }
 
-        function setTab(id)
+        function set_tab(wid)
         {
-            n = children.length
-            tab_id = 0
-            (0..n).each do |ch_id|
-                child = children[ch_id]
-                if(child.class == Qml::TabButton)
-                    child.value = (tab_id == id)
-                    tab_id += 1
-                    self.root.damage_item child
-                end
-            end
+            selected = get_tab wid
 
             #Define a mapping from tabs to values
-            mapping = {0 => Qml::ZynAddGlobal,
-                       1 => Qml::ZynAddVoice,
-                       2 => Qml::ZynOscil,
-                       3 => Qml::ZynOscilMod,
-                       4 => Qml::ZynAddVoiceList,
-                       5 => Qml::ZynResonance}
+            mapping = {0 => Qml::ZynPadHarmonics,
+                       1 => Qml::ZynPadHarmonics,
+                       2 => Qml::ZynPadHarmonics}
 
-            swap.content = mapping[id]
+            swap.content = mapping[selected]
         }
 
     }
 
     Swappable {
         id: swap
-        content: Qml::ZynAddGlobal
+        content: Qml::ZynPadHarmonics
     }
+}
 }

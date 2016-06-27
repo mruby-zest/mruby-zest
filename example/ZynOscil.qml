@@ -1,13 +1,22 @@
 Widget {
     extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
     id: base_osc
+    property Bool doRefresh: false
+
+    function animate()
+    {
+        if(doRefresh)
+            self.doRefresh = false
+            base.refresh
+            full.refresh
+            base_harm.refresh
+            full_harm.refresh
+        end
+    }
 
     function refresh()
     {
-        base.refresh
-        full.refresh
-        base_harm.refresh
-        full_harm.refresh
+        self.doRefresh = true
     }
 
     TitleBar {
@@ -70,16 +79,16 @@ Widget {
             //COL 1
             //base
             TextBox { label: "base func."}
-            Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pcurrentbasefunc"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pbasefuncpar"}
+            Selector { extern: base_osc.extern + "Pcurrentbasefunc"}
+            HSlider  { extern: base_osc.extern + "Pbasefuncpar"}
             Widget {}
 
             //modulation
             TextBox { label: "BF mod."}
-            Selector { whenValue: lambda {base_osc.refresh}; id: modsel; extern: base_osc.extern + "Pbasefuncmodulation"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par1"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par2"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: modsel.extern + "par3"}
+            Selector { id: modsel; extern: base_osc.extern + "Pbasefuncmodulation"}
+            HSlider  { extern: modsel.extern + "par1"}
+            HSlider  { extern: modsel.extern + "par2"}
+            HSlider  { extern: modsel.extern + "par3"}
 
             //bot
             Button { label: "as base"}
@@ -87,17 +96,17 @@ Widget {
             //COL 2
             //shape
             TextBox  { label: "waveshaping"}
-            Selector {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshapingfunction"}
-            HSlider  {whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pwaveshaping"}
+            Selector { extern: base_osc.extern + "Pwaveshapingfunction"}
+            HSlider  { extern: base_osc.extern + "Pwaveshaping"}
 
             //pad
             Widget   {}
 
             //filter
             TextBox { label: "filter" }
-            Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfiltertype";}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar1";}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pfilterpar2";}
+            Selector { extern: base_osc.extern + "Pfiltertype";}
+            HSlider  { extern: base_osc.extern + "Pfilterpar1";}
+            HSlider  { extern: base_osc.extern + "Pfilterpar2";}
             Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
 
             //bot
@@ -140,10 +149,10 @@ Widget {
 
             //modulation
             TextBox { label: "modulation" }
-            Selector { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulation"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar1"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar2"}
-            HSlider  { whenValue: lambda {base_osc.refresh}; extern: base_osc.extern + "Pmodulationpar3"}
+            Selector { extern: base_osc.extern + "Pmodulation"}
+            HSlider  { extern: base_osc.extern + "Pmodulationpar1"}
+            HSlider  { extern: base_osc.extern + "Pmodulationpar2"}
+            HSlider  { extern: base_osc.extern + "Pmodulationpar3"}
 
             //pad
             Widget {}
@@ -159,8 +168,10 @@ Widget {
 
             function onSetup(old=nil)
             {
+                lam = lambda {base_osc.refresh}
                 children.each do |ch|
                     ch.layoutOpts = [:no_constraint]
+                    ch.whenValue = lam if(ch.respond_to? :whenValue)
                 end
             }
 

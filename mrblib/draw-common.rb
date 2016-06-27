@@ -387,6 +387,7 @@ module Theme
     SliderActive        = color("0A596F")
     SliderBackground    = color("1F2E3A")
     SliderStroke        = color("097d89")
+    SliderVisActive     = color("15AEA3")
 
     KnobGrad1           = color("4E5050")
     KnobGrad2           = color("3D3E3E")

@@ -1,6 +1,7 @@
 Widget {
     id: vce_list
-    property Array weights: [0.05, 0.05, 0.05, 0.75, 0.05, 0.05]
+    property Array  weights: [0.05, 0.05, 0.05, 0.75, 0.05, 0.05]
+    property Object valueRef: nil
 
     function draw(vg) { 
         vg.path do |v|
@@ -23,6 +24,34 @@ Widget {
             row.weights = self.weights
             Qml::add_child(self, row)
         end
+
+        self.valueRef = OSC::RemoteParam.new($remote, "/midi-learn-values")
+        self.valueRef.callback = lambda {|x| vce_list.handle(x) }
+        self.valueRef.refresh
+    }
+
+    function handle(x)
+    {
+        n = x.length/4
+        m = children.length-1
+        puts x
+        (0...n).each do |i|
+            row = children[i+1]
+            row.children[1].label = x[i*4+0].to_s
+            row.children[2].label = "*"
+            row.children[3].label = x[i*4+1].to_s
+            row.children[4].label = x[i*4+2].to_s
+            row.children[5].label = x[i*4+3].to_s
+        end
+        (n...m).each do |i|
+            row = children[i+1]
+            row.children[1].label = "X"
+            row.children[2].label = "X"
+            row.children[3].label = ""
+            row.children[4].label = "X"
+            row.children[5].label = "X"
+        end
+        damage_self
     }
 
     Widget {

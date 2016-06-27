@@ -4,9 +4,9 @@ Widget {
 
     //voice ID
     Button { label: voice_item.label; layoutOpts: [:no_constraint]}
-    //mini wave view
+    //channel
     TextBox { bg: Theme::GeneralBackground; label: "1" }
-    //volume
+    //control
     TextBox { bg: Theme::GeneralBackground;  label: "0"}
     //pan
     TextBox { bg: Theme::GeneralBackground;  pad: 0; align: :left; label: "/part0/kit0/adpars/Pvolume"}

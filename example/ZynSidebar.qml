@@ -22,7 +22,7 @@ Widget {
     }
     FancyButton {
         id: kitedit
-        label: "kit editor"
+        label: "kits"
         whenClick: lambda { side.set_content :kits }
     }
     Indent {

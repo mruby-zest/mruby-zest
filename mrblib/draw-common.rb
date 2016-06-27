@@ -267,10 +267,11 @@ module Draw
             selfBox
         end
 
-        def self.vfill(l, selfBox, b, h)
+        def self.vfill(l, selfBox, b, h, pad=0, fixed_pad=0)
             off = 0
             b.each_with_index do |bb,i|
-                l.fixed(bb, selfBox, 0, off, 1,  h[i])
+                l.fixed_long(bb, selfBox, 0, off, 1,  h[i],
+                            0, fixed_pad, 0, -2*fixed_pad)
                 off += h[i]
             end
             selfBox

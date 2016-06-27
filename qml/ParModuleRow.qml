@@ -1,7 +1,9 @@
 Widget {
     id: row
     property Float lsize: 0.3
-    
+    property Int   whitespace: nil
+    property Symbol outer: nil
+
 
     function onSetup(old=nil) {
         mch = row.children
@@ -35,27 +37,32 @@ Widget {
         fixed_width  = nil
         if(mode == :labels)
             fixed_height = l.gensym :modlabelHeight
-            fixed_width  = l.gensym :modWidgetWidth
+            #fixed_width  = l.gensym :modWidgetWidth
         else
             fixed_width  = l.gensym :modWidgetWidth
         end
         begin
             prev = nil
-            children.each do |ch|
+            children.each_with_index do |ch, i|
                 bb = ch.layout(l)
                 if(bb)
+                    l.sheq([bb.x], [1], 0) if i==0 && outer == :none
                     blist << bb
                     l.contains(box, bb)
                     if(mode == :labels)
                         l.sheq([fixed_height, bb.h], [1, -1], 0)
-                        l.sheq([fixed_width,  bb.w], [1, -1], 0)
+                        #l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     else
                         l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     end
                     if(prev)
-                        l.rightOf(prev, bb, false && mode == :normal)
+                        l.rightOf(prev, bb, i != whitespace)
                     end
+
+
+                    l.weak(bb.x) if(i == whitespace)
                     prev = bb
+                    l.sheq([bb.x, bb.w, selfBox.w], [1, 1, -1], 0) if i==children.length-1 && outer == :none
                 end
             end
         end
@@ -73,20 +80,10 @@ Widget {
         end
 
         #Center Stuff Horizontally
-        if(!blist.empty?)
+        if(!blist.empty? && whitespace.nil?)
             l.sheq([blist[0].x, selfBox.w, blist[-1].x, blist[-1].w],
             [1,       -1,       1,     1], 0)
         end
-
-        #if(mode == :labels)
-        #    #Stitch labels
-        #    n = blist.length
-        #    (1...n).each do |i|
-        #        l.rightOf(breal[i-1],blist[i])
-        #    end
-        #end
-
-        #breal = blist
 
         content_items = blist
     }

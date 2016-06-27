@@ -3,7 +3,7 @@ Group {
     ParModuleRow {
         Button { label: "exp mwh"}
         Knob   { label: "modwh" }
-        Button {}
+        Button { label: "exp bw"}
         Knob   { label: "pitchwheel"}
         Knob   { label: "pandepth"}
     }

@@ -21,11 +21,11 @@ Widget {
         //1 - text field
         TextBox  {bg: Theme::TitleBar; label: "kit name"}
         //2
-        TextBox  {bg: Theme::TitleBar; label: "minimum key"}
+        TextBox  {bg: Theme::TitleBar; label: "min. key"}
         //3
         TextBox  {bg: Theme::TitleBar; label: "last note"}
         //4
-        TextBox  {bg: Theme::TitleBar; label: "maximum key"}
+        TextBox  {bg: Theme::TitleBar; label: "max. key"}
         //5
         TextBox  {bg: Theme::TitleBar; label: "add"}
         //6

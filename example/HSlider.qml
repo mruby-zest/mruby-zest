@@ -43,15 +43,15 @@ Valuator {
             draw_centered(vg, pad)
         else
             vg.path do |v|
-                v.rect(pad*w, pad*h, (1-value)*w*pad2, pad2*h)
+                v.rect(pad*w, pad*h, value*w*pad2, pad2*h)
                 v.fill_color Theme::SliderActive
                 v.fill
             end
         end
 
         vg.path do |v|
-            v.move_to(w*pad+w*pad2*(1-value), pad*h)
-            v.line_to(w*pad+w*pad2*(1-value), pad2*h)
+            v.move_to(w*pad+w*pad2*value, pad*h)
+            v.line_to(w*pad+w*pad2*value, pad2*h)
             v.stroke_color Theme::SliderStroke
             v.stroke_width 2.0
             v.stroke
@@ -62,6 +62,5 @@ Valuator {
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(Draw::fade(Theme::TextColor))
         vg.text(w/2,h/2,label.upcase)
-
     }
 }

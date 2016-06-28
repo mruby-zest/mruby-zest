@@ -2,14 +2,41 @@ Widget {
     id: fancy
     property Function whenClick: nil
     property Bool     value:     false
+    property Object   valueRef:  nil
     function class_name() { "FancyButton" }
+
+    onExtern: {
+        meta = OSC::RemoteMetadata.new($remote, fancy.extern)
+        fancy.tooltip = meta.tooltip
+
+        fancy.valueRef = OSC::RemoteParam.new($remote, fancy.extern)
+        fancy.valueRef.callback = Proc.new {|x| fancy.set_value(x)}
+    }
+
+    function set_value(x)
+    {
+        self.value = x
+        damage_self
+    }
+    
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
+    }
+
     function draw(vg)
     {
-        #puts("drawing a fancy button <#{fancy.ui_path}>...")
-        bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
-        dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
-        grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
-        vg.stroke_color(NVG.rgba(0,0,0,0xa0))
+        grad = if(value)
+            bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
+            dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+            vg.linear_gradient(0,0,0,h, bright_green, dark_green)
+        else
+            grey1 = Theme::ButtonGrad1
+            grey2 = Theme::ButtonGrad2
+            vg.linear_gradient(0,0,0,h, grey1, grey2)
+        end
+        vg.stroke_color color("000000", 0xa0)
         vg.path do |v|
             v.rect(0,0,w/4,h)
             v.fill_paint(grad)
@@ -48,10 +75,8 @@ Widget {
 
     function onMousePress(ev) {
         self.value = !self.value
-        if(root)
-            root.damage_item self
-        end
-        self.whenClick.call if self.whenClick
+        damage_self
+        whenClick.call if whenClick
     }
 
     function layout(l)

@@ -16,6 +16,7 @@ Widget {
         (0...16).each do |r|
             col = Qml::ZynMixerCol.new(db)
             col.label = (1+r).to_s
+            col.extern = "/part#{r}/"
             Qml::add_child(self, col)
         end
     }

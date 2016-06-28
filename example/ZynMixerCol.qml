@@ -7,6 +7,7 @@ Widget {
         layoutOpts: [:no_constraint]
     }
     TextBox {
+        extern: col.extern + "Pname"
         bg: nil
         height: 0.4
         label: "synth"
@@ -21,8 +22,14 @@ Widget {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }
     }
-    HSlider { label: "pan"}
-    Selector {layoutOpts: [:no_constraint] }
+    HSlider {
+        extern: col.extern + "Ppanning"
+        label: "pan"
+    }
+    Selector {
+        extern: col.extern + "Prcvchn"
+        layoutOpts: [:no_constraint]
+    }
     Button { layoutOpts: [:no_constraint]; label: "edit" }
 
     function layout(l)
@@ -40,5 +47,12 @@ Widget {
             off += weight
         end
         selfBox
+    }
+
+    function onSetup(old=nil)
+    {
+        children.each do |ch|
+            ch.extern()
+        end
     }
 }

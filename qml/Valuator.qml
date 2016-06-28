@@ -115,8 +115,8 @@ Widget {
     }
 
     function onMouseEnter(ev) {
-        if(valuator.tooltip != "")
-            valuator.root.log(:tooltip, valuator.tooltip)
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
         end
     }
 

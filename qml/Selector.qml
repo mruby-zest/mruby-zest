@@ -52,6 +52,7 @@ Widget {
                 bbl  = $vg.text_bounds(0, 0, (x+"    ").upcase)
                 bb   = [bb, bbl].max
             end
+            scale *= layoutOpts[0] if layoutOpts.include?(:rescale)
             if(bb != 0)
                 #Width cannot be so small that letters overflow
                 l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)

@@ -8,20 +8,20 @@ Group {
         whenModified.call if whenModified
     }
     ParModuleRow {
-        Selector { whenValue: lambda { box.cb}; extern: box.extern + "Ptype" }
-        Selector { extern: box.extern + "../PPdetuneType" }
-        Knob {     extern: box.extern + "../PVelocityScale" }
-    }
-    ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
+        Knob { extern: box.extern + "../PFilterVelocityScale" }
+        Knob { extern: box.extern + "../PFilterVelocityScaleFunction" }
+    }
+    ParModuleRow {
         Selector {
-            //layoutOpts: [:no_constraint]
             whenValue: lambda { box.cb}
             extern: box.extern + "Pstages"
+            layoutOpts: [0.5, :rescale]
         }
+        Selector { extern: box.extern + "Pcategory" }
+        Selector { whenValue: lambda { box.cb}; extern: box.extern + "Ptype" }
+        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
     }
-
 }

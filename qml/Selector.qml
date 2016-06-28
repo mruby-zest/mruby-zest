@@ -114,6 +114,7 @@ Widget {
             v.fill_color Theme::TextColor
             v.fill
         end
+        return if options[selected].nil?
 
         vg.font_face("bold")
         vg.font_size h*0.8

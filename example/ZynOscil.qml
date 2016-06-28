@@ -116,7 +116,7 @@ Widget {
 
             //mag type
             TextBox { label: "mag. type"}
-            Selector {}
+            Selector {extern: base_osc.extern + "Phmagtype" }
             HSlider {extern: base_osc.extern + "Pharmonicshift"}
             Widget {
                 Button  {label: "R"}
@@ -160,8 +160,8 @@ Widget {
 
             //spectrum adj
             TextBox {label: "spectrum adj."}
-            Selector {}
-            HSlider {}
+            Selector { extern: base_osc.extern + "Psatype"}
+            HSlider  { extern: base_osc.extern + "Psapar"}
 
             //bot
             Button {label: "to sine"}

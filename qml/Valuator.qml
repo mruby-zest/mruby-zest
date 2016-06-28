@@ -105,9 +105,9 @@ Widget {
         #puts "I got a mouse move (value)"
         if(prev)
             delta = if(vertical)
-                ev.pos.y - self.prev.y
+                +(ev.pos.y - self.prev.y)
             else
-                ev.pos.x - self.prev.x
+                -(ev.pos.x - self.prev.x)
             end
             updatePos(delta/dragScale)
             self.prev = ev.pos

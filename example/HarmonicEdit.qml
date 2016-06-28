@@ -3,9 +3,19 @@ Widget {
     property Function whenValue: nil
     property Symbol   type: :oscil
 
-    function cb()
+    function cb() { whenValue.call if whenValue }
+
+    function clear()
     {
-        whenValue.call if whenValue
+        children.each_with_index do |ch, i|
+            mval = 64/127.0
+            pval = 64/127.0
+            mval = 1.0 if i == 0
+            ch.children[0].value          = mval
+            ch.children[0].valueRef.value = mval
+            ch.children[2].value          = pval
+            ch.children[2].valueRef.value = pval
+        end
     }
 
 

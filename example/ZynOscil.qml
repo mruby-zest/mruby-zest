@@ -14,6 +14,11 @@ Widget {
         end
     }
 
+    function clear()
+    {
+        hedit.clear
+    }
+
     function refresh()
     {
         self.doRefresh = true
@@ -143,7 +148,10 @@ Widget {
             HSlider  {extern: base_osc.extern + "Padaptiveharmonicspar"}
 
             //bot
-            Button {label: "clear all"}
+            Button   {
+                whenValue: lambda {base_osc.clear}
+                label: "clear all"
+            }
 
             //COL 4
 
@@ -170,8 +178,8 @@ Widget {
             {
                 lam = lambda {base_osc.refresh}
                 children.each do |ch|
-                    ch.layoutOpts = [:no_constraint]
-                    ch.whenValue = lam if(ch.respond_to? :whenValue)
+                    ch.layoutOpts  = [:no_constraint]
+                    ch.whenValue ||= lam if(ch.respond_to? :whenValue)
                 end
             }
 

@@ -110,8 +110,13 @@ Widget {
 
             bp = button_p.layout(l)
             l.contains(selfBox,bp)
+
+            pp = power.layout(l)
+            l.contains(selfBox,pp)
+            l.aspect(pp, 1, 1)
             l.rightOf(t,bc)
             l.rightOf(bc,bp)
+            l.rightOf(bp,pp)
             l.weak(bc.x)
             selfBox
         }
@@ -122,6 +127,11 @@ Widget {
             align: :left
             textColor: Theme::TextModColor
             height: 0.8
+        }
+
+        PowButton {
+            id: power
+            extern: mod.extern;
         }
 
         CopyButton {

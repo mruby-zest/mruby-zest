@@ -36,13 +36,15 @@ Widget {
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
                 self.children[0].children[0].extern = amp_env.extern+"out"
                 amp_env.whenModified = lambda {
-                    row1.children[0].refresh
+                    elm = row1.children[0]
+                    elm.refresh if elm.respond_to? :refresh
                 }
             elsif(type == :filter)
                 self.content = Qml::VisFilter
                 self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
                 amp_gen.children[0].whenModified = lambda {
-                    row1.children[0].refresh
+                    elm = row1.children[0]
+                    elm.refresh if elm.respond_to? :refresh
                 }
             end
             db.update_values

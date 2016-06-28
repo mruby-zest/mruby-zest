@@ -47,7 +47,120 @@ module Draw
                     v.stroke
                 end
             end
+        end
 
+        def self.under_highlight(vg, bb, xdat, ydat, fill)
+            n = xdat.length
+            vg.scissor(bb.x, bb.y+bb.h/2, bb.w, bb.h/2)
+            vg.path do
+                vg.move_to(0.0, 0.0);
+                (0...n).each do |i|
+                    vg.line_to(bb.x + bb.w*xdat[i],
+                               bb.y + bb.h/2*(1-ydat[i]));
+                end
+                vg.line_to(bb.x+bb.w, 0.0)
+                vg.close_path
+                vg.fill_color fill
+                vg.fill
+            end
+            vg.reset_scissor
+        end
+
+        def self.over_highlight(vg, bb, xdat, ydat, fill)
+            n = xdat.length
+            vg.scissor(bb.x, bb.y, bb.w, bb.h/2);
+            vg.path do
+                vg.move_to(0.0,bb.y+bb.h)
+                (0...n).each do |i|
+                    vg.line_to(bb.x + bb.w*xdat[i],
+                               bb.y + bb.h/2*(1-ydat[i]));
+                end
+                vg.line_to(bb.x+bb.w,bb.y+bb.h)
+                vg.close_path
+                vg.fill_color fill
+                vg.fill
+            end
+            vg.reset_scissor
+        end
+
+        def self.zero_line(vg, bb, co)
+            vg.path do
+                vg.move_to(bb.x,      bb.y+bb.h/2)
+                vg.line_to(bb.x+bb.w, bb.y+bb.h/2)
+                vg.stroke_color co
+                vg.stroke
+            end
+        end
+
+        def self.env_sel_line(vg, bb, m, xdat, co)
+            n = xdat.length
+            #Draw Sel Line
+            if(m >= 0 && m < n)
+                vg.path do
+                    vg.move_to(bb.x + bb.w*xdat[m], bb.y)
+                    vg.line_to(bb.x + bb.w*xdat[m], bb.y + bb.h)
+                end
+                vg.stroke_color co
+                vg.stroke
+            end
+        end
+
+        def self.env_plot(vg, bb, xdat, ydat, stroke, selected)
+            n = xdat.length
+            vg.path do
+                vg.move_to(bb.x + bb.w*xdat[0],
+                           bb.y + bb.h/2*(1-ydat[0]))
+                (0...n).each do |i|
+                    vg.line_to(bb.x + bb.w*xdat[i],
+                               bb.y + bb.h/2*(1-ydat[i]))
+                end
+                vg.stroke_width 3.0
+                vg.stroke_color stroke
+                vg.stroke
+            end
+            vg.stroke_width 1.0
+
+            sel_color    = Theme::VisualSelect
+            bright       = Theme::VisualBright
+            (0...n).each do |i|
+                xx = bb.x + bb.w*xdat[i];
+                yy = bb.y + bb.h/2*(1-ydat[i]);
+                scale = 3
+                vg.stroke_color sel_color if(selected == i)
+                vg.stroke_color bright    if(selected != i)
+                vg.fill_color   color(:black)
+                Draw::WaveForm::env_marker(vg, xx, yy, scale)
+            end
+        end
+
+        def self.env_marker(vg, x, y, scale)
+            vg.path do
+                vg.rect(x-scale,y-scale,scale*2,scale*2);
+                vg.stroke_width 1.2
+                vg.fill
+                vg.stroke
+            end
+        end
+
+        def self.overlay(vg, bb, pts)
+            n = pts.length/2
+            sel_color    = Theme::VisualSelect
+            dim_color    = Theme::VisualDimTrans
+            (0...n).each do |i|
+                xx = bb.x + bb.w*(pts[2*i]-1)*0.33
+                yy = bb.y + bb.h*(1-pts[2*i+1])
+
+                vg.stroke_color sel_color
+                vg.fill_color   color(:black)
+                env_marker(vg, xx, yy, 3)
+
+                vg.path do |v|
+                    v.move_to(xx, bb.y)
+                    v.line_to(xx, bb.y + bb.h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
         end
     end
     module Grid
@@ -333,6 +446,10 @@ module Draw
             end
             selfBox
         end
+    end
+
+    def self.indent(rect, padw, padh)
+        Rect.new(padw+rect.x, padh+rect.y, rect.w-2*padw, rect.h-2*padh)
     end
 
     def self.fade(c)

@@ -82,7 +82,7 @@ Widget {
         n = array.length
         (0...n).each do |i|
             if(array[i] < -1)
-                array[i] = -1 
+                array[i] = -1
             elsif(array[i] > 1)
                 array[i] = 1
             end
@@ -128,95 +128,23 @@ Widget {
         dim          = Theme::VisualDim
         sel_color    = Theme::VisualSelect
 
-        vg.path do |v|
-            v.rect(0,0,w,h)
-            v.fill_color   fill_color
-            v.stroke_color stroke_color
-            v.fill
-            v.stroke
-        end
+        padfactor = 20
+        bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-        #puts("draw underline")
-        ##Draw UnderLine
-        ###Bottom Half
-        vg.scissor(0, h/2, w, h/2)
-        vg.path do |vg|
-            vg.move_to(0.0, 0.0);
-            (0...n).each do |i|
-                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
-            end
-            vg.line_to(w, 0.0)
-            vg.close_path
-            vg.fill_color light_fill
-            vg.fill
-        end
-        vg.reset_scissor
+        background(fill_color)
 
-        #////Upper Half
-        vg.scissor(0, 0, w, h/2);
-        vg.path do |vg|
-            vg.move_to(w,h)
-            (0...n).each do |i|
-                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
-            end
-            vg.line_to(w,h)
-            vg.close_path
-            vg.fill_color light_fill
-            vg.fill
-        end
-        vg.reset_scissor
+        #Draw Highlights
+        Draw::WaveForm::under_highlight(vg, bb, xdat, ydat, light_fill)
+        Draw::WaveForm::over_highlight(vg,  bb, xdat, ydat, light_fill)
 
-        #//Draw Zero Line
-        vg.path do |vg|
-            vg.move_to(0, h/2)
-            vg.line_to(w, h/2)
-            vg.stroke_color dim
-            vg.stroke
-        end
+        #Draw Zero Line
+        Draw::WaveForm::zero_line(vg, bb, dim)
 
-        begin
-            m = 2
-            #Draw Sel Line
-            if(m >= 0 && m < n)
-                vg.path do |v|
-                    v.move_to(w*xdat[m], 0)
-                    v.line_to(w*xdat[m], h)
-                end
-                vg.stroke_color(dim);
-                vg.stroke
-            end
-        end
+        #Indicate Sustain Point
+        Draw::WaveForm::env_sel_line(vg, bb, 2, xdat, dim)
 
         #Draw Actual Line
-        vg.path do |vg|
-            vg.move_to(w*xdat[0],h/2-h/2*ydat[0])
-            (0...n).each do |i|
-                vg.line_to(w*xdat[i], h/2-h/2*ydat[i]);
-            end
-            vg.stroke_width 3.0
-            vg.stroke_color bright
-            vg.stroke
-        end
-        vg.stroke_width 1.0
-
-        (0...n).each do |i|
-            xx = w*xdat[i];
-            yy = h/2-h/2*ydat[i];
-            scale = h/80
-            vg.path do |vg|
-                vg.rect(xx-scale,yy-scale,scale*2,scale*2);
-                vg.fill_color NVG.rgba(0,0,0,255)
-                if(env.selected == i)
-                    vg.stroke_color sel_color
-                else
-                    vg.stroke_color bright
-                end
-
-                vg.stroke_width scale*0.5
-                vg.fill
-                vg.stroke
-            end
-        end
+        Draw::WaveForm::env_plot(vg, bb, xdat, ydat, bright, selected)
     }
     Widget {
         id: run_view
@@ -245,7 +173,6 @@ Widget {
         function runtime_points=(pts)
         {
             @runtime_points = pts
-            puts pts
         }
 
         onExtern: {
@@ -268,28 +195,11 @@ Widget {
             #Draw the data
             pts   = @runtime_points
             pts ||= []
-            (0...(pts.length/2)).each do |i|
-                xx = w*(pts[2*i]-1)*0.33
-                yy = h-h*pts[2*i+1]
 
-                scale = h/80
-                vg.path do |vg|
-                    vg.rect(xx-scale,yy-scale,scale*2,scale*2);
-                    vg.fill_color color(:black)
-                    vg.stroke_color sel_color
+            padfactor = 20
+            bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-                    vg.stroke_width scale*0.5
-                    vg.fill
-                    vg.stroke
-                end
-                
-                vg.path do |v|
-                    v.move_to(xx, 0)
-                    v.line_to(xx, h)
-                    v.stroke_color dim_color
-                    v.stroke
-                end
-            end
+            Draw::WaveForm::overlay(vg, bb, pts)
         }
     }
 }

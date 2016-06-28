@@ -119,7 +119,6 @@ Widget {
     {
         xdat = get_x_points()
         ydat = env.ypoints
-        n    = [xdat.length, ydat.length].min
 
         fill_color   = Theme::VisualBackground
         stroke_color = Theme::VisualStroke
@@ -131,20 +130,22 @@ Widget {
         padfactor = 20
         bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
+        pts = Draw::zipToPos(xdat, ydat)
+
         background(fill_color)
 
         #Draw Highlights
-        Draw::WaveForm::under_highlight(vg, bb, xdat, ydat, light_fill)
-        Draw::WaveForm::over_highlight(vg,  bb, xdat, ydat, light_fill)
+        Draw::WaveForm::under_highlight(vg, bb, pts, light_fill)
+        Draw::WaveForm::over_highlight(vg,  bb, pts, light_fill)
 
         #Draw Zero Line
         Draw::WaveForm::zero_line(vg, bb, dim)
 
         #Indicate Sustain Point
-        Draw::WaveForm::env_sel_line(vg, bb, 2, xdat, dim)
+        Draw::WaveForm::env_sel_line(vg, bb, 2, pts, dim)
 
         #Draw Actual Line
-        Draw::WaveForm::env_plot(vg, bb, xdat, ydat, bright, selected)
+        Draw::WaveForm::env_plot(vg, bb, pts, bright, selected)
     }
     Widget {
         id: run_view

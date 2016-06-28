@@ -161,14 +161,10 @@ Widget {
 
     function draw(vg)
     {
-        # 4 pixel border
-        bb = Rect.new(4,4,w-8,h-8)
+        padfactor = 10
+        bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-        vg.path do |v|
-            v.rect(bb.x,bb.y,bb.w,bb.h)
-            v.fill_color color("232C36")
-            v.fill
-        end
+        background Theme::VisualBackground
 
         dat = lfo_vis.points
         updateType if dat.empty?
@@ -178,27 +174,20 @@ Widget {
             return
         end
 
-        fill_color   = color("232C36")
-        stroke_color = NVG.rgba(0x01, 0x47, 0x67,255)
+        fill_color   = Theme::VisualBackground
+        stroke_color = Theme::VisualStroke
+        light_fill   = Theme::VisualLightFill
+        light_filll  = color("911515", 20)
+        bright       = Theme::VisualBright
+        dim          = Theme::VisualDim
+        sel_color    = Theme::VisualSelect
 
-        light_fill   = NVG.rgba(0x11,0x45,0x75,55)
-        light_filll   = NVG.rgba(0x91,0x15,0x15,15)
-        bright       = NVG.rgba(0x3a,0xc5,0xec,255)
+        background fill_color
 
-        dim          = NVG.rgba(0x11,0x45,0x75,255)
-
-        sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
-
-        vg.path do |v|
-            v.rect(bb.x,bb.y,bb.w,bb.h)
-            v.fill_color   fill_color
-            v.stroke_color stroke_color
-            v.fill
-            v.stroke
-        end
-
-        draw_grid(vg, lfo_vis.depth*16, lfo_vis.period/10, 0.2*w, 0.8*w,  h)
-        draw_grid(vg, lfo_vis.depth*16, lfo_vis.delay_time/100, 0, 0.2*w, h)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.period/10,
+                  bb.x+0.2*bb.w, bb.y, 0.8*bb.w, bb.h)
+        draw_grid(vg, lfo_vis.depth*16, lfo_vis.delay_time/100,
+                  bb.x,          bb.y, 0.2*bb.w, bb.h)
 
         #weak highlight
         vg.path do |vg|
@@ -207,88 +196,27 @@ Widget {
             vg.fill
         end
 
-        #puts("draw underline")
-        ##Draw UnderLine
-        ###Bottom Half
-        vg.scissor(0, h/2, w, h/2)
-        vg.path do |vg|
-            vg.move_to(0.0, 0.0);
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
-            end
-            vg.line_to(w, 0.0)
-            vg.close_path
-            vg.fill_color light_fill
-            vg.fill
-        end
-        vg.reset_scissor
+        pts = Draw::toPos(dat)
 
-        #////Upper Half
-        vg.scissor(0, 0, w, h/2);
-        vg.path do |vg|
-            vg.move_to(w,h)
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
-            end
-            vg.line_to(w,h)
-            vg.close_path
-            vg.fill_color light_fill
-            vg.fill
-        end
-        vg.reset_scissor
+        #Draw Highlights
+        Draw::WaveForm::under_highlight(vg, bb, pts, light_fill)
+        Draw::WaveForm::over_highlight(vg,  bb, pts, light_fill)
 
-        #//Draw Zero Line
-        vg.path do |vg|
-            vg.move_to(0, h/2)
-            vg.line_to(w, h/2)
-            vg.stroke_color dim
-            vg.stroke
-        end
+        #Draw Zero Line
+        Draw::WaveForm::zero_line(vg, bb, dim)
 
-        n = dat.length
-        m = 1
-        #Draw Sel Line
-        if(m >= 0 && m < n)
-            vg.path do |v|
-                v.move_to(w*dat[2*m+1], 0)
-                v.line_to(w*dat[2*m+1], h)
-            end
-            vg.stroke_color(dim);
-            vg.stroke
-        end
+        Draw::WaveForm::env_sel_line(vg, bb, 1, pts, dim)
 
         #Draw Actual Line
-        vg.path do |vg|
-            vg.move_to(w*dat[1],h/2-h/2*dat[0])
-            (0...(dat.length/2)).each do |i|
-                vg.line_to(w*dat[2*i+1], h/2-h/2*dat[2*i]);
-            end
-            vg.stroke_width 3.0
-            vg.stroke_color bright
-            vg.stroke
-        end
-        vg.stroke_width 1.0
+        Draw::WaveForm::lfo_plot(vg, bb, pts, bright)
 
+        vg.fill_color   color(:black)
+        vg.stroke_color bright
         (0...(dat.length/2)).each do |i|
-            xx = w*dat[2*i+1];
-            yy = h/2-h/2*dat[2*i];
-            if(i >= 2)
-                next
-            end
-            scale = h/80
-            vg.path do |vg|
-                vg.rect(xx-scale,yy-scale,scale*2,scale*2);
-                vg.fill_color NVG.rgba(0,0,0,255)
-                #if(env.selected == i)
-                #    vg.stroke_color sel_color
-                #else
-                    vg.stroke_color bright
-                #end
-
-                vg.stroke_width scale*0.5
-                vg.fill
-                vg.stroke
-            end
+            xx = bb.x + bb.w*dat[2*i+1];
+            yy = bb.y + bb.h/2*(1-dat[2*i]);
+            next if(i >= 2)
+            Draw::WaveForm::env_marker(vg, xx, yy, 3)
         end
     }
 
@@ -346,34 +274,14 @@ Widget {
 
         function draw(vg)
         {
-            sel_color    = NVG.rgba(0x00, 0xff, 0x00, 255)
-            dim_color    = NVG.rgba(0x11,0x45,0x75,155)
             #Draw the data
-            print '*'
             pts   = @runtime_points
             pts ||= []
-            (0...(pts.length/2)).each do |i|
-                xx = 0.2*w+0.8*w*pts[2*i]
-                yy = h/2-h/2*pts[2*i+1]/127
 
-                scale = h/80
-                vg.path do |vg|
-                    vg.rect(xx-scale,yy-scale,scale*2,scale*2);
-                    vg.fill_color NVG.rgba(0,0,0,255)
-                    vg.stroke_color sel_color
+            padfactor = 10
+            bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-                    vg.stroke_width scale*0.5
-                    vg.fill
-                    vg.stroke
-                end
-
-                vg.path do |v|
-                    v.move_to(xx, 0)
-                    v.line_to(xx, h)
-                    v.stroke_color dim_color
-                    v.stroke
-                end
-            end
+            Draw::WaveForm::overlay_lfo(vg, bb, pts)
         }
     }
 }

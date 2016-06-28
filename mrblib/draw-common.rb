@@ -49,14 +49,14 @@ module Draw
             end
         end
 
-        def self.under_highlight(vg, bb, xdat, ydat, fill)
-            n = xdat.length
+        def self.under_highlight(vg, bb, dat, fill)
+            n = dat.length
             vg.scissor(bb.x, bb.y+bb.h/2, bb.w, bb.h/2)
             vg.path do
                 vg.move_to(0.0, 0.0);
                 (0...n).each do |i|
-                    vg.line_to(bb.x + bb.w*xdat[i],
-                               bb.y + bb.h/2*(1-ydat[i]));
+                    vg.line_to(bb.x + bb.w*dat[i].x,
+                               bb.y + bb.h/2*(1-dat[i].y));
                 end
                 vg.line_to(bb.x+bb.w, 0.0)
                 vg.close_path
@@ -66,14 +66,14 @@ module Draw
             vg.reset_scissor
         end
 
-        def self.over_highlight(vg, bb, xdat, ydat, fill)
-            n = xdat.length
+        def self.over_highlight(vg, bb, dat, fill)
+            n = dat.length
             vg.scissor(bb.x, bb.y, bb.w, bb.h/2);
             vg.path do
                 vg.move_to(0.0,bb.y+bb.h)
                 (0...n).each do |i|
-                    vg.line_to(bb.x + bb.w*xdat[i],
-                               bb.y + bb.h/2*(1-ydat[i]));
+                    vg.line_to(bb.x + bb.w*dat[i].x,
+                               bb.y + bb.h/2*(1-dat[i].y));
                 end
                 vg.line_to(bb.x+bb.w,bb.y+bb.h)
                 vg.close_path
@@ -92,27 +92,43 @@ module Draw
             end
         end
 
-        def self.env_sel_line(vg, bb, m, xdat, co)
-            n = xdat.length
+        def self.env_sel_line(vg, bb, m, dat, co)
+            n = dat.length
             #Draw Sel Line
             if(m >= 0 && m < n)
                 vg.path do
-                    vg.move_to(bb.x + bb.w*xdat[m], bb.y)
-                    vg.line_to(bb.x + bb.w*xdat[m], bb.y + bb.h)
+                    vg.move_to(bb.x + bb.w*dat[m].x, bb.y)
+                    vg.line_to(bb.x + bb.w*dat[m].x, bb.y + bb.h)
                 end
                 vg.stroke_color co
                 vg.stroke
             end
         end
 
-        def self.env_plot(vg, bb, xdat, ydat, stroke, selected)
-            n = xdat.length
+        def self.lfo_plot(vg, bb, dat, stroke)
+            n = dat.length
             vg.path do
-                vg.move_to(bb.x + bb.w*xdat[0],
-                           bb.y + bb.h/2*(1-ydat[0]))
+                vg.move_to(bb.x + bb.w*dat[0].x,
+                           bb.y + bb.h/2*(1-dat[0].y))
                 (0...n).each do |i|
-                    vg.line_to(bb.x + bb.w*xdat[i],
-                               bb.y + bb.h/2*(1-ydat[i]))
+                    vg.line_to(bb.x + bb.w*dat[i].x,
+                               bb.y + bb.h/2*(1-dat[i].y))
+                end
+                vg.stroke_width 3.0
+                vg.stroke_color stroke
+                vg.stroke
+            end
+            vg.stroke_width 1.0
+        end
+
+        def self.env_plot(vg, bb, dat, stroke, selected)
+            n = dat.length
+            vg.path do
+                vg.move_to(bb.x + bb.w*dat[0].x,
+                           bb.y + bb.h/2*(1-dat[0].y))
+                (0...n).each do |i|
+                    vg.line_to(bb.x + bb.w*dat[i].x,
+                               bb.y + bb.h/2*(1-dat[i].y))
                 end
                 vg.stroke_width 3.0
                 vg.stroke_color stroke
@@ -123,8 +139,8 @@ module Draw
             sel_color    = Theme::VisualSelect
             bright       = Theme::VisualBright
             (0...n).each do |i|
-                xx = bb.x + bb.w*xdat[i];
-                yy = bb.y + bb.h/2*(1-ydat[i]);
+                xx = bb.x + bb.w*dat[i].x;
+                yy = bb.y + bb.h/2*(1-dat[i].y);
                 scale = 3
                 vg.stroke_color sel_color if(selected == i)
                 vg.stroke_color bright    if(selected != i)
@@ -149,6 +165,27 @@ module Draw
             (0...n).each do |i|
                 xx = bb.x + bb.w*(pts[2*i]-1)*0.33
                 yy = bb.y + bb.h*(1-pts[2*i+1])
+
+                vg.stroke_color sel_color
+                vg.fill_color   color(:black)
+                env_marker(vg, xx, yy, 3)
+
+                vg.path do |v|
+                    v.move_to(xx, bb.y)
+                    v.line_to(xx, bb.y + bb.h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
+        end
+
+        def self.overlay_lfo(vg, bb, pts)
+            n = pts.length/2
+            sel_color    = Theme::VisualSelect
+            dim_color    = Theme::VisualDimTrans
+            (0...n).each do |i|
+                xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2*i]
+                yy = bb.y + bb.h/2*(1-pts[2*i+1]/127)
 
                 vg.stroke_color sel_color
                 vg.fill_color   color(:black)
@@ -470,6 +507,25 @@ module Draw
             v.stroke
         end
     end
+
+    def self.zipToPos(x,y)
+        o = []
+        n = [x.length, y.length].min
+        (0...n).each do |i|
+            o << Pos.new(x[i], y[i])
+        end
+        o
+    end
+
+    def self.toPos(p)
+        o = []
+        n = p.length/2
+        (0...n).each do |i|
+            o << Pos.new(p[2*i+1], p[2*i+0])
+        end
+        o
+    end
+
 end
 
 def color(c,alpha=255)
@@ -715,19 +771,17 @@ Pokemon = [
         "Mew"]
 
 #Draw a linear x/y grid
-def draw_grid(vg, r, c, x, w, h)
+def draw_grid(vg, r, c, x, y, w, h)
     light_fill   = NVG.rgba(0x11,0x45,0x75,200)
     med_fill   = NVG.rgba(0x11,0x45,0x75,240)
-
-    h = lfo_vis.h
 
     (1..r).each do |ln|
         vg.path do |v|
             off = (ln/r)*(h/2)
-            vg.move_to(x, h/2+off);
-            vg.line_to(x+w, h/2+off)
-            vg.move_to(x, h/2-off);
-            vg.line_to(x+w, h/2-off)
+            vg.move_to(x,   y + h/2+off);
+            vg.line_to(x+w, y + h/2+off)
+            vg.move_to(x,   y + h/2-off);
+            vg.line_to(x+w, y + h/2-off)
             if((ln%10) == 0)
                 v.stroke_color med_fill
                 v.stroke_width 2.0
@@ -742,8 +796,8 @@ def draw_grid(vg, r, c, x, w, h)
     (1..c).each do |ln|
         vg.path do |v|
             off = (ln/c)*(w)
-            vg.move_to(x+off, 0)
-            vg.line_to(x+off, h)
+            vg.move_to(x+off, y)
+            vg.line_to(x+off, y + h)
             if((ln%10) == 0)
                 v.stroke_color med_fill
                 v.stroke_width 2.0

@@ -3,7 +3,7 @@ Widget {
 
     function doSearch()
     {
-        $remote.action("/bank/search", bank_name.selected_val + " " + bank_type.selected)
+        $remote.action("/bank/search", bank_name.selected_val + " " + bank_type.selected + " " + search.label)
     }
 
     function doLoad()
@@ -15,6 +15,8 @@ Widget {
     Widget {
         id: lhs
         SearchBox {
+            id: search
+            whenValue: lambda { bank.doSearch}
         }
         Widget {
             SelColumn {

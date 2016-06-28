@@ -5,7 +5,7 @@ Widget {
     property Bool skip:   false
     property Bool rows:   nil
     property Function whenValue: nil
-    property Int  oldOff: nil
+    property Int  oldOff: 0
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
@@ -63,7 +63,7 @@ Widget {
         center = (n-24)*scroll.value+12
         off    = (center-12).to_i
         if(off != self.oldOff)
-            puts "new offset #{off}"
+            #puts "new offset #{off}"
             self.oldOff = off
             setValue(rows, off)
         end
@@ -82,14 +82,16 @@ Widget {
 
     function setValue(x,offset=0)
     {
+        return if(self.rows == x && offset == oldOff)
         self.rows = x
         stride = 1
         stride = 2 if skip
-        n = [x.length/stride, children.length].min
-        (1...n).each do |i|
+        n = [x.length/stride, children.length-1].min
+        (1..n).each do |i|
+            #puts "#{i} => #{x[(i-1+offset)*stride]}"
             children[i].label = x[(i-1+offset)*stride]
         end
-        (n...children.length).each do |i|
+        ((n+1)...children.length).each do |i|
             children[i].label = ""
         end
         damage_self
@@ -118,6 +120,7 @@ Widget {
 
     function selected_val()
     {
+        return "" if oldOff.nil?
         integer = 1+oldOff
         children.each do |child|
             if(child.value == true)

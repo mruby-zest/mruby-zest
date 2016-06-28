@@ -11,6 +11,10 @@ Widget {
         whenValue.call if whenValue
     }
 
+    onLabel: {
+        but.label = num.label
+    }
+
     function layout(l)
     {
         selfBox = l.genBox :numButton, self

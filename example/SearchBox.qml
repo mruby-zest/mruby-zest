@@ -1,4 +1,5 @@
 Widget {
+    property Function whenValue: nil
     function draw(vg)
     {
         background Theme::GeneralBackground
@@ -6,6 +7,24 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color = Theme::TextColor
-        vg.text(8,h/2,"search...".upcase)
+        l = label.empty? ? "search..." : label
+        vg.text(8,h/2,l.upcase)
+    }
+
+    function onKey(k)
+    {
+        puts k.ord
+        if(k.ord == 8)
+            self.label = self.label[0...-1]
+        else
+            self.label += k
+        end
+        whenValue.call if whenValue
+        damage_self
+    }
+
+    function onMerge(val)
+    {
+        self.label = val.label
     }
 }

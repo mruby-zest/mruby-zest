@@ -50,4 +50,11 @@ ColorBox {
         l.fixed(chBox[2], selfBox, 0.0, 0.57, 1.0, 0.43)
         selfBox
     }
+
+    function onSetup(v=nil)
+    {
+        children.each do |c|
+            c.extern()
+        end
+    }
 }

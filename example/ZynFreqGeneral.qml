@@ -4,12 +4,12 @@ Group {
     extern: "/part0/kit0/adpars/GlobalPar/"
     ParModuleRow {
         Knob { extern: box.extern + "PDetune" }
-        Knob { extern: box.extern + "Poctave" }
-        Knob { extern: box.extern + "Prelbw" }
+        Knob { extern: box.extern + "octave" }
+        Knob { extern: box.extern + "PBandwidth" }
     }
 
     ParModuleRow {
-        Selector { extern: box.extern + "PdetuneType" }
-        Knob { extern: box.extern + "PcoarseDetune" }
+        Selector { extern: box.extern + "PDetuneType" }
+        Knob { extern: box.extern + "PCoarseDetune" }
     }
 }

@@ -25,27 +25,43 @@ Widget {
         id: row1
         content: Qml::LfoVis
 
+        function set_lfo(ext)
+        {
+            self.content = Qml::LfoVis
+            self.children[0].extern = ext + "AmpLfo/out"
+            self.children[0].children[0].extern = amp_lfo.extern+"out"
+        }
+
+        function set_env(ext)
+        {
+            self.content = Qml::Envelope
+            self.children[0].extern = ext + "AmpEnvelope/"
+            self.children[0].children[0].extern = amp_env.extern+"out"
+            amp_env.whenModified = lambda {
+                elm = row1.children[0]
+                elm.refresh if elm.respond_to? :refresh
+            }
+        }
+
+        function set_filter(ext)
+        {
+            self.content = Qml::VisFilter
+            self.children[0].extern = ext + "GlobalFilter/response"
+            amp_gen.children[0].whenModified = lambda {
+                elm = row1.children[0]
+                elm.refresh if elm.respond_to? :refresh
+            }
+        }
+
         function setDataVis(type)
         {
+            ext = "/part0/kit0/adpars/GlobalPar/"
             if(type == :lfo)
-                self.content = Qml::LfoVis
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
-                self.children[0].children[0].extern = amp_lfo.extern+"out"
+                set_lfo ext
             elsif(type == :env)
-                self.content = Qml::Envelope
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
-                self.children[0].children[0].extern = amp_env.extern+"out"
-                amp_env.whenModified = lambda {
-                    elm = row1.children[0]
-                    elm.refresh if elm.respond_to? :refresh
-                }
+                set_env ext
             elsif(type == :filter)
-                self.content = Qml::VisFilter
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
-                amp_gen.children[0].whenModified = lambda {
-                    elm = row1.children[0]
-                    elm.refresh if elm.respond_to? :refresh
-                }
+                set_filter ext
             end
             db.update_values
         }

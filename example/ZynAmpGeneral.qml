@@ -2,6 +2,7 @@ Group {
     id: box
     label: "General"
     extern: "/part0/kit0/adpars/"
+    copyable: false
 
     ParModuleRow {
         id: top

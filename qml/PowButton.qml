@@ -1,4 +1,5 @@
 Widget {
+    function class_name() {"powbutton"}
     function draw(vg) {
         pi     = 3.141592653
         cx     = w/2.0;

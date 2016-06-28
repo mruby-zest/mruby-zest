@@ -1,6 +1,7 @@
 Widget {
     id: mod
-    property Bool copyable: false;
+    property Bool copyable: true;
+    property Bool toggleable: false;
     property Bool editable: false;
     property Function whenClick: nil
     property Float topSize: 0.1
@@ -98,27 +99,29 @@ Widget {
 
         function class_name() { "TitleBox" }
 
+        function pack_misc(l, selfBox, ch)
+        {
+            prev = ch[0]
+            ch[1..-1].each_with_index do |c,i|
+                l.contains(selfBox, c)
+                l.rightOf(prev,c)
+                l.aspect(c, 1, 1) if children[i+1].class == Qml::PowButton
+                prev = c
+            end
+            l.weak(ch[1].x) if ch.length > 1
+            selfBox
+        }
+
         function layout(l)
         {
             selfBox = l.genBox :titleBox, titleW
-            t  = title.layout(l)
+            ch = chBoxes(l)
+            t  = ch[0]
             l.contains(selfBox,t)
             l.sheq([t.x, selfBox.w], [1, -0.02], 0)
 
-            bc = button_c.layout(l)
-            l.contains(selfBox,bc)
-
-            bp = button_p.layout(l)
-            l.contains(selfBox,bp)
-
-            pp = power.layout(l)
-            l.contains(selfBox,pp)
-            l.aspect(pp, 1, 1)
-            l.rightOf(t,bc)
-            l.rightOf(bc,bp)
-            l.rightOf(bp,pp)
-            l.weak(bc.x)
-            selfBox
+            return selfBox if ch.length == 1
+            pack_misc(l, selfBox, ch)
         }
 
         Text {
@@ -129,18 +132,22 @@ Widget {
             height: 0.8
         }
 
-        PowButton {
-            id: power
-            extern: mod.extern;
-        }
-
-        CopyButton {
-            extern: mod.extern;
-            id: button_c
-        }
-        PasteButton {
-            extern: mod.extern;
-            id: button_p
+        function onSetup(old=nil)
+        {
+            return if children.length != 1
+            if(mod.toggleable)
+                pb = PowButton.new(db)
+                pb.extern = mod.extern
+                Qml::add_child(self, pb)
+            end
+            if(mod.copyable)
+                cb = CopyButton.new(db)
+                pb = PasteButton.new(db)
+                cb.extern = mod.extern
+                pb.extern = mod.extern
+                Qml::add_child(self, cb)
+                Qml::add_child(self, pb)
+            end
         }
     }
     Widget {

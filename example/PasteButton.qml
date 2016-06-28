@@ -1,7 +1,7 @@
 Button {
     function layout(l)
     {
-        selfBox = l.genBox :copyButton, self
+        selfBox = l.genBox :pasteButton, self
         l.aspect(selfBox, 1, 1)
         selfBox
     }

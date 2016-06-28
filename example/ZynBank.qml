@@ -9,7 +9,8 @@ Widget {
     function doLoad()
     {
         ins = ins_sel.selected_val
-        $remote.action("/load_xiz", ins) if !ins.empty?
+        puts "loading #{ins}"
+        $remote.action("/load_xiz", 0, ins) if !ins.empty?
     }
 
     Widget {
@@ -75,7 +76,7 @@ Widget {
             id: ins_sel
             extern: "/bank/search_results"
             label: "preset"
-            number: true
+            number: false
             skip:   true
             whenValue: lambda {bank.doLoad}
         }

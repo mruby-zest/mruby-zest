@@ -76,6 +76,7 @@ Widget {
                 child.value = false
             end
         end
+        puts "callback..."
         whenValue.call if whenValue
         damage_self
     }

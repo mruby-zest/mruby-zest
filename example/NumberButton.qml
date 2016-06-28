@@ -5,10 +5,16 @@ Widget {
     property Int      number:       0
     function class_name() { "NumButton" }
 
+
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
+
     function onMousePress(ev) {
         self.value = !self.value
         damage_self
-        whenValue.call if whenValue
+        cb()
     }
 
     onLabel: {
@@ -32,6 +38,7 @@ Widget {
         id: but
         pad: 0
         label: num.label
+        whenValue:  lambda { num.cb }
         layoutOpts: [:no_constraint]
     }
 
@@ -39,6 +46,7 @@ Widget {
         id: pow
         label: num.number.to_s
         pad: 0
+        whenValue:  lambda { num.cb }
         layoutOpts: [:no_constraint]
     }
 

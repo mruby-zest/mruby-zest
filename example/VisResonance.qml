@@ -1,5 +1,32 @@
 Widget {
-    property Int prev: nil
+    id: visreson
+    property Int      prev:      nil
+    property Function whenValue: nil
+    property Object   valueRef:   nil
+
+    onExtern: {
+        visreson.valueRef =
+            OSC::RemoteParam.new($remote, visreson.extern)
+        visreson.valueRef.callback = lambda {|x|
+            draw_layer.points = x
+            draw_layer.damage_self
+        }
+    }
+
+    function refresh()
+    {
+        valueRef.refresh if valueRef
+    }
+
+    function animate()
+    {
+        if(@send_update)
+            puts "sending update..."
+            @send_update = false
+            self.valueRef.value = draw_layer.points
+        end
+    }
+
     function draw(vg)
     {
         vg.path do |v|
@@ -38,6 +65,7 @@ Widget {
         end
         self.prev = sel
         draw_layer.damage_self
+        @send_update = true
     }
 
 

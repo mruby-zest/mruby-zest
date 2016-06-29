@@ -1,7 +1,12 @@
 ParModuleRow {
     id: resopt
     extern: "/part0/kit0/adpars/GlobalPar/Reson/"
-    Button {
+    property Function whenValue: nil
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
+    ToggleButton {
         extern: resopt.extern + "Penabled"
         label: "enable"
     }
@@ -15,6 +20,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "interpolatepeaks"
             $remote.action(path, 0)
+            resopt.cb
         }
         label: "interp"
     }
@@ -25,6 +31,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "zero"
             $remote.action(path)
+            resopt.cb
         }
         label: "zero"
     }
@@ -32,6 +39,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "smooth"
             $remote.action(path)
+            resopt.cb
         }
         label: "smooth"
     }
@@ -39,6 +47,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 0)
+            resopt.cb
         }
         label: "random 1"
     }
@@ -46,6 +55,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 1)
+            resopt.cb
         }
         label: "random 2"
     }
@@ -53,6 +63,7 @@ ParModuleRow {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 2)
+            resopt.cb
         }
         label: "random 3"
     }

@@ -6,7 +6,7 @@ Widget {
     function mk_points()
     {
         pts = []
-        while(pts.length < 128)
+        while(pts.length < 256)
             pts << 0
         end
         pts

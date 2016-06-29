@@ -1,7 +1,18 @@
 Widget {
-    VisResonance {}
+    id: reson
+    function refresh()
+    {
+        vis.refresh
+    }
+    VisResonance {
+        id: vis
+        extern: reson.extern + "respoints"
+    }
     Indent {
-        ZynResOptions {}
+        ZynResOptions {
+            whenValue: lambda {reson.refresh}
+            extern: reson.extern
+        }
         function draw(vg)
         {
             vg.path do |v|

@@ -108,8 +108,8 @@ Widget {
         self.content = val.content if(val.respond_to?(:content))
     }
 
-    onContent: {
-        return if(!swappable.children.empty? && swappable.children[0].class == swappable.content)
+    function force_update()
+    {
         srt = Time.new
         swappable.remove_old_child
         #mid = Time.new
@@ -120,6 +120,11 @@ Widget {
         puts("[INFO] Content chagned to #{swappable.content} in #{1000*tot}ms")
         #puts("[INFO] Content swap took #{1000*tot}ms (#{(scl*(mid-srt)).to_i}% remove) (#{(scl*(dne-mid)).to_i}% add)")
         #puts("[INFO]                                 (#{(scl*d2[0]).to_i}% init) (#{(scl*d2[1]).to_i}% update) (#{(scl*d2[2]).to_i}% setup)")
+    }
+
+    onContent: {
+        return if(!swappable.children.empty? && swappable.children[0].class == swappable.content)
+        swappable.force_update
     }
 
     function layout(l)

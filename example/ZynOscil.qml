@@ -1,5 +1,4 @@
 Widget {
-    extern: "/part0/kit0/adpars/VoicePar0/OscilSmp/"
     id: base_osc
     property Bool doRefresh: false
 

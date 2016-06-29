@@ -26,10 +26,11 @@ Widget {
         Button { label: ">"; layoutOpts: [:no_constraint]}
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
-        TabButton { whenClick: lambda {header.setTab(2)}; label: "oscillators"}
-        TabButton { whenClick: lambda {header.setTab(3)}; label: "modulation"}
-        TabButton { whenClick: lambda {header.setTab(4)}; label: "voice list"}
-        TabButton { whenClick: lambda {header.setTab(5)}; label: "resonance"}
+        TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
+        TabButton { whenClick: lambda {header.setTab(3)}; label: "mod-osc"}
+        TabButton { whenClick: lambda {header.setTab(4)}; label: "modulation"}
+        TabButton { whenClick: lambda {header.setTab(5)}; label: "voice list"}
+        TabButton { whenClick: lambda {header.setTab(6)}; label: "resonance"}
 
         CopyButton {}
         PasteButton {}
@@ -58,12 +59,12 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                if(idx < 9)
+                if(idx < 10)
                     l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
 
                     #add in the aspect constraint
                     l.aspect(box, 100, weights[idx])
-                elsif(idx == 9)
+                elsif(idx == 10)
                     l.weak(box.x)
                 end
 
@@ -73,6 +74,19 @@ Widget {
                 prev = box
             end
             selfBox
+        }
+
+        function get_ext(id)
+        {
+            extbase = "/part0/kit0/adpars/"
+            ext = {0 => "GlobalPar/",
+                   1 => "VoicePar0/",
+                   2 => "VoicePar0/OscilSmp/",
+                   3 => "VoicePar0/FMSmp/",
+                   4 => "VoicePar0/",
+                   5 => "",
+                   6 => "GlobalPar/Reson/"}
+            extbase + ext[id]
         }
 
         function setTab(id)
@@ -92,11 +106,14 @@ Widget {
             mapping = {0 => Qml::ZynAddGlobal,
                        1 => Qml::ZynAddVoice,
                        2 => Qml::ZynOscil,
-                       3 => Qml::ZynOscilMod,
-                       4 => Qml::ZynAddVoiceList,
-                       5 => Qml::ZynResonance}
+                       3 => Qml::ZynOscil,
+                       4 => Qml::ZynOscilMod,
+                       5 => Qml::ZynAddVoiceList,
+                       6 => Qml::ZynResonance}
 
+            swap.extern = get_ext(id)
             swap.content = mapping[id]
+            swap.force_update
         }
 
     }

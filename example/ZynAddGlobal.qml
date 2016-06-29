@@ -36,7 +36,7 @@ Widget {
         {
             self.extern  = ext + "AmpEnvelope/"
             self.content = Qml::ZynEnvEdit
-            self.children[0].children[0].extern = amp_env.extern+"out"
+            #self.children[0].children[0].extern = amp_env.extern+"out"
             amp_env.children[0].whenModified = lambda {
                 elm = row1.children[0]
                 elm.refresh if elm.respond_to? :refresh

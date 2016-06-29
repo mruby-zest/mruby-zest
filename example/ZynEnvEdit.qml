@@ -3,11 +3,23 @@ Widget {
 
     function add_point()
     {
+        return if self.extern.empty?
+        return if env.selected == nil
+        return if !free.value
         puts "try to add point"
+        path = self.extern + "addPoint"
+        $remote.action(path, env.selected)
+        env.refresh
     }
     function del_point()
     {
+        return if self.extern.empty?
+        return if env.selected == nil
+        return if !free.value
         puts "try to delete point"
+        path = self.extern + "delPoint"
+        $remote.action(path, env.selected)
+        env.refresh
     }
     function sus_point()
     {
@@ -19,7 +31,7 @@ Widget {
     }
     Col {
         spacer: 8
-        ToggleButton   { extern: enveditor.extern + "Pfreemode"; label: "free" }
+        ToggleButton   { id: free; extern: enveditor.extern + "Pfreemode"; label: "free" }
         Button         { whenValue: lambda {enveditor.add_point()}; label: "add"  }
         Button         { whenValue: lambda {enveditor.del_point()}; label: "delete" }
         Text           { label: "sustain point" }

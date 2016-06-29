@@ -1,8 +1,22 @@
 Widget {
+    id: subbw
+    extern: "/part0/kit0/subpars/"
     //visual
     Widget {}
     Widget {
-        Group {label: "general"}
+        Group {
+            label: "general"
+            ParModuleRow {
+                Selector { extern: subbw.extern + "Phmagtype" }
+                Selector { extern: subbw.extern + "Pstart" }
+                Button { label: "clear" }
+                Selector { extern: subbw.extern + "Pnumstages" }
+            }
+            ParModuleRow {
+                Knob { extern: subbw.extern + "Pbandwidth" }
+                Knob { extern: subbw.extern + "Pbwscale" }
+            }
+        }
         Group {label: "envelope"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

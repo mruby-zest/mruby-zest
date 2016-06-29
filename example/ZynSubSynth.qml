@@ -32,7 +32,7 @@ Widget {
                        1 => Qml::ZynSubAmp,
                        2 => Qml::ZynSubBandwidth,
                        3 => Qml::ZynSubFreq,
-                       3 => Qml::ZynSubFilter,
+                       4 => Qml::ZynSubFilter,
                        }
 
             swap.content = mapping[selected]

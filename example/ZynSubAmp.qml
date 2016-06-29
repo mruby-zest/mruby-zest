@@ -1,8 +1,19 @@
 Widget {
+    id: subamp
+    extern: "/part0/kit0/subpars/"
     //visual
     Widget {}
     Widget {
-        Group {label: "general"}
+        Group {
+            label: "general"
+            ParModuleRow {
+                Button { extern: subamp.extern + "Pstereo" }
+
+                Knob { extern: subamp.extern + "PVolume" }
+                Knob { extern: subamp.extern + "PPanning" }
+                Knob { extern: subamp.extern + "PAmpVelocityScaleFunction" }
+            }
+        }
         Group {label: "envelope"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

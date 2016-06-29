@@ -1,8 +1,23 @@
 Widget {
+    id: subfq
+    extern: "/part0/kit0/subpars/"
     //visual
     Widget {}
     Widget {
-        Group {label: "general"}
+        Group {
+            label: "general"
+            ParModuleRow {
+                Knob {     extern: subfq.extern + "PDetune" }
+                Knob {     extern: subfq.extern + "octave" }
+                Selector { extern: subfq.extern + "PDetuneType" }
+                //TODO relbw
+                //eqt
+                Button {   extern: subfq.extern + "Pfixedfreq" }
+                Knob   {   extern: subfq.extern + "PfixedfreqET" }
+                //TODO cdet
+
+            }
+        }
         Group {label: "envelope"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

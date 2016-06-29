@@ -126,7 +126,8 @@ Widget {
         integer = 1+oldOff
         children.each do |child|
             if(child.value == true)
-                return rows[integer] if integer < rows.length
+                puts child.tooltip
+                return child.tooltip
             end
             integer += 2
         end

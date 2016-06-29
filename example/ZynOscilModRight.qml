@@ -14,7 +14,7 @@ Widget {
         topSize: 0.2
         copyable: false
         ParModuleRow {
-            Selector {
+            NumEntry {
                 extern: base.extern + "Unison_size"
             }
             Knob {

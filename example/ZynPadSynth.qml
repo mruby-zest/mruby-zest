@@ -20,8 +20,8 @@ Widget {
     }
     TabGroup {
         id: header
-        TabButton { label: "harmonic structure"}
-        TabButton { label: "oscillator"; value: true}
+        TabButton { label: "harmonic structure"; value: true}
+        TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
 
         Button { layoutOpts: [:no_constraint]; label: "export"}
@@ -76,8 +76,8 @@ Widget {
 
             #Define a mapping from tabs to values
             mapping = {0 => Qml::ZynPadHarmonics,
-                       1 => Qml::ZynPadHarmonics,
-                       2 => Qml::ZynPadHarmonics}
+                       1 => Qml::ZynOscil,
+                       2 => Qml::ZynAddGlobal}
 
             swap.content = mapping[selected]
         }

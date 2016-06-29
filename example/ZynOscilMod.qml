@@ -39,21 +39,29 @@ Widget {
             Draw::Layout::hfill(l, selfBox, chBoxes(l), [0.6,0.4])
         }
     }
-    Widget {
+    TabGroup {
         id: footer
 
-        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
-        TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
-
-        function layout(l) {
-            Draw::Layout::tabpack(l, self)
+        TabButton {
+            label: "amplitude";
+            highlight_pos: :top;
+            value: true
+        }
+        TabButton {
+            label: "frequency";
+            highlight_pos: :top
         }
 
-        function setTab(id)
+        function set_tab(wid)
         {
-            (0..1).each do |ch_id|
-                children[ch_id].value = (ch_id == id)
-                self.root.damage_item children[ch_id]
+            id = get_tab wid
+            if(id == 0)
+                gen.content = Qml::ZynAmpGeneral
+                env.content = Qml::ZynAmpEnv
+                env.extern  = basemod.extern + "FMAmpEnvelope/"
+            elsif(id == 1)
+                gen.content = Qml::ZynFreqGeneral
+                env.content = Qml::ZynAmpEnv
             end
             db.update_values
         }

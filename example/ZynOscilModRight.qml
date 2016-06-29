@@ -12,6 +12,7 @@ Widget {
     Group {
         label: "unison"
         topSize: 0.2
+        copyable: false
         ParModuleRow {
             Selector {
                 extern: base.extern + "Unison_size"
@@ -38,6 +39,7 @@ Widget {
             Group {
                 label: "vce osc"
                 topSize: 0.15
+                copyable: false
                 ParModuleRow {
                     Selector {
                         extern: base.extern + "Pextoscil"
@@ -60,6 +62,7 @@ Widget {
             Group {
                 label: "mod osc"
                 topSize: 0.15
+                copyable: false
                 ParModuleRow {
                     Selector {
                         extern: base.extern + "PextFMoscil"

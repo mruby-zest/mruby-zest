@@ -21,9 +21,11 @@ Widget {
         $remote.action(path, env.selected)
         env.refresh
     }
-    function sus_point()
+
+    //proxy method
+    function refresh()
     {
-        puts "try to set sustain point"
+        env.refresh()
     }
     Envelope {
         id: env
@@ -35,7 +37,7 @@ Widget {
         Button         { whenValue: lambda {enveditor.add_point()}; label: "add"  }
         Button         { whenValue: lambda {enveditor.del_point()}; label: "delete" }
         Text           { label: "sustain point" }
-        NumEntry       { whenValue: lambda {enveditor.sus_point()}; label: "sustain" }
+        NumEntry       { extern: enveditor.extern + "Penvsustain"; label: "sustain" }
         Text           { label: "1.47 sec" }
     }
 

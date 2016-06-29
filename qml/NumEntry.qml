@@ -1,8 +1,16 @@
 Widget {
+    id: numentry
     property Function whenValue: nil
     property Int      value: 0
     property Object   valueRef: nil
-    //property Float scale: 50.8
+
+    onExtern: {
+        numentry.valueRef = OSC::RemoteParam.new($remote, numentry.extern)
+        numentry.valueRef.mode     = :full
+        numentry.valueRef.callback = Proc.new {|x| numentry.setValue(x)}
+
+    }
+
     function class_name() {"num_entry"}
     function layout(l)
     {
@@ -48,6 +56,12 @@ Widget {
 
         #background color("54321")
         #background color("54321")
+    }
+
+    function setValue(val)
+    {
+        self.value = val
+        damage_self
     }
 
     function updatePos(delta)

@@ -17,6 +17,7 @@ Widget {
         pts = OSC::RemoteParam.new($remote, ext + "Penvpoints")
         pts.mode = :selector
         sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
+        sus.mode = :full
         xpts.callback = lambda { |x|
             env.xpoints = x
             env.damage_self
@@ -142,7 +143,7 @@ Widget {
         Draw::WaveForm::zero_line(vg, bb, dim)
 
         #Indicate Sustain Point
-        Draw::WaveForm::env_sel_line(vg, bb, 2, pts, dim)
+        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point, pts, dim)
 
         #Draw Actual Line
         Draw::WaveForm::env_plot(vg, bb, pts, bright, selected)

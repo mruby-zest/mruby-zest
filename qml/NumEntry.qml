@@ -1,5 +1,7 @@
 Widget {
     property Function whenValue: nil
+    property Int      value: 0
+    property Object   valueRef: nil
     //property Float scale: 50.8
     function class_name() {"num_entry"}
     function layout(l)
@@ -42,9 +44,24 @@ Widget {
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.text(0.1*w,h/2,"-")
         vg.text(0.9*w,h/2,"+")
-        vg.text(0.5*w,h/2,"1234")
+        vg.text(0.5*w,h/2,self.value.to_s)
 
         #background color("54321")
         #background color("54321")
+    }
+
+    function updatePos(delta)
+    {
+        self.value += delta
+        if(self.valueRef)
+            self.valueRef.value = self.value
+        end
+        damage_self
+    }
+
+    function onScroll(ev)
+    {
+        updatePos(+1) if ev.dy > 0
+        updatePos(-1) if ev.dy < 0
     }
 }

@@ -8,7 +8,7 @@ Widget {
         visreson.valueRef =
             OSC::RemoteParam.new($remote, visreson.extern)
         visreson.valueRef.callback = lambda {|x|
-            draw_layer.points = x
+            draw_layer.points = visreson.un_rescale(x)
             draw_layer.damage_self
         }
     }
@@ -18,12 +18,30 @@ Widget {
         valueRef.refresh if valueRef
     }
 
+    function un_rescale(x)
+    {
+        o = []
+        x.each do |xx|
+            o << 2*xx-1
+        end
+        o
+    }
+
+    function rescale(x)
+    {
+        o = []
+        x.each do |xx|
+            o << (xx+1)/2
+        end
+        o
+    }
+
     function animate()
     {
         if(@send_update)
             puts "sending update..."
             @send_update = false
-            self.valueRef.value = draw_layer.points
+            self.valueRef.value = rescale(draw_layer.points)
         end
     }
 
@@ -60,7 +78,7 @@ Widget {
             b   = draw_layer.points[dst]
             (srt...dst).each do |i|
                 ri = (i-srt)/(dst-srt)
-                draw_layer.points[i] = a+ri*(b-a)
+                draw_layer.points[i] = a+ri*(b-a) if i >= 0 && i<draw_layer.points.length
             end
         end
         self.prev = sel

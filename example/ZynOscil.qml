@@ -1,6 +1,7 @@
 Widget {
     id: base_osc
     property Bool doRefresh: false
+    property Object delayRefresh: nil
 
     function animate()
     {
@@ -10,6 +11,14 @@ Widget {
             full.refresh
             base_harm.refresh
             full_harm.refresh
+            self.delayRefresh = Time.new + 0.1
+        end
+
+        #Super hacky workaround for data race in adsynth oscillators
+        if(delayRefresh && Time.new > delayRefresh)
+            base.refresh
+            base_harm.refresh
+            self.delayRefresh = nil
         end
     }
 

@@ -15,6 +15,7 @@ Widget {
     }
 
     function onSetup(old=nil) {
+        puts "Module setup..."
         mch = mod.children
         cch = content.children
         if(mch.length > 2)
@@ -23,6 +24,9 @@ Widget {
             content.children = cch
             mod.children     = mch
         else
+        end
+        content.children.each do |ch|
+            ch.parent = content
         end
     }
 

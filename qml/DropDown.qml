@@ -7,6 +7,11 @@ Widget {
         n  = options.length
         dy = h/n
 
+        if self.hl.nil?
+            self.hl = 0   if self.y == 0
+            self.hl = n-1 if self.y != 0
+        end
+
         (0...n).each do |row|
             vg.path do |v|
                 v.rect(0, row*dy, w, dy+1)
@@ -43,7 +48,6 @@ Widget {
     function onMouseMove(ev)
     {
         n   = options.length
-        puts n*(ev.pos.y-global_y)/h
         opt = (n*(ev.pos.y-global_y)/h).to_i
         self.hl = opt
         damage_self

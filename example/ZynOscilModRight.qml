@@ -43,6 +43,7 @@ Widget {
                 ParModuleRow {
                     Selector {
                         extern: base.extern + "Pextoscil"
+                        options: ["normal", "voice 0", "voice 1"]
                     }
                     Knob {extern: base.extern + "Poscilphase"}
                 }

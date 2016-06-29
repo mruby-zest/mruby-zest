@@ -2,10 +2,12 @@ Widget {
     Widget {
         Group {
             label: "tunings"
+            copyable: false
             ColorBox { pad: 0.03; bg: color("222222") }
         }
         Group {
             label: "key mapping"
+            copyable: false
             ColorBox { pad: 0.03; bg: color("222222") }
         }
         function class_name() { "partsub" }
@@ -18,7 +20,7 @@ Widget {
         ParModuleRow {
             Button { label: "import .scl" }
             Button { label: "import .kbm" }
-            Button { label: "import .retune" }
+            Button { label: "retune" }
         }
     }
 

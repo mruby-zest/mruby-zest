@@ -1,5 +1,6 @@
 Group {
     label: "portamento"
+    copyable: false
     ParModuleRow {
         Button {label: "rcv"}
         Button {label: "th.type"}

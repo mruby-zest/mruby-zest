@@ -5,6 +5,7 @@ Widget {
     }
     Group {
         topSize: 0.2
+        copyable: false
         label: "scale settings"
         ParModuleRow {
             Button { label: "enable" }

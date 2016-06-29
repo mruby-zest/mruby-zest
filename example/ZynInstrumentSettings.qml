@@ -1,5 +1,6 @@
 Group {
     label: "instrument settings"
+    copyable: false
     Widget {
         ParModuleRow {
             whitespace: 2

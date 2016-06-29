@@ -2,7 +2,7 @@ Widget {
     //visual
     Widget {}
     Widget {
-        Group {label: "general"}
+        ZynAnalogFilter {}
         Group {label: "envelope"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

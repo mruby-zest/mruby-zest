@@ -1,5 +1,6 @@
 Group {
     label: "controllers"
+    copyable: false
     ParModuleRow {
         Button { label: "exp mwh"}
         Knob   { label: "modwh" }

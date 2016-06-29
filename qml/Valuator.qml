@@ -10,12 +10,15 @@ Widget {
 
     property Function whenValue: nil;
 
+    property Symbol type: nil
+
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote, valuator.extern)
         valuator.label   = meta.short_name
         valuator.tooltip = meta.tooltip
 
         valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
+        valuator.valueRef.type     = "f" if valuator.type
         valuator.valueRef.callback = Proc.new {|x| valuator.setValue(x)}
 
     }

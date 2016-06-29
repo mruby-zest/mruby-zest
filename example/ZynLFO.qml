@@ -5,7 +5,7 @@ Group {
 
     ParModuleRow {
         id: top
-        Knob { extern: box.extern+"Pfreq" }
+        Knob { type: :float; extern: box.extern+"Pfreq" }
         Knob { extern: box.extern+"Pintensity"}
         Knob { extern: box.extern+"Pstartphase"}
         Knob { extern: box.extern+"Pstretch"}

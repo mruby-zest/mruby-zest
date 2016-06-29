@@ -3,8 +3,6 @@ Widget {
 
     onExtern: {
         return if vis_filter.extern.nil?
-        meta = OSC::RemoteMetadata.new($remote, vis_filter.extern)
-
         vis_filter.valueRef = OSC::RemoteParam.new($remote, vis_filter.extern)
         vis_filter.valueRef.callback = lambda {|x| vis_filter.update_coeff x}
     }

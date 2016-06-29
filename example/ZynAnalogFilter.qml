@@ -22,10 +22,9 @@ Group {
         Knob { extern: box.extern + "../PFilterVelocityScaleFunction" }
     }
     ParModuleRow {
-        Selector {
+        NumEntry {
             whenValue: lambda { box.cb}
             extern: box.extern + "Pstages"
-            layoutOpts: [0.5, :rescale]
         }
         Selector { extern: box.extern + "Pcategory" }
         Selector { whenValue: lambda { box.cb}; extern: box.extern + "Ptype" }

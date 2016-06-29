@@ -70,6 +70,7 @@ Widget {
         if(self.valueRef)
             self.valueRef.value = self.value
         end
+        whenValue.call if whenValue
         damage_self
     }
 
@@ -77,5 +78,10 @@ Widget {
     {
         updatePos(+1) if ev.dy > 0
         updatePos(-1) if ev.dy < 0
+    }
+
+    function onMousePress(ev)
+    {
+        #puts "UNHANDLED"
     }
 }

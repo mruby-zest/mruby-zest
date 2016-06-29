@@ -25,4 +25,9 @@ Button {
         end
         vg.text(8,h/2,button.label.upcase)
     }
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
+    }
 }

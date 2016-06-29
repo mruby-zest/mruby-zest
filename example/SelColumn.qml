@@ -91,6 +91,7 @@ Widget {
         (1..n).each do |i|
             #puts "#{i} => #{x[(i-1+offset)*stride]}"
             children[i].label = x[(i-1+offset)*stride]
+            children[i].tooltip = x[(i-1+offset)*stride+1] if stride == 2
         end
         ((n+1)...children.length).each do |i|
             children[i].label = ""

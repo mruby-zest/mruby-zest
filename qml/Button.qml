@@ -1,7 +1,6 @@
 Widget {
     id: button
     property signal action: nil;
-    property String extern:   "";
     property Bool   value:    false;
     property String renderer: nil;
     property Float  textScale: 0.75;

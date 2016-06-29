@@ -10,6 +10,8 @@ Widget {
 
     property Function whenValue: nil;
 
+    property Bool active: true
+
     property Symbol type: nil
 
     onExtern: {

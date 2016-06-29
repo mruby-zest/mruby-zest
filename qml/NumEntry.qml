@@ -1,4 +1,5 @@
 Widget {
+    property Function whenValue: nil
     //property Float scale: 50.8
     function class_name() {"num_entry"}
     function layout(l)

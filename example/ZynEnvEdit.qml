@@ -1,5 +1,9 @@
 Widget {
-    Envelope { id: env }
+    id: enveditor
+    Envelope {
+        id: env
+        extern: enveditor.extern
+    }
     Col {
         spacer: 8
         Button { label: "free" }
@@ -11,5 +15,11 @@ Widget {
 
     function layout(l) {
         Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.85, 0.15], 0, 3)
+    }
+
+    //Activate Envelope
+    function onSetup(old=nil)
+    {
+        env.extern()
     }
 }

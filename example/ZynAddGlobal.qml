@@ -34,8 +34,8 @@ Widget {
 
         function set_env(ext)
         {
+            self.extern  = ext + "AmpEnvelope/"
             self.content = Qml::ZynEnvEdit
-            self.children[0].extern = ext + "AmpEnvelope/"
             self.children[0].children[0].extern = amp_env.extern+"out"
             amp_env.children[0].whenModified = lambda {
                 elm = row1.children[0]

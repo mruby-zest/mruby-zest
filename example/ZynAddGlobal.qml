@@ -34,10 +34,10 @@ Widget {
 
         function set_env(ext)
         {
-            self.content = Qml::Envelope
+            self.content = Qml::ZynEnvEdit
             self.children[0].extern = ext + "AmpEnvelope/"
             self.children[0].children[0].extern = amp_env.extern+"out"
-            amp_env.whenModified = lambda {
+            amp_env.children[0].whenModified = lambda {
                 elm = row1.children[0]
                 elm.refresh if elm.respond_to? :refresh
             }
@@ -193,5 +193,9 @@ Widget {
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
+    }
+    function onSetup(old=nil)
+    {
+        footer.setTab(0)
     }
 }

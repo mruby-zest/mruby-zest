@@ -2,6 +2,7 @@ Group {
     id: box
     label: "Envelope"
     property Function whenModified: nil
+    extern: ""
 
     function cb()
     {
@@ -18,9 +19,6 @@ Group {
         id: bot
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt"}
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
-        Col {
-            Button   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
-            Button   { label: "lin/log"; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
-        }
+        Button   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
     }
 }

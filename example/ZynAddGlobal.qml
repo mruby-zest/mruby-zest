@@ -93,20 +93,19 @@ Widget {
             id: amp_gen
             content: Qml::ZynAmpGeneral
             whenSwapped: lambda {
-                puts "whenSwapped callback"
                 if(amp_gen.content == Qml::ZynAnalogFilter)
                     ch = amp_gen.children[0]
                     ch.whenClick = lambda {row1.setDataVis(:filter)}
                 end
             }
         }
-        ZynAmpEnv {
-            extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
-            whenClick: lambda {row1.setDataVis(:env)}
+        Swappable {
             id: amp_env
+            extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
+            content: Qml::ZynAmpEnv
         }
         ZynLFO {
-            extern: "/part0/kit0/adpars/GlobalPar/FreqLfo/"
+            extern: "/part0/kit0/adpars/GlobalPar/AmpLfo/"
             whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
         }
@@ -146,26 +145,47 @@ Widget {
             selfBox
         }
 
+        function set_amp(base)
+        {
+            amp_gen.content = Qml::ZynAmpGeneral
+            amp_env.content = Qml::ZynAmpEnv
+            amp_env.extern  = base + "AmpEnvelope/"
+            amp_lfo.extern  = base + "AmpLfo/"
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+        }
+
+        function set_freq(base)
+        {
+            amp_gen.content = Qml::ZynFreqGeneral
+            amp_env.content = Qml::ZynFreqEnv
+            amp_env.extern  = base + "FreqEnvelope/"
+            amp_lfo.extern  = base + "FreqLfo/"
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+        }
+
+        function set_filter(base)
+        {
+            amp_gen.content = Qml::ZynAnalogFilter
+            amp_env.content = Qml::ZynFilterEnv
+            amp_env.extern  = base + "FilterEnvelope/"
+            amp_lfo.extern  = base + "FilterLfo/"
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+        }
+
         function setTab(id)
         {
             puts "set tab"
             (0..2).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
-                self.root.damage_item children[ch_id]
+                children[ch_id].damage_self
             end
             base = "/part0/kit0/adpars/GlobalPar/"
             if(id == 0)
-                amp_gen.content = Qml::ZynAmpGeneral
-                amp_env.extern  = base + "AmpEnvelope/"
-                amp_lfo.extern  = base + "AmpLfo/"
+                set_amp base
             elsif(id == 1)
-                amp_gen.content = Qml::ZynFreqGeneral
-                amp_env.extern  = base + "FreqEnvelope/"
-                amp_lfo.extern  = base + "FreqLfo/"
+                set_freq base
             elsif(id == 2)
-                amp_gen.content = Qml::ZynAnalogFilter
-                amp_env.extern  = base + "FilterEnvelope/"
-                amp_lfo.extern  = base + "FilterLfo/"
+                set_filter base
             end
             db.update_values
         }

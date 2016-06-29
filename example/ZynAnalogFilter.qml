@@ -3,10 +3,17 @@ Group {
     label: "General"
     extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
     property Function whenModified: nil
+    property Bool     type: :analog
+
+    onType: {
+        #Changes filter type
+    }
+
     function cb()
     {
         whenModified.call if whenModified
     }
+
     ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }

@@ -15,7 +15,6 @@ Widget {
     }
 
     function onSetup(old=nil) {
-        puts "Module setup..."
         mch = mod.children
         cch = content.children
         if(mch.length > 2)

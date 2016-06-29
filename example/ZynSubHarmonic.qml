@@ -1,4 +1,5 @@
 Widget {
+
     VisSubHarmonics {
         id:     sub_harmonics
         extern: "/part0/kit0/subpars/response"
@@ -9,19 +10,19 @@ Widget {
                 Selector {
                     //layoutOpts: [:no_constraint]
                     extern: "/part0/kit0/subpars/POvertoneSpread.type"
-                    whenValue: lambda {subsynth.refresh}
+                    whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
                     extern: "/part0/kit0/subpars/POvertoneSpread.par1"
-                    whenValue: lambda {subsynth.refresh}
+                    whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
                     extern: "/part0/kit0/subpars/POvertoneSpread.par2"
-                    whenValue: lambda {subsynth.refresh}
+                    whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
                     extern: "/part0/kit0/subpars/POvertoneSpread.par3"
-                    whenValue: lambda {subsynth.refresh}
+                    whenValue: lambda {sub_harmonics.refresh}
                 }
             }
 
@@ -32,7 +33,7 @@ Widget {
         HarmonicEdit {
             extern: "/part0/kit0/subpars/"
             type:   :subsynth
-            whenValue: lambda { subsynth.refresh }
+            whenValue: lambda { sub_harmonics.refresh }
         }
 
         function class_name() { "subsynthharm" }

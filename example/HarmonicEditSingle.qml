@@ -13,6 +13,7 @@ ColorBox {
     Slider {
         value: 0.5
         pad: 0
+        centered: hes.slidetype == :oscil
         extern: {
             if(hes.slidetype == :oscil)
                 hes.extern + "magnitude" + hes.num.to_s
@@ -31,6 +32,7 @@ ColorBox {
     Slider {
         value: 0.5
         pad: 0
+        centered: hes.slidetype == :oscil
         extern: {
             if(hes.slidetype == :oscil)
                 hes.extern + "phase" + hes.num.to_s

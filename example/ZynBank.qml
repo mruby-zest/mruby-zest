@@ -11,6 +11,7 @@ Widget {
         ins = ins_sel.selected_val
         puts "loading #{ins}"
         $remote.action("/load_xiz", 0, ins) if !ins.empty?
+        $remote.damage("/part0/");
     }
 
     Widget {

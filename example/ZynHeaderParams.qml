@@ -1,8 +1,8 @@
 Widget {
     HSlider {height: 0.8; label: "detune" }
-    HSlider {height: 0.8; label: "volume" }
+    HSlider {extern: "/Pvolume"; height: 0.8; label: "volume" }
     Button  {layoutOpts: [:no_constraint]; label: "nrpn" }
-    HSlider {height: 0.8; label: "key shift" }
+    HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }
 
     function layout(l)
     {

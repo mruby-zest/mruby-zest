@@ -16,7 +16,12 @@ Widget {
     }
 
     //0
-    Button {id: file;   label: "file"; layoutOpts: [:no_constraint]}
+    Selector {
+        id: file;
+        label: "file";
+        layoutOpts: [:no_constraint]
+        options: ["clear", "load", "save", "quit"]
+    }
     //1
     Button {id: learn;  label: "midi"; layoutOpts: [:no_constraint]}
     //2

@@ -36,6 +36,12 @@ Widget {
                 else
                     rows[x*stride]
                 end
+                ch.tooltip = if(x*stride+1>=rows.length)
+                    ""
+                else
+                    rows[x*stride+1]
+                end
+
             end
             ch.layoutOpts = [:no_constraint]
             ch.whenValue  = lambda {col.cb ch}
@@ -64,7 +70,6 @@ Widget {
         off    = (center-12).to_i
         if(off != self.oldOff)
             #puts "new offset #{off}"
-            self.oldOff = off
             setValue(rows, off)
         end
     }
@@ -76,7 +81,6 @@ Widget {
                 child.value = false
             end
         end
-        puts "callback..."
         whenValue.call if whenValue
         damage_self
     }
@@ -84,6 +88,7 @@ Widget {
     function setValue(x,offset=0)
     {
         return if(self.rows == x && offset == oldOff)
+        self.oldOff = offset
         self.rows = x
         stride = 1
         stride = 2 if skip
@@ -122,11 +127,10 @@ Widget {
 
     function selected_val()
     {
-        return "" if oldOff.nil?
-        integer = 1+oldOff
+        integer = 1+oldOff if oldOff
+        integer = 1
         children.each do |child|
             if(child.value == true)
-                puts child.tooltip
                 return child.tooltip
             end
             integer += 2

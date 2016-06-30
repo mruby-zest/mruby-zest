@@ -1,20 +1,22 @@
 Group {
     label: "instrument settings"
     copyable: false
+    extern:  "/part0/"
+    id: insset
     Widget {
         ParModuleRow {
             whitespace: 2
-            Knob {label: "vol"}
-            Knob {label: "pan"}
-            Knob     { label: "min" }
-            Knob     { label: "max"}
+            Knob { extern: insset.extern + "Pvolume"}
+            Knob { extern: insset.extern + "Ppanning"}
+            Knob { extern: insset.extern + "Pminkey" }
+            Knob { extern: insset.extern + "Pmaxkey" }
         }
         ParModuleRow {
             whitespace: 3
             outer: :none
-            Knob {label: "sense"}
-            Knob {label: "offset"}
-            Knob {label: "key shift"}
+            Knob {extern: insset.extern + "Pvelsns"}
+            Knob {extern: insset.extern + "Pveloffs"}
+            Knob {extern: insset.extern + "Pkeyshift"}
             Widget {
                 Button   { label: "m"; layoutOpts: [:no_constraint] }
                 Button   { label: "r"; layoutOpts: [:no_constraint] }
@@ -29,9 +31,9 @@ Group {
         }
         ParModuleRow {
             lsize: 0.4
-            Selector { label: "midi chan"}
-            Button   { layoutOpts: [:no_constraint]; label: "portamento"}
-            Selector { label: "mode"; layoutOpts: [:no_constraint]  }
+            Selector     { extern: insset.extern + "Prcvchn"; label: "midi chan"}
+            ToggleButton { extern: insset.extern + "ctl/portamento.portamento"; layoutOpts: [:no_constraint]; label: "portamento"}
+            Selector     { label: "mode"; layoutOpts: [:no_constraint]  }
         }
         function layout(l) {
             Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.35, 0.35,0.3],0,2)

@@ -1,16 +1,17 @@
 Widget {
+    id: fbase
     VisFormant {
         id: vis
     }
     Widget {
         Widget {
             id: total
-            HSlider { label: "num f." }
-            HSlider { label: "fr.sl." }
-            HSlider { label: "vw.cl" }
+            HSlider { extern: fbase.extern + "Pnumformants";  }
+            HSlider { extern: fbase.extern + "Pformantslowness"; }
+            HSlider { extern: fbase.extern + "Pvowelclearness"; }
             //space
-            HSlider { label: "c.f." }
-            HSlider { label: "oct." }
+            HSlider { extern: fbase.extern + "Pcenterfreq" }
+            HSlider { extern: fbase.extern + "Poctavesfreq" }
             function layout(l) {
                 Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0.1, 0.8, 12)
             }
@@ -24,13 +25,13 @@ Widget {
                 topSize: 0.2
                 Widget {
                     HSlider { label: "v. num" }
-                    HSlider { label: "freq" }
+                    HSlider { extern: fbase.extern + "Pvowels0/Pformants0/freq"; label: "freq" }
                     HSlider { label: "formant" }
-                    HSlider { label: "q" }
+                    HSlider { extern: fbase.extern + "Pvowels0/Pformants0/q"; label: "q" }
                     Widget {}
                     Widget {}
                     Widget {}
-                    HSlider { label: "amp" }
+                    HSlider { extern: fbase.extern + "Pvowels0/Pformants0/amp"; label: "amp" }
                     function layout(l) {
                         Draw::Layout::grid(l, self_box(l), chBoxes(l), 4, 2, 2, 2)
                     }
@@ -42,12 +43,12 @@ Widget {
                 topSize: 0.2
                 copyable: false
                 Widget {
-                    HSlider { label: "seqsize" }
-                    HSlider { label: "strch" }
+                    HSlider { extern: fbase.extern + "Psequencesize"; label: "seqsize" }
+                    HSlider { extern: fbase.extern + "Psequencestretch"; label: "strch" }
                     HSlider { label: "s.pos" }
                     Widget {}
                     HSlider { label: "vowel"}
-                    Button { label: "neg. input"; layoutOpts: [:no_constraint]}
+                    Button {  extern: fbase.extern + "Psequencereversed"; label: "neg. input"; layoutOpts: [:no_constraint]}
 
                     function layout(l) {
                         Draw::Layout::grid(l, self_box(l), chBoxes(l), 3, 2, 2, 4)

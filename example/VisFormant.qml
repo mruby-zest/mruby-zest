@@ -1,4 +1,13 @@
 Widget {
+    property Object valueRef: nil
+    function onSetup(old=nil) {
+        base = "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
+        val = OSC::RemoteParam.new($remote, base+"vowels")
+        val.callback = lambda {|x|
+            puts "-+"*40
+            puts x
+        }
+    }
     function draw(vg)
     {
         padfactor = 10

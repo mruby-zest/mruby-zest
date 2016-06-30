@@ -52,6 +52,7 @@ Widget {
         function set_filter(ext)
         {
             puts "addglobal.filtertype = #{addglobal.filtertype}"
+            self.extern = ext + "GlobalFilter/"
             if(addglobal.filtertype == :formant)
                 self.content = Qml::ZynFormant
             else

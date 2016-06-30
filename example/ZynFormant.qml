@@ -1,5 +1,5 @@
 Widget {
-    Widget {
+    VisFormant {
         id: vis
     }
     Widget {
@@ -12,7 +12,10 @@ Widget {
             HSlider { label: "c.f." }
             HSlider { label: "oct." }
             function layout(l) {
-                Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 12)
+                Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0.1, 0.8, 12)
+            }
+            function draw(vg) {
+                Draw::GradBox(vg, Rect.new(0,0,w,h))
             }
         }
         Widget {
@@ -37,6 +40,7 @@ Widget {
             Group {
                 label: "sequence"
                 topSize: 0.2
+                copyable: false
                 Widget {
                     HSlider { label: "seqsize" }
                     HSlider { label: "strch" }

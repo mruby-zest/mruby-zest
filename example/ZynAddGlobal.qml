@@ -1,4 +1,10 @@
 Widget {
+    id: addglobal
+
+    extern: "/part0/kit0/adpars/GlobalPar/"
+    property Object valueRef: nil
+    property Symbol filtertype: nil
+
 
     function layout(l)
     {
@@ -45,8 +51,13 @@ Widget {
 
         function set_filter(ext)
         {
-            self.content = Qml::VisFilter
-            self.children[0].extern = ext + "GlobalFilter/response"
+            puts "addglobal.filtertype = #{addglobal.filtertype}"
+            if(addglobal.filtertype == :formant)
+                self.content = Qml::ZynFormant
+            else
+                self.content = Qml::VisFilter
+                self.children[0].extern = ext + "GlobalFilter/response"
+            end
             amp_gen.children[0].whenModified = lambda {
                 elm = row1.children[0]
                 elm.refresh if elm.respond_to? :refresh
@@ -194,8 +205,17 @@ Widget {
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }
+
     function onSetup(old=nil)
     {
+        if(addglobal.valueRef.nil?)
+            path = addglobal.extern + "GlobalFilter/Pcategory"
+            addglobal.valueRef = OSC::RemoteParam.new($remote, path)
+            addglobal.valueRef.mode = :full
+            addglobal.valueRef.callback = lambda {|x|
+                addglobal.filtertype = [:analog, :formant, :statevar][x]
+            }
+        end
         footer.setTab(0)
     }
 }

@@ -52,7 +52,10 @@ Widget {
                     Button { label: "noise"}
                 }
             }
-            WaveView { grid: false}
+            WaveView {
+                extern: base.extern + "OscilSmp/waveform"
+                grid: false
+            }
             function layout(l) {
                 selfBox = l.genBox :modbox, self
                 Draw::Layout::vfill(l, selfBox, chBoxes(l),
@@ -74,7 +77,10 @@ Widget {
                     }
                 }
             }
-            WaveView {grid: false }
+            WaveView {
+                grid: false
+                extern: base.extern + "FMSmp/waveform"
+            }
             function layout(l) {
                 selfBox = l.genBox :modbox, self
                 Draw::Layout::vfill(l, selfBox, chBoxes(l),

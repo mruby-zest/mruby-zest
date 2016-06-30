@@ -78,7 +78,13 @@ Widget {
             mapping = {0 => Qml::ZynPadHarmonics,
                        1 => Qml::ZynOscil,
                        2 => Qml::ZynAddGlobal}
+            base = "/part0/kit0/padpars/"
+            ext     = {0 => "",
+                       1 => "oscilgen/",
+                       2 => ""}
 
+
+            swap.extern = base + ext[selected]
             swap.content = mapping[selected]
         }
 

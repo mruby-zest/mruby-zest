@@ -1,9 +1,10 @@
 Widget {
+    id: subfl
     //visual
     Widget {}
     Widget {
         ZynAnalogFilter {}
-        Group {label: "envelope"}
+        ZynFilterEnv {extern: subfl.extern+"FilterEnvelope/"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

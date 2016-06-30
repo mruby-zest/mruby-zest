@@ -18,7 +18,7 @@ Widget {
 
             }
         }
-        Group {label: "envelope"}
+        ZynFreqEnv {extern: subfq.extern+"FreqEnvelope/"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

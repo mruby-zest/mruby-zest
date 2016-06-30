@@ -14,7 +14,7 @@ Widget {
                 Knob { extern: subamp.extern + "PAmpVelocityScaleFunction" }
             }
         }
-        Group {label: "envelope"}
+        ZynAmpEnv {extern: subamp.extern+"AmpEnvelope/"}
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

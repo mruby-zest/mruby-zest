@@ -25,6 +25,9 @@ Group {
         NumEntry {
             whenValue: lambda { box.cb}
             extern: box.extern + "Pstages"
+            offset: 1
+            minimum: 1
+            maximum: 5
         }
         Selector { extern: box.extern + "Pcategory" }
         Selector { whenValue: lambda { box.cb}; extern: box.extern + "Ptype" }

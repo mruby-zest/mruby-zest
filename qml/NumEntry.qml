@@ -4,6 +4,10 @@ Widget {
     property Int      value: 0
     property Object   valueRef: nil
 
+    property Int      offset: 0
+    property Int      minimum: 0
+    property Int      maximum: 10
+
     onExtern: {
         numentry.valueRef = OSC::RemoteParam.new($remote, numentry.extern)
         numentry.valueRef.mode     = :full
@@ -60,15 +64,23 @@ Widget {
 
     function setValue(val)
     {
-        self.value = val
+        self.value = val + offset
         damage_self
     }
 
     function updatePos(delta)
     {
+        if self.value + delta > maximum
+            self.value = maximum
+            return
+        end
+        if self.value + delta < minimum
+            self.value = minimum
+            return
+        end
         self.value += delta
         if(self.valueRef)
-            self.valueRef.value = self.value
+            self.valueRef.value = self.value - offset
         end
         whenValue.call if whenValue
         damage_self
@@ -82,6 +94,12 @@ Widget {
 
     function onMousePress(ev)
     {
+        return if !ev.buttons.include? :leftButton
+        if(ev.pos.x-global_x > 0.5*w)
+            updatePos(+1)
+        else
+            updatePos(-1)
+        end
         #puts "UNHANDLED"
     }
 }

@@ -12,11 +12,16 @@ Button {
         self.value = x
         damage_self
     }
-    
+
     function onMousePress(ev) {
         self.value = !self.value
         self.valueRef.value = self.value if self.valueRef
         damage_self
         whenValue.call if whenValue
+    }
+
+    function onMouseEnter(ev)
+    {
+        self.root.log(:tooltip, "extern = <" + self.extern + ">")
     }
 }

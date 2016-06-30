@@ -2,7 +2,7 @@ Widget {
     id: kit_item
     property Array weights: [0.05, 0.10, 0.10, 0.10, 0.05, 0.10, 0.10, 0.10, 0.30]
 
-    Button {
+    ToggleButton {
         extern: kit_item.extern + "Penabled"
         label: kit_item.label;
         layoutOpts: [:no_constraint]

@@ -4,7 +4,8 @@ Widget {
     property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
 
     //voice ID
-    Button {
+    ToggleButton {
+        extern: voice_item.extern + "Enabled"
         label: voice_item.num.to_s;
         layoutOpts: [:no_constraint]
     }

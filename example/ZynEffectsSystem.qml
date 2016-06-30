@@ -2,19 +2,40 @@ Widget {
     ColorBox {
         bg: Theme::GeneralBackground
 
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            options: ["none", "reverb", "echo", "distortion", "phaser"]
+            layoutOpts: [:no_constraint]
+        }
         HSlider  {}
 
         function layout(l) {

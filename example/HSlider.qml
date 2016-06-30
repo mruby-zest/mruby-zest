@@ -7,8 +7,9 @@ Valuator {
     function draw_centered(vg, pad)
     {
         pad2 = (1-2*pad)
-        if(value >= 0.5)
-            vv   = [0.01, value-0.5+0.01].max
+        va = 1-value
+        if(va >= 0.5)
+            vv   = [0.01, va-0.5+0.01].max
             src = (w*0.5-w*pad2*vv)
             dst = (w*0.51)
             vg.path do |v|
@@ -17,7 +18,7 @@ Valuator {
                 v.fill
             end
         else
-            vv   = [0.01, 0.5-value+0.01].max
+            vv   = [0.01, 0.5-va+0.01].max
             vg.path do |v|
                 v.rect(w*0.49, pad*h, pad2*w*vv, pad2*h)
                 v.fill_color Theme::SliderActive

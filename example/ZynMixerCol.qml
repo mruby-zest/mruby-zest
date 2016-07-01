@@ -2,7 +2,8 @@ Widget {
     id: col
     property Array weights: [0.05, 0.1, 0.70, 0.05, 0.05, 0.05]
 
-    Button {
+    ToggleButton {
+        extern: col.extern + "Penabled"
         label: col.label
         layoutOpts: [:no_constraint]
     }

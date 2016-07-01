@@ -1,13 +1,76 @@
 Widget {
+    id: vfor
+    extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
     property Object valueRef: nil
+    property Object numformants: 4
+    property Object q_value: 1
+    property Object stages: 1
+    property Object gain_value: 1.0
+    property Array  vowels: nil
+    property Bool   pending_damage: false
+
+    function change() {
+        self.pending_damage = true
+    }
+
     function onSetup(old=nil) {
-        base = "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
+        base = vfor.extern
+        refs = []
+
+        #Vowel data
         val = OSC::RemoteParam.new($remote, base+"vowels")
         val.callback = lambda {|x|
-            puts "-+"*40
-            puts x
+            nvowels   = x[0]
+            nformants = x[1]
+            vs = []
+            (0...nvowels).each do |vv|
+                v = []
+                (0...nformants).each do |f|
+                    ind = 2 + 3*nformants*vv + 3*f
+                    v << Formant.new(x[ind+0], x[ind+1], x[ind+2])
+                end
+                vs << v
+            end
+            vfor.vowels = vs;
+            vfor.change
         }
+        refs << val
+
+        #num formants
+        val = OSC::RemoteParam.new($remote, base+"Pnumformants")
+        val.mode = :full
+        val.callback = lambda {|x|
+            vfor.numformants = x
+            vfor.change
+        }
+        refs << val
+
+        #q
+        val = OSC::RemoteParam.new($remote, base+"q_value")
+        val.callback = lambda {|x|
+            vfor.q_value = x
+            vfor.change
+        }
+        refs << val
+
+        #stages
+        val = OSC::RemoteParam.new($remote, base+"Pstages")
+        val.callback = lambda {|x|
+            vfor.stages = x + 1
+            vfor.change
+        }
+        refs << val
+
+        #gain
+        val = OSC::RemoteParam.new($remote, base+"Pgain")
+        val.callback = lambda {|x|
+            vfor.gain_value = x
+            vfor.change
+        }
+        refs << val
+        self.valueRef = refs
     }
+
     function draw(vg)
     {
         padfactor = 10
@@ -15,5 +78,36 @@ Widget {
         background Theme::VisualBackground
         Draw::Grid::log_x(vg, 1, 20000, bb)
         Draw::Grid::linear_y(vg, 1, 20, bb)
+    }
+
+    function animate()
+    {
+        return if(!self.pending_damage)
+        self.pending_damage = false
+        #puts "numfor= #{self.numformants}"
+        #puts "q_valu= #{self.q_value}"
+        #puts "stages= #{self.stages}"
+        #puts "gain  = #{self.gain_value}"
+        #puts "vowels= #{self.vowels}"
+        response(0) if !self.vowels.nil?
+    }
+
+    function response(nvowel)
+    {
+        xpts = Draw::DSP::logspace(1, 20000, 256)
+        vo   = self.vowels[nvowel]
+        fo   = vo
+        fo   = fo[0...numformants] if numformants <= fo.length
+        ypts = formant_filter_response(xpts, fo, q_value, stages,
+               gain_value)
+        data_view.data = ypts
+        data_view.damage_self
+    }
+
+    DataView {
+        id: data_view
+        normal: true
+        pad: 0
+        fixedpad: 5
     }
 }

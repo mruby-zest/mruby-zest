@@ -810,6 +810,44 @@ def draw_grid(vg, r, c, x, y, w, h)
     end
 end
 
+def make_bandpass(freq, fs, bw, gain, stages, log2)
+    omega = 2 * 3.14159 * freq / fs
+    sn    = Math.sin omega
+    cs    = Math.cos omega
+    alpha = sn * Math.sinh(log2 / 2 * bw * omega / sn);
+
+    alpha = 1  if alpha > 1
+    alpha = bw if alpha > bw
+
+    b = [0.0, 0.0, 0.0]
+    a = [0.0, 0.0, 0.0]
+    b[0] =  alpha / (1 + alpha) * gain / stages;
+    b[2] = -alpha / (1 + alpha) * gain / stages;
+    a[1] = 2 * cs / (1 + alpha);
+    a[2] = -(1 - alpha) / (1 + alpha);
+
+    return b, a
+end
+
+def make_formant(freq, fs, q, gain, stages)
+    omega = 2 * 3.14159 * freq / fs
+    sn    = Math.sin omega
+    cs    = Math.cos omega
+    alpha = sn / (2 * q);
+    gain *= Math.sqrt(q + 1)
+
+    b = [0.0, 0.0, 0.0]
+    a = [0.0, 0.0, 0.0]
+
+    b[0] = alpha / (1 + alpha)  * gain
+    b[2] = -alpha / (1 + alpha) * gain
+    a[1] = 2 * cs / (1 + alpha)
+    a[2] = -(1 - alpha) / (1 + alpha)
+
+    return b, a
+end
+
+
 def sub_synth_response(xpts, pars)
     ypts  = []
     xnorm = []
@@ -829,20 +867,7 @@ def sub_synth_response(xpts, pars)
         bw   = pars[f*3+2]
         gain = pars[f*3+3]
 
-        omega = 2 * 3.14159 * freq / fs
-        sn    = Math.sin omega
-        cs    = Math.cos omega
-        alpha = sn * Math.sinh(log2 / 2 * bw * omega / sn);
-
-        alpha = 1  if alpha > 1
-        alpha = bw if alpha > bw
-
-        b = [0.0, 0.0, 0.0]
-        a = [0.0, 0.0, 0.0]
-        b[0] =  alpha / (1 + alpha) * gain / stages;
-        b[2] = -alpha / (1 + alpha) * gain / stages;
-        a[1] = 2 * cs / (1 + alpha);
-        a[2] = -(1 - alpha) / (1 + alpha);
+        (b, a) = make_bandpass(freq, fs, bw, gain, stages, log2)
 
         oo = Draw::opt_magnitude(b, a, xnorm, stages)
         xpts.each_with_index do |x, i|
@@ -851,4 +876,59 @@ def sub_synth_response(xpts, pars)
     end
 
     ypts
+end
+
+def formant_filter_response(xpts, formants, q_value,
+                            stages, gain)
+    ypts  = []
+    xnorm = []
+    fs   = 48000.0
+    xpts.each do |x|
+        ypts << 0
+        xnorm << x / fs*2
+    end
+
+    b = [0.0, 0.0, 0.0]
+    a = [0.0, 0.0, 0.0]
+
+    #for each formant...
+    (0...formants.length).each do |nformant|
+        #compute formant parameters(frequency,amplitude,etc.)
+        filter_freq = formants[nformant].freq;
+        filter_q    = formants[nformant].q * q_value;
+
+        filter_q    = filter_q ** (1 / stages) if(stages > 1 && filter_q > 1)
+
+        filter_amp = formants[nformant].amp
+
+        #printf("NFORMANT %d\n", nformant);
+        #printf("CHARACTERISTICS: FREQ %f Q %f AMP %f\n", filter_freq, filter_q, filter_amp);
+        sample_rate = 48000
+
+        next if(filter_freq > (sample_rate / 2 - 100))
+
+        (b, a) = make_formant(filter_freq, sample_rate,
+                               filter_q, filter_amp, stages)
+
+        oo = Draw::opt_magnitude(b, a, xnorm, stages)
+        xpts.each_with_index do |x, i|
+            ypts[i] += oo[i]
+        end
+    end
+
+    ypts.map {|x| [-40, to_dB(x) + gain].max }
+end
+
+def to_dB(x)
+    20*Math.log(x)/Math.log(10)
+end
+
+class Formant
+    def initialize(freq, amp, q)
+        @freq = freq
+        @amp  = amp
+        @q    = q
+    end
+
+    attr_reader :freq, :amp, :q
 end

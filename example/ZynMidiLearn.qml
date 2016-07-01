@@ -3,7 +3,7 @@ Widget {
     property Array  weights: [0.05, 0.05, 0.05, 0.75, 0.05, 0.05]
     property Object valueRef: nil
 
-    function draw(vg) { 
+    function draw(vg) {
         vg.path do |v|
             v.rect(0,0,w,h)
             paint = v.linear_gradient(0,0,0,h,
@@ -34,7 +34,6 @@ Widget {
     {
         n = x.length/4
         m = children.length-1
-        puts x
         (0...n).each do |i|
             row = children[i+1]
             row.children[1].label = "*"

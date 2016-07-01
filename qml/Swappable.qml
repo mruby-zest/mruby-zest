@@ -92,7 +92,7 @@ Widget {
         self.db.update_values
         t4=Time.new
         setup_widget widget
-        #self.db.update_values
+        self.db.update_values
         t5=Time.new
 
         if(root)

@@ -2,7 +2,6 @@ Button {
     id: toggle
     property Object valueRef: nil
     onExtern: {
-        puts "toggle button extern setup"
         toggle.valueRef = OSC::RemoteParam.new($remote, toggle.extern)
         toggle.valueRef.callback = lambda {|x| toggle.setValue(x)}
     }

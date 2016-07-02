@@ -84,9 +84,11 @@ Widget {
         Widget {
             id: info_box
             Group {
+                copyable: false
                 label: "author"
             }
             Group {
+                copyable: false
                 label: "comments"
                 TextEdit {}
             }

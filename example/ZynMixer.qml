@@ -1,4 +1,30 @@
 Widget {
+    id: mixer
+    property Object valueRef: nil
+    property Object data: nil
+
+    function animate() {
+        if(!self.valueRef)
+            self.valueRef = OSC::RemoteParam.new($remote, "/vu-meter")
+            self.valueRef.callback = lambda {|x| mixer.update_data(x) }
+        else
+            self.valueRef.refresh
+        end
+
+        if(self.data)
+            (0...16).each do |i|
+                children[i].set_level(data[6+i])
+            end
+        end
+        #puts "animate"
+        #puts "vu meters..."
+    }
+
+    function update_data(x)
+    {
+        self.data = x
+    }
+
     function draw(vg) {
         vg.path do |v|
             v.rect(0,0,w,h)

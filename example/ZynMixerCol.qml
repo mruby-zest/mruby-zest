@@ -2,6 +2,17 @@ Widget {
     id: col
     property Array weights: [0.05, 0.1, 0.70, 0.05, 0.05, 0.05]
 
+    function set_level(l)
+    {
+        old = children[2].children[0].value
+        if(old != l)
+            children[2].children[0].value = l
+            children[2].children[1].value = l
+            children[2].children[0].damage_self
+            children[2].children[1].damage_self
+        end
+    }
+
     ToggleButton {
         extern: col.extern + "Penabled"
         label: col.label

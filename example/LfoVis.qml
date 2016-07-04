@@ -18,7 +18,7 @@ Widget {
     function onSetup(old=nil)
     {
         refs = []
-        base ="/part0/kit0/adpars/GlobalPar/FreqLfo/"
+        base = lfo_vis.extern
         type_var = OSC::RemoteParam.new($remote, base+"PLFOtype")
         type_var.mode = :options
         type_var.callback = lambda {|x|
@@ -227,7 +227,7 @@ Widget {
         layer: 1
 
         //extern is cloned
-        extern: lfo_vis.extern
+        extern: lfo_vis.extern + "out"
 
         function class_name()
         {

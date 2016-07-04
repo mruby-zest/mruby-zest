@@ -31,16 +31,24 @@ Widget {
         id: row1
         content: Qml::LfoVis
 
-        function set_lfo(ext)
+        function set_lfo(ext, tab)
         {
+            e_  = {:filter => "FilterLfo/",
+                   :amp    => "AmpLfo/",
+                   :freq   => "FreqLfo/"}[tab]
+            return if e_.nil?
+            self.extern  = ext + e_
             self.content = Qml::LfoVis
-            self.children[0].extern = ext + "AmpLfo/out"
             self.children[0].children[0].extern = amp_lfo.extern+"out"
         }
 
-        function set_env(ext)
+        function set_env(ext, tab)
         {
-            self.extern  = ext + "AmpEnvelope/"
+            e_  = {:filter => "FilterEnvelope/",
+                   :amp    => "AmpEnvelope/",
+                   :freq   => "FreqEnvelope/"}[tab]
+            return if e_.nil?
+            self.extern  = ext + e_
             self.content = Qml::ZynEnvEdit
             #self.children[0].children[0].extern = amp_env.extern+"out"
             amp_env.children[0].whenModified = lambda {
@@ -65,15 +73,15 @@ Widget {
             }
         }
 
-        function setDataVis(type)
+        function setDataVis(type, tab)
         {
             ext = "/part0/kit0/adpars/GlobalPar/"
             if(type == :lfo)
-                set_lfo ext
+                set_lfo(ext, tab)
             elsif(type == :env)
-                set_env ext
+                set_env(ext, tab)
             elsif(type == :filter)
-                set_filter ext
+                set_filter(ext)
             end
             db.update_values
         }
@@ -107,7 +115,7 @@ Widget {
             whenSwapped: lambda {
                 if(amp_gen.content == Qml::ZynAnalogFilter)
                     ch = amp_gen.children[0]
-                    ch.whenClick = lambda {row1.setDataVis(:filter)}
+                    ch.whenClick = lambda {row1.setDataVis(:filter, :filter)}
                 end
             }
         }
@@ -118,7 +126,7 @@ Widget {
         }
         ZynLFO {
             extern: "/part0/kit0/adpars/GlobalPar/AmpLfo/"
-            whenClick: lambda {row1.setDataVis(:lfo)}
+            whenClick: lambda {row1.setDataVis(:lfo, nil)}
             id: amp_lfo
         }
     }
@@ -159,29 +167,32 @@ Widget {
 
         function set_amp(base)
         {
-            amp_gen.content = Qml::ZynAmpGeneral
-            amp_env.content = Qml::ZynAmpEnv
             amp_env.extern  = base + "AmpEnvelope/"
             amp_lfo.extern  = base + "AmpLfo/"
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+            amp_gen.content = Qml::ZynAmpGeneral
+            amp_env.content = Qml::ZynAmpEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
         }
 
         function set_freq(base)
         {
-            amp_gen.content = Qml::ZynFreqGeneral
-            amp_env.content = Qml::ZynFreqEnv
             amp_env.extern  = base + "FreqEnvelope/"
             amp_lfo.extern  = base + "FreqLfo/"
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+            amp_gen.content = Qml::ZynFreqGeneral
+            amp_env.content = Qml::ZynFreqEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
         }
 
         function set_filter(base)
         {
-            amp_gen.content = Qml::ZynAnalogFilter
-            amp_env.content = Qml::ZynFilterEnv
             amp_env.extern  = base + "FilterEnvelope/"
             amp_lfo.extern  = base + "FilterLfo/"
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env)}
+            amp_gen.content = Qml::ZynAnalogFilter
+            amp_env.content = Qml::ZynFilterEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
         }
 
         function setTab(id)

@@ -123,7 +123,9 @@ Widget {
     }
 
     onContent: {
-        return if(!swappable.children.empty? && swappable.children[0].class == swappable.content)
+        return if(!swappable.children.empty? &&
+            swappable.children[0].class == swappable.content &&
+            (swappable.extern.empty? || swappable.extern == swappable.children[0].class))
         swappable.force_update
     }
 

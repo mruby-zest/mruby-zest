@@ -48,8 +48,9 @@ Widget {
                     Knob {extern: base.extern + "Poscilphase"}
                 }
                 ParModuleRow {
-                    Button { label: "sound"}
-                    Button { label: "noise"}
+                    Selector {
+                        extern: base.extern + "Type"
+                    }
                 }
             }
             WaveView {

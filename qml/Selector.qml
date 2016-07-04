@@ -12,6 +12,8 @@ Widget {
                                        selector.extern)
         #print "selector extern = "
         #puts meta.options
+        selector.label   = meta.short_name
+        selector.tooltip = meta.tooltip
         if(meta.options)
             nopts = []
             vals  = []
@@ -84,6 +86,12 @@ Widget {
     function onMousePress(ev)
     {
         create_menu
+    }
+
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
     }
 
     function draw(vg)

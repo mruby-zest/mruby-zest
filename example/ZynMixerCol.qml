@@ -7,10 +7,9 @@ Widget {
         label: col.label
         layoutOpts: [:no_constraint]
     }
-    TextBox {
+    TextEdit {
         extern: col.extern + "Pname"
-        bg: nil
-        height: 0.4
+        height: 0.333333
         label: "synth"
     }
     ColorBox {

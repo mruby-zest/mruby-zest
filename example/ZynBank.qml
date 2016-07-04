@@ -86,11 +86,12 @@ Widget {
             Group {
                 copyable: false
                 label: "author"
+                TextEdit { extern: "/part0/info.Pauthor" }
             }
             Group {
                 copyable: false
                 label: "comments"
-                TextEdit {}
+                TextEdit { extern: "/part0/info.Pcomments" }
             }
 
             function layout(l)

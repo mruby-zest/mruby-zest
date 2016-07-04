@@ -71,6 +71,8 @@ Widget {
     ScrollBar {
         id: scroll
         vertical: false
+        value: 0
+        whenValue: lambda {hedit.set_scroll scroll.value}
     }
 
     Button {

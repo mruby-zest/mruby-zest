@@ -17,6 +17,19 @@ Widget {
         whenValue: lambda { col.tryScroll }
     }
 
+    function draw(vg)
+    {
+        titleH = self.h*1.0/(children.length + 1)
+        vg.path do
+            vg.rect(0, 0, 0.9*w, titleH)
+            vg.fill_color Theme::BankOdd
+            vg.fill
+        end
+        vg.fill_color Theme::TextModColor
+        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.text(0.9*w/2,titleH/2,label.upcase)
+    }
+
     function onSetup(old=nil)
     {
         nrows = 24
@@ -109,9 +122,10 @@ Widget {
         selfBox = l.genBox :effvert, self
         scrlBox = children[0].layout l
         miniBox = l.genBox :virt, nil
-        l.fixed(miniBox, selfBox, 0.0, 0, 0.9, 1)
-        l.fixed(scrlBox, selfBox, 0.9, 0, 0.1, 1)
-        Draw::Layout::vpack(l, miniBox, children[1,99].map {|x| x.layout l})
+        titleH  = 1.0/(children.length + 1)
+        l.fixed(miniBox, selfBox, 0.0, 0.0, 0.9, 1.0)
+        l.fixed(scrlBox, selfBox, 0.9, 0.0, 0.1, 1.0)
+        Draw::Layout::vpack(l, miniBox, children[1,99].map {|x| x.layout l}, 0, 1, 0, titleH, 1.0-titleH)
         selfBox
     }
 

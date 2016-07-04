@@ -385,9 +385,9 @@ module Draw
         end
     end
     module Layout
-        def self.vpack(l, selfBox, b, x=0, w=1,fixed_pad=0)
-            off = 0
-            delta = 1.0/b.length
+        def self.vpack(l, selfBox, b, x=0, w=1,fixed_pad=0, y=0, h=1)
+            off = 0+y
+            delta = h/b.length
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, x, off, w, delta,
                         0, fixed_pad, 0, -2*fixed_pad)

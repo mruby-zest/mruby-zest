@@ -4,6 +4,8 @@ Widget {
     property Object valueRef: nil
     property Int    whiteKeys: 8*7-4
     property Float  fixpad: 1.5
+    property Int    select_id: nil
+
 
     function set_data(data_)
     {
@@ -44,6 +46,39 @@ Widget {
         base + off
     }
 
+    function get_note(pos)
+    {
+        rel = Pos.new(pos.x-global_x, pos.y-global_y)
+        (0..whiteKeys).each do |i|
+            bid = black_key_id(i)
+            wid = white_key_id(i)
+            bb  = black_bb(i, whiteKeys)
+            wb  = white_bb(i, whiteKeys)
+            if(Rect.new(*bb).include? rel)
+                return bid
+            elsif(Rect.new(*wb).include? rel)
+                return wid
+            end
+        end
+        return nil
+    }
+
+    function onMousePress(ev)
+    {
+        note = get_note(ev.pos)
+        if(note && $remote)
+            $remote.action("/noteOn", 0, note, 100)
+        end
+    }
+
+    function onMouseRelease(ev)
+    {
+        note = get_note(ev.pos)
+        if(note && $remote)
+            $remote.action("/noteOff", 0, note)
+        end
+    }
+
     function black_key_id(ind)
     {
         white_key_id(ind) + 1
@@ -78,11 +113,13 @@ Widget {
         enable_color = Theme::KeyEnable
 
         box = white_bb(i, white_keys)
+        wid = white_key_id i
         vg.path do |vg|
             vg.rect(*box)
             paint = vg.linear_gradient(0,0,0,h,white1, white2)
             vg.fill_paint paint
-            vg.fill_color enable_color if data && data[white_key_id i]
+            vg.fill_color enable_color if data && data[wid]
+            vg.fill_color enable_color if wid == select_id
             vg.stroke_color white_accent
 
             vg.fill
@@ -105,6 +142,7 @@ Widget {
             vg.rect(*box)
             vg.fill_color black_color
             vg.fill_color enable_color if data && data[id]
+            vg.fill_color enable_color if id == select_id
             vg.stroke_color bg_color
             vg.fill
             vg.stroke

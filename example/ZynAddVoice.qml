@@ -83,15 +83,16 @@ Widget {
                 end
             }
         }
-        ZynAmpEnv {
-            extern: addbase.extern + "AmpEnvelope/"
-            whenClick: lambda {row1.setDataVis(:env)}
+        Swappable {
             id: amp_env
+            extern: "/part0/kit0/adpars/VoicePar0/AmpEnvelope/"
+            content: Qml::ZynAmpEnv
         }
         ZynLFO {
             extern: addbase.extern + "AmpLfo/"
             whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
+            toggleable: true
         }
     }
     Widget {
@@ -129,6 +130,39 @@ Widget {
             selfBox
         }
 
+        function set_amp(base)
+        {
+            amp_env.extern  = base + "AmpEnvelope/"
+            amp_lfo.extern  = base + "AmpLfo/"
+            amp_gen.content = Qml::ZynAmpGeneral
+            amp_env.content = Qml::ZynAmpEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
+            amp_env.children[0].toggleable = true
+        }
+
+        function set_freq(base)
+        {
+            amp_env.extern  = base + "FreqEnvelope/"
+            amp_lfo.extern  = base + "FreqLfo/"
+            amp_gen.content = Qml::ZynFreqGeneral
+            amp_env.content = Qml::ZynFreqEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
+            amp_env.children[0].toggleable = true
+        }
+
+        function set_filter(base)
+        {
+            amp_env.extern  = base + "FilterEnvelope/"
+            amp_lfo.extern  = base + "FilterLfo/"
+            amp_gen.content = Qml::ZynAnalogFilter
+            amp_env.content = Qml::ZynFilterEnv
+            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
+            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+            amp_env.children[0].toggleable = true
+        }
+
         function setTab(id)
         {
             puts "set tab"
@@ -136,20 +170,15 @@ Widget {
                 children[ch_id].value = (ch_id == id)
                 self.root.damage_item children[ch_id]
             end
-            base = "/part0/kit0/adpars/GlobalPar/"
+            base = "/part0/kit0/adpars/VoicePar0/"
             if(id == 0)
-                amp_gen.content = Qml::ZynAmpGeneral
-                amp_env.extern  = base + "AmpEnvelope/"
-                amp_lfo.extern  = base + "AmpLfo/"
+                set_amp base
             elsif(id == 1)
-                amp_gen.content = Qml::ZynFreqGeneral
-                amp_env.extern  = base + "FreqEnvelope/"
-                amp_lfo.extern  = base + "FreqLfo/"
+                set_freq base
             elsif(id == 2)
-                amp_gen.content = Qml::ZynAnalogFilter
-                amp_env.extern  = base + "FilterEnvelope/"
-                amp_lfo.extern  = base + "FilterLfo/"
+                set_filter base
             end
+            db.update_values
         }
 
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}

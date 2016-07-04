@@ -2,6 +2,7 @@ Group {
     id: box
     label: "LFO"
     extern: ""
+    copyable: true
 
     ParModuleRow {
         id: top

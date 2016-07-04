@@ -14,6 +14,19 @@ Widget {
         whenClick.call if whenClick
     }
 
+    onToggleable: {
+        return if(mod.copyable && titleW.children.length < 2)
+        if(mod.toggleable && titleW.children[1].class != Qml::PowButton)
+            pb = Qml::PowButton.new(mod.db)
+            pb.extern = mod.extern
+            pb.parent = titleW
+            ch = titleW.children
+            puts ch
+            ch.insert(1, pb)
+            titleW.children = ch
+        end
+    }
+
     function onSetup(old=nil) {
         mch = mod.children
         cch = content.children

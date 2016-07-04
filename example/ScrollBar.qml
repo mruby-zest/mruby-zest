@@ -10,8 +10,8 @@ Valuator {
             v.fill
         end
         domain = 1.0-bar_size
-        center = 0.5*bar_size + (1-value)*domain
         if(vertical)
+            center = 0.5*bar_size + (1-value)*domain
             self.dragScale = h*(1-bar_size)
             vg.path do |v|
                 v.rect(pad,pad+@h*(center-0.5*bar_size),
@@ -20,6 +20,7 @@ Valuator {
                 v.fill
             end
         else
+            center = 0.5*bar_size + value*domain
             self.dragScale = w*(1-bar_size)
             vg.path do |v|
                 v.rect(pad+w*(center-0.5*bar_size),pad,

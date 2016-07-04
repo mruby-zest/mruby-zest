@@ -6,6 +6,8 @@ Widget {
     property Bool rows:   nil
     property Function whenValue: nil
     property Int  oldOff: 0
+    property Object value_sel: nil
+    property Object value_lab: nil
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
@@ -89,6 +91,14 @@ Widget {
 
     function cb(ch)
     {
+        if(ch.value)
+            self.value_sel = ch.tooltip
+            self.value_lab = ch.label
+        else
+            self.value_sel = nil
+            self.value_lab = nil
+        end
+
         children[1,99].each do |child|
             if(ch != child)
                 child.value = false
@@ -108,8 +118,9 @@ Widget {
         n = [x.length/stride, children.length-1].min
         (1..n).each do |i|
             #puts "#{i} => #{x[(i-1+offset)*stride]}"
-            children[i].label = x[(i-1+offset)*stride]
+            children[i].label   = x[(i-1+offset)*stride]
             children[i].tooltip = x[(i-1+offset)*stride+1] if stride == 2
+            children[i].value   = (children[i].label == self.value_lab && children[i].tooltip == self.value_sel)
         end
         ((n+1)...children.length).each do |i|
             children[i].label = ""
@@ -131,24 +142,13 @@ Widget {
 
     function selected()
     {
-        children.each do |child|
-            if(child.value == true)
-                return child.label
-            end
-        end
-        return ""
+        return "" if(value_lab.nil?)
+        return value_lab
     }
 
     function selected_val()
     {
-        integer = 1+oldOff if oldOff
-        integer = 1
-        children.each do |child|
-            if(child.value == true)
-                return child.tooltip
-            end
-            integer += 2
-        end
-        return ""
+        return "" if(value_sel.nil?)
+        return value_sel
     }
 }

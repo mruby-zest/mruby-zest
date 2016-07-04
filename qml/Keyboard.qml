@@ -1,7 +1,9 @@
 Widget {
     id: keyboard
-    property Array data: nil
+    property Array  data: nil
     property Object valueRef: nil
+    property Int    whiteKeys: 8*7-4
+    property Float  fixpad: 1.5
 
     function set_data(data_)
     {
@@ -47,65 +49,106 @@ Widget {
         white_key_id(ind) + 1
     }
 
-    function draw(vg)
+    function no_black(i)
     {
-        white_keys = 8*7-3;
         black_pattern = [1,0,1,1,0,1,1];
+        black_pattern[i%7] == 0
+    }
 
+    function white_bb(i, white_keys)
+    {
+        padh = fixpad/2
+        box  = [i*w*1.0/(white_keys), padh, w*1.0/(white_keys), h-padh];
+        fixedpad(box, fixpad)
+    }
+
+    function black_bb(i, white_keys)
+    {
+        width = 0.65
+        box = [(i+1.0-width/2)*w*1.0/(white_keys), 0,
+               w*width/(white_keys), h*0.7];
+        fixedpad(box, fixpad)
+    }
+
+    function draw_white(vg, i, white_keys)
+    {
         white1       = Theme::KeyWhiteGrad1
         white2       = Theme::KeyWhiteGrad2
         white_accent = Theme::KeyWhiteAccent
+        enable_color = Theme::KeyEnable
+
+        box = white_bb(i, white_keys)
+        vg.path do |vg|
+            vg.rect(*box)
+            paint = vg.linear_gradient(0,0,0,h,white1, white2)
+            vg.fill_paint paint
+            vg.fill_color enable_color if data && data[white_key_id i]
+            vg.stroke_color white_accent
+
+            vg.fill
+            vg.stroke_width fixpad
+            vg.stroke
+        end
+    }
+
+    function draw_black(vg, i, white_keys)
+    {
         black_color  = Theme::KeyBlack
         black_accent = Theme::KeyBlackAccent
         enable_color = Theme::KeyEnable
+        bg_color     = Theme::KeyBackground
 
-        #//draw the white keys 7 octaves + 2
+        id = black_key_id i
+        return if no_black i
+        box = black_bb(i, white_keys)
+        vg.path do |vg|
+            vg.rect(*box)
+            vg.fill_color black_color
+            vg.fill_color enable_color if data && data[id]
+            vg.stroke_color bg_color
+            vg.fill
+            vg.stroke
+        end
+        id = black_key_id i
+        next if no_black i
+
+        box = black_bb(i, white_keys)
+        vg.path do |vg|
+            p = fixpad/2
+            vg.move_to(box[0]       -p,p+box[1]+box[3])
+            vg.line_to(box[0]+box[2]+p,p+box[1]+box[3])
+            vg.stroke_color bg_color
+            vg.stroke_width fixpad*2
+            vg.stroke
+        end
+        vg.path do |vg|
+            p = fixpad/2
+            o = fixpad/4
+            vg.move_to(box[0]       +p,box[1]+box[3]-o)
+            vg.line_to(box[0]+box[2]-p,box[1]+box[3]-o)
+            vg.stroke_color black_accent
+            vg.stroke_width fixpad
+            vg.stroke
+        end
+    }
+
+    function draw(vg)
+    {
+        white_keys = 8*7-3;
+        white_keys = self.whiteKeys;
+        black_pattern = [1,0,1,1,0,1,1];
+
+        bg_color     = Theme::KeyBackground
+        background bg_color
+
+        #draw the white keys 7 octaves + 2
         (0..white_keys).each do |i|
-            box = [i*w*1.0/(white_keys-1), 0, w*1.0/(white_keys), h];
-            pad(0.8, box);
-            vg.path do |vg|
-                vg.rect(*box)
-                paint = vg.linear_gradient(0,0,0,h,white1, white2)
-                vg.fill_paint paint
-                vg.fill_color enable_color if data && data[white_key_id i]
-                vg.stroke_color white_accent
-
-                vg.fill
-                vg.stroke_width 1.2
-                vg.stroke
-            end
+            draw_white(vg, i, white_keys)
         end
 
-        #//draw the black keys at the joints
-        (0..white_keys).each do |i|
-            id = black_key_id i
-            if(black_pattern[i%7] == 0)
-                next;
-            end
-            box = [(i+0.55)*w*1.0/(white_keys-1), 0, w*0.8/(white_keys), h*0.7];
-            pad(0.8, box);
-            vg.path do |vg|
-                vg.rect(*box)
-                vg.fill_color black_color
-                vg.fill_color enable_color if data && data[id]
-                vg.fill
-            end
-        end
-        #//draw the black keys at the joints
-        (0..white_keys).each do |i|
-            id = black_key_id i
-            if(black_pattern[i%7] == 0)
-                next;
-            end
-            box = [(i+0.55)*w*1.0/(white_keys-1), 0, w*0.8/(white_keys), h*0.7];
-            pad(0.8, box);
-            vg.path do |vg|
-                vg.move_to(box[0],box[1]+box[3])
-                vg.line_to(box[0]+box[2],box[1]+box[3])
-                vg.stroke_color black_accent
-                vg.stroke_width 2.0
-                vg.stroke
-            end
+        #draw the black keys at the joints
+        (0..white_keys-2).each do |i|
+            draw_black(vg, i, white_keys)
         end
     }
 

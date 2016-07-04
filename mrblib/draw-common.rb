@@ -597,6 +597,7 @@ module Theme
     KeyBlack            = color("2F3C45")
     KeyBlackAccent      = color("3C4F56")
     KeyEnable           = color("00ff00")
+    KeyBackground       = color("212121")
 
     TitleBar            = ButtonGrad1
     #Visualizations
@@ -931,4 +932,8 @@ class Formant
     end
 
     attr_reader :freq, :amp, :q
+end
+
+def fixedpad(box, pad)
+    [box[0]+pad, box[1]+pad, box[2]-2*pad, box[3]-2*pad]
 end

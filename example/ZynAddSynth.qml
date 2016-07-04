@@ -114,6 +114,8 @@ Widget {
             swap.extern = get_ext(id)
             swap.content = mapping[id]
             swap.force_update
+            swap.children[0].voice_button.value = true if(id == 2)
+            swap.children[0].mod_button.value   = true if(id == 3)
         }
 
     }

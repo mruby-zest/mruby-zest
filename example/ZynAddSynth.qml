@@ -98,7 +98,7 @@ Widget {
             kit = get_kit()
             prt = get_part()
             vce = get_voice()
-            extbase = "/part#{part}/kit#{kit}/adpars/"
+            extbase = "/part#{prt}/kit#{kit}/adpars/"
             ext = {0 => "GlobalPar/",
                    1 => "VoicePar#{vce}/",
                    2 => "VoicePar#{vce}/OscilSmp/",

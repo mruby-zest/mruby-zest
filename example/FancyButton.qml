@@ -90,6 +90,7 @@ Widget {
     PowButton {
         id: pow
         function class_name() { "PowButton" }
+        extern: fancy.extern
     }
 
 }

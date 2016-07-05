@@ -1,6 +1,38 @@
-Widget {
+ToggleButton {
+    property Bool value: false
     function class_name() {"powbutton"}
     function draw(vg) {
+        #Draw background
+        grad = if(self.value)
+            bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
+            dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+            vg.linear_gradient(0,0,0,h, bright_green, dark_green)
+        else
+            grey1 = Theme::ButtonGrad1
+            grey2 = Theme::ButtonGrad2
+            vg.linear_gradient(0,0,0,h, grey1, grey2)
+        end
+        vg.stroke_color color("000000", 0xa0)
+
+        grey1 = Theme::ButtonGrad1
+        grey2 = Theme::ButtonGrad2
+        grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
+        vg.path do |v|
+            pad = 0
+            v.rect(pad,0,w,h)
+            if(self.value)
+                v.fill_paint grad
+            else
+                v.fill_paint grad2
+            end
+            v.fill
+            v.stroke
+        end
+
+
+
+
+        #Draw power button
         pi     = 3.141592653
         cx     = w/2.0;
         cy     = h/2.0;
@@ -17,10 +49,5 @@ Widget {
             vg.stroke_color(super_green)
             vg.stroke
         end
-    }
-
-    function onMousePress(ev)
-    {
-        puts "pow press..."
     }
 }

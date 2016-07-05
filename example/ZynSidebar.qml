@@ -44,6 +44,7 @@ Widget {
         label: "add"
         value: true;
         whenClick: lambda { side.set_content :add_synth }
+        extern: "/part0/kit0/Padenabled"
     }
     Indent {
         id: voices
@@ -53,11 +54,13 @@ Widget {
         id: subButton
         label: "sub"
         whenClick: lambda { side.set_content :sub_synth }
+        extern: "/part0/kit0/Psubenabled"
     }
     FancyButton {
         id: padButton
         label: "pad"
         whenClick: lambda { side.set_content :pad_synth }
+        extern: "/part0/kit0/Ppadenabled"
     }
 
     function set_content(type)

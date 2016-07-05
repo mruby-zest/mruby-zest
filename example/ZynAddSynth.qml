@@ -21,7 +21,12 @@ Widget {
     }
     Widget {
         id: header
-        NumEntry  { layoutOpts: [:free]; tooltip: "voice"; }
+        NumEntry  {
+            whenValue:  lambda {header.set_voice()}
+            layoutOpts: [:free]
+            tooltip:    "voice"
+            maximum:    7
+        }
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
         TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
@@ -33,15 +38,14 @@ Widget {
         CopyButton {}
         PasteButton {}
 
-        function set_voice(x)
+        function set_voice()
         {
-            root.set_view_pos(:voice, x)
+            root.set_view_pos(:voice, children[0].value)
         }
 
-        function get_voice()
-        {
-            root.get_view_pos(:voice)
-        }
+        function get_voice() { root.get_view_pos(:voice) }
+        function get_part()  { root.get_view_pos(:part)  }
+        function get_kit()   { root.get_view_pos(:kit)   }
 
         function gen_weights()
         {
@@ -72,12 +76,12 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                if(idx < 10)
+                if(idx < 8)
                     l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
 
                     #add in the aspect constraint
                     l.aspect(box, 100, weights[idx])
-                elsif(idx == 10)
+                elsif(idx == 8)
                     l.weak(box.x)
                 end
 
@@ -91,12 +95,15 @@ Widget {
 
         function get_ext(id)
         {
-            extbase = "/part0/kit0/adpars/"
+            kit = get_kit()
+            prt = get_part()
+            vce = get_voice()
+            extbase = "/part#{part}/kit#{kit}/adpars/"
             ext = {0 => "GlobalPar/",
-                   1 => "VoicePar0/",
-                   2 => "VoicePar0/OscilSmp/",
-                   3 => "VoicePar0/FMSmp/",
-                   4 => "VoicePar0/",
+                   1 => "VoicePar#{vce}/",
+                   2 => "VoicePar#{vce}/OscilSmp/",
+                   3 => "VoicePar#{vce}/FMSmp/",
+                   4 => "VoicePar#{vce}/",
                    5 => "",
                    6 => "GlobalPar/Reson/"}
             extbase + ext[id]

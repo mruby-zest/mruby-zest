@@ -8,7 +8,7 @@ Widget {
     }
     Indent {
         id: part
-        KitButtons {}
+        KitButtons { sym: :part}
     }
     SidebarButton {
         id: browser
@@ -27,7 +27,7 @@ Widget {
     }
     Indent {
         id: kit
-        KitButtons {}
+        KitButtons { sym: :kit}
     }
     SidebarButton {
         id: arp
@@ -47,7 +47,7 @@ Widget {
     }
     Indent {
         id: voices
-        KitButtons { rows: 2}
+        KitButtons { sym: :voice; rows: 2}
     }
     FancyButton {
         id: subButton

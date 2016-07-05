@@ -1,6 +1,7 @@
 Widget {
     id: kit
     property Int rows: 4
+    property Symbol sym: nil
     function onSetup(old=nil)
     {
         #puts "on setup kit buttons<#{kit.w},#{kit.h}>..."
@@ -29,5 +30,18 @@ Widget {
         end
         l.aspect(selfBox, rows, cols)
         selfBox
+    }
+
+    function animate()
+    {
+        return if !self.sym
+        vv = root.get_view_pos self.sym
+        children.each_with_index do |ch, i|
+            n = (i == vv)
+            if(n != ch.value)
+                ch.value = n
+                ch.damage_self
+            end
+        end
     }
 }

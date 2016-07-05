@@ -20,6 +20,7 @@ Widget {
     {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, self
+        return selfBox if layoutOpts.include?(:free)
 
         #Assume all digit bounding boxes are roughly the same
         scale = 100

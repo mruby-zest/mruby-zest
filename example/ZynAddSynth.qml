@@ -21,9 +21,7 @@ Widget {
     }
     Widget {
         id: header
-        Button { label: "<"; layoutOpts: [:no_constraint]}
-        Button { label: "4"; layoutOpts: [:no_constraint]}
-        Button { label: ">"; layoutOpts: [:no_constraint]}
+        NumEntry  { layoutOpts: [:free]; tooltip: "voice"; }
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
         TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
@@ -34,6 +32,17 @@ Widget {
 
         CopyButton {}
         PasteButton {}
+
+        function set_voice(x)
+        {
+            root.set_view_pos(:voice, x)
+        }
+
+        function get_voice()
+        {
+            root.get_view_pos(:voice)
+        }
+
         function gen_weights()
         {
             total   = 0
@@ -41,7 +50,9 @@ Widget {
             children.each do |ch|
                 scale = 100
                 $vg.font_size scale
-                weight   = $vg.text_bounds(0, 0, ch.label.upcase + "  ")
+                label = ch.label
+                label = "- 9999 +" if ch.class == Qml::NumEntry
+                weight   = $vg.text_bounds(0, 0, label.upcase + "  ")
                 weights << weight
                 total   += weight
             end
@@ -54,6 +65,8 @@ Widget {
             prev = nil
 
             (total, weights) = gen_weights
+            puts weights
+            puts children
 
             children.each_with_index do |ch, idx|
                 box = ch.layout(l)

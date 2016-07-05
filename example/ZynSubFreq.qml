@@ -2,7 +2,9 @@ Widget {
     id: subfq
     extern: "/part0/kit0/subpars/"
     //visual
-    Widget {}
+    Swappable {
+        content: Qml::ZynEnvEdit
+    }
     Widget {
         Group {
             label: "general"

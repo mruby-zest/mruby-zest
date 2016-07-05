@@ -18,4 +18,9 @@ Widget {
             vg.stroke
         end
     }
+
+    function onMousePress(ev)
+    {
+        puts "pow press..."
+    }
 }

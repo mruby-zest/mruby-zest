@@ -18,7 +18,7 @@ Widget {
         self.value = x
         damage_self
     }
-    
+
     function onMouseEnter(ev) {
         if(self.tooltip != "")
             self.root.log(:tooltip, self.tooltip)

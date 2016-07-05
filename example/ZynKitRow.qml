@@ -7,7 +7,7 @@ Widget {
         label: kit_item.label;
         layoutOpts: [:no_constraint]
     }
-    TextBox {
+    TextLine {
         extern: kit_item.extern + "Pname"
         label: "kit name"
     }

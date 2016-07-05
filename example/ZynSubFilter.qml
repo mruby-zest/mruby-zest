@@ -1,7 +1,10 @@
 Widget {
     id: subfl
     //visual
-    Widget {}
+    Swappable {
+        extern: subfl.extern + "FilterEnvelope/"
+        content: Qml::ZynEnvEdit
+    }
     Widget {
         ZynAnalogFilter {}
         ZynFilterEnv {extern: subfl.extern+"FilterEnvelope/"}

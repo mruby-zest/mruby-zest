@@ -2,7 +2,9 @@ Widget {
     id: subbw
     extern: "/part0/kit0/subpars/"
     //visual
-    Widget {}
+    ZynEnvEdit {
+        extern: subbw.extern + "BandWidthEnvelope/"
+    }
     Widget {
         Group {
             label: "general"

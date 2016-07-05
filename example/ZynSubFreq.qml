@@ -2,8 +2,8 @@ Widget {
     id: subfq
     extern: "/part0/kit0/subpars/"
     //visual
-    Swappable {
-        content: Qml::ZynEnvEdit
+    ZynEnvEdit {
+        extern: subfq.extern + "FreqEnvelope/"
     }
     Widget {
         Group {

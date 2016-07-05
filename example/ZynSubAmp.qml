@@ -2,7 +2,9 @@ Widget {
     id: subamp
     extern: "/part0/kit0/subpars/"
     //visual
-    Widget {}
+    ZynEnvEdit {
+        extern: subamp.extern + "AmpEnvelope/"
+    }
     Widget {
         Group {
             label: "general"

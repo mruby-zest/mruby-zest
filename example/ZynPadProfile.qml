@@ -9,29 +9,32 @@ Widget {
 
 
         //row 1
-        TextBox { bg: nil; label: "base type"}
-        HSlider { label: "str"}
+        TextBox { label: "base type"}
+        HSlider { extern: padprofile.extern + "Php.modulator.par1"}
         //row 2
         Selector {extern: padprofile.extern + "Php.base.type"}
-        HSlider { label: "sfreq"}
+        HSlider { extern: padprofile.extern + "Php.modulator.freq"}
         //row 3
         Selector {extern: padprofile.extern + "Php.onehalf"}
-        HSlider { label: "size"}
+        HSlider { extern: padprofile.extern + "Php.width"}
         //row 4
-        Button  { label: "autoscale"}
-        HSlider { label: "width"}
+        ToggleButton {
+            label: "autoscale"
+            extern: padprofile.extern + "Php.autoscale"
+        }
+        HSlider { extern: padprofile.extern + "Php.base.par1"}
         //row 5
-        TextBox { bg: nil; label: "amp. mlt."}
-        HSlider { label: "freq.mlt"}
+        TextBox { label: "amp. mlt."}
+        HSlider { extern: padprofile.extern + "Php.freqmult"}
         //row 6
         Selector {extern: padprofile.extern + "Php.amp.type"}
         Widget {}
         //row 7
         TextBox { bg: nil; label: "amp. mode"}
-        HSlider { label: "par1"}
+        HSlider { extern: padprofile.extern + "Php.amp.par1"}
         //row 8
         Selector {extern: padprofile.extern + "Php.amp.mode"}
-        HSlider { label: "par2"}
+        HSlider { extern: padprofile.extern + "Php.amp.par2"}
 
         function class_name() { "overtone" }
         function layout(l) {

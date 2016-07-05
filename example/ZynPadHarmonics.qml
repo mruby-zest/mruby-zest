@@ -20,6 +20,7 @@ Widget {
         Group {
             label: "harmonic profile"
             topSize: 0.09
+            copyable: false
 
             ZynPadProfile { extern: base.extern}
         }
@@ -38,6 +39,7 @@ Widget {
         Group {
             topSize: 0.15
             label: "harmonic content"
+            copyable: false
             ParModuleRow {
                 Selector {}
                 Selector {}

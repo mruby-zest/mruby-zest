@@ -18,7 +18,7 @@ Widget {
         return if(mod.copyable && titleW.children.length < 2)
         if(mod.toggleable && titleW.children[1].class != Qml::PowButton)
             pb = Qml::PowButton.new(mod.db)
-            pb.extern = mod.extern
+            pb.extern = mod.toggleable
             pb.parent = titleW
             ch = titleW.children
             puts ch

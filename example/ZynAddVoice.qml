@@ -92,7 +92,6 @@ Widget {
             extern: addbase.extern + "AmpLfo/"
             whenClick: lambda {row1.setDataVis(:lfo)}
             id: amp_lfo
-            toggleable: true
         }
     }
     Widget {
@@ -138,7 +137,8 @@ Widget {
             amp_env.content = Qml::ZynAmpEnv
             amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
             amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
-            amp_env.children[0].toggleable = true
+            amp_env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
+            amp_lfo.toggleable = base + "PAmpLfoEnabled"
         }
 
         function set_freq(base)
@@ -149,7 +149,8 @@ Widget {
             amp_env.content = Qml::ZynFreqEnv
             amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
             amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
-            amp_env.children[0].toggleable = true
+            amp_env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
+            amp_lfo.toggleable = base + "PFreqLfoEnabled"
         }
 
         function set_filter(base)
@@ -160,7 +161,9 @@ Widget {
             amp_env.content = Qml::ZynFilterEnv
             amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
             amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
-            amp_env.children[0].toggleable = true
+            amp_env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
+            amp_gen.children[0].toggleable = base + "PFilterEnabled"
+            amp_lfo.toggleable = base + "PFilterLfoEnabled"
         }
 
         function setTab(id)

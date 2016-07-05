@@ -6,11 +6,8 @@ Widget {
     property String renderer: nil;
 
     function onMousePress(ev) {
-        puts "Button Press"
-        button.value = !button.value
-        if(button.root)
-            button.root.damage_item self
-        end
+        action.call if action
+        damage_self
     }
 
     function onMerge(val)

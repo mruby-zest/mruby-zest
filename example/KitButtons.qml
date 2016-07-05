@@ -1,22 +1,35 @@
 Widget {
-    id: kit
+    id: kitbuttons
     property Int rows: 4
     property Symbol sym: nil
     function onSetup(old=nil)
     {
-        #puts "on setup kit buttons<#{kit.w},#{kit.h}>..."
         (0...rows).each do |r|
             [0,1,2,3].each do |c|
-                but = Qml::KitButton.new(db)
-                but.label = (1+c + 4*r).to_s
+                ii         = (1+c + 4*r)
+                but        = Qml::KitButton.new(db)
+                but.label  = ii.to_s
+                but.action = lambda {kitbuttons.change_active(ii-1)}
                 Qml::add_child(self, but)
+            end
+        end
+    }
+
+    function change_active(ii)
+    {
+        root.set_view_pos(self.sym,ii) if self.sym
+
+        children.each_with_index do |ch, i|
+            n = (i == ii)
+            if(n != ch.value)
+                ch.value = n
+                ch.damage_self
             end
         end
     }
 
     function layout(l)
     {
-        #puts("kitlayout...")
         selfBox = l.genBox :kitButtons, self
         b = 0
         cols = 4

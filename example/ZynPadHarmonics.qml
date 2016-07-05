@@ -4,7 +4,9 @@ Widget {
     Widget {
         HarmonicView {
         }
-        ZynPadOvertone {}
+        ZynPadOvertone {
+            extern: base.extern
+        }
         function layout(l) {
             selfBox = l.genBox :tmp, self
             chiaBox = children[0].layout(l)
@@ -41,12 +43,21 @@ Widget {
             label: "harmonic content"
             copyable: false
             ParModuleRow {
-                Selector {}
-                Selector {}
-                Selector {}
+                Selector {
+                    extern: base.extern + "Pquality.basenote"
+                }
+                Selector {
+                    extern: base.extern + "Pquality.smpoct"
+                }
+                NumEntry {
+                    extern: base.extern + "Pquality.oct"
+                    label: "octaves"
+                }
             }
-            Text {label: "asdf"}
-            Selector {}
+            Text {label: "sample size"}
+            Selector {
+                extern: base.extern + "Pquality.samplesize"
+            }
         }
         function layout(l) {
             selfBox = l.genBox :tmp, self

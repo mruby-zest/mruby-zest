@@ -20,7 +20,7 @@ Widget {
         label: "mixer"
         whenClick: lambda { side.set_content :mixer }
     }
-    FancyButton {
+    SidebarButton {
         id: kitedit
         label: "kits"
         whenClick: lambda { side.set_content :kits }
@@ -34,7 +34,7 @@ Widget {
         label: "midi learn"
         whenClick: lambda { side.set_content :midi_learn }
     }
-    FancyButton {
+    SidebarButton {
         id: eff
         label: "effects"
         whenClick: lambda { side.set_content :effects }

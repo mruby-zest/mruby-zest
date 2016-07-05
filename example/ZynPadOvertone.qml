@@ -14,27 +14,33 @@ Widget {
     }
     Widget {
         //row 1
-        TextBox  {bg: nil; label: "overtone pos."; height: 0.9}
-        HSlider  {label: "bandwidth"; height: 0.8}
-        HSlider  {label: "force.h"; height: 0.8}
+        TextBox  {label: "overtone pos."; height: 0.9}
+        HSlider  {extern: overtone.extern + "Pbandwidth";  height: 0.8}
+        HSlider  {extern: overtone.extern + "Phrpos.par3"; height: 0.8}
 
         //row 2
-        Selector {layoutOpts: [:no_constraint]}
+        Selector {
+            extern: overtone.extern + "Phrpos.type";
+            layoutOpts: [:no_constraint]
+        }
         Widget {}
         Widget {}
 
         //row 3
-        TextBox  {bg: nil; label: "spectral mode"; height: 0.9}
-        TextBox  {bg: nil; label: "bw. scale"; height: 0.9}
-        HSlider {label: "par1"; height: 0.8}
+        TextBox  {label: "spectral mode"; height: 0.9}
+        TextBox  {label: "bw. scale"; height: 0.9}
+        HSlider {extern: overtone.extern + "Phrpos.par1"; height: 0.8}
 
         //row 4
         Selector {
             layoutOpts: [:no_constraint];
             extern: overtone.extern + "Pmode"
         }
-        Selector {layoutOpts: [:no_constraint]}
-        HSlider {label: "par2"; height: 0.8}
+        Selector {
+            layoutOpts: [:no_constraint]
+            extern: overtone.extern + "Pbwscale"
+        }
+        HSlider {extern: overtone.extern + "Phrpos.par2"; height: 0.8}
 
         //1    2    3
         //4

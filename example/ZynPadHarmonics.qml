@@ -37,6 +37,7 @@ Widget {
     }
     Widget {
         WaveView {
+            extern: base.extern + "oscilgen/waveform"
         }
         Group {
             topSize: 0.15

@@ -1,8 +1,9 @@
 Widget {
     id: wave_view
-    property Bool  grid: true;
+    property Bool   grid: true;
     property Object valueRef: nil
-    
+    property Float  phase: 0.0
+
     function class_name() { "WaveView" }
 
     onExtern: {
@@ -14,7 +15,17 @@ Widget {
         }
     }
 
-    DataView { id: data_view }
+    onPhase: {
+        return if((data_view.phase*100).to_i == (wave_view.phase*100).to_i)
+        data_view.phase = wave_view.phase
+
+        data_view.damage_self
+    }
+
+    DataView {
+        id: data_view
+        phase: wave_view.phase
+    }
 
 
     function draw(vg)

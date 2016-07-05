@@ -45,7 +45,11 @@ Widget {
                         extern: base.extern + "Pextoscil"
                         options: ["normal", "voice 0", "voice 1"]
                     }
-                    Knob {extern: base.extern + "Poscilphase"}
+                    Knob {
+                        id: phase_osc
+                        extern: base.extern + "Poscilphase"
+                        whenValue: lambda {osc_wave.phase = phase_osc.value}
+                    }
                 }
                 ParModuleRow {
                     Selector {
@@ -54,6 +58,7 @@ Widget {
                 }
             }
             WaveView {
+                id: osc_wave
                 extern: base.extern + "OscilSmp/waveform"
                 grid: false
             }
@@ -74,11 +79,16 @@ Widget {
                         //layoutOpts: [:no_constraint]
                     }
                     Knob {
+                        id: phase_mod
                         extern: base.extern+"PFMoscilphase"
+                        whenValue: lambda {
+                            mod_wave.phase = phase_mod.value
+                        }
                     }
                 }
             }
             WaveView {
+                id: mod_wave
                 grid: false
                 extern: base.extern + "FMSmp/waveform"
             }

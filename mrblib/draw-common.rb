@@ -15,15 +15,17 @@ module Draw
             end
         end
 
-        def self.plot(vg, ypts, bb, do_norm=true)
+        def self.plot(vg, ypts, bb, do_norm=true, phase)
             ypts = DSP::normalize(ypts) if do_norm
             xpts = Draw::DSP::linspace(0,1,ypts.length)
+            off = (phase * (ypts.length-1)).to_i
             vg.path do |v|
-                ypos = bb.y+bb.h/2-bb.h/2*ypts[0]
+                ypos = bb.y+bb.h/2-bb.h/2*ypts[off]
                 ypos = [bb.y, [ypos, bb.y+bb.h].min].max
                 vg.move_to(bb.x, ypos)
                 (1...ypts.length).each do |pt|
-                    ypos = bb.y+bb.h/2-bb.h/2*ypts[pt]
+                    ii = (off+pt)%ypts.length
+                    ypos = bb.y+bb.h/2-bb.h/2*ypts[ii]
                     ypos = [bb.y, [ypos, bb.y+bb.h].min].max
                     vg.line_to(bb.x+bb.w*xpts[pt], ypos)
                 end

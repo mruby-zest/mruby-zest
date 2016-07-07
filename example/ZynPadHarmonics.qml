@@ -18,6 +18,7 @@ Widget {
     }
     Widget {
         VisHarmonic {
+            extern: base.extern + "harmonic_profile"
         }
         Group {
             label: "harmonic profile"

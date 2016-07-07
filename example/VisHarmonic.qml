@@ -3,6 +3,7 @@ Widget {
     property Float pad: 1/32
     property Object valueRef: nil
     property Array  points:   nil
+    property Bool   needRefresh: false
 
     onExtern: {
         hm.valueRef = OSC::RemoteParam.new($remote, hm.extern)
@@ -11,7 +12,23 @@ Widget {
 
     function setValue(x)
     {
-        self.points = x
+        if(x != self.points)
+            self.points = x
+            damage_self
+        end
+    }
+
+    function animate()
+    {
+        if(self.valueRef && self.needRefresh)
+            self.needRefresh = false
+            self.valueRef.refresh
+        end
+    }
+
+    function refresh()
+    {
+        self.needRefresh = true
     }
 
     function draw(vg)
@@ -24,10 +41,12 @@ Widget {
         Draw::Grid::linear_x(vg,0,10,box, 0.5)
         Draw::Grid::linear_y(vg,0,10,box, 0.5)
 
-        xpoints = nil
+        xpoints = Draw::DSP::linspace(-2,2,128)
         ypoints = nil
+        vline   = 0.15
         if(self.points)
-            ypoints = self.points[1..-1]
+            ypoints = self.points[1..-1].map {|x| 2*x-1}
+            vline   = self.points[0]/2
         else
             ypoints = xpoints.map {|x| 2*Math.exp(-x**2/0.1)-1 }
         end
@@ -35,16 +54,16 @@ Widget {
         Draw::WaveForm::plot(vg, ypoints, box)
 
         vg.path do |v|
-            v.move_to(0.5*w+0.15*w, h*pad)
-            v.line_to(0.5*w+0.15*w, h*pad2)
-            v.move_to(0.5*w-0.15*w, h*pad)
-            v.line_to(0.5*w-0.15*w, h*pad2)
+            v.move_to(0.5*w+vline*w, h*pad)
+            v.line_to(0.5*w+vline*w, h*pad2)
+            v.move_to(0.5*w-vline*w, h*pad)
+            v.line_to(0.5*w-vline*w, h*pad2)
             v.stroke_color Theme::VisualStroke
             v.stroke
         end
 
         vg.path do |v|
-            v.rect(0.5*w-0.15*w, h*pad, 0.3*w, h*pad2)
+            v.rect(0.5*w-vline*w, h*pad, 2*vline*w, h*pad2)
             v.fill_color Theme::VisualLightFill
             v.fill
         end
@@ -54,7 +73,6 @@ Widget {
             ypoints.each_with_index do |y, i|
                 v.line_to(pad*w+pad2*w*i/n, (1-y)/2*h)
             end
-            puts "asdf"
             v.line_to((pad+pad2)*w,(pad+pad2)*h)
             v.close_path
             v.fill_color Theme::VisualLightFill

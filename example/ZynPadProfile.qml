@@ -1,9 +1,16 @@
 Widget {
     id: padprofile
+    property Function whenValue: nil
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
     Widget {
         function onSetup() {
+            cb_ = lambda {padprofile.cb}
             children.each do |x|
                 x.layoutOpts = [:no_constraint]
+                x.whenValue  = cb_ if x.respond_to? :whenValue
             end
         }
 

@@ -18,6 +18,7 @@ Widget {
     }
     Widget {
         VisHarmonic {
+            id: visharm
             extern: base.extern + "harmonic_profile"
         }
         Group {
@@ -25,7 +26,10 @@ Widget {
             topSize: 0.09
             copyable: false
 
-            ZynPadProfile { extern: base.extern}
+            ZynPadProfile {
+                extern: base.extern
+                whenValue: lambda { visharm.refresh }
+            }
         }
         function layout(l) {
             selfBox = l.genBox :tmp, self

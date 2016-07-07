@@ -32,11 +32,16 @@ Widget {
 
     function set_content(type, offset=0)
     {
+        prt = root.get_view_pos(:part)
+        kit = root.get_view_pos(:kit)
         if(type == :add_synth)
+            main_widget.extern  = "/part#{prt}/kit#{kit}/addpars/"
             main_widget.content = Qml::ZynAddSynth
         elsif(type == :pad_synth)
+            main_widget.extern  = "/part#{prt}/kit#{kit}/padpars/"
             main_widget.content = Qml::ZynPadSynth
         elsif(type == :sub_synth)
+            main_widget.extern  = "/part#{prt}/kit#{kit}/subpars/"
             main_widget.content = Qml::ZynSubSynth
         elsif(type == :part)
             main_widget.content = Qml::ZynPart

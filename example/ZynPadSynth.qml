@@ -1,5 +1,4 @@
 Widget {
-Widget {
     id: center
 
     function layout(l)
@@ -18,13 +17,24 @@ Widget {
 
         selfBox
     }
+
+    function apply()
+    {
+        puts "extern = #{center.extern}"
+        $remote.action(center.extern+"prepare")
+    }
     TabGroup {
         id: header
         TabButton { label: "harmonic structure"; value: true}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
 
-        Button { layoutOpts: [:no_constraint]; label: "export"}
+        Button {
+            layoutOpts: [:no_constraint];
+            label: "apply"
+            whenValue: lambda {center.apply() }
+        }
+        Button { layoutOpts: [:no_constraint]; label: "export" }
         CopyButton {}
         PasteButton {}
         function gen_weights()
@@ -60,6 +70,8 @@ Widget {
                 elsif(idx == 3)
                     l.aspect(box, 100, weights[idx])
                     l.weak(box.x)
+                elsif(idx == 4)
+                    l.aspect(box, 100, weights[idx])
                 end
 
                 if(prev)
@@ -104,5 +116,4 @@ Widget {
         }
         content: Qml::ZynPadHarmonics
     }
-}
 }

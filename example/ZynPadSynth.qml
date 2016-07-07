@@ -78,7 +78,9 @@ Widget {
             mapping = {0 => Qml::ZynPadHarmonics,
                        1 => Qml::ZynOscil,
                        2 => Qml::ZynAddGlobal}
-            base = "/part0/kit0/padpars/"
+            kit = center.get_kit()
+            prt = center.get_part()
+            base = "/part#{prt}/kit#{kit}/padpars/"
             ext     = {0 => "",
                        1 => "oscilgen/",
                        2 => ""}
@@ -89,9 +91,17 @@ Widget {
         }
 
     }
+    function get_voice() { root.get_view_pos(:voice) }
+    function get_part()  { root.get_view_pos(:part)  }
+    function get_kit()   { root.get_view_pos(:kit)   }
 
     Swappable {
         id: swap
+        extern: {
+            kit = center.get_kit()
+            prt = center.get_part()
+            "/part#{prt}/kit#{kit}/padpars/"
+        }
         content: Qml::ZynPadHarmonics
     }
 }

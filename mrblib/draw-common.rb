@@ -15,7 +15,7 @@ module Draw
             end
         end
 
-        def self.plot(vg, ypts, bb, do_norm=true, phase)
+        def self.plot(vg, ypts, bb, do_norm=true, phase=0)
             ypts = DSP::normalize(ypts) if do_norm
             xpts = Draw::DSP::linspace(0,1,ypts.length)
             off = (phase * (ypts.length-1)).to_i

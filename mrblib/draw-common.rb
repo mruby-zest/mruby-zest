@@ -35,12 +35,13 @@ module Draw
             end
         end
 
-        def self.bar(vg, data, bb, bar_color)
+        def self.bar(vg, data, bb, bar_color, xx=nil)
             n    = data.length
             xpts = Draw::DSP::linspace(0,1,n)
             (0...n).each do |i|
-                x = bb.x+xpts[i]*bb.w
-                y = bb.y+bb.h
+                x  = bb.x+xpts[i]*bb.w
+                x  = bb.x+xx[i]*bb.w/64.0 if xx
+                y  = bb.y+bb.h
                 vg.path do |v|
                     v.move_to(x, y)
                     v.line_to(x, y-bb.h*data[i])

@@ -1,5 +1,12 @@
 Widget {
     id: overtone
+    property Function whenValue: nil
+
+    function cb()
+    {
+        whenValue.call if whenValue
+    }
+
     function draw(vg) {
         vg.path do |v|
             v.rect(0,0,w,h)
@@ -50,6 +57,14 @@ Widget {
         function class_name() { "overtone" }
         function layout(l) {
             Draw::Layout::grid(l, self_box(l), chBoxes(l), 4, 3, 1, 2)
+        }
+
+        function onSetup(old=nil)
+        {
+            cb_ = lambda {overtone.cb}
+            children.each do |ch|
+                ch.whenValue = cb_ if ch.respond_to? :whenValue
+            end
         }
     }
     function layout(l)

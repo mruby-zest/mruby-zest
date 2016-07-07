@@ -1,23 +1,44 @@
 Widget {
     id: harmonic_view
+    property Object type:     :osc
     property Object valueRef: nil
 
     onExtern: {
-        harmonic_view.valueRef =
-            OSC::RemoteParam.new($remote, harmonic_view.extern)
-        harmonic_view.valueRef.callback = lambda {|x|
+        rem   = harmonic_view.extern
+        type  = harmonic_view.type
+        rharm = rem                       if(type == :osc)
+        rharm = rem + "oscilgen/spectrum" if(type == :pad)
+
+        ref = OSC::RemoteParam.new($remote, rharm)
+        ref.callback = lambda {|x|
             #x = x.map {|x| Math.log10(x)}
             x = Draw::DSP::norm_harmonics(x)
             x = x[0..255] if x.length > 256
             harmonic_view.points = x
             harmonic_view.damage_self
         }
+        refs = [ref]
+        if(type == :pad)
+            ref = OSC::RemoteParam.new($remote,rem + "nhr")
+            ref.callback = lambda {|x|
+                harmonic_view.shift = x
+                harmonic_view.damage_self
+            }
+            refs << ref
+        end
+
+        harmonic_view.valueRef = refs
 
     }
 
     function refresh()
     {
-        self.valueRef.refresh if self.valueRef
+        vr = self.valueRef
+        if(vr)
+            vr.each do |r|
+                r.refresh
+            end
+        end
     }
 
     function make_points()
@@ -32,6 +53,7 @@ Widget {
 
 
     property Array points: harmonic_view.make_points
+    property Array shift:  nil
 
     function draw(vg)
     {
@@ -39,6 +61,6 @@ Widget {
         pad2 = (1-2*pad)
         background Theme::VisualBackground
         bb = Rect.new(pad*w, pad*h, pad2*w, pad2*h)
-        Draw::WaveForm::bar(vg, self.points, bb,Theme::HarmonicColor)
+        Draw::WaveForm::bar(vg, self.points, bb,Theme::HarmonicColor, self.shift)
     }
 }

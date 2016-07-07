@@ -3,9 +3,13 @@ Widget {
     extern: "/part0/kit0/padpars/"
     Widget {
         HarmonicView {
+            id: nhr
+            type:   :pad
+            extern: base.extern
         }
         ZynPadOvertone {
             extern: base.extern
+            whenValue: lambda { nhr.refresh }
         }
         function layout(l) {
             selfBox = l.genBox :tmp, self

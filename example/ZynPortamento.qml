@@ -1,16 +1,17 @@
 Group {
+    id: port
     label: "portamento"
     copyable: false
     ParModuleRow {
-        Button {label: "rcv"}
-        Button {label: "th.type"}
-        Knob   {label: "thresh"}
-        Knob   {label: "time"}
-        Knob   {label: "t.up/dn"}
+        Button { extern: port.extern+"portamento.receive"}
+        Button { extern: port.extern+"portamento.pitchthreshtype"}
+        Knob   { extern: port.extern+"portamento.pitchthresh"}
+        Knob   { extern: port.extern+"portamento.time"}
+        Knob   { extern: port.extern+"portamento.updowntimestretch"}
     }
     ParModuleRow {
-        Button {label: "proprt."}
-        Knob   {label: "prp.rate"}
-        Knob   {label: "prp.depth"}
+        Button { extern: port.extern+"portamento.proportional"}
+        Knob   { extern: port.extern+"portamento.propRate"}
+        Knob   { extern: port.extern+"portamento.propDepth"}
     }
 }

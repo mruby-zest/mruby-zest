@@ -30,13 +30,21 @@ Widget {
         }
     }
     Widget {
+        id: ppars
+        extern: "/part0/"
         function class_name() { "part" }
         function layout(l) {
             Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.4,0.3,0.3])
         }
-        ZynInstrumentSettings {}
-        ZynControllers {}
-        ZynPortamento  {}
+        ZynInstrumentSettings {
+            extern: ppars.extern
+        }
+        ZynControllers {
+            extern: ppars.extern + "ctl/"
+        }
+        ZynPortamento  {
+            extern: ppars.extern + "ctl/"
+        }
     }
     ZynScale { }
 

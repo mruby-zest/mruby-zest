@@ -8,9 +8,14 @@ Widget {
     property Object gain_value: 1.0
     property Array  vowels: nil
     property Bool   pending_damage: false
+    property Bool   refreshing: false
 
     function change() {
         self.pending_damage = true
+    }
+
+    function refresh() {
+        self.refreshing = true
     }
 
     function onSetup(old=nil) {
@@ -82,14 +87,21 @@ Widget {
 
     function animate()
     {
-        return if(!self.pending_damage)
-        self.pending_damage = false
-        #puts "numfor= #{self.numformants}"
-        #puts "q_valu= #{self.q_value}"
-        #puts "stages= #{self.stages}"
-        #puts "gain  = #{self.gain_value}"
-        #puts "vowels= #{self.vowels}"
-        response(0) if !self.vowels.nil?
+        if(self.refreshing)
+            self.refreshing = false
+            valueRef.each do |r|
+                r.refresh()
+            end
+        end
+        if(self.pending_damage)
+            self.pending_damage = false
+            #puts "numfor= #{self.numformants}"
+            #puts "q_valu= #{self.q_value}"
+            #puts "stages= #{self.stages}"
+            #puts "gain  = #{self.gain_value}"
+            #puts "vowels= #{self.vowels}"
+            response(0) if !self.vowels.nil?
+        end
     }
 
     function response(nvowel)

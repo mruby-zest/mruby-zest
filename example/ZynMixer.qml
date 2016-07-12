@@ -4,12 +4,7 @@ Widget {
     property Object data: nil
 
     function animate() {
-        if(!self.valueRef)
-            self.valueRef = OSC::RemoteParam.new($remote, "/vu-meter")
-            self.valueRef.callback = lambda {|x| mixer.update_data(x) }
-        else
-            self.valueRef.refresh
-        end
+        self.valueRef.refresh if(self.valueRef)
 
         if(self.data)
             (0...16).each do |i|
@@ -45,6 +40,10 @@ Widget {
             col.extern = "/part#{r}/"
             Qml::add_child(self, col)
         end
+
+        self.valueRef = OSC::RemoteParam.new($remote, "/vu-meter")
+        self.valueRef.callback = lambda {|x| mixer.update_data(x) }
+        animate() if self.data
     }
 
     function class_name() { "mixer" }

@@ -6,20 +6,62 @@
 //placeholders are put in its place
 
 Widget {
+    id: egrp
     property Int   nunits: 6
     property Int   offset: 0
-    property Hash  effects: {}
+    property Hash  effects: Hash.new
     property Int   maxeffects: 8
     property Int   shownWeights: []
+    property Array valueRef: nil
+    property Bool  needsRegen: false
 
     function onSetup(old=nil)
+    {
+        v = []
+        (0...maxeffects).each do |i|
+            rf = extern + i.to_s + "/efftype"
+            r  = OSC::RemoteParam.new($remote, rf)
+            r.mode = :options
+            r.callback = lambda {|x|
+                lu = egrp.lookup(x)
+                puts "new type #{x}@#{i} = #{lu}"
+                if(egrp.effects[i] != lu)
+                    egrp.effects[i] = lu
+                    egrp.needsRegen = true
+                end
+            }
+            v << r
+        end
+        self.valueRef = v
+        generate_children if(egrp.effects.length != 0)
+    }
+
+    function animate()
+    {
+        regen_children if self.needsRegen
+    }
+
+    function regen_children()
+    {
+        self.needsRegen = false
+        self.children = [self.children[0]]
+        generate_children()
+        if(root)
+            root.smash_layout
+            root.damage_item widget
+        end
+    }
+
+    function generate_children()
     {
         return if children.length > 1
         puts "look at me"
         w = []
         running = 0
+        offset = 0
         (0...6).each do |r|
-            if(effects.include?(r))
+            r += offset
+            if(effects.include?(r) && effects[r] != :none)
                 puts effects
                 un = get_units(effects[r])
                 puts un
@@ -42,9 +84,17 @@ Widget {
         end
         self.shownWeights = w
     }
-
-    function generate_children()
-    {
+    function lookup(type) {
+        mapper = {0=>:none,
+                  1=>:reverb,
+                  2=>:echo,
+                  3=>:chorus,
+                  4=>:phaser,
+                  5=>:alienwah,
+                  6=>:distortion,
+                  7=>:eq,
+                  8=>:dynamicfilter}
+        mapper[type]
     }
 
     function get_units(type)

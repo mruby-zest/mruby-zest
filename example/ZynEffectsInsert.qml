@@ -26,6 +26,8 @@ Widget {
         }
     }
     ZynEffectGroup {
+        maxeffects: 8
+        extern: "/insefx"
         effects: {{0=>:reverb,
                   1=>:echo,
                   2=>:distortion,

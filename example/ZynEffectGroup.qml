@@ -26,5 +26,6 @@ Widget {
 
     function layout(l)
     {
+        selfBox = l.genBox :eff, self
     }
 }

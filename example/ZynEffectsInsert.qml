@@ -23,15 +23,15 @@ Widget {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
     }
-    Widget {
-        ZynReverb {}
-        ZynEcho {}
-        ZynDistortion {}
-        function layout(l)
-        {
-            selfBox = l.genBox :eff, self
-            Draw::Layout::vpack(l, selfBox, chBoxes(l))
-        }
+    ZynEffectGroup {
+        //ZynReverb {}
+        //ZynEcho {}
+        //ZynDistortion {}
+        //function layout(l)
+        //{
+        //    selfBox = l.genBox :eff, self
+        //    Draw::Layout::vpack(l, selfBox, chBoxes(l))
+        //}
 
     }
     function layout(l)

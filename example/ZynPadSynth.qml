@@ -89,7 +89,7 @@ Widget {
             #Define a mapping from tabs to values
             mapping = {0 => Qml::ZynPadHarmonics,
                        1 => Qml::ZynOscil,
-                       2 => Qml::ZynAddGlobal}
+                       2 => Qml::ZynPadGlobal}
             kit = center.get_kit()
             prt = center.get_part()
             base = "/part#{prt}/kit#{kit}/padpars/"

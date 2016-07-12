@@ -7,10 +7,12 @@ Widget {
             num_eff = 8
             layout = [:no_constraint]
             (0...num_eff).each do |i|
-                but = Qml::Button.new(db)
+                but = Qml::Selector.new(db)
                 but.layoutOpts = layout
+                but.extern = "/insefx#{i}/efftype"
                 sel = Qml::Selector.new(db)
                 sel.layoutOpts = layout
+                sel.extern = "/Pinsparts#{i}"
                 Qml::add_child(self, but)
                 Qml::add_child(self, sel)
             end
@@ -24,6 +26,11 @@ Widget {
         }
     }
     ZynEffectGroup {
+        effects: {{0=>:reverb,
+                  1=>:echo,
+                  2=>:distortion,
+                  3=>:eq}}
+
         //ZynReverb {}
         //ZynEcho {}
         //ZynDistortion {}

@@ -28,20 +28,6 @@ Widget {
     ZynEffectGroup {
         maxeffects: 8
         extern: "/insefx"
-        effects: {{0=>:reverb,
-                  1=>:echo,
-                  2=>:distortion,
-                  3=>:eq}}
-
-        //ZynReverb {}
-        //ZynEcho {}
-        //ZynDistortion {}
-        //function layout(l)
-        //{
-        //    selfBox = l.genBox :eff, self
-        //    Draw::Layout::vpack(l, selfBox, chBoxes(l))
-        //}
-
     }
     function layout(l)
     {

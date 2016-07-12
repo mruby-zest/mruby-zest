@@ -27,15 +27,10 @@ Widget {
         }
     }
     Widget {
-        Widget {
-            ZynReverb {}
-            ZynEcho {}
-            ZynDistortion {}
-            function class_name() { "eff" }
-            function layout(l) {
-                Draw::Layout::vpack(l, self_box(l), chBoxes(l))
-            }
-
+        ZynEffectGroup {
+            maxeffects: 4
+            nunits:     3
+            extern: "/sysefx"
         }
         ZynSendToGrid {}
         function class_name() { "effvert" }

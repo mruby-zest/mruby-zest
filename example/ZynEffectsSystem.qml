@@ -2,44 +2,25 @@ Widget {
     ColorBox {
         bg: Theme::GeneralBackground
 
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
+        function onSetup(old=nil)
+        {
+            return if children.length > 1
+            num_eff = 4
+            layout = [:no_constraint]
+            (0...num_eff).each do |i|
+                but = Qml::Selector.new(db)
+                but.layoutOpts = layout
+                but.extern = "/sysefx#{i}/efftype"
+                sld = Qml::HSlider.new(db)
+                #sel.layoutOpts = layout
+                #sel.extern = "/Pinsparts#{i}"
+                Qml::add_child(self, but)
+                Qml::add_child(self, sld)
+            end
         }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
-        Selector {
-            options: ["none", "reverb", "echo", "distortion", "phaser"]
-            layoutOpts: [:no_constraint]
-        }
-        HSlider  {}
 
         function layout(l) {
-            Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0.05, 0.9, 5)
+            Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0.05, 0.9, 20)
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))

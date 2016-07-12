@@ -6,7 +6,7 @@ Widget {
         function onSetup(old=nil)
         {
             return if children.length > 1
-            rows = 6
+            rows = 4
             (rows).times do |x|
                 ch = Qml::ZynSendToRow.new(db)
                 ch.row_id = x

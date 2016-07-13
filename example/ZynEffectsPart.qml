@@ -27,10 +27,8 @@ Widget {
         }
     }
     ZynEffectGroup {
-        effects: {{0=>:reverb,
-                  1=>:echo,
-                  2=>:distortion,
-                  3=>:eq}}
+        maxeffects: 3
+        extern: "/part0/partefx"
     }
     function layout(l)
     {

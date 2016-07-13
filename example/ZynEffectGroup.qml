@@ -171,6 +171,8 @@ Widget {
             return Qml::ZynReverb.new(db)
         elsif(type == :echo)
             return Qml::ZynEcho.new(db)
+        elsif(type == :chorus)
+            return Qml::ZynChorus.new(db)
         elsif(type == :distortion)
             return Qml::ZynDistortion.new(db)
         else

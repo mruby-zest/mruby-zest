@@ -6,10 +6,10 @@ Group {
     ParModuleRow {
         Knob { extern: echo.extern + "pan" }
 
-        Knob { extern: echo.extern + "echo/Pdelay"   }
-        Knob { extern: echo.extern + "echo/Plrdelay" }
-        Knob { extern: echo.extern + "echo/Plrcross" }
-        Knob { extern: echo.extern + "echo/Pfb" }
-        Knob { extern: echo.extern + "echo/Phidamp" }
+        Knob { extern: echo.extern + "Echo/Pdelay"   }
+        Knob { extern: echo.extern + "Echo/Plrdelay" }
+        Knob { extern: echo.extern + "Echo/Plrcross" }
+        Knob { extern: echo.extern + "Echo/Pfb" }
+        Knob { extern: echo.extern + "Echo/Phidamp" }
     }
 }

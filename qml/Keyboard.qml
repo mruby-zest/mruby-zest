@@ -5,6 +5,7 @@ Widget {
     property Int    whiteKeys: 8*7-4
     property Float  fixpad: 1.5
     property Int    select_id: nil
+    property Int    prev_note: nil
 
 
     function set_data(data_)
@@ -52,8 +53,8 @@ Widget {
         (0..whiteKeys).each do |i|
             bid = black_key_id(i)
             wid = white_key_id(i)
-            bb  = black_bb(i, whiteKeys)
-            wb  = white_bb(i, whiteKeys)
+            bb  = black_bb(i, whiteKeys, false)
+            wb  = white_bb(i, whiteKeys, false)
             if(Rect.new(*bb).include? rel)
                 return bid
             elsif(Rect.new(*wb).include? rel)
@@ -66,8 +67,19 @@ Widget {
     function onMousePress(ev)
     {
         note = get_note(ev.pos)
+        self.prev_note = note
         if(note && $remote)
             $remote.action("/noteOn", 0, note, 100)
+        end
+    }
+
+    function onMouseMove(ev)
+    {
+        note = get_note(ev.pos)
+        if(note != self.prev_note)
+            $remote.action("/noteOff", 0, self.prev_note)
+            $remote.action("/noteOn",  0, note, 100)
+            self.prev_note = note
         end
     }
 
@@ -90,19 +102,27 @@ Widget {
         black_pattern[i%7] == 0
     }
 
-    function white_bb(i, white_keys)
+    function white_bb(i, white_keys, pad=true)
     {
         padh = fixpad/2
         box  = [i*w*1.0/(white_keys), padh, w*1.0/(white_keys), h-padh];
-        fixedpad(box, fixpad)
+        if(pad)
+            fixedpad(box, fixpad)
+        else
+            box
+        end
     }
 
-    function black_bb(i, white_keys)
+    function black_bb(i, white_keys, pad=true)
     {
         width = 0.65
         box = [(i+1.0-width/2)*w*1.0/(white_keys), 0,
                w*width/(white_keys), h*0.7];
-        fixedpad(box, fixpad)
+        if(pad)
+            fixedpad(box, fixpad)
+        else
+            box
+        end
     }
 
     function draw_white(vg, i, white_keys)

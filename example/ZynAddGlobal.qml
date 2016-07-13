@@ -187,6 +187,7 @@ Widget {
 
         function set_filter(base)
         {
+            amp_gen.extern  = base + "GlobalFilter/"
             amp_env.extern  = base + "FilterEnvelope/"
             amp_lfo.extern  = base + "FilterLfo/"
             amp_gen.content = Qml::ZynAnalogFilter

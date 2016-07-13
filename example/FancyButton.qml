@@ -51,7 +51,7 @@ Widget {
         vg.path do |v|
             pad = 0
             v.rect(w/4+pad,0,w*3/4,h)
-            if(value)
+            if(value && false)
                 v.fill_paint grad
             else
                 v.fill_paint grad2
@@ -74,8 +74,8 @@ Widget {
     }
 
     function onMousePress(ev) {
-        self.value = !self.value
-        damage_self
+        #self.value = !self.value
+        #damage_self
         whenClick.call if whenClick
     }
 

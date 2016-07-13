@@ -25,16 +25,34 @@ Widget {
         extern: kit_item.extern + "Padenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
+        whenClick: lambda {
+            rt = kit_item.root
+            rt.set_view_pos(:eng, :add)
+            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.change_view
+        }
     }
     FancyButton {
         extern: kit_item.extern + "Psubenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
+        whenClick: lambda {
+            rt = kit_item.root
+            rt.set_view_pos(:eng, :sub)
+            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.change_view
+        }
     }
     FancyButton {
         extern: kit_item.extern + "Ppadenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
+        whenClick: lambda {
+            rt = kit_item.root
+            rt.set_view_pos(:eng, :pad)
+            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.change_view
+        }
     }
     Selector {
         extern: kit_item.extern + "Psendtoparteffect"

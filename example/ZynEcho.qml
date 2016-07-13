@@ -1,14 +1,15 @@
 Group {
+    id: echo
     label: "echo"
     topSize: 0.2
 
     ParModuleRow {
-        Knob { label: "pan"}
+        Knob { extern: echo.extern + "pan" }
 
-        Knob { label: "delay" }
-        Knob { label: "l.rdl." }
-        Knob { label: "l.rc." }
-        Knob { label: "feedback" }
-        Knob { label: "damp" }
+        Knob { extern: echo.extern + "echo/Pdelay"   }
+        Knob { extern: echo.extern + "echo/Plrdelay" }
+        Knob { extern: echo.extern + "echo/Plrcross" }
+        Knob { extern: echo.extern + "echo/Pfb" }
+        Knob { extern: echo.extern + "echo/Phidamp" }
     }
 }

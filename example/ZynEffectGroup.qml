@@ -146,7 +146,9 @@ Widget {
                 un = get_units(effects[r])
                 if(running + un <= nunits)
                     col = make_child(effects[r])
+                    col.extern = extern + r.to_s + "/"
                     Qml::add_child(self, col)
+                    db.update_values
                     setup_widget(col)
                     w << un
                     running += un
@@ -161,7 +163,6 @@ Widget {
             end
         end
         self.shownWeights = w
-        puts self.children
     }
 
     function make_child(type)

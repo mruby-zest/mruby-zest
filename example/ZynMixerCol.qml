@@ -1,6 +1,7 @@
 Widget {
     id: col
     property Array weights: [0.05, 0.1, 0.70, 0.05, 0.05, 0.05]
+    property Int   idx: 0
 
     function set_level(l)
     {
@@ -41,7 +42,11 @@ Widget {
         extern: col.extern + "Prcvchn"
         layoutOpts: [:no_constraint]
     }
-    Button { layoutOpts: [:no_constraint]; label: "edit" }
+    TriggerButton {
+        layoutOpts: [:no_constraint];
+        label: "edit"
+        whenValue: lambda { col.root.set_view_pos(:part, idx) }
+    }
 
     function layout(l)
     {

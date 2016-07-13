@@ -74,7 +74,8 @@ Widget {
 
         Swappable {
             id: amp_gen
-            content: Qml::ZynAmpGeneral
+            extern: "/part0/kit0/adpars/VoicePar0/"
+            content: Qml::ZynAmpVoiceGeneral
             whenSwapped: lambda {
                 puts "whenSwapped callback"
                 if(amp_gen.content == Qml::ZynAnalogFilter)
@@ -131,9 +132,10 @@ Widget {
 
         function set_amp(base)
         {
+            amp_gen.extern  = base
             amp_env.extern  = base + "AmpEnvelope/"
             amp_lfo.extern  = base + "AmpLfo/"
-            amp_gen.content = Qml::ZynAmpGeneral
+            amp_gen.content = Qml::ZynAmpVoiceGeneral
             amp_env.content = Qml::ZynAmpEnv
             amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
             amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
@@ -155,6 +157,7 @@ Widget {
 
         function set_filter(base)
         {
+            amp_gen.extern  = base + "VoiceFilter/"
             amp_env.extern  = base + "FilterEnvelope/"
             amp_lfo.extern  = base + "FilterLfo/"
             amp_gen.content = Qml::ZynAnalogFilter

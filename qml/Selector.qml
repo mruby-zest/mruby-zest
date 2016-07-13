@@ -68,7 +68,7 @@ Widget {
         "Selector"
     }
 
-    function set_value(val)
+    function set_value_user(val)
     {
         return if(val == self.selected)
         self.selected = val
@@ -143,7 +143,7 @@ Widget {
         widget.layer = 2
         widget.options = options
         widget.callback = lambda { |v|
-            set_value(v)
+            set_value_user(v)
         }
         print "widget.x = "
         puts widget.x

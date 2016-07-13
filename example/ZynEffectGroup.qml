@@ -24,7 +24,6 @@ Widget {
             r.mode = :options
             r.callback = lambda {|x|
                 lu = egrp.lookup(x)
-                puts "new type #{x}@#{i} = #{lu}"
                 if(egrp.effects[i] != lu)
                     egrp.effects[i] = lu
                     egrp.needsRegen = true
@@ -36,8 +35,48 @@ Widget {
         generate_children if(egrp.effects.length != 0)
     }
 
+    function total_len()
+    {
+        total = 0
+        (0...maxeffects).each do |r|
+            if(effects.include?(r) && effects[r] != :none)
+                lu = get_units(effects[r])
+                total += lu
+            else
+                total += 1
+            end
+        end
+        total
+    }
+
+    function translate_off(x)
+    {
+        total = 0
+        (0..maxeffects).each do |r|
+            if(effects.include?(r) && effects[r] != :none)
+                lu = get_units(effects[r])
+                total += lu
+            else
+                total += 1
+            end
+            return r if total > x
+        end
+        return maxeffects-1
+    }
+
     function animate()
     {
+        #Check for a new offset
+        v = 1.0-children[0].value
+        range = 1.0+total_len-self.nunits
+        new_off = 0
+        new_off = v*range if(range > 0)
+        noff = translate_off(new_off)
+        if(noff != self.offset)
+            self.offset = noff
+            self.needsRegen = true
+        end
+
         regen_children if self.needsRegen
     }
 
@@ -55,16 +94,12 @@ Widget {
     function generate_children()
     {
         return if children.length > 1
-        puts "look at me"
         w = []
         running = 0
-        offset = 0
         (0...6).each do |r|
-            r += offset
+            r += self.offset
             if(effects.include?(r) && effects[r] != :none)
-                puts effects
                 un = get_units(effects[r])
-                puts un
                 if(running + un <= nunits)
                     col = Qml::ColorBox.new(db)
                     col.bg = color(:red)

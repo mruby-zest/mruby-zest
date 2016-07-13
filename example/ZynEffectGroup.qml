@@ -80,14 +80,58 @@ Widget {
         regen_children if self.needsRegen
     }
 
+    function rec_del_props(widget, plist=[])
+    {
+        return plist if widget.nil?
+        #Add all properties to the delete list
+        widget.properties.each do |k,v|
+            plist << v
+        end
+        #Add all children properties to the list
+        widget.children.each do |ch|
+            rec_del_props(ch, plist)
+        end
+        plist
+    }
+
+    function rec_clean_cbs(widget)
+    {
+        if(widget.respond_to? :valueRef)
+            v = widget.valueRef
+            if(v.class == Array)
+                v.each do |vv|
+                    vv.clean
+                end
+            else
+                v.clean if v.respond_to? :clean
+            end
+        end
+        widget.children.each do |ch|
+            rec_clean_cbs(ch)
+        end
+    }
+
     function regen_children()
     {
         self.needsRegen = false
+        children[1..-1].each do |ch|
+            rec_clean_cbs(ch)
+            del_list = rec_del_props(ch)
+            @db.remove_properties del_list
+        end
         self.children = [self.children[0]]
         generate_children()
         if(root)
             root.smash_layout
-            root.damage_item widget
+            damage_self
+        end
+    }
+
+    function setup_widget(w)
+    {
+        w.onSetup if w.respond_to?(:onSetup)
+        w.children.each do |c|
+            setup_widget c
         end
     }
 
@@ -96,29 +140,45 @@ Widget {
         return if children.length > 1
         w = []
         running = 0
-        (0...6).each do |r|
+        (0...self.nunits).each do |r|
             r += self.offset
             if(effects.include?(r) && effects[r] != :none)
                 un = get_units(effects[r])
                 if(running + un <= nunits)
-                    col = Qml::ColorBox.new(db)
-                    col.bg = color(:red)
+                    col = make_child(effects[r])
                     Qml::add_child(self, col)
+                    setup_widget(col)
                     w << un
                     running += un
                     next
                 end
             end
             if(running < nunits)
-                col = Qml::ColorBox.new(db)
-                col.bg = color(:blue)
+                col = Qml::DummyBox.new(db)
                 Qml::add_child(self, col)
                 w << 1
                 running += 1
             end
         end
         self.shownWeights = w
+        puts self.children
     }
+
+    function make_child(type)
+    {
+        if(type == :reverb)
+            return Qml::ZynReverb.new(db)
+        elsif(type == :echo)
+            return Qml::ZynEcho.new(db)
+        elsif(type == :distortion)
+            return Qml::ZynDistortion.new(db)
+        else
+            col = Qml::ColorBox.new(db)
+            col.bg = color(:red)
+            return col
+        end
+    }
+
     function lookup(type) {
         mapper = {0=>:none,
                   1=>:reverb,

@@ -2,6 +2,9 @@ Button {
     id: toggle
     property Object valueRef: nil
     onExtern: {
+        meta = OSC::RemoteMetadata.new($remote, toggle.extern)
+        toggle.label   = meta.short_name if toggle.label.empty?
+        toggle.tooltip = meta.tooltip
         toggle.valueRef = OSC::RemoteParam.new($remote, toggle.extern)
         toggle.valueRef.callback = lambda {|x| toggle.setValue(x)}
     }
@@ -21,6 +24,10 @@ Button {
 
     function onMouseEnter(ev)
     {
-        self.root.log(:tooltip, "extern = <" + self.extern + ">")
+        if(self.tooltip.nil? || self.tooltip.empty?)
+            self.root.log(:tooltip, "extern = <" + self.extern + ">")
+        else
+            self.root.log(:tooltip, self.tooltip)
+        end
     }
 }

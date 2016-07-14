@@ -35,6 +35,7 @@ Widget {
                        4 => Qml::ZynSubFilter,
                        }
 
+            swap.extern  = "/part0/kit0/subpars/"
             swap.content = mapping[selected]
         }
     }

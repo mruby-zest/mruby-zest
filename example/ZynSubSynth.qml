@@ -1,14 +1,8 @@
 Widget {
     id: subsynth
 
-    function refresh()
-    {
-        sub_harmonics.refresh
-    }
-    Swappable {
-        id: swap
-        content: Qml::ZynSubHarmonic
-    }
+    Swappable { id: swap }
+
     TabGroup {
         id: subtabs
         TabButton {value: true; label: "harmonic" }
@@ -28,20 +22,46 @@ Widget {
             selected = get_tab wid
 
             #Define a mapping from tabs to values
-            mapping = {0 => Qml::ZynSubHarmonic,
-                       1 => Qml::ZynSubAmp,
-                       2 => Qml::ZynSubBandwidth,
-                       3 => Qml::ZynSubFreq,
-                       4 => Qml::ZynSubFilter,
+            mapping = {0 => :harmonic,
+                       1 => :amplitude,
+                       2 => :bandwidth,
+                       3 => :frequency,
+                       4 => :filter,
                        }
+            return if !mapping.include?(selected)
+            root.set_view_pos(:subview, mapping[selected])
+            root.change_view
 
-            swap.extern  = "/part0/kit0/subpars/"
-            swap.content = mapping[selected]
+            #swap.extern  = "/part0/kit0/subpars/"
+            #swap.content = mapping[selected]
         }
     }
 
     function layout(l) {
         selfBox = l.genBox :subsynth, self
         Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.95, 0.05])
+    }
+
+    function set_view()
+    {
+        vw = root.get_view_pos(:subview)
+        mapping = {:harmonic  => Qml::ZynSubHarmonic,
+                   :amplitude => Qml::ZynSubAmp,
+                   :bandwidth => Qml::ZynSubBandwidth,
+                   :frequency => Qml::ZynSubFreq,
+                   :filter    => Qml::ZynSubFilter}
+        if(!mapping.include?(vw))
+            root.set_view_pos(:subview, :harmonic)
+            vw = :harmonic
+        end
+
+        puts "subsynth extern is #{subsynth.extern}"
+        swap.extern  = subsynth.extern
+        swap.content = mapping[vw]
+    }
+
+    function onSetup(old=nil)
+    {
+        set_view
     }
 }

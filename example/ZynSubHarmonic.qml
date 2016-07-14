@@ -1,27 +1,28 @@
 Widget {
+    id: harm
 
     VisSubHarmonics {
         id:     sub_harmonics
-        extern: "/part0/kit0/subpars/response"
+        extern: harm.extern + "response"
     }
     Widget {
         Widget {
             ParModuleRow {
                 Selector {
                     //layoutOpts: [:no_constraint]
-                    extern: "/part0/kit0/subpars/POvertoneSpread.type"
+                    extern: harm.extern+"POvertoneSpread.type"
                     whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par1"
+                    extern: harm.extern+"POvertoneSpread.par1"
                     whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par2"
+                    extern: harm.extern+"POvertoneSpread.par2"
                     whenValue: lambda {sub_harmonics.refresh}
                 }
                 Knob {
-                    extern: "/part0/kit0/subpars/POvertoneSpread.par3"
+                    extern: harm.extern+"POvertoneSpread.par3"
                     whenValue: lambda {sub_harmonics.refresh}
                 }
             }
@@ -31,7 +32,7 @@ Widget {
             }
         }
         HarmonicEdit {
-            extern: "/part0/kit0/subpars/"
+            extern: harm.extern
             type:   :subsynth
             whenValue: lambda { sub_harmonics.refresh }
         }

@@ -22,6 +22,7 @@ Widget {
     Widget {
         id: header
         NumEntry  {
+            value:      header.get_voice
             whenValue:  lambda {header.set_voice()}
             layoutOpts: [:free]
             tooltip:    "voice"
@@ -38,14 +39,11 @@ Widget {
         CopyButton {}
         PasteButton {}
 
-        function set_voice()
-        {
+        function set_voice() {
             root.set_view_pos(:voice, children[0].value)
+            root.change_view
         }
-
         function get_voice() { root.get_view_pos(:voice) }
-        function get_part()  { root.get_view_pos(:part)  }
-        function get_kit()   { root.get_view_pos(:kit)   }
 
         function gen_weights()
         {
@@ -69,8 +67,6 @@ Widget {
             prev = nil
 
             (total, weights) = gen_weights
-            puts weights
-            puts children
 
             children.each_with_index do |ch, idx|
                 box = ch.layout(l)
@@ -93,21 +89,6 @@ Widget {
             selfBox
         }
 
-        function get_ext(id)
-        {
-            kit = get_kit()
-            prt = get_part()
-            vce = get_voice()
-            extbase = "/part#{prt}/kit#{kit}/adpars/"
-            ext = {0 => "GlobalPar/",
-                   1 => "VoicePar#{vce}/",
-                   2 => "VoicePar#{vce}/OscilSmp/",
-                   3 => "VoicePar#{vce}/FMSmp/",
-                   4 => "VoicePar#{vce}/",
-                   5 => "",
-                   6 => "GlobalPar/Reson/"}
-            extbase + ext[id]
-        }
 
         function setTab(id)
         {
@@ -123,25 +104,57 @@ Widget {
             end
 
             #Define a mapping from tabs to values
-            mapping = {0 => Qml::ZynAddGlobal,
-                       1 => Qml::ZynAddVoice,
-                       2 => Qml::ZynOscil,
-                       3 => Qml::ZynOscil,
-                       4 => Qml::ZynOscilMod,
-                       5 => Qml::ZynAddVoiceList,
-                       6 => Qml::ZynResonance}
+            mapping = {0 => :global,
+                       1 => :voice,
+                       2 => :oscil,
+                       3 => :modosc,
+                       4 => :modulate,
+                       5 => :vce_list,
+                       6 => :resonance}
 
-            swap.extern = get_ext(id)
-            swap.content = mapping[id]
-            swap.force_update
-            swap.children[0].voice_button.value = true if(id == 2)
-            swap.children[0].mod_button.value   = true if(id == 3)
+            root.set_view_pos(:subview, mapping[id])
+            root.change_view
+
+            #swap.force_update
+            #swap.children[0].voice_button.value = true if(id == 2)
+            #swap.children[0].mod_button.value   = true if(id == 3)
         }
 
     }
 
-    Swappable {
-        id: swap
-        content: Qml::ZynAddGlobal
+    function onSetup(old=nil)
+    {
+        return if swap.content
+        set_view
     }
+
+    function set_view()
+    {
+        vce     = root.get_view_pos(:voice)
+        subview = root.get_view_pos(:subview)
+        extbase = center.extern
+        ext = {:global    => "GlobalPar/",
+               :voice     => "VoicePar#{vce}/",
+               :oscil     => "VoicePar#{vce}/OscilSmp/",
+               :modosc    => "VoicePar#{vce}/FMSmp/",
+               :modulate  => "VoicePar#{vce}/",
+               :vce_list  => "",
+               :resonance => "GlobalPar/Reson/"}
+        mapping = {:global    => Qml::ZynAddGlobal,
+                   :voice     => Qml::ZynAddVoice,
+                   :oscil     => Qml::ZynOscil,
+                   :modosc    => Qml::ZynOscil,
+                   :modulate  => Qml::ZynOscilMod,
+                   :vce_list  => Qml::ZynAddVoiceList,
+                   :resonance => Qml::ZynResonance}
+        if(!mapping.include?(subview))
+            subview = :global
+            root.set_view_pos(:subview, :global)
+        end
+
+        swap.extern  = extbase + ext[subview]
+        swap.content = mapping[subview]
+    }
+
+    Swappable { id: swap }
 }

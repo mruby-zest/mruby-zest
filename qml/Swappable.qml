@@ -110,6 +110,10 @@ Widget {
 
     function force_update()
     {
+        cls = "nil"
+        cls = children[0].class if !children.empty?
+        ext = ""
+        ext = children[0].extern if !children.empty?
         srt = Time.new
         swappable.remove_old_child
         #mid = Time.new
@@ -117,15 +121,20 @@ Widget {
         dne = Time.new
         tot = dne-srt
         #scl = 100/tot
-        puts("[INFO] Content chagned to #{swappable.content} in #{1000*tot}ms")
+        puts("[INFO] Content chagned to #{swappable.content} from #{cls} in #{1000*tot}ms")
+        puts("[INFO] <#{ext}> => <#{extern}>") if ext != extern
         #puts("[INFO] Content swap took #{1000*tot}ms (#{(scl*(mid-srt)).to_i}% remove) (#{(scl*(dne-mid)).to_i}% add)")
         #puts("[INFO]                                 (#{(scl*d2[0]).to_i}% init) (#{(scl*d2[1]).to_i}% update) (#{(scl*d2[2]).to_i}% setup)")
     }
 
     onContent: {
+        #puts "cls = #{swappable.content}"
+        #puts "swappable empty   = #{!swappable.children.empty?}"
+        #puts "swappable diffcls = #{swappable.children[0].class == swappable.content}"
+        #puts "swappable extdiff = #{swappable.extern.empty? || swappable.extern == swappable.children[0].class}"
         return if(!swappable.children.empty? &&
             swappable.children[0].class == swappable.content &&
-            (swappable.extern.empty? || swappable.extern == swappable.children[0].class))
+            (swappable.extern.empty? || swappable.extern == swappable.children[0].extern))
         swappable.force_update
     }
 

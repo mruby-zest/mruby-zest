@@ -87,19 +87,11 @@ Widget {
             selected = get_tab wid
 
             #Define a mapping from tabs to values
-            mapping = {0 => Qml::ZynPadHarmonics,
-                       1 => Qml::ZynOscil,
-                       2 => Qml::ZynPadGlobal}
-            kit = center.get_kit()
-            prt = center.get_part()
-            base = "/part#{prt}/kit#{kit}/padpars/"
-            ext     = {0 => "",
-                       1 => "oscilgen/",
-                       2 => ""}
-
-
-            swap.extern = base + ext[selected]
-            swap.content = mapping[selected]
+            mapping = {0 => :harmonics,
+                       1 => :oscil,
+                       2 => :global_pad}
+            root.set_view_pos(:subview, mapping[selected])
+            root.change_view
         }
 
     }
@@ -107,13 +99,32 @@ Widget {
     function get_part()  { root.get_view_pos(:part)  }
     function get_kit()   { root.get_view_pos(:kit)   }
 
-    Swappable {
-        id: swap
-        extern: {
-            kit = center.get_kit()
-            prt = center.get_part()
-            "/part#{prt}/kit#{kit}/padpars/"
-        }
-        content: Qml::ZynPadHarmonics
+    function onSetup(old=nil)
+    {
+        return if swap.content.nil?
+        set_view
     }
+
+    function set_view()
+    {
+        subview = root.get_view_pos(:subview)
+
+        mapping = {:harmonics   => Qml::ZynPadHarmonics,
+                   :oscil       => Qml::ZynOscil,
+                   :global_pad  => Qml::ZynPadGlobal}
+        base = center.extern
+        ext     = {:harmonics  => "",
+                   :oscil      => "oscilgen/",
+                   :global_pad => ""}
+        if(!mapping.include?(subview))
+            subview = :harmonics
+            root.set_view_pos(:subview, :harmonics)
+        end
+
+
+        swap.extern  = base + ext[subview]
+        swap.content = mapping[subview]
+    }
+
+    Swappable { id: swap }
 }

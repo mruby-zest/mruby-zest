@@ -30,12 +30,26 @@ Widget {
         end
     }
 
-    function set_content(type, offset=0)
+    function set_content(type)
     {
-        prt = root.get_view_pos(:part)
-        kit = root.get_view_pos(:kit)
+        root.set_view_pos(:view, type)
+        root.change_view
+    }
+
+    function onSetup(old=nil)
+    {
+        return if main_widget.content
+        set_view()
+    }
+
+    function set_view()
+    {
+        puts "main window set view"
+        prt  = root.get_view_pos(:part)
+        kit  = root.get_view_pos(:kit)
+        type = root.get_view_pos(:view)
         if(type == :add_synth)
-            main_widget.extern  = "/part#{prt}/kit#{kit}/addpars/"
+            main_widget.extern  = "/part#{prt}/kit#{kit}/adpars/"
             main_widget.content = Qml::ZynAddSynth
         elsif(type == :pad_synth)
             main_widget.extern  = "/part#{prt}/kit#{kit}/padpars/"
@@ -44,16 +58,22 @@ Widget {
             main_widget.extern  = "/part#{prt}/kit#{kit}/subpars/"
             main_widget.content = Qml::ZynSubSynth
         elsif(type == :part)
+            main_widget.extern  = "/"
             main_widget.content = Qml::ZynPart
         elsif(type == :kits)
+            main_widget.extern  = "/part#{prt}/"
             main_widget.content = Qml::ZynKit
         elsif(type == :effects)
+            main_widget.extern  = "/"
             main_widget.content = Qml::ZynEffects
         elsif(type == :midi_learn)
+            main_widget.extern  = "/"
             main_widget.content = Qml::ZynMidiLearn
         elsif(type == :mixer)
+            main_widget.extern  = "/"
             main_widget.content = Qml::ZynMixer
         elsif(type == :banks)
+            main_widget.extern  = "/"
             main_widget.content = Qml::ZynBank
         else
             main_widget.content = Qml::Widget
@@ -63,8 +83,5 @@ Widget {
     ZynSidebar  { id: side  }
     ZynHeader   { id: head1 }
     ZynFooter   { id: sub1  }
-    Swappable {
-        id: main_widget
-        content: Qml::ZynAddSynth
-    }
+    Swappable { id: main_widget }
 }

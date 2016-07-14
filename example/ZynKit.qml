@@ -11,7 +11,7 @@ Widget {
             row = Qml::ZynKitRow.new(db)
             row.label = r.to_s
             row.weights = self.weights
-            row.extern  = "/part0/kit#{r}/"
+            row.extern  = kit.extern + "kit#{r}/"
             row.extern()
             Qml::add_child(self, row)
         end

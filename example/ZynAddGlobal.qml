@@ -1,7 +1,6 @@
 Widget {
     id: addglobal
 
-    extern: "/part0/kit0/adpars/GlobalPar/"
     property Object valueRef: nil
     property Symbol filtertype: nil
 
@@ -29,7 +28,6 @@ Widget {
 
     Swappable {
         id: row1
-        content: Qml::LfoVis
 
         function set_lfo(ext, tab)
         {
@@ -111,7 +109,6 @@ Widget {
 
         Swappable {
             id: amp_gen
-            content: Qml::ZynAmpGeneral
             whenSwapped: lambda {
                 if(amp_gen.content == Qml::ZynAnalogFilter)
                     ch = amp_gen.children[0]
@@ -122,7 +119,6 @@ Widget {
         Swappable {
             id: amp_env
             extern: "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
-            content: Qml::ZynAmpEnv
         }
         ZynLFO {
             extern: "/part0/kit0/adpars/GlobalPar/AmpLfo/"
@@ -214,18 +210,20 @@ Widget {
             db.update_values
         }
 
-        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
+        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }
 
     function onSetup(old=nil)
     {
-        if(addglobal.valueRef.nil?)
-            path = addglobal.extern + "GlobalFilter/Pcategory"
-            addglobal.valueRef = OSC::RemoteParam.new($remote, path)
-            addglobal.valueRef.mode = :full
-            addglobal.valueRef.callback = lambda {|x|
+        puts "Global Setup <#{self.valueRef}>"
+        return if self.valueRef
+        if(self.valueRef.nil?)
+            path = self.extern + "GlobalFilter/Pcategory"
+            self.valueRef = OSC::RemoteParam.new($remote, path)
+            self.valueRef.mode = :full
+            self.valueRef.callback = lambda {|x|
                 addglobal.filtertype = [:analog, :formant, :statevar][x]
             }
         end

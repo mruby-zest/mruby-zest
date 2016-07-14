@@ -39,6 +39,7 @@ Widget {
     function change_active(ii)
     {
         root.set_view_pos(self.sym,ii) if self.sym
+        root.change_view               if self.sym
 
         children.each_with_index do |ch, i|
             n = (i == ii)

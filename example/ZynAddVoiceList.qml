@@ -18,9 +18,10 @@ Widget {
 
     function onSetup(old=nil)
     {
+        return if children.length > 2
         (0...8).each do |r|
             row        = Qml::ZynAddVoiceListItem.new(db)
-            row.extern = "/part0/kit0/adpars/VoicePar#{r}/"
+            row.extern = vce_list.extern
             row.num    = r
             Qml::add_child(self, row)
         end

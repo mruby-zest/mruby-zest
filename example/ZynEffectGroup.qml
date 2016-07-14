@@ -177,6 +177,8 @@ Widget {
             return Qml::ZynDistortion.new(db)
         elsif(type == :alienwah)
             return Qml::ZynAlienwah.new(db)
+        elsif(type == :eq)
+            return Qml::ZynEqualizer.new(db)
         else
             col = Qml::ColorBox.new(db)
             col.bg = color(:red)

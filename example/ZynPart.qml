@@ -4,11 +4,12 @@ Widget {
         {
             return if !children.empty?
             (1..16).each do |i|
-                but = Qml::Button.new(self.db)
+                but = Qml::ToggleButton.new(self.db)
                 but.label = i.to_s
                 but.pad   = 1/512
                 but.layoutOpts = [:no_constraint]
                 but.textScale  = 0.5
+                but.extern = "/part#{i-1}/Penabled"
                 Qml::add_child(self, but)
             end
             (1..16).each do |i|

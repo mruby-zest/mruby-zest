@@ -4,6 +4,14 @@ Widget {
     property String extern:   "";
     property Bool   value:    false;
     property String renderer: nil;
+    property Bool   enable:   false
+
+    function set_enable(v) {
+        if(button.enable != v)
+            button.enable = v
+            damage_self
+        end
+    }
 
     function onMousePress(ev) {
         action.call if action
@@ -41,10 +49,12 @@ Widget {
             else
                 v.fill_color off_color
             end
-            #v.stroke_color(outline_color)
             v.fill
-            #v.stroke_width 1
-            #v.stroke
+            if(self.enable)
+                v.stroke_color(outline_color)
+                v.stroke_width 1
+                v.stroke
+            end
         end
 
         vg.font_face("bold")

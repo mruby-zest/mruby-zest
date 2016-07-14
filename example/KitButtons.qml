@@ -16,9 +16,9 @@ Widget {
                 Qml::add_child(self, but)
 
                 path = ""
-                path = "/part0/kit#{ii}/Penabled" if self.sym == :kit
-                path = "/part#{ii}/Penabled" if self.sym == :part
-                path = "/part0/kit0/adpars/VoicePar#{ii}/Enabled" if self.sym == :voice
+                path = "/part0/kit#{ii-1}/Penabled" if self.sym == :kit
+                path = "/part#{ii-1}/Penabled" if self.sym == :part
+                path = "/part0/kit0/adpars/VoicePar#{ii-1}/Enabled" if self.sym == :voice
 
                 rr = OSC::RemoteParam.new($remote, path)
                 rr.callback = lambda {|vv| but.set_enable(vv)}

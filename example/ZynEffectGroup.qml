@@ -175,6 +175,8 @@ Widget {
             return Qml::ZynChorus.new(db)
         elsif(type == :distortion)
             return Qml::ZynDistortion.new(db)
+        elsif(type == :alienwah)
+            return Qml::ZynAlienwah.new(db)
         else
             col = Qml::ColorBox.new(db)
             col.bg = color(:red)

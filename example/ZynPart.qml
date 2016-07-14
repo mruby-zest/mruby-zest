@@ -13,11 +13,13 @@ Widget {
                 Qml::add_child(self, but)
             end
             (1..16).each do |i|
-                but = Qml::Button.new(self.db)
+                but = Qml::LabelButton.new(self.db)
                 but.label = "None"
                 but.pad   = 1/512
                 but.layoutOpts = [:no_constraint, :left_text]
                 but.textScale  = 0.5
+                but.extern = "/part#{i-1}/Pname"
+                but.whenValue = lambda { but.root.set_view_pos(:part, i-1) }
                 Qml::add_child(self, but)
             end
         }

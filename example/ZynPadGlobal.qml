@@ -1,7 +1,6 @@
 Widget {
-    id: addglobal
+    id: padglobal
 
-    extern: "/part0/kit0/padpars/"
     property Object valueRef: nil
     property Symbol filtertype: nil
 
@@ -59,9 +58,9 @@ Widget {
 
         function set_filter(ext)
         {
-            puts "addglobal.filtertype = #{addglobal.filtertype}"
+            puts "padglobal.filtertype = #{padglobal.filtertype}"
             self.extern = ext + "GlobalFilter/"
-            if(addglobal.filtertype == :formant)
+            if(padglobal.filtertype == :formant)
                 self.content = Qml::ZynFormant
             else
                 self.content = Qml::VisFilter
@@ -226,12 +225,12 @@ Widget {
 
     function onSetup(old=nil)
     {
-        if(addglobal.valueRef.nil?)
-            path = addglobal.extern + "GlobalFilter/Pcategory"
-            addglobal.valueRef = OSC::RemoteParam.new($remote, path)
-            addglobal.valueRef.mode = :full
-            addglobal.valueRef.callback = lambda {|x|
-                addglobal.filtertype = [:analog, :formant, :statevar][x]
+        if(padglobal.valueRef.nil?)
+            path = padglobal.extern + "GlobalFilter/Pcategory"
+            padglobal.valueRef = OSC::RemoteParam.new($remote, path)
+            padglobal.valueRef.mode = :full
+            padglobal.valueRef.callback = lambda {|x|
+                padglobal.filtertype = [:analog, :formant, :statevar][x]
             }
         end
         footer.setTab(0)

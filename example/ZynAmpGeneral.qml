@@ -1,23 +1,22 @@
 Group {
     id: box
     label: "General"
-    extern: "/part0/kit0/adpars/"
     copyable: false
 
     ParModuleRow {
         id: top
-        Knob { extern: box.extern+"GlobalPar/PVolume" }
-        Knob { extern: box.extern+"GlobalPar/PAmpVelocityScaleFunction"}
-        Knob { extern: box.extern+"GlobalPar/PPanning"}
-        Knob { extern: box.extern+"GlobalPar/PPunchStretch"}
+        Knob { extern: box.extern+"PVolume" }
+        Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
+        Knob { extern: box.extern+"PPanning"}
+        Knob { extern: box.extern+"PPunchStretch"}
 
     }
     ParModuleRow {
         id: bot
-        Knob     {extern: box.extern+"GlobalPar/PPunchStrength"}
-        Knob     {extern: box.extern+"GlobalPar/PPunchTime"}
+        Knob     {extern: box.extern+"PPunchStrength"}
+        Knob     {extern: box.extern+"PPunchTime"}
         Col {
-            Button   {label: "stereo"; extern: box.extern+"GlobalPar/Pstereo"}
+            Button   {label: "stereo"; extern: box.extern+"Pstereo"}
             Button   {label: "rnd grp"}
         }
     }

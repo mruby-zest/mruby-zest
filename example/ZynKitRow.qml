@@ -27,7 +27,7 @@ Widget {
         label: "edit"
         whenClick: lambda {
             rt = kit_item.root
-            rt.set_view_pos(:eng, :add)
+            rt.set_view_pos(:view, :add_synth)
             rt.set_view_pos(:kit, kit_item.label.to_i)
             rt.change_view
         }
@@ -38,7 +38,7 @@ Widget {
         label: "edit"
         whenClick: lambda {
             rt = kit_item.root
-            rt.set_view_pos(:eng, :sub)
+            rt.set_view_pos(:view, :sub_synth)
             rt.set_view_pos(:kit, kit_item.label.to_i)
             rt.change_view
         }
@@ -49,7 +49,7 @@ Widget {
         label: "edit"
         whenClick: lambda {
             rt = kit_item.root
-            rt.set_view_pos(:eng, :pad)
+            rt.set_view_pos(:view, :pad_synth)
             rt.set_view_pos(:kit, kit_item.label.to_i)
             rt.change_view
         }

@@ -1,4 +1,5 @@
 Widget {
+    property Function whenValue: nil
     function draw(vg)
     {
         pad  = 1/64
@@ -40,5 +41,19 @@ Widget {
             v.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
             v.text(5/6*w,h/2,"Mx")
         end
+    }
+
+    function onMousePress(ev)
+    {
+        rel = (ev.pos.x-global_x)/w
+        if(rel < 1/3)
+            $remote.action(extern + "captureMin")
+        elsif(rel < 2/3)
+            $remote.action(extern + "Pminkey", 0)
+            $remote.action(extern + "Pmaxkey", 127)
+        else
+            $remote.action(extern + "captureMax")
+        end
+        whenValue.call if whenValue
     }
 }

@@ -12,13 +12,19 @@ Widget {
         label: "kit name"
     }
     HSlider {
+        id: minkey
         extern: kit_item.extern + "Pminkey"
         label: "0"
     }
     ZynKitKeyButton {
         extern: kit_item.extern
+        whenValue: lambda {
+            minkey.refresh
+            maxkey.refresh
+        }
     }
     HSlider {
+        id: maxkey
         extern: kit_item.extern + "Pmaxkey"
     }
     FancyButton {

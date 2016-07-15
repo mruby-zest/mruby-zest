@@ -31,6 +31,8 @@ Widget {
         damage_self
     }
 
+    function refresh() { valueRef.refresh if valueRef }
+
     function create_radial()
     {
         gbl_cx = valuator.global_x + 0.5*valuator.w

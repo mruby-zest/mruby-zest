@@ -34,6 +34,7 @@ Widget {
     }
     function onSetup(old=nil)
     {
+        return if children.length > 3
         (0...16).each do |r|
             col = Qml::ZynMixerCol.new(db)
             col.label  = (1+r).to_s

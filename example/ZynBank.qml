@@ -9,9 +9,11 @@ Widget {
     function doLoad()
     {
         ins = ins_sel.selected_val
+        part = root.get_view_pos(:part)
+        return if part.class != Fixnum
         puts "loading #{ins}"
-        $remote.action("/load_xiz", 0, ins) if !ins.empty?
-        $remote.damage("/part0/");
+        $remote.action("/load_xiz", part, ins) if !ins.empty?
+        $remote.damage("/part#{part}/");
     }
 
     Widget {

@@ -18,6 +18,7 @@ Widget {
 
     function onSetup(old=nil)
     {
+        return if children.length > 3
         (0...16).each do |r|
             row = Qml::ZynMidiLearnRow.new(db)
             row.label = r.to_s

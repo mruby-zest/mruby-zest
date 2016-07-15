@@ -33,7 +33,7 @@ Group {
             lsize: 0.4
             Selector     { extern: insset.extern + "Prcvchn"; label: "midi chan"}
             ToggleButton { extern: insset.extern + "ctl/portamento.portamento"; layoutOpts: [:no_constraint]; label: "portamento"}
-            Selector     { extern: insset.extern + "note_mode"; label: "mode"; layoutOpts: [:no_constraint]  }
+            Selector     { extern: insset.extern + "polyType"; label: "mode"; layoutOpts: [:no_constraint]  }
         }
         function layout(l) {
             Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.35, 0.35,0.3],0,2)

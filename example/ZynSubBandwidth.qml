@@ -3,6 +3,7 @@ Widget {
     extern: "/part0/kit0/subpars/"
     //visual
     ZynEnvEdit {
+        id: edit
         extern: subbw.extern + "BandWidthEnvelope/"
     }
     Widget {
@@ -19,7 +20,10 @@ Widget {
                 Knob { extern: subbw.extern + "Pbwscale" }
             }
         }
-        Group {label: "envelope"}
+        ZynBandwidthEnv {
+            whenModified: lambda {edit.refresh}
+            extern: subbw.extern + "BandWidthEnvelope/"
+        }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

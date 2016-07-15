@@ -28,7 +28,11 @@ Widget {
         bg: Theme::GeneralBackground
         Slider {visual: true; centered: false; pad: 0.01}
         Slider {visual: true; centered: false; pad: 0.01}
-        ScrollBar {}
+        Slider {
+            extern: col.extern + "Pvolume"
+            centered: false
+            pad: 0.01
+        }
         function class_name() { "mixbox" }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

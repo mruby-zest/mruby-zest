@@ -38,15 +38,18 @@ Widget {
 
     function draw(vg)
     {
+        fixedpad = 5
         background Theme::VisualBackground
-        Draw::Grid::log_x(vg, 400, 20000, Rect.new(0, 0, w, h))
-        Draw::Grid::linear_y(vg, 1, 10, Rect.new(0, 0, w, h), 1, 40)
+        box = Rect.new(fixedpad, fixedpad, w-2*fixedpad, h-2*fixedpad)
+        Draw::Grid::log_x(vg, 400, 20000, box)
+        Draw::Grid::linear_y(vg, 1, 10, box, 1, 40)
     }
 
     DataView {
         id: data_view
         normal: false
         pad: 0.0
+        fixedpad: 5
 
         function animate()
         {

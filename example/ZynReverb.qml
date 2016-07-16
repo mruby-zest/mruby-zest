@@ -1,18 +1,18 @@
 Group {
+    id: reverb
     label: "reverb"
     topSize: 0.2
     ParModuleRow {
         Knob { label: "pan"}
 
-        Selector {label: "type"}
-        Knob { label: "r.size" }
-        Knob { label: "time" }
-        Knob { label: "ini.del." }
-        Knob { label: "ini.fb." }
-        Knob { label: "ini.fb." }
-        Knob { label: "lpf" }
-        Knob { label: "hpf" }
-        Knob { label: "damp"}
-        Knob { label: "bw" }
+        Selector { extern: reverb.extern + "Reverb/Ptype"}
+        Knob { extern: reverb.extern + "Reverb/Proomsize" }
+        Knob { extern: reverb.extern + "Reverb/Ptime" }
+        Knob { extern: reverb.extern + "Reverb/Pidelay"}
+        Knob { extern: reverb.extern + "Reverb/Pidelayfb"}
+        Knob { extern: reverb.extern + "Reverb/Plpf"}
+        Knob { extern: reverb.extern + "Reverb/Phpf"}
+        Knob { extern: reverb.extern + "Reverb/Plodamp"}
+        Knob { extern: reverb.extern + "Reverb/Pbandwidth" }
     }
 }

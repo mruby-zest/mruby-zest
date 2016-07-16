@@ -1,10 +1,11 @@
-Button {
+TriggerButton {
+    whenValue: lambda { $remote.action("/Panic") }
     function layout(l)
     {
         t = widget.class_name.to_sym
         selfBox = l.genBox t, self
     }
-    
+
     function draw(vg)
     {
         text_color1   = color("505050")
@@ -32,7 +33,7 @@ Button {
             v.fill_color(text_color2)
             v.fill
         end
-        
+
         vg.font_face("bold")
         vg.font_size h*0.75
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE

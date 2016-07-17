@@ -36,7 +36,7 @@ Group {
             Selector     { extern: insset.extern + "polyType"; label: "mode"; layoutOpts: [:no_constraint]  }
         }
         function layout(l) {
-            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.35, 0.35,0.3],0,2)
+            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.40, 0.40,0.2],0,2)
         }
     }
 }

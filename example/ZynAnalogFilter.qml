@@ -14,6 +14,17 @@ Group {
         whenModified.call if whenModified
     }
 
+    function change_cat()
+    {
+        dest = self.extern + "Ptype"    if cat.selected == 0
+        return                          if cat.selected == 1
+        dest = self.extern + "type-svf" if cat.selected == 2
+        if(typ.extern != dest)
+            typ.extern = dest
+            typ.extern()
+        end
+    }
+
     ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
@@ -29,8 +40,16 @@ Group {
             minimum: 1
             maximum: 5
         }
-        Selector { extern: box.extern + "Pcategory" }
-        Selector { whenValue: lambda { box.cb}; extern: box.extern + "Ptype" }
+        Selector {
+            id: cat
+            whenValue: lambda { box.change_cat};
+            extern: box.extern + "Pcategory"
+        }
+        Selector {
+            id: typ
+            whenValue: lambda { box.cb};
+            extern: box.extern + "Ptype"
+        }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
     }
 }

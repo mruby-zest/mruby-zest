@@ -190,7 +190,7 @@ Widget {
         }
     }
 
-    function set_vis_filter(ext)
+    function set_vis_filter(ext, dummy)
     {
         #puts "addglobal.filtertype = #{addglobal.filtertype}"
         row1.extern = ext + "GlobalFilter/"

@@ -814,6 +814,49 @@ def draw_grid(vg, r, c, x, y, w, h)
     end
 end
 
+def abs_sum(ary)
+    sum = 0
+    ary.each do |a|
+        if(a>0)
+            sum += a
+        else
+            sum -= a
+        end
+    end
+    sum
+end
+
+def eq_response(xpts, pars)
+    ypts  = []
+    xnorm = []
+    fs   = 48000.0
+    xpts.each do |x|
+        ypts << 1
+        xnorm << x / fs*2
+    end
+
+    n = pars.length/2
+    b = pars[0...n]
+    a = pars[n..-1]
+
+    filters = n/3
+
+    (0...filters).each do |f|
+        bb = b[3*f..3*f+2]
+        aa = a[3*f..3*f+2]
+        next if abs_sum(bb) < 1e-6
+        aa[0]  = 0.0
+        aa[1] *= -1
+        aa[2] *= -1
+        oo = Draw::opt_magnitude(bb, aa, xnorm, 1)
+        xpts.each_with_index do |x, i|
+            ypts[i] *= oo[i]
+        end
+    end
+
+    ypts
+end
+
 def make_bandpass(freq, fs, bw, gain, stages, log2)
     omega = 2 * 3.14159 * freq / fs
     sn    = Math.sin omega

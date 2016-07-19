@@ -76,6 +76,7 @@ Widget {
     function onMousePress(ev) {
         #self.value = !self.value
         #damage_self
+        valueRef.value = true if(value == false && valueRef)
         whenClick.call if whenClick
     }
 

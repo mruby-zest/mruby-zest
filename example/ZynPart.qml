@@ -49,7 +49,9 @@ Widget {
             extern: ppars.extern + "ctl/"
         }
     }
-    ZynScale { }
+    ZynScale {
+        extern: "/microtonal/"
+    }
 
     function class_name() { "part" }
     function layout(l) {

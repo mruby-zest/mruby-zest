@@ -48,10 +48,10 @@ Object {
         selfBox
     }
 
-    function damage_self()
+    function damage_self(all=nil)
     {
         rt = self.root
-        rt.damage_item self if rt
+        rt.damage_item(self, all) if rt
     }
 
     //Utility methods

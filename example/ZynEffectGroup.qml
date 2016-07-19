@@ -123,7 +123,7 @@ Widget {
         generate_children()
         if(root)
             root.smash_layout
-            damage_self
+            damage_self :all
         end
     }
 

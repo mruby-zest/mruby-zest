@@ -10,6 +10,7 @@ Widget {
             ParModuleRow {
                 TriggerButton   {
                     label: "clear"
+                    whenValue: lambda {harm.clear}
                 }
                 Selector {
                     extern: harm.extern + "Phmagtype"
@@ -45,6 +46,7 @@ Widget {
             }
         }
         HarmonicEdit {
+            id: edit
             extern: harm.extern
             type:   :subsynth
             whenValue: lambda { sub_harmonics.refresh }
@@ -58,5 +60,9 @@ Widget {
     function class_name() { "subsynth" }
     function layout(l) {
         Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.45, 0.55])
+    }
+    function clear() {
+        edit.clear
+        sub_harmonics.refresh
     }
 }

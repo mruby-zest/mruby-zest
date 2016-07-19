@@ -11,7 +11,8 @@ Widget {
     function clear()
     {
         children.each_with_index do |ch, i|
-            mval = 64/127.0
+            mval = 64/127.0 if(type == :oscil)
+            mval = 0/127.0  if(type == :subsynth)
             pval = 64/127.0
             mval = 1.0 if i == 0
             ch.children[0].value          = mval

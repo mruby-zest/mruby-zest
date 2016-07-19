@@ -181,6 +181,8 @@ Widget {
             return Qml::ZynPhaser.new(db)
         elsif(type == :eq)
             return Qml::ZynEqualizer.new(db)
+        elsif(type == :dynamicfilter)
+            return Qml::ZynDynFilter.new(db)
         else
             col = Qml::ColorBox.new(db)
             col.bg = color(:red)

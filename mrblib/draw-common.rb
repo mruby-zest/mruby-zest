@@ -966,6 +966,35 @@ def formant_filter_response(xpts, formants, q_value,
     ypts.map {|x| [-40, to_dB(x) + gain].max }
 end
 
+def path_simp(x)
+    dat = x.split("/").reverse
+    todel = 0
+    o = []
+    dat.each do |d|
+        if(d == "..")
+            todel += 1
+        elsif(todel != 0)
+            todel -= 1
+        elsif(d != "")
+            o << d
+        end
+    end
+    return "/" if o.empty?
+    o << ""
+    o.reverse.join("/")
+end
+
+#i = ["/foo/bar/blam", "/foo/../blam", "/foo/bar/../..", "/a/b/c/d/../../e/f/../g"]
+#o = ["/foo/bar/blam", "/blam",        "/",              "/a/b/e/g"]
+#
+#n = i.length
+#(0...n).each do |j|
+#    puts "Input    = #{i[j].inspect}"
+#    puts "Output   = #{simp(i[j]).inspect}"
+#    puts "Expected = #{o[j].inspect}"
+#end
+
+
 def to_dB(x)
     20*Math.log(x)/Math.log(10)
 end

@@ -29,8 +29,8 @@ Group {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
-        Knob { extern: box.extern + "../PFilterVelocityScale" }
-        Knob { extern: box.extern + "../PFilterVelocityScaleFunction" }
+        Knob { extern: path_simp(box.extern + "../PFilterVelocityScale") }
+        Knob { extern: path_simp(box.extern + "../PFilterVelocityScaleFunction") }
     }
     ParModuleRow {
         NumEntry {

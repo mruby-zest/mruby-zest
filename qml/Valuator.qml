@@ -20,6 +20,8 @@ Widget {
         valuator.tooltip = meta.tooltip
 
         valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
+        valuator.valueRef.set_min(meta.min)
+        valuator.valueRef.set_max(meta.max)
         valuator.valueRef.type     = "f" if valuator.type
         valuator.valueRef.callback = Proc.new {|x| valuator.setValue(x)}
 

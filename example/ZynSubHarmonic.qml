@@ -8,6 +8,18 @@ Widget {
     Widget {
         Widget {
             ParModuleRow {
+                TriggerButton   {
+                    label: "clear"
+                }
+                Selector {
+                    extern: harm.extern + "Phmagtype"
+                    whenValue: lambda {sub_harmonics.refresh}
+                }
+                Selector {
+                    extern: harm.extern + "Pnumstages"
+                    whenValue: lambda {sub_harmonics.refresh}
+                }
+                Widget { label: "          " }
                 Selector {
                     //layoutOpts: [:no_constraint]
                     extern: harm.extern+"POvertoneSpread.type"

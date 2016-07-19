@@ -10,9 +10,7 @@ Widget {
         Group {
             label: "general"
             ParModuleRow {
-                Selector { extern: subbw.extern + "Phmagtype" }
                 Selector { extern: subbw.extern + "Pstart" }
-                Button { label: "clear" }
                 Selector { extern: subbw.extern + "Pnumstages" }
             }
             ParModuleRow {

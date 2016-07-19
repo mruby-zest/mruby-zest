@@ -9,7 +9,7 @@ Widget {
         Group {
             label: "general"
             ParModuleRow {
-                Button { extern: subamp.extern + "Pstereo" }
+                ToggleButton { extern: subamp.extern + "Pstereo" }
 
                 Knob { extern: subamp.extern + "PVolume" }
                 Knob { extern: subamp.extern + "PPanning" }

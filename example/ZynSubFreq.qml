@@ -14,7 +14,7 @@ Widget {
                 Selector { extern: subfq.extern + "PDetuneType" }
                 //TODO relbw
                 //eqt
-                Button {   extern: subfq.extern + "Pfixedfreq" }
+                ToggleButton {   extern: subfq.extern + "Pfixedfreq" }
                 Knob   {   extern: subfq.extern + "PfixedfreqET" }
                 //TODO cdet
 

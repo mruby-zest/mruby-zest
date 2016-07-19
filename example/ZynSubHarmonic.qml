@@ -15,7 +15,8 @@ Widget {
                     extern: harm.extern + "Phmagtype"
                     whenValue: lambda {sub_harmonics.refresh}
                 }
-                Selector {
+                NumEntry {
+                    label:  "stages"
                     extern: harm.extern + "Pnumstages"
                     whenValue: lambda {sub_harmonics.refresh}
                 }

@@ -34,6 +34,7 @@ Widget {
 
     function onSetup(old=nil)
     {
+        scroll.layer = self.layer
         nrows = 24
         (nrows).times do |x|
             ch = if(number)
@@ -60,6 +61,8 @@ Widget {
             end
             ch.layoutOpts = [:no_constraint]
             ch.whenValue  = lambda {col.cb ch}
+
+            ch.layer      = col.layer
             ch.number = x if number
             if(!number)
                 ch.pad = 0

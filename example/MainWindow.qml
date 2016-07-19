@@ -16,6 +16,10 @@ Widget {
         l.fixed(headBox, selfBox, 0, 0,   1.0, 0.1)
         l.fixed(footBox, selfBox, 0, 0.9, 1.0, 0.1)
 
+        if(children.length == 5)
+            l.fixed(children[4].layout(l), selfBox, 0, 0, 1, 1)
+        end
+
         selfBox
     }
 

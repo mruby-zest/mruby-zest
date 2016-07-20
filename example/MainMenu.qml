@@ -18,7 +18,7 @@ Widget {
     }
 
     //0
-    Selector {
+    Menu {
         id: file;
         label: "file";
         layoutOpts: [:no_constraint]

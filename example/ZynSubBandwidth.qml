@@ -19,6 +19,7 @@ Widget {
             }
         }
         ZynBandwidthEnv {
+            toggleable: subbw.extern + "PBandWidthEnvelopeEnabled"
             whenModified: lambda {edit.refresh}
             extern: subbw.extern + "BandWidthEnvelope/"
         }

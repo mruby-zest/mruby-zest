@@ -50,4 +50,8 @@ ToggleButton {
             vg.stroke
         end
     }
+    function layout(l)
+    {
+        self_box(l)
+    }
 }

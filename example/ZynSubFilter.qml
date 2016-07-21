@@ -7,9 +7,13 @@ Widget {
     }
     Widget {
         ZynAnalogFilter {
+            id: filedit
+            toggleable: subfl.extern + "PGlobalFilterEnabled"
             extern: subfl.extern + "GlobalFilter/"
         }
-        ZynFilterEnv {extern: subfl.extern+"GlobalFilterEnvelope/"}
+        ZynFilterEnv {
+            extern: subfl.extern+"GlobalFilterEnvelope/"
+        }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

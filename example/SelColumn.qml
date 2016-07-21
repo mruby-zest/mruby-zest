@@ -11,7 +11,7 @@ Widget {
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
-        col.valueRef.callback = Proc.new {|x| col.setValue(x)}
+        col.valueRef.callback = Proc.new {|x| col.setValue(col.filter(x))}
     }
 
     ScrollBar {
@@ -109,6 +109,17 @@ Widget {
         end
         whenValue.call if whenValue
         damage_self
+    }
+
+    function filter(x)
+    {
+        y = []
+        x.each do |x|
+            next if(x != "." && x != ".." && x[0] == ".")
+            next if(x[-1] == "~")
+            y << x
+        end
+        y
     }
 
     function setValue(x,offset=0)

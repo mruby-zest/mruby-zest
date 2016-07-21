@@ -1,10 +1,23 @@
 Widget {
     id: file
     layer: 2
+    property Object valueRef: nil
 
-    SelColumn { layer: 2; }
-    SelColumn { layer: 2; }
-    TextLine { layer: 2; }
+    SelColumn {
+        id: folders;
+        layer: 2;
+        extern: "/file_list_dirs"
+    }
+    SelColumn {
+        id: files;
+        layer: 2;
+        extern: "/file_list_files"
+    }
+    TextLine {
+        id: line
+        layer: 2;
+        upcase: false
+    }
     TriggerButton {
         layer: 2;
         label: "Enter"
@@ -29,19 +42,47 @@ Widget {
         selfBox
     }
 
-    function draw(vg)
+    function onSetup(v=nil) {
+
+        #Get files when home dir (or any subsequent dir) is setup
+        dirs  = OSC::RemoteParam.new($remote, "/file_list_dirs")
+        dirs.callback   = lambda { |x| set_dirs(x) }
+        files = OSC::RemoteParam.new($remote, "/file_list_files")
+        files.callback = lambda { |x| set_files(x) }
+
+        #Get the starting path i.e. the HOME dir
+        home  = OSC::RemoteParam.new($remote, "/file_home_dir")
+        home.callback = lambda { |x| set_home(x) }
+
+        self.valueRef = [dirs, files, home]
+    }
+
+    function set_home(x)
     {
-        puts "file selector size"
+        puts "Set home..."
+        line.label = x
+        line.damage_self
+        $remote.action("/file_list_dirs",  x)
+        $remote.action("/file_list_files", x)
+    }
+
+    function set_dirs(x)
+    {
+    }
+
+    function set_files(x)
+    {
+    }
+
+    function draw(vg) {
         background color("000000", 125)
     }
 
-    function whenEnter()
-    {
+    function whenEnter() {
         root.ego_death self
     }
 
-    function whenCancel()
-    {
+    function whenCancel() {
         root.ego_death self
     }
 }

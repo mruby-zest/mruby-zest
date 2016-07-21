@@ -1,4 +1,5 @@
 Widget {
+    id: pset
     Widget {
         function onSetup(old=nil)
         {
@@ -19,7 +20,7 @@ Widget {
                 but.layoutOpts = [:no_constraint, :left_text]
                 but.textScale  = 0.5
                 but.extern = "/part#{i-1}/Pname"
-                but.whenValue = lambda { but.root.set_view_pos(:part, i-1) }
+                but.whenValue = lambda { but.root.set_view_pos(:part, i-1); but.root.change_view}
                 Qml::add_child(self, but)
             end
         }
@@ -33,20 +34,18 @@ Widget {
         }
     }
     Widget {
-        id: ppars
-        extern: "/part0/"
         function class_name() { "part" }
         function layout(l) {
             Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.4,0.3,0.3])
         }
         ZynInstrumentSettings {
-            extern: ppars.extern
+            extern: pset.extern
         }
         ZynControllers {
-            extern: ppars.extern + "ctl/"
+            extern: pset.extern + "ctl/"
         }
         ZynPortamento  {
-            extern: ppars.extern + "ctl/"
+            extern: pset.extern + "ctl/"
         }
     }
     ZynScale {
@@ -57,4 +56,8 @@ Widget {
     function layout(l) {
         Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.2,0.4,0.4])
     }
+
+    function set_view()
+    {
+        vce     = root.get_view_pos(:voice)
 }

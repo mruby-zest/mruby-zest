@@ -62,7 +62,7 @@ Widget {
             main_widget.extern  = "/part#{prt}/kit#{kit}/subpars/"
             main_widget.content = Qml::ZynSubSynth
         elsif(type == :part)
-            main_widget.extern  = "/"
+            main_widget.extern  = "/part#{prt}/"
             main_widget.content = Qml::ZynPart
         elsif(type == :kits)
             main_widget.extern  = "/part#{prt}/"

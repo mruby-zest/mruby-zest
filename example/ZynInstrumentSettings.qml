@@ -1,7 +1,6 @@
 Group {
     label: "instrument settings"
     copyable: false
-    extern:  "/part0/"
     id: insset
     Widget {
         ParModuleRow {

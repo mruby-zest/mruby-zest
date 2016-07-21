@@ -12,6 +12,8 @@ Widget {
             Widget {
                 Swappable {
                     id: gen
+                    extern:  basemod.extern
+                    content: Qml::ZynAmpMod
                 }
                 Swappable {
                     id: env
@@ -61,6 +63,7 @@ Widget {
                 env.content = Qml::ZynAmpEnv
             elsif(id == 1)
                 gen.extern  = basemod.extern
+                env.extern  = basemod.extern + "FMFreqEnvelope/"
                 gen.content = Qml::ZynFreqGeneral
                 env.content = Qml::ZynAmpEnv
             end

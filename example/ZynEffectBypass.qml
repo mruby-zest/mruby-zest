@@ -1,7 +1,7 @@
 Widget {
-    Button {layoutOpts: [:no_constraint]}
-    Button {label: "b"; layoutOpts: [:no_constraint]}
+    Selector {layoutOpts: [:no_constraint]}
+    ToggleButton {label: "b"; layoutOpts: [:no_constraint]}
     function layout(l) {
-        Draw::Layout::hpack(l, self_box(l), chBoxes(l), 0.00, 1.0, 3)
+        Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.7, 0.3], 0, 2)
     }
 }

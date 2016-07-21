@@ -11,6 +11,8 @@ Widget {
                 sel.layoutOpts = layout
                 sel.extern = "/part#{pid}/partefx#{i}/efftype"
                 but = Qml::ZynEffectBypass.new(db)
+                but.children[1].extern = "/part#{pid}/Pefxbypass#{i}"
+                but.children[0].extern = "/part#{pid}/Pefxroute#{i}"
                 #but.layoutOpts = layout
                 #but.extern = "/insefx#{i}/efftype"
                 Qml::add_child(self, sel)

@@ -21,4 +21,7 @@ Widget {
     function layout(l) {
         Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.6, 0.4])
     }
+    function onSetup(old=nil) {
+        filedit.remove_sense()
+    }
 }

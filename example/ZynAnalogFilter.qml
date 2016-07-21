@@ -25,12 +25,17 @@ Group {
         end
     }
 
+    function remove_sense() {
+        root.ego_death snsa
+        root.ego_death snsb
+    }
+
     ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
-        Knob { extern: path_simp(box.extern + "../PFilterVelocityScale") }
-        Knob { extern: path_simp(box.extern + "../PFilterVelocityScaleFunction") }
+        Knob { id: snsa; extern: path_simp(box.extern + "../PFilterVelocityScale") }
+        Knob { id: snsb; extern: path_simp(box.extern + "../PFilterVelocityScaleFunction") }
     }
     ParModuleRow {
         NumEntry {

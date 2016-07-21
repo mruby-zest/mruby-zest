@@ -2,7 +2,10 @@ Widget {
     id: base
     Indent {
         ParModuleRow {
-            Selector { layoutOpts: [:no_constraint]}
+            Selector {
+                extern: base.extern + "PFMEnabled";
+                layoutOpts: [:no_constraint]
+            }
             Button { label: "external modulator"; }
         }
         function draw(vg) {

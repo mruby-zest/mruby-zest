@@ -3,7 +3,11 @@ Widget {
 
     function doSearch()
     {
-        $remote.action("/bank/search", bank_name.selected_val + " " + bank_type.selected + " " + search.label)
+        search_  = bank_name.selected_val
+        search_ += " " + bank_type.selected
+        search_ += " " + bank_tag.selected
+        search_ += " " + search.label
+        $remote.action("/bank/search", search_)
     }
 
     function doLoad()
@@ -37,7 +41,10 @@ Widget {
                 whenValue: lambda { bank.doSearch }
             }
             SelColumn {
+                id: bank_tag
                 label: "tag"
+                extern: "/bank/tags"
+                whenValue: lambda { bank.doSearch }
             }
             function layout(l)
             {

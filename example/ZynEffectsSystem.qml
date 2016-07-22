@@ -12,6 +12,7 @@ Widget {
                 but.layoutOpts = layout
                 but.extern = "/sysefx#{i}/efftype"
                 sld = Qml::HSlider.new(db)
+                sld.extern = "/Psysefxvol#{i}"
                 #sel.layoutOpts = layout
                 #sel.extern = "/Pinsparts#{i}"
                 Qml::add_child(self, but)

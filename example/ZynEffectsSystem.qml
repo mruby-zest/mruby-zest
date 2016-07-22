@@ -7,12 +7,13 @@ Widget {
             return if children.length > 1
             num_eff = 4
             layout = [:no_constraint]
+            prt = root.get_view_pos(:part)
             (0...num_eff).each do |i|
                 but = Qml::Selector.new(db)
                 but.layoutOpts = layout
                 but.extern = "/sysefx#{i}/efftype"
                 sld = Qml::HSlider.new(db)
-                sld.extern = "/Psysefxvol#{i}"
+                sld.extern = "/Psysefxvol#{i}/part#{prt}"
                 #sel.layoutOpts = layout
                 #sel.extern = "/Pinsparts#{i}"
                 Qml::add_child(self, but)
@@ -42,5 +43,15 @@ Widget {
     function class_name() { "eff" }
     function layout(l) {
         Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.1, 0.9], 0, 3)
+    }
+
+    function set_view()
+    {
+        prt = root.get_view_pos(:part)
+        ch = children[0].children
+        n  = ch.length/2
+        (0...n).each do |i|
+            ch[2*i+1].extern = "/Psysefxvol#{i}/part#{prt}"
+        end
     }
 }

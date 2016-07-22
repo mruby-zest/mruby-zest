@@ -56,8 +56,4 @@ Widget {
     function layout(l) {
         Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.2,0.4,0.4])
     }
-
-    function set_view()
-    {
-        vce     = root.get_view_pos(:voice)
 }

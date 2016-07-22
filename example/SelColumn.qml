@@ -4,6 +4,7 @@ Widget {
     property Bool number: false
     property Bool skip:   false
     property Bool rows:   nil
+    property Int  nrows:  24
     property Function whenValue: nil
     property Int  oldOff: 0
     property Object value_sel: nil
@@ -34,9 +35,9 @@ Widget {
 
     function onSetup(old=nil)
     {
+        return if children.length > 10
         scroll.layer = self.layer
-        nrows = 24
-        (nrows).times do |x|
+        (self.nrows).times do |x|
             ch = if(number)
                 Qml::NumberButton.new(db)
             else
@@ -129,6 +130,12 @@ Widget {
         self.rows = x
         stride = 1
         stride = 2 if skip
+        nn = x.length/stride
+        nsize = [0.05, [1.0, self.nrows/nn].min].max
+        if(nsize != scroll.bar_size)
+            scroll.bar_size = nsize
+            scroll.damage_self
+        end
         n = [x.length/stride, children.length-1].min
         (1..n).each do |i|
             #puts "#{i} => #{x[(i-1+offset)*stride]}"

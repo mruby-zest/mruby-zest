@@ -78,14 +78,14 @@ Widget {
         env.prev = ev.pos
     }
 
-    function bound_points(array)
+    function bound_points(array, low, high)
     {
         n = array.length
         (0...n).each do |i|
-            if(array[i] < -1)
-                array[i] = -1
-            elsif(array[i] > 1)
-                array[i] = 1
+            if(array[i] < low)
+                array[i] = low
+            elsif(array[i] > high)
+                array[i] = high
             end
         end
     }
@@ -103,8 +103,8 @@ Widget {
                 env.ypoints[env.selected] -= dy
             end
 
-            bound_points(env.xpoints)
-            bound_points(env.ypoints)
+            bound_points(env.xpoints,  0.0, 1.0)
+            bound_points(env.ypoints, -1.0, 1.0)
 
             env.prev = ev.pos
             env.root.damage_item env

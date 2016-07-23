@@ -7,11 +7,13 @@ Widget {
         id: folders;
         layer: 2;
         extern: "/file_list_dirs"
+        whenValue: lambda {file.set_dir(folders.selected)}
     }
     SelColumn {
         id: files;
         layer: 2;
         extern: "/file_list_files"
+        whenValue: lambda {file.set_files(files.selected)}
     }
     TextLine {
         id: line
@@ -46,9 +48,9 @@ Widget {
 
         #Get files when home dir (or any subsequent dir) is setup
         dirs  = OSC::RemoteParam.new($remote, "/file_list_dirs")
-        dirs.callback   = lambda { |x| set_dirs(x) }
+        #dirs.callback   = lambda { |x| set_dirs(x) }
         files = OSC::RemoteParam.new($remote, "/file_list_files")
-        files.callback = lambda { |x| set_files(x) }
+        #files.callback = lambda { |x| set_files(x) }
 
         #Get the starting path i.e. the HOME dir
         home  = OSC::RemoteParam.new($remote, "/file_home_dir")
@@ -66,12 +68,23 @@ Widget {
         $remote.action("/file_list_files", x)
     }
 
-    function set_dirs(x)
+    function set_dir(x)
     {
+        puts "set dir..."
+        puts x
+        line.label += "/" if line.label[-1] != "/"
+        line.label += x + "/"
+        line.label = path_simp(line.label)
+        line.damage_self
+        $remote.action("/file_list_dirs",  line.label)
+        $remote.action("/file_list_files", line.label)
     }
 
-    function set_files(x)
+    function set_file(x)
     {
+        puts "set file..."
+        puts x
+        line.label += x
     }
 
     function draw(vg) {

@@ -6,7 +6,7 @@ Widget {
     //voice ID
     ToggleButton {
         extern: voice_item.extern + "Enabled"
-        label: voice_item.num.to_s;
+        label: (voice_item.num+1).to_s;
         layoutOpts: [:no_constraint]
     }
     //mini wave view

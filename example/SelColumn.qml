@@ -30,6 +30,7 @@ Widget {
         end
         vg.fill_color Theme::TextModColor
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.font_size titleH*0.9
         vg.text(0.9*w/2,titleH/2,label.upcase)
     }
 

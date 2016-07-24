@@ -85,7 +85,7 @@ Widget {
         return if rows.nil?
         n = rows.length/stride
         return if n<24
-        center = (n-24)*scroll.value+12
+        center = (n-24)*(1-scroll.value)+12
         off    = (center-12).to_i
         if(off != self.oldOff)
             #puts "new offset #{off}"

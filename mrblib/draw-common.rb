@@ -486,6 +486,21 @@ module Draw
             end
             selfBox
         end
+        def self.vstack(l, selfBox, children, vpad=10)
+            prev = nil
+
+
+            children.each_with_index do |ch|
+                box = ch.layout(l)
+                l.sh([box.y], [-1], -vpad/2)
+                l.contains(selfBox,box)
+                #l.topOf(prev, box) if(prev)
+                l.sheq([prev.y, prev.h, box.y], [1,1,-1],-vpad) if(prev)
+                l.aspect(box, 1, 5) if(ch.class != Qml::Selector)
+                prev = box
+            end
+            selfBox
+        end
     end
 
     def self.indent(rect, padw, padh)

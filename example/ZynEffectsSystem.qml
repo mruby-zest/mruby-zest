@@ -6,23 +6,19 @@ Widget {
         {
             return if children.length > 1
             num_eff = 4
-            layout = [:no_constraint]
             prt = root.get_view_pos(:part)
             (0...num_eff).each do |i|
                 but = Qml::Selector.new(db)
-                but.layoutOpts = layout
                 but.extern = "/sysefx#{i}/efftype"
                 sld = Qml::HSlider.new(db)
                 sld.extern = "/Psysefxvol#{i}/part#{prt}"
-                #sel.layoutOpts = layout
-                #sel.extern = "/Pinsparts#{i}"
                 Qml::add_child(self, but)
                 Qml::add_child(self, sld)
             end
         }
 
         function layout(l) {
-            Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0.05, 0.9, 20)
+            Draw::Layout::vstack(l, self_box(l), self.children)#, 0.05, 0.9, 20)
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))

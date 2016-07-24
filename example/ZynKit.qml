@@ -9,7 +9,7 @@ Widget {
         puts "Zyn Kit Setup..."
         (0...16).each do |r|
             row = Qml::ZynKitRow.new(db)
-            row.label = r.to_s
+            row.label = (r+1).to_s
             row.weights = self.weights
             row.extern  = kit.extern + "kit#{r}/"
             row.extern()

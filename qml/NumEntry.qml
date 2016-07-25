@@ -9,6 +9,10 @@ Widget {
     property Int      maximum: 10
 
     onExtern: {
+        meta = OSC::RemoteMetadata.new($remote, numentry.extern)
+        numentry.label   = meta.short_name
+        numentry.tooltip = meta.tooltip
+
         numentry.valueRef = OSC::RemoteParam.new($remote, numentry.extern)
         numentry.valueRef.mode     = :full
         numentry.valueRef.callback = Proc.new {|x| numentry.setValue(x)}
@@ -91,6 +95,12 @@ Widget {
     {
         updatePos(+1) if ev.dy > 0
         updatePos(-1) if ev.dy < 0
+    }
+
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
     }
 
     function onMousePress(ev)

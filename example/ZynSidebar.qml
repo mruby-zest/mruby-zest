@@ -44,7 +44,6 @@ Widget {
         label: "add"
         value: true;
         whenClick: lambda { side.set_content :add_synth }
-        extern: "/part0/kit0/Padenabled"
     }
     Indent {
         id: voices
@@ -54,13 +53,11 @@ Widget {
         id: subButton
         label: "sub"
         whenClick: lambda { side.set_content :sub_synth }
-        extern: "/part0/kit0/Psubenabled"
     }
     FancyButton {
         id: padButton
         label: "pad"
         whenClick: lambda { side.set_content :pad_synth }
-        extern: "/part0/kit0/Ppadenabled"
     }
 
     function set_content(type)
@@ -80,6 +77,20 @@ Widget {
         end
 
         parent.set_content(type) if parent.respond_to? :set_content
+    }
+
+    function set_view()
+    {
+        prt  = root.get_view_pos(:part)
+        kid  = root.get_view_pos(:kit)
+        padButton.extern = "/part#{prt}/kit#{kid}/Ppadenabled"
+        subButton.extern = "/part#{prt}/kit#{kid}/Psubenabled"
+        add.extern       = "/part#{prt}/kit#{kid}/Padenabled"
+    }
+
+    function onSetup(old=nil)
+    {
+        set_view
     }
 
     function layout(l)

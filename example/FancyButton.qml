@@ -11,6 +11,8 @@ Widget {
 
         fancy.valueRef = OSC::RemoteParam.new($remote, fancy.extern)
         fancy.valueRef.callback = Proc.new {|x| fancy.set_value(x)}
+        pow.extern = fancy.extern
+        pow.extern()
     }
 
     function set_value(x)
@@ -91,7 +93,6 @@ Widget {
     PowButton {
         id: pow
         function class_name() { "PowButton" }
-        extern: fancy.extern
     }
 
 }

@@ -7,6 +7,8 @@ Widget {
     property Int    select_id: nil
     property Int    prev_note: nil
 
+    property Float  velocity: 100
+    property Float  velrnd: 0
 
     function set_data(data_)
     {
@@ -68,8 +70,12 @@ Widget {
     {
         note = get_note(ev.pos)
         self.prev_note = note
+
+        vel = velocity+(rand-0.5)*velrnd;
+        vel = [0, [127, vel].min].max.to_i
+
         if(note && $remote)
-            $remote.action("/noteOn", 0, note, 100)
+            $remote.action("/noteOn", 0, note, vel)
         end
     }
 

@@ -21,13 +21,48 @@ Widget {
 
     ParModuleRow {
         id: ctrl
-        Knob { label: "velocity" }
-        Knob { label: "vrnd" }
-        Knob { label: "octave" }
-        Knob { label: "querty" }
-        Knob { label: "qwerty" }
-        Knob { label: "c.val" }
-        Selector { label: "MIDI CC" }
+        Knob {
+            id: vel
+            whenValue: lambda { key.velocity = vel.value*127 }
+            value: 0.7;
+            label: "velocity"
+        }
+        Knob {
+            id: rnd
+            whenValue: lambda { key.velrnd = rnd.value*127 }
+            value: 0.2;
+            label: "vrnd"
+        }
+        Knob { value: 0.5; label: "octave" }
+        Selector { options: ["qwerty"] }
+        Knob     {
+            id: cc
+            label: "c.val"
+            whenValue: lambda { foot.set_cc((cc.value*127).to_i) }
+        }
+        Selector {
+            id: cctype
+            label: "MIDI CC"
+            options: [ "01: Mod.Wheel",
+                       "07: Volume",
+                       "10: Panning",
+                       "11: Expression",
+                       "64: Sustain",
+                       "65: Portamento",
+                       "71: Filter Q",
+                       "74: Filter Freq.",
+                       "75: Bandwidth",
+                       "76: FM Gain",
+                       "77: Res. c. freq",
+                       "78: Res. bw."]
+        }
+    }
+
+    function set_cc(x)
+    {
+        cc_num =  cctype.options[cctype.selected].to_i
+        $remote.action("/setController", 0, cc_num, x)
+
     }
 
     function layout(l)

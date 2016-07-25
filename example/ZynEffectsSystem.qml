@@ -27,13 +27,13 @@ Widget {
     Widget {
         ZynEffectGroup {
             maxeffects: 4
-            nunits:     3
+            nunits:     4
             extern: "/sysefx"
         }
         ZynSendToGrid {}
         function class_name() { "effvert" }
         function layout(l) {
-            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.6, 0.4])
+            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.666, 0.333])
         }
     }
     function class_name() { "eff" }

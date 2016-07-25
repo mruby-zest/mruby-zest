@@ -2,10 +2,9 @@ Widget {
     id: row
     property Int row_id: 0
     property Int cols:   4
-    Text {
+    TextSel {
         id: name
-        align: :left
-        height: 0.7
+        extern: "/sysefx#{row.row_id}/efftype"
     }
 
     function onSetup(old=nil)

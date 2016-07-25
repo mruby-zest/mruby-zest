@@ -130,47 +130,6 @@ Widget {
             selfBox
         }
 
-        function set_amp(base)
-        {
-            footer.children[0].value = true
-            amp_gen.extern  = base
-            amp_env.extern  = base + "AmpEnvelope/"
-            amp_lfo.extern  = base + "AmpLfo/"
-            amp_gen.content = Qml::ZynAmpVoiceGeneral
-            amp_env.content = Qml::ZynAmpEnv
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
-            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
-            amp_env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
-            amp_lfo.toggleable = base + "PAmpLfoEnabled"
-        }
-
-        function set_freq(base)
-        {
-            footer.children[1].value = true
-            amp_env.extern  = base + "FreqEnvelope/"
-            amp_lfo.extern  = base + "FreqLfo/"
-            amp_gen.content = Qml::ZynFreqGeneral
-            amp_env.content = Qml::ZynFreqEnv
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
-            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
-            amp_env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
-            amp_lfo.toggleable = base + "PFreqLfoEnabled"
-        }
-
-        function set_filter(base)
-        {
-            footer.children[2].value = true
-            amp_gen.extern  = base + "VoiceFilter/"
-            amp_env.extern  = base + "FilterEnvelope/"
-            amp_lfo.extern  = base + "FilterLfo/"
-            amp_gen.content = Qml::ZynAnalogFilter
-            amp_env.content = Qml::ZynFilterEnv
-            amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
-            amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
-            amp_env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
-            amp_gen.children[0].toggleable = base + "PFilterEnabled"
-            amp_lfo.toggleable = base + "PFilterLfoEnabled"
-        }
 
         function setTab(id)
         {
@@ -179,19 +138,83 @@ Widget {
                 children[ch_id].value = (ch_id == id)
                 self.root.damage_item children[ch_id]
             end
-            base = "/part0/kit0/adpars/VoicePar0/"
-            if(id == 0)
-                set_amp base
-            elsif(id == 1)
-                set_freq base
-            elsif(id == 2)
-                set_filter base
-            end
-            db.update_values
+            mapping = {0 => :amplitude,
+                       1 => :frequency,
+                       2 => :filter}
+            root.set_view_pos(:subsubview, mapping[id])
+            root.change_view
         }
 
         TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
+    }
+
+    function set_amp(base)
+    {
+        footer.children[0].value = true
+        amp_gen.extern  = base
+        amp_env.extern  = base + "AmpEnvelope/"
+        amp_lfo.extern  = base + "AmpLfo/"
+        amp_gen.content = Qml::ZynAmpVoiceGeneral
+        amp_env.content = Qml::ZynAmpEnv
+        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
+        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
+        amp_env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
+        amp_lfo.toggleable = base + "PAmpLfoEnabled"
+    }
+
+    function set_freq(base)
+    {
+        footer.children[1].value = true
+        amp_gen.extern  = base
+        amp_env.extern  = base + "FreqEnvelope/"
+        amp_lfo.extern  = base + "FreqLfo/"
+        amp_gen.content = Qml::ZynFreqGeneral
+        amp_env.content = Qml::ZynFreqEnv
+        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
+        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
+        amp_env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
+        amp_lfo.toggleable = base + "PFreqLfoEnabled"
+    }
+
+    function set_filter(base)
+    {
+        footer.children[2].value = true
+        amp_gen.extern  = base + "VoiceFilter/"
+        amp_env.extern  = base + "FilterEnvelope/"
+        amp_lfo.extern  = base + "FilterLfo/"
+        amp_gen.content = Qml::ZynAnalogFilter
+        amp_env.content = Qml::ZynFilterEnv
+        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
+        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+        amp_env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
+        amp_gen.children[0].toggleable = base + "PFilterEnabled"
+        amp_lfo.toggleable = base + "PFilterLfoEnabled"
+    }
+
+    function set_view()
+    {
+        subsubview = root.get_view_pos(:subsubview)
+        types = [:amplitude, :frequency, :filter]
+        if(!types.include?(subsubview))
+            subsubview = :amplitude
+            root.set_view_pos(:subsubview, subsubview)
+        end
+
+        base = self.extern
+
+        if(subsubview == :amplitude)
+            set_amp base
+        elsif(subsubview == :frequency)
+            set_freq base
+        else
+            set_filter base
+        end
+    }
+
+    function onSetup(old=nil)
+    {
+        set_view()
     }
 }

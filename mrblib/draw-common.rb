@@ -571,6 +571,9 @@ def color(c,alpha=255)
     b = c[4..5].to_i 16
     NVG.rgba(r,g,b,alpha)
 end
+def color_rgb(r,g,b,alpha=255)
+    NVG.rgba(r*255,g*255,b*255,alpha)
+end
 
 module Theme
     GeneralBackground   = color("2C2C2D")

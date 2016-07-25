@@ -54,8 +54,15 @@ Widget {
         text_color2   = Theme::TextColor
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
-            if(button.value)
+            if(button.value == true)
                 v.fill_color on_color
+            elsif(button.value.class == Float && button.value != 0)
+                t = button.value
+                on = on_color
+                of = Theme::ButtonGrad1
+                v.fill_color(color_rgb(on.r*t + of.r*(1-t),
+                                       on.g*t + of.g*(1-t),
+                                       on.b*t + of.b*(1-t)))
             else
                 paint = v.linear_gradient(0,0,0,h,
                 Theme::ButtonGrad1, Theme::ButtonGrad2)
@@ -69,7 +76,7 @@ Widget {
 
         vg.font_face("bold")
         vg.font_size h*self.textScale
-        if(value)
+        if(value == true)
             vg.fill_color(text_color1)
         else
             vg.fill_color(text_color2)

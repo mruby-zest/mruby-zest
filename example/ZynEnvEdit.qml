@@ -34,8 +34,8 @@ Widget {
     Col {
         spacer: 8
         ToggleButton   { id: free; extern: enveditor.extern + "Pfreemode"; label: "free" }
-        Button         { whenValue: lambda {enveditor.add_point()}; label: "add"  }
-        Button         { whenValue: lambda {enveditor.del_point()}; label: "delete" }
+        TriggerButton  { whenValue: lambda {enveditor.add_point()}; label: "add"  }
+        TriggerButton  { whenValue: lambda {enveditor.del_point()}; label: "delete" }
         Text           { label: "sustain point" }
         NumEntry       { extern: enveditor.extern + "Penvsustain"; label: "sustain" }
         Text           { label: "1.47 sec" }

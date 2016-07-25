@@ -9,6 +9,7 @@ Widget {
     property Int    points: 5
     property Int    sustain_point: 3
     property Object valueRef: nil
+    property Bool   mouse_enable: true
 
     onExtern: {
         ext = env.extern
@@ -18,6 +19,7 @@ Widget {
         pts.mode = :selector
         sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
         sus.mode = :full
+        free = OSC::RemoteParam.new($remote, ext + "Pfreemode")
         xpts.callback = lambda { |x|
             env.xpoints = x
             env.damage_self
@@ -34,7 +36,10 @@ Widget {
             env.sustain_point = x
             env.damage_self
         }
-        env.valueRef = [xpts, ypts, pts, sus]
+        free.callback = lambda { |x|
+            env.mouse_enable = x
+        }
+        env.valueRef = [xpts, ypts, pts, sus, free]
     }
 
     function refresh() {
@@ -49,6 +54,7 @@ Widget {
 
     function onMousePress(ev) {
         puts "I got a mouse press (value)"
+        return if !self.mouse_enable
         #//Try to identify the location  of the nearest grabbable point
         #valuator.prev = ev.pos
         xdat = get_x_points()
@@ -91,6 +97,7 @@ Widget {
     }
 
     function onMouseMove(ev) {
+        return if !self.mouse_enable
 
         if(env.selected)
             dy = 2*(ev.pos.y - env.prev.y)/env.h

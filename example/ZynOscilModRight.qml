@@ -62,6 +62,7 @@ Widget {
             }
             WaveView {
                 id: osc_wave
+                noise:  base.extern + "Type"
                 extern: base.extern + "OscilSmp/waveform"
                 grid: false
             }

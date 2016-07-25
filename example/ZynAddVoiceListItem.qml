@@ -12,6 +12,7 @@ Widget {
     //mini wave view
     WaveView {
         extern: voice_item.extern + "OscilSmp/waveform"
+        noise:  voice_item.extern + "Type"
         grid: false
     }
     //volume

@@ -5,6 +5,7 @@ Widget {
     property Float pad:   1/32
     property Float fixedpad: 0
     property Float phase: 0
+    property Bool  ignore_phase: false
 
     function class_name() { "DataView" }
 
@@ -14,8 +15,12 @@ Widget {
         box = Rect.new(w*pad  + fixedpad,   h*pad  + fixedpad,
                        w*pad2 - 2*fixedpad, h*pad2 - 2*fixedpad)
 
-        if(data)
-            Draw::WaveForm::plot(vg, self.data, box, normal, phase)
+        vphase = ignore_phase ? 0 : phase
+        if(data.class == Array && data[0].class == Float)
+            Draw::WaveForm::plot(vg, self.data, box, normal, vphase)
+        elsif(data.class == Array && data[0].class == Array)
+            Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase)
+            Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase)
         else
             Draw::WaveForm::sin(vg, box)
         end

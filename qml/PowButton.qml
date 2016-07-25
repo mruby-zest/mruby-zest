@@ -1,5 +1,4 @@
 ToggleButton {
-    property Bool value: false
     function class_name() {"powbutton"}
     function draw(vg) {
         #Draw background

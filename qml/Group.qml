@@ -153,7 +153,7 @@ Widget {
             return if children.length != 1
             if(mod.toggleable)
                 pb = PowButton.new(db)
-                pb.extern = mod.extern
+                pb.extern = mod.toggleable
                 Qml::add_child(self, pb)
             end
             if(mod.copyable)

@@ -29,7 +29,7 @@ Widget {
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
 
-        Button {
+        TriggerButton {
             layoutOpts: [:no_constraint];
             label: "apply"
             whenValue: lambda {center.apply() }

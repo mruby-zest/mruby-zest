@@ -9,7 +9,7 @@ Widget {
     ParModuleRow {
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
-        Knob {         extern: dyn.extern + "DynamicFilter/PLFOtype" }
+        Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }
         ToggleButton { extern: dyn.extern + "DynamicFilter/PStereo" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pdepth" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsns" }

@@ -456,7 +456,7 @@ module Draw
             selfBox
         end
 
-        def self.tabpack(l, base)
+        def self.tabpack(l, base, weak=nil)
             selfBox = l.genBox(:tabbox, base)
             prev = nil
 
@@ -478,6 +478,8 @@ module Draw
 
                 #add in the aspect constraint
                 l.aspect(box, 100, weights[idx])
+
+                l.weak(box.x) if ch == weak
 
                 if(prev)
                     l.rightOf(prev, box)

@@ -78,7 +78,8 @@ Widget {
 
     function onScroll(ev)
     {
-        updatePos(ev.dy/50.0)
+        fine = root.fine_mode ? 0.2 : 1.0
+        updatePos(fine*ev.dy/50.0)
     }
 
     function onMousePress(ev) {
@@ -111,6 +112,7 @@ Widget {
     }
 
     function onMouseMove(ev) {
+        fine = root.fine_mode ? 0.05 : 1.0
         #puts "I got a mouse move (value)"
         if(prev)
             delta = if(vertical)
@@ -118,7 +120,7 @@ Widget {
             else
                 -(ev.pos.x - self.prev.x)
             end
-            updatePos(delta/dragScale)
+            updatePos(fine*delta/dragScale)
             self.prev = ev.pos
         end
     }

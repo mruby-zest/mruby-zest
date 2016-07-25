@@ -75,17 +75,17 @@ Widget {
         whenValue: lambda {hedit.set_scroll scroll.value}
     }
 
-    Button {
-        id: voice_button
-        layoutOpts: [:no_constraint]
-        label: "voice"
-    }
+    //Button {
+    //    id: voice_button
+    //    layoutOpts: [:no_constraint]
+    //    label: "voice"
+    //}
 
-    Button {
-        id: mod_button
-        layoutOpts: [:no_constraint]
-        label: "mod"
-    }
+    //Button {
+    //    id: mod_button
+    //    layoutOpts: [:no_constraint]
+    //    label: "mod"
+    //}
 
     Widget {
         id: middle_panel
@@ -227,8 +227,8 @@ Widget {
         fultBox = full_title.layout(l)
         hediBox = hedit.layout(l)
         scrlBox = scroll.layout(l)
-        voceBox = voice_button.layout(l)
-        modbBox = mod_button.layout(l)
+        #voceBox = voice_button.layout(l)
+        #modbBox = mod_button.layout(l)
         middBox = middle_panel.layout(l)
         l.fixed(baseBox, selfBox, 0.00, 0.15, 0.30, 0.38)
         l.fixed(fullBox, selfBox, 0.70, 0.15, 0.30, 0.38)
@@ -237,9 +237,10 @@ Widget {
         l.fixed(bastBox, selfBox, 0.00, 0.00, 0.30, 0.05)
         l.fixed(fultBox, selfBox, 0.70, 0.00, 0.30, 0.05)
         l.fixed(hediBox, selfBox, 0.00, 0.53, 1.00, 0.42)
-        l.fixed(scrlBox, selfBox, 0.10, 0.95, 0.80, 0.05)
-        l.fixed(voceBox, selfBox, 0.00, 0.95, 0.10, 0.05)
-        l.fixed(modbBox, selfBox, 0.90, 0.95, 0.10, 0.05)
+        l.fixed(scrlBox, selfBox, 0.00, 0.95, 1.00, 0.05)
+        #l.fixed(scrlBox, selfBox, 0.10, 0.95, 0.80, 0.05)
+        #l.fixed(voceBox, selfBox, 0.00, 0.95, 0.10, 0.05)
+        #l.fixed(modbBox, selfBox, 0.90, 0.95, 0.10, 0.05)
         l.fixed(middBox, selfBox, 0.30, 0.0,  0.40, 0.53)
 
         selfBox

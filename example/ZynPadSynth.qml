@@ -25,7 +25,7 @@ Widget {
     }
     TabGroup {
         id: header
-        TabButton { label: "harmonic structure"; value: true}
+        TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
 
@@ -116,6 +116,9 @@ Widget {
         ext     = {:harmonics  => "",
                    :oscil      => "oscilgen/",
                    :global_pad => ""}
+        tabid   = {:harmonics  => 0,
+                   :oscil      => 1,
+                   :global_pad => 2}
         if(!mapping.include?(subview))
             subview = :harmonics
             root.set_view_pos(:subview, :harmonics)
@@ -124,6 +127,7 @@ Widget {
 
         swap.extern  = base + ext[subview]
         swap.content = mapping[subview]
+        header.children[tabid[subview]].value = true
     }
 
     Swappable { id: swap }

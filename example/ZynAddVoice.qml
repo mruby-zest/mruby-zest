@@ -132,6 +132,7 @@ Widget {
 
         function set_amp(base)
         {
+            footer.children[0].value = true
             amp_gen.extern  = base
             amp_env.extern  = base + "AmpEnvelope/"
             amp_lfo.extern  = base + "AmpLfo/"
@@ -145,6 +146,7 @@ Widget {
 
         function set_freq(base)
         {
+            footer.children[1].value = true
             amp_env.extern  = base + "FreqEnvelope/"
             amp_lfo.extern  = base + "FreqLfo/"
             amp_gen.content = Qml::ZynFreqGeneral
@@ -157,6 +159,7 @@ Widget {
 
         function set_filter(base)
         {
+            footer.children[2].value = true
             amp_gen.extern  = base + "VoiceFilter/"
             amp_env.extern  = base + "FilterEnvelope/"
             amp_lfo.extern  = base + "FilterLfo/"
@@ -187,7 +190,7 @@ Widget {
             db.update_values
         }
 
-        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top; value: true}
+        TabButton { label: "amplitude"; whenClick: lambda {footer.setTab(0)}; highlight_pos: :top}
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }

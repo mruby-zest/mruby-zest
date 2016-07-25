@@ -5,7 +5,7 @@ Widget {
 
     TabGroup {
         id: subtabs
-        TabButton {value: true; label: "harmonic" }
+        TabButton {label: "harmonic" }
         TabButton {label: "amplitude" }
         TabButton {label: "bandwidth" }
         TabButton {label: "frequency" }
@@ -50,6 +50,11 @@ Widget {
                    :bandwidth => Qml::ZynSubBandwidth,
                    :frequency => Qml::ZynSubFreq,
                    :filter    => Qml::ZynSubFilter}
+        tabid   = {:harmonic  => 0,
+                   :amplitude => 1,
+                   :bandwidth => 2,
+                   :frequency => 3,
+                   :filter    => 4}
         if(!mapping.include?(vw))
             root.set_view_pos(:subview, :harmonic)
             vw = :harmonic
@@ -58,6 +63,7 @@ Widget {
         puts "subsynth extern is #{subsynth.extern}"
         swap.extern  = subsynth.extern
         swap.content = mapping[vw]
+        subtabs.children[tabid[vw]].value = true
     }
 
     function onSetup(old=nil)

@@ -28,7 +28,7 @@ Widget {
             tooltip:    "voice"
             maximum:    7
         }
-        TabButton { whenClick: lambda {header.setTab(0)}; label: "global"; value: true}
+        TabButton { whenClick: lambda {header.setTab(0)}; label: "global"}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
         TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
         TabButton { whenClick: lambda {header.setTab(3)}; label: "mod-osc"}
@@ -147,6 +147,13 @@ Widget {
                    :modulate  => Qml::ZynOscilMod,
                    :vce_list  => Qml::ZynAddVoiceList,
                    :resonance => Qml::ZynResonance}
+        tabid   = {:global    => 1,
+                   :voice     => 2,
+                   :oscil     => 3,
+                   :modosc    => 4,
+                   :modulate  => 5,
+                   :vce_list  => 6,
+                   :resonance => 6}
         if(!mapping.include?(subview))
             subview = :global
             root.set_view_pos(:subview, :global)
@@ -154,6 +161,7 @@ Widget {
 
         swap.extern  = extbase + ext[subview]
         swap.content = mapping[subview]
+        header.children[tabid[subview]].value = true
     }
 
     Swappable { id: swap }

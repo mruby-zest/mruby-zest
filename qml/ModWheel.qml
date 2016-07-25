@@ -1,4 +1,4 @@
-Widget {
+Valuator {
     function draw(vg)
     {
         c1 = NVG.rgba(0x0b,0x0b,0x0b,255)
@@ -17,7 +17,10 @@ Widget {
             v.fill
         end
         vg.path do |v|
-            v.rect(0, h/2-h/16, w, h/8)
+            v.rect(0, h*7/8*(1-value), w, h/8)
+            scale = 2*(0.5-[0.5-value, value-0.5].max)
+            scale = scale+0.4
+            bright_green = NVG.rgba(0x00*scale,0xAe*scale,0x9c*scale, 255)
             v.fill_color(bright_green)
             v.fill
         end

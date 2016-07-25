@@ -3,7 +3,15 @@ Widget {
     function class_name() {"ZynFooter"}
     Indent {
         id: wheelwell
-        ModWheel { label: "wheel" }
+        ModWheel {
+            value: 0
+            label: "wheel"
+            tooltip: "modulation wheel"
+            whenValue: lambda {
+                $remote.action("/setController", 0, 1, (wheelwell.children[0].value*127).to_i)
+            }
+
+        }
 
         function layout(l)
         {

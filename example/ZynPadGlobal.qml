@@ -225,7 +225,7 @@ Widget {
         amp_gen.extern  = base
         amp_env.extern  = base + "FreqEnvelope/"
         amp_lfo.extern  = base + "FreqLfo/"
-        amp_gen.content = Qml::ZynFreqGeneral
+        amp_gen.content = Qml::ZynPadFreq
         amp_env.content = Qml::ZynFreqEnv
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}

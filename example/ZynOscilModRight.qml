@@ -45,8 +45,7 @@ Widget {
                 copyable: false
                 ParModuleRow {
                     Selector {
-                        extern: base.extern + "Pextoscil"
-                        options: ["normal", "voice 0", "voice 1"]
+                        id: ext
                     }
                     Knob {
                         id: phase_osc
@@ -79,8 +78,7 @@ Widget {
                 copyable: false
                 ParModuleRow {
                     Selector {
-                        extern: base.extern + "PextFMoscil"
-                        //layoutOpts: [:no_constraint]
+                        id: extfm
                     }
                     Knob {
                         id: phase_mod
@@ -112,5 +110,23 @@ Widget {
         selfBox = l.genBox :modbox, self
         Draw::Layout::vfill(l, selfBox, chBoxes(l),
             [0.15,0.2,0.65])
+    }
+
+    function onSetup(old=nil)
+    {
+        vce     = root.get_view_pos(:voice)
+        mapper  = [-1]
+        names   = ["Normal"]
+        (0...vce).each do |i|
+            mapper << i
+            names  << "Oscil #{i}"
+        end
+
+        extfm.opt_vals = mapper
+        extfm.options  = names
+        extfm.extern   = base.extern + "PextFMoscil"
+        ext.opt_vals   = mapper
+        ext.options    = names
+        ext.extern     = base.extern + "Pextoscil"
     }
 }

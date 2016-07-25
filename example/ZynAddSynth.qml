@@ -26,7 +26,8 @@ Widget {
             whenValue:  lambda {header.set_voice()}
             layoutOpts: [:free]
             tooltip:    "voice"
-            maximum:    7
+            maximum:    8
+            minimum:    1
         }
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
@@ -40,7 +41,7 @@ Widget {
         PasteButton {}
 
         function set_voice() {
-            root.set_view_pos(:voice, children[0].value)
+            root.set_view_pos(:voice, children[0].value-1)
             root.change_view
         }
         function get_voice() { root.get_view_pos(:voice) }

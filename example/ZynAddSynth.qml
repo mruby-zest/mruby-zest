@@ -22,7 +22,7 @@ Widget {
     Widget {
         id: header
         NumEntry  {
-            value:      header.get_voice
+            value:      header.get_voice + 1
             whenValue:  lambda {header.set_voice()}
             layoutOpts: [:free]
             tooltip:    "voice"

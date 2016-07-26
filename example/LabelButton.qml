@@ -27,9 +27,10 @@ Button {
             self.root.log(:tooltip, self.tooltip)
         end
     }
-    
-    function onKey(k)
+
+    function onKey(k, mode)
     {
+        return if mode != "press"
         puts k.ord
         if(k.ord == 8)
             self.label = self.label[0...-1]

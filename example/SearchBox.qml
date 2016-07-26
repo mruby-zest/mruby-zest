@@ -11,8 +11,9 @@ Widget {
         vg.text(8,h/2,l.upcase)
     }
 
-    function onKey(k)
+    function onKey(k, mode)
     {
+        return if mode != "press"
         puts k.ord
         if(k.ord == 8)
             self.label = self.label[0...-1]

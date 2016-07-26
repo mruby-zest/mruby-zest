@@ -4,22 +4,11 @@ Widget {
     Widget {
         Widget {
             Widget {
-                Swappable {
-                    id: vis
-                    content: Qml::Envelope
-                }
+                Swappable { id: vis }
             }
             Widget {
-                Swappable {
-                    id: gen
-                    extern:  basemod.extern
-                    content: Qml::ZynAmpMod
-                }
-                Swappable {
-                    id: env
-                    extern: basemod.extern+"FMAmpEnvelope/"
-                    content: Qml::ZynAmpEnv
-                }
+                Swappable { id: gen }
+                Swappable { id: env }
                 function layout(l) {
                     selfBox = l.genBox :modbox, self
                     Draw::Layout::hpack(l, selfBox, chBoxes(l))
@@ -80,14 +69,28 @@ Widget {
             footer.children[0].value = true
             gen.extern  = basemod.extern
             env.extern  = basemod.extern + "FMAmpEnvelope/"
+            vis.extern  = basemod.extern + "FMAmpEnvelope/"
             gen.content = Qml::ZynAmpMod
             env.content = Qml::ZynAmpEnv
+            vis.content = Qml::ZynEnvEdit
+
+            env.children[0].whenModified = lambda {
+                elm = vis.children[0]
+                elm.refresh if elm.respond_to? :refresh
+            }
         else
             footer.children[1].value = true
             gen.extern  = basemod.extern
             env.extern  = basemod.extern + "FMFreqEnvelope/"
+            vis.extern  = basemod.extern + "FMFreqEnvelope/"
             gen.content = Qml::ZynFreqMod
-            env.content = Qml::ZynAmpEnv
+            env.content = Qml::ZynFreqEnv
+            vis.content = Qml::ZynEnvEdit
+
+            env.children[0].whenModified = lambda {
+                elm = vis.children[0]
+                elm.refresh if elm.respond_to? :refresh
+            }
         end
         db.update_values
     }

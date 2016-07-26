@@ -97,6 +97,40 @@ Widget {
         end
     }
 
+    function onKey(k, act)
+    {
+        qwerty_high = 'q2w3er5t6y7ui9o0p[=]\\'
+        qwerty_low  = 'zsxdcvgbhnjm,l.;/'
+
+        note = nil
+        off = 0
+        qwerty_low.each_char do |i|
+            if(k==i)
+                note = 60 - 12 + off
+                break
+            end
+            off += 1
+        end
+
+        off = 0
+        qwerty_high.each_char do |i|
+            if(k==i)
+                note = 60 + off
+                break
+            end
+            off += 1
+        end
+
+        return if note.nil?
+
+        if(act == "press")
+            $remote.action("/noteOn",  0, note, 100)
+        else
+            $remote.action("/noteOff", 0, note)
+        end
+
+    }
+
     function black_key_id(ind)
     {
         white_key_id(ind) + 1

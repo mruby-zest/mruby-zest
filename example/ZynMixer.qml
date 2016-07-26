@@ -4,7 +4,7 @@ Widget {
     property Object data: nil
 
     function animate() {
-        self.valueRef.refresh if(self.valueRef)
+        #self.valueRef.refresh if(self.valueRef)
 
         if(self.data)
             (0...16).each do |i|

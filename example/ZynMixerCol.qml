@@ -3,12 +3,16 @@ Widget {
     property Array weights: [0.05, 0.1, 0.70, 0.05, 0.05, 0.05]
     property Int   idx: 0
 
+    function rap2dB(x) { 20*Math::log10(x) }
+    function bound(x)  { [0.0, [1.0, x].min].max }
+    function cv(x)     {min_db = -40;bound((min_db-rap2dB(x))/min_db)}
+
     function set_level(l)
     {
         old = children[2].children[0].value
-        if(old != l)
-            children[2].children[0].value = l
-            children[2].children[1].value = l
+        if(old != cv(l))
+            children[2].children[0].value = cv(l)
+            children[2].children[1].value = cv(l)
             children[2].children[0].damage_self
             children[2].children[1].damage_self
         end

@@ -64,7 +64,7 @@ Widget {
             elsif(id == 1)
                 gen.extern  = basemod.extern
                 env.extern  = basemod.extern + "FMFreqEnvelope/"
-                gen.content = Qml::ZynFreqGeneral
+                gen.content = Qml::ZynFreqMod
                 env.content = Qml::ZynAmpEnv
             end
             db.update_values

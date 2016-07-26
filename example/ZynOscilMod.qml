@@ -46,7 +46,6 @@ Widget {
         TabButton {
             label: "amplitude";
             highlight_pos: :top;
-            value: true
         }
         TabButton {
             label: "frequency";
@@ -56,18 +55,9 @@ Widget {
         function set_tab(wid)
         {
             id = get_tab wid
-            if(id == 0)
-                gen.extern  = basemod.extern
-                env.extern  = basemod.extern + "FMAmpEnvelope/"
-                gen.content = Qml::ZynAmpMod
-                env.content = Qml::ZynAmpEnv
-            elsif(id == 1)
-                gen.extern  = basemod.extern
-                env.extern  = basemod.extern + "FMFreqEnvelope/"
-                gen.content = Qml::ZynFreqMod
-                env.content = Qml::ZynAmpEnv
-            end
-            db.update_values
+            vs = [:amplitude, :frequency]
+            root.set_view_pos(:subsubview, vs[id])
+            root.change_view
         }
     }
 
@@ -76,5 +66,34 @@ Widget {
         selfBox = l.genBox :modbox, self
         Draw::Layout::vfill(l, selfBox, chBoxes(l),
         [0.95,0.05])
+    }
+
+    function set_view()
+    {
+        subsubview = root.get_view_pos(:subsubview)
+        vs = [:amplitude, :frequency]
+        if(!vs.include?(subsubview))
+            subsubview = :amplitude
+            root.set_view_pos(:subsubview, subsubview)
+        end
+        if(subsubview == :amplitude)
+            footer.children[0].value = true
+            gen.extern  = basemod.extern
+            env.extern  = basemod.extern + "FMAmpEnvelope/"
+            gen.content = Qml::ZynAmpMod
+            env.content = Qml::ZynAmpEnv
+        else
+            footer.children[1].value = true
+            gen.extern  = basemod.extern
+            env.extern  = basemod.extern + "FMFreqEnvelope/"
+            gen.content = Qml::ZynFreqMod
+            env.content = Qml::ZynAmpEnv
+        end
+        db.update_values
+    }
+
+    function onSetup(old=nil)
+    {
+        set_view
     }
 }

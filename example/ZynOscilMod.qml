@@ -74,6 +74,7 @@ Widget {
             env.content = Qml::ZynAmpEnv
             vis.content = Qml::ZynEnvEdit
 
+            env.children[0].toggleable   = basemod.extern + "PFMAmpEnvelopeEnabled"
             env.children[0].whenModified = lambda {
                 elm = vis.children[0]
                 elm.refresh if elm.respond_to? :refresh
@@ -87,6 +88,7 @@ Widget {
             env.content = Qml::ZynFreqEnv
             vis.content = Qml::ZynEnvEdit
 
+            env.children[0].toggleable   = basemod.extern + "PFMFreqEnvelopeEnabled"
             env.children[0].whenModified = lambda {
                 elm = vis.children[0]
                 elm.refresh if elm.respond_to? :refresh

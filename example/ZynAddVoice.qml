@@ -25,28 +25,10 @@ Widget {
 
     Swappable {
         id: row1
-        content: Qml::LfoVis
 
-        function setDataVis(type)
-        {
-            if(type == :lfo)
-                self.content = Qml::LfoVis
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpLfo/out"
-                self.children[0].children[0].extern = amp_lfo.extern+"out"
-            elsif(type == :env)
-                self.content = Qml::Envelope
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/AmpEnvelope/"
-                self.children[0].children[0].extern = amp_env.extern+"out"
-                amp_env.whenModified = lambda {
-                    row1.children[0].refresh
-                }
-            elsif(type == :filter)
-                self.content = Qml::VisFilter
-                self.children[0].extern = "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
-                amp_gen.children[0].whenModified = lambda {
-                    row1.children[0].refresh
-                }
-            end
+        function setDataVis(type, tab) {
+            root.set_view_pos(:vis, type)
+            root.change_view
         }
     }
 
@@ -55,44 +37,31 @@ Widget {
         function layout(l)
         {
             selfBox  = l.genBox :zynCenterRow2, self
-            gen      = amp_gen.layout(l)
-            env      = amp_env.layout(l)
-            lfo      = amp_lfo.layout(l)
-            l.contains(selfBox, gen)
-            l.contains(selfBox, env)
-            l.contains(selfBox, lfo)
-            l.rightOf(gen, env)
-            l.rightOf(env, lfo)
+            genBox   = gen.layout(l)
+            envBox   = env.layout(l)
+            lfoBox   = lfo.layout(l)
+            l.contains(selfBox, genBox)
+            l.contains(selfBox, envBox)
+            l.contains(selfBox, lfoBox)
+            l.rightOf(genBox, envBox)
+            l.rightOf(envBox, lfoBox)
 
             #Making things look nice
-            l.sheq([gen.w, selfBox.w], [1, -1/3.0],  0)
-            l.sheq([env.w, selfBox.w], [1, -1/3.0],  0)
+            l.sheq([genBox.w, selfBox.w], [1, -1/3.0],  0)
+            l.sheq([envBox.w, selfBox.w], [1, -1/3.0],  0)
 
             selfBox
         }
 
 
         Swappable {
-            id: amp_gen
-            extern: "/part0/kit0/adpars/VoicePar0/"
-            content: Qml::ZynAmpVoiceGeneral
-            whenSwapped: lambda {
-                puts "whenSwapped callback"
-                if(amp_gen.content == Qml::ZynAnalogFilter)
-                    ch = amp_gen.children[0]
-                    ch.whenClick = lambda {row1.setDataVis(:filter)}
-                end
-            }
+            id: gen
         }
         Swappable {
-            id: amp_env
-            extern: "/part0/kit0/adpars/VoicePar0/AmpEnvelope/"
-            content: Qml::ZynAmpEnv
+            id: env
         }
-        ZynLFO {
-            extern: addbase.extern + "AmpLfo/"
-            whenClick: lambda {row1.setDataVis(:lfo)}
-            id: amp_lfo
+        Swappable {
+            id: lfo
         }
     }
     Widget {
@@ -153,44 +122,89 @@ Widget {
     function set_amp(base)
     {
         footer.children[0].value = true
-        amp_gen.extern  = base
-        amp_env.extern  = base + "AmpEnvelope/"
-        amp_lfo.extern  = base + "AmpLfo/"
-        amp_gen.content = Qml::ZynAmpVoiceGeneral
-        amp_env.content = Qml::ZynAmpEnv
-        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
-        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :amp)}
-        amp_env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
-        amp_lfo.toggleable = base + "PAmpLfoEnabled"
+        gen.extern  = base
+        env.extern  = base + "AmpEnvelope/"
+        lfo.extern  = base + "AmpLfo/"
+        gen.content = Qml::ZynAmpVoiceGeneral
+        env.content = Qml::ZynAmpEnv
+        lfo.content = Qml::ZynLFO
+        env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
+        lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :amp)}
+        env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
+        lfo.children[0].toggleable = base + "PAmpLfoEnabled"
     }
 
     function set_freq(base)
     {
         footer.children[1].value = true
-        amp_gen.extern  = base
-        amp_env.extern  = base + "FreqEnvelope/"
-        amp_lfo.extern  = base + "FreqLfo/"
-        amp_gen.content = Qml::ZynFreqGeneral
-        amp_env.content = Qml::ZynFreqEnv
-        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
-        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :freq)}
-        amp_env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
-        amp_lfo.toggleable = base + "PFreqLfoEnabled"
+        gen.extern  = base
+        env.extern  = base + "FreqEnvelope/"
+        lfo.extern  = base + "FreqLfo/"
+        gen.content = Qml::ZynFreqGeneral
+        env.content = Qml::ZynFreqEnv
+        lfo.content = Qml::ZynLFO
+        env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
+        lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :freq)}
+        env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
+        lfo.children[0].toggleable = base + "PFreqLfoEnabled"
     }
 
     function set_filter(base)
     {
         footer.children[2].value = true
-        amp_gen.extern  = base + "VoiceFilter/"
-        amp_env.extern  = base + "FilterEnvelope/"
-        amp_lfo.extern  = base + "FilterLfo/"
-        amp_gen.content = Qml::ZynAnalogFilter
-        amp_env.content = Qml::ZynFilterEnv
-        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
-        amp_lfo.whenClick = lambda {row1.setDataVis(:lfo, :filter)}
-        amp_env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
-        amp_gen.children[0].toggleable = base + "PFilterEnabled"
-        amp_lfo.toggleable = base + "PFilterLfoEnabled"
+        gen.extern  = base + "VoiceFilter/"
+        env.extern  = base + "FilterEnvelope/"
+        lfo.extern  = base + "FilterLfo/"
+        gen.content = Qml::ZynAnalogFilter
+        env.content = Qml::ZynFilterEnv
+        lfo.content = Qml::ZynLFO
+        env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
+        lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+        env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
+        gen.children[0].toggleable = base + "PFilterEnabled"
+        lfo.children[0].toggleable = base + "PFilterLfoEnabled"
+    }
+
+    function set_vis_lfo(ext, tab)
+    {
+        e_  = {:filter    => "FilterLfo/",
+               :amplitude => "AmpLfo/",
+               :frequency => "FreqLfo/"}[tab]
+        return if e_.nil?
+        row1.extern  = ext + e_
+        row1.content = Qml::LfoVis
+        row1.children[0].children[0].extern = lfo.extern+"out"
+    }
+
+    function set_vis_env(ext, tab)
+    {
+        e_  = {:filter    => "FilterEnvelope/",
+               :amplitude => "AmpEnvelope/",
+               :frequency => "FreqEnvelope/"}[tab]
+        return if e_.nil?
+        row1.extern  = ext + e_
+        row1.content = Qml::ZynEnvEdit
+        #self.children[0].children[0].extern = env.extern+"out"
+        env.children[0].whenModified = lambda {
+            elm = row1.children[0]
+            elm.refresh if elm.respond_to? :refresh
+        }
+    }
+
+    function set_vis_filter(ext, dummy)
+    {
+        #puts "addglobal.filtertype = #{addglobal.filtertype}"
+        row1.extern = ext + "GlobalFilter/"
+        if(addglobal.filtertype == :formant)
+            row1.content = Qml::ZynFormant
+        else
+            row1.content = Qml::VisFilter
+            row1.children[0].extern = ext + "GlobalFilter/response"
+        end
+        gen.children[0].whenModified = lambda {
+            elm = row1.children[0]
+            elm.refresh if elm.respond_to? :refresh
+        }
     }
 
     function set_view()
@@ -202,6 +216,13 @@ Widget {
             root.set_view_pos(:subsubview, subsubview)
         end
 
+        vis = root.get_view_pos(:vis)
+        types = [:envelope, :lfo, :filter]
+        if(!types.include?(vis))
+            vis = :envelope
+            root.set_view_pos(:vis, vis)
+        end
+
         base = self.extern
 
         if(subsubview == :amplitude)
@@ -210,6 +231,14 @@ Widget {
             set_freq base
         else
             set_filter base
+        end
+
+        if(vis == :lfo)
+            set_vis_lfo(base, subsubview)
+        elsif(vis == :envelope)
+            set_vis_env(base, subsubview)
+        elsif(vis == :filter)
+            set_vis_filter(base, subsubview)
         end
     }
 

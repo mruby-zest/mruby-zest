@@ -93,16 +93,17 @@ Widget {
 
         function setTab(id)
         {
-            n = children.length
-            tab_id = 0
-            (0..n).each do |ch_id|
-                child = children[ch_id]
-                if(child.class == Qml::TabButton)
-                    child.value = (tab_id == id)
-                    tab_id += 1
-                    self.root.damage_item child
-                end
-            end
+            #n = children.length
+            #tab_id = 0
+            #(0..n).each do |ch_id|
+            #    child = children[ch_id]
+            #    if(child.class == Qml::TabButton)
+            #        puts "#{child.label} = > #{(tab_id == id)}"
+            #        child.value = (tab_id == id)
+            #        tab_id += 1
+            #        child.damage_self
+            #    end
+            #end
 
             #Define a mapping from tabs to values
             mapping = {0 => :global,
@@ -154,7 +155,7 @@ Widget {
                    :modosc    => 4,
                    :modulate  => 5,
                    :vce_list  => 6,
-                   :resonance => 6}
+                   :resonance => 7}
         if(!mapping.include?(subview))
             subview = :global
             root.set_view_pos(:subview, :global)
@@ -162,7 +163,12 @@ Widget {
 
         swap.extern  = extbase + ext[subview]
         swap.content = mapping[subview]
-        header.children[tabid[subview]].value = true
+        header.children.each_with_index do |ch, i|
+            if(ch.class == Qml::TabButton)
+                ch.value = (i == tabid[subview])
+                ch.damage_self
+            end
+        end
     }
 
     Swappable { id: swap }

@@ -155,6 +155,7 @@ Widget {
 
     function onMerge(val)
     {
+        return if self.class != val.class
         valuator.value = val.value if(val.respond_to?(:value))
     }
 

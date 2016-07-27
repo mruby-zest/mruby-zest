@@ -4,7 +4,9 @@ Group {
     topSize: 0.2
 
     ParModuleRow {
-        Knob { extern: chorus.extern + "pan" }
+        Knob { extern: chorus.extern + "Pvolume"}
+        Knob { extern: chorus.extern + "Ppanning"}
+
         Knob { extern: chorus.extern + "Chorus/Pfreq" }
         Knob { extern: chorus.extern + "Chorus/Pfreqrnd" }
         Knob { extern: chorus.extern + "Chorus/PLFOtype" }

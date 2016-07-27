@@ -1,19 +1,20 @@
 Group {
-    id: echo
+    id: wah
     label: "alienwah"
     topSize: 0.2
 
     ParModuleRow {
-        Knob { extern: echo.extern + "pan" }
+        Knob { extern: wah.extern + "Pvolume"}
+        Knob { extern: wah.extern + "Ppanning"}
 
-        Knob { extern: echo.extern + "Alienwah/Pfreq"   }
-        Knob { extern: echo.extern + "Alienwah/Pfreqrnd"   }
-        Selector     { extern: echo.extern + "Alienwah/PLFOtype" }
-        ToggleButton { extern: echo.extern + "Alienwah/PStereo" }
-        Knob { extern: echo.extern + "Alienwah/Pdepth" }
-        Knob { extern: echo.extern + "Alienwah/Pfb" }
-        Knob { extern: echo.extern + "Alienwah/Pdelay" }
-        Knob { extern: echo.extern + "Alienwah/Plrcross" }
-        Knob { extern: echo.extern + "Alienwah/Pphase" }
+        Knob { extern: wah.extern + "Alienwah/Pfreq"   }
+        Knob { extern: wah.extern + "Alienwah/Pfreqrnd"   }
+        Selector     { extern: wah.extern + "Alienwah/PLFOtype" }
+        ToggleButton { extern: wah.extern + "Alienwah/PStereo" }
+        Knob { extern: wah.extern + "Alienwah/Pdepth" }
+        Knob { extern: wah.extern + "Alienwah/Pfb" }
+        Knob { extern: wah.extern + "Alienwah/Pdelay" }
+        Knob { extern: wah.extern + "Alienwah/Plrcross" }
+        Knob { extern: wah.extern + "Alienwah/Pphase" }
     }
 }

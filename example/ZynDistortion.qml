@@ -3,7 +3,8 @@ Group {
     label: "distortion"
     topSize: 0.2
     ParModuleRow {
-        Knob { label: "pan"}
+        Knob { extern: dst.extern + "Pvolume"}
+        Knob { extern: dst.extern + "Ppanning"}
 
         Selector {   extern: dst.extern + "Distorsion/Ptype"; }
         Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }

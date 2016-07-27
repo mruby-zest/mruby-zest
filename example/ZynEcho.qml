@@ -4,7 +4,8 @@ Group {
     topSize: 0.2
 
     ParModuleRow {
-        Knob { extern: echo.extern + "pan" }
+        Knob { extern: echo.extern + "Pvolume"}
+        Knob { extern: echo.extern + "Ppanning"}
 
         Knob { extern: echo.extern + "Echo/Pdelay"   }
         Knob { extern: echo.extern + "Echo/Plrdelay" }

@@ -4,7 +4,9 @@ Group {
     topSize: 0.2
 
     ParModuleRow {
-        Knob { extern: phaser.extern + "pan" }
+        Knob { extern: phaser.extern + "Pvolume"}
+        Knob { extern: phaser.extern + "Ppanning"}
+
         Knob { extern: phaser.extern + "Phaser/lfo.Pfreq" }
         Knob { extern: phaser.extern + "Phaser/lfo.Prandomness" }
         Selector { extern: phaser.extern + "Phaser/lfo.PLFOtype" }

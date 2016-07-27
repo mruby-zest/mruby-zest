@@ -7,6 +7,9 @@ Widget {
         extern: dyn.extern + "filterpars/"
     }
     ParModuleRow {
+        Knob { extern: dyn.extern + "Pvolume"}
+        Knob { extern: dyn.extern + "Ppanning"}
+
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
         Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }

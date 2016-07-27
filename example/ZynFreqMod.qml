@@ -4,7 +4,7 @@ Group {
     ParModuleRow {
         Knob { extern: box.extern + "PFMDetune" }
         Knob { extern: box.extern + "FMoctave" }
-        ToggleButton { extern: box.extern + "Pfixedfreq" }
+        ToggleButton { extern: box.extern + "PFMFixedFreq" }
     }
 
     ParModuleRow {

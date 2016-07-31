@@ -37,8 +37,8 @@ Widget {
         TabButton { whenClick: lambda {header.setTab(5)}; label: "voice list"}
         TabButton { whenClick: lambda {header.setTab(6)}; label: "resonance"}
 
-        CopyButton {}
-        PasteButton {}
+        CopyButton  {id: cpy_but}
+        PasteButton {id: pst_but}
 
         function set_voice() {
             root.set_view_pos(:voice, children[0].value-1)
@@ -169,6 +169,10 @@ Widget {
                 ch.damage_self
             end
         end
+
+        cpy_but.extern = extbase
+        pst_but.extern = extbase
+
     }
 
     Swappable { id: swap }

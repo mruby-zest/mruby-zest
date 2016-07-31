@@ -7,13 +7,14 @@ Widget {
         vis_eq.valueRef = OSC::RemoteParam.new($remote, vis_eq.extern)
         vis_eq.valueRef.callback = lambda {|x| vis_eq.update_coeff x}
     }
-    
+
     function refresh() {
         self.valueRef.refresh if valueRef
     }
 
     function update_coeff(x)
     {
+        return if self.coeff == x
         n2 = x.length/2
         self.coeff = x
         self.doUpdate = true

@@ -1,40 +1,53 @@
 Widget {
     id: vis_filter
 
+    property Object valueRef: nil
+    property Object doUpdate: false
+    property Array  coeff:    nil
+
     onExtern: {
         return if vis_filter.extern.nil?
         vis_filter.valueRef = OSC::RemoteParam.new($remote, vis_filter.extern)
         vis_filter.valueRef.callback = lambda {|x| vis_filter.update_coeff x}
     }
 
+    function animate()
+    {
+        return if !doUpdate
+        self.doUpdate = false
+        x = self.coeff
+        b = nil
+        a = nil
+        if(x.length == 7)
+            b = x[1..3]
+            a = x[4..6]
+        elsif(x.length == 5)
+            b = x[1..2]
+            a = x[3..4]
+        end
+        vis_filter.coeff = x;
+        xpts = Draw::DSP::logspace(10, 20000, 256)
+        xnorm = []
+        xpts.each do |pt|
+            xnorm << pt / 48000.0
+        end
+        yy = Draw::opt_magnitude(b, a, xnorm, 1)
+        ypts = []
+        yy.each do |pt|
+            ypts << Math::log10(pt)
+        end
+        #puts ypts
+        #vis_filter.xpoints = xpts
+        data_view.data = ypts
+        data_view.damage_self
+    }
+
     function update_coeff(x)
     {
        return if(x == vis_filter.coeff)
-       b = nil
-       a = nil
-       if(x.length == 7)
-           b = x[1..3]
-           a = x[4..6]
-       elsif(x.length == 5)
-           b = x[1..2]
-           a = x[3..4]
-       end
-       vis_filter.coeff = x;
-       xpts = Draw::DSP::logspace(1, 20000, 256)
-       ypts = []
-       xpts.each do |pt|
-           ypts << Math.log10(Draw::DSP::magnitude(b, a, pt/48000, x[0]+1))/4
-       end
-       #puts ypts
-       #vis_filter.xpoints = xpts
-       data_view.data = ypts
-       root = vis_filter.root
-       root.damage_item data_view if root
+       self.coeff = x
+       self.doUpdate = true
     }
-
-    extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/response"
-    property Object valueRef: nil
-    property Array  coeff:    nil
 
     function refresh()
     {

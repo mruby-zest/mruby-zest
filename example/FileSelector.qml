@@ -13,7 +13,7 @@ Widget {
         id: files;
         layer: 2;
         extern: "/file_list_files"
-        whenValue: lambda {file.set_files(files.selected)}
+        whenValue: lambda {file.set_file(files.selected)}
     }
     TextLine {
         id: line
@@ -38,7 +38,7 @@ Widget {
         hpad = 0.10
         l.fixed(ch[0], selfBox, 0.0+hpad, 0.05, 0.5-2*hpad, 0.60)
         l.fixed(ch[1], selfBox, 0.5+hpad, 0.05, 0.5-2*hpad, 0.60)
-        l.fixed(ch[2], selfBox, 0.10,     0.70, 0.80, 0.1)
+        l.fixed(ch[2], selfBox, 0.10,     0.73, 0.80, 0.03)
         l.fixed(ch[3], selfBox, 0.10,     0.85, 0.20, 0.1)
         l.fixed(ch[4], selfBox, 0.40,     0.85, 0.20, 0.1)
         selfBox
@@ -50,7 +50,7 @@ Widget {
         dirs  = OSC::RemoteParam.new($remote, "/file_list_dirs")
         #dirs.callback   = lambda { |x| set_dirs(x) }
         files = OSC::RemoteParam.new($remote, "/file_list_files")
-        #files.callback = lambda { |x| set_files(x) }
+        #files.callback = lambda { |x| set_file(x) }
 
         #Get the starting path i.e. the HOME dir
         home  = OSC::RemoteParam.new($remote, "/file_home_dir")
@@ -84,7 +84,9 @@ Widget {
     {
         puts "set file..."
         puts x
+        line.label += "/"
         line.label += x
+        line.damage_self
     }
 
     function draw(vg) {

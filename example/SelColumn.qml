@@ -12,7 +12,10 @@ Widget {
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
-        col.valueRef.callback = Proc.new {|x| col.setValue(col.filter(x))}
+        col.valueRef.callback = Proc.new {|x|
+            x = [x] if x.class != Array
+            col.setValue(col.filter(x))
+        }
     }
 
     ScrollBar {

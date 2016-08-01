@@ -14,6 +14,12 @@ Widget {
         whenValue.call if whenValue
     }
 
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
+    }
+
     function onMerge(val)
     {
         button.value = val.value if(val.respond_to? :value)

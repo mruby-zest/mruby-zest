@@ -23,6 +23,7 @@ Widget {
             row = Qml::ZynMidiLearnRow.new(db)
             row.label = r.to_s
             row.weights = self.weights
+            row.whenValue = lambda { vce_list.refresh }
             Qml::add_child(self, row)
         end
 
@@ -86,5 +87,10 @@ Widget {
             off += step + gap
         end
         selfBox
+    }
+
+    function refresh()
+    {
+        valueRef.refresh if valueRef
     }
 }

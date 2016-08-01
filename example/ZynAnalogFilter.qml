@@ -1,7 +1,6 @@
 Group {
     id: box
     label: "General"
-    //extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
     property Function whenModified: nil
     property Bool     type: :analog
 

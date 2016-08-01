@@ -1,19 +1,31 @@
 Widget {
     id: voice_item
     property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
+    property Function whenValue: nil
+
+    function unlearn() {
+        return if ctrl.label.empty?
+        $remote.action("/unlearn", ctrl.label)
+        whenValue.call if whenValue
+    }
 
     //voice ID
-    Button { label: voice_item.label; layoutOpts: [:no_constraint]}
+    TriggerButton {
+        tooltip: "unlearn midi control"
+        label: voice_item.label;
+        layoutOpts: [:no_constraint]
+        whenValue: lambda { voice_item.unlearn }
+    }
     //channel
-    TextBox { bg: Theme::GeneralBackground; label: "1" }
+    TextBox { bg: Theme::GeneralBackground;}
     //control
-    TextBox { bg: Theme::GeneralBackground;  label: "0"}
-    //pan
-    TextBox { bg: Theme::GeneralBackground;  pad: 0; align: :left; label: "/part0/kit0/adpars/Pvolume"}
-    //detune
-    TextBox { bg: Theme::GeneralBackground;  label: "0"}
-    //vib depth
-    TextBox { bg: Theme::GeneralBackground;  label: "127"}
+    TextBox { bg: Theme::GeneralBackground;}
+    //address
+    TextBox { id: ctrl; bg: Theme::GeneralBackground;  pad: 0; align: :left;}
+    //min
+    TextBox { bg: Theme::GeneralBackground; }
+    //max
+    TextBox { bg: Theme::GeneralBackground; }
 
     function layout(l)
     {

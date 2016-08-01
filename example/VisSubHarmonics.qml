@@ -18,6 +18,7 @@ Widget {
 
     function update_coeff(x)
     {
+        x = [x] if x.class != Array
         self.next_coeff = x
     }
 

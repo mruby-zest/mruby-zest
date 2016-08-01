@@ -53,7 +53,6 @@ Widget {
     }
 
     function onMousePress(ev) {
-        puts "I got a mouse press (value)"
         return if !self.mouse_enable
         #//Try to identify the location  of the nearest grabbable point
         #valuator.prev = ev.pos
@@ -100,8 +99,10 @@ Widget {
         return if !self.mouse_enable
 
         if(env.selected)
+            scalex = 4*(env.xpoints[env.selected]+10)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
-            dx = (ev.pos.x - env.prev.x)/env.w
+            dx = scalex*(ev.pos.x - env.prev.x)/env.w
+            puts env.xpoints[env.selected]
             n  = [env.xpoints.length, env.ypoints.length].min
             if(env.selected == 0 || env.selected == n-1)
                 env.ypoints[env.selected] -= dy
@@ -110,12 +111,21 @@ Widget {
                 env.ypoints[env.selected] -= dy
             end
 
-            bound_points(env.xpoints,  0.0, 1.0)
+            bound_points(env.xpoints,  0.0, 40950.0)
             bound_points(env.ypoints, -1.0, 1.0)
 
+            send_points()
             env.prev = ev.pos
             env.root.damage_item env
         end
+    }
+
+    function send_points()
+    {
+        return if self.extern.nil?
+        ry = ypoints.map {|xx| (xx+1)/2}
+        valueRef[0].value = env.xpoints
+        valueRef[1].value = ry
     }
 
     function class_name()

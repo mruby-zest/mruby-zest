@@ -91,8 +91,8 @@ Widget {
         widget.callback = lambda { |v|
             set_value_user(v)
         }
-        print "widget.x = "
-        puts widget.x
+        #print "widget.x = "
+        #puts widget.x
         widget.y = -self.h*(n-1) if(widget.h+global_y > window.h)
 
         Qml::add_child(self, widget)

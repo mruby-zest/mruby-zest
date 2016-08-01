@@ -23,7 +23,10 @@ Widget {
         label: "file";
         layoutOpts: [:no_constraint]
         options: ["clear", "load", "save", "quit"]
-        whenValue: lambda { menu.file_select }
+        whenValue: lambda { 
+            puts "menu elm selected = #{file.selected}"
+            menu.file_select
+        }
     }
 
     function setup_widget(w)
@@ -39,20 +42,23 @@ Widget {
         puts "file select"
         win = window()
         wid = Qml::FileSelector.new(db)
-        wid.x = -global_x
-        wid.y = -global_y
+        wid.x = 0#-global_x
+        wid.y = 0#-global_y
         wid.w = win.w
         wid.h = win.h
+        #puts "[DEBUG] Add Child"
         Qml::add_child(win, wid)
+        #puts "[DEBUG] Update Values"
         self.db.update_values
+        #puts "[DEBUG] Setup"
         setup_widget wid
+        #puts "[DEBUG] Update Values 2"
         self.db.update_values
-        puts self
+        #puts self
 
         if(root)
-            puts "smash layout"
+            #puts "smash layout"
             root.smash_layout
-            root.smash_draw_seq
             root.damage_item(win, :all)
         end
     }

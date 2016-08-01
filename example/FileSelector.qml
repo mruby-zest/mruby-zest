@@ -2,6 +2,7 @@ Widget {
     id: file
     layer: 2
     property Object valueRef: nil
+    property Function whenValue: nil
 
     SelColumn {
         id: folders;
@@ -94,10 +95,12 @@ Widget {
     }
 
     function whenEnter() {
+        whenValue.call(line.label) if whenValue
         root.ego_death self
     }
 
     function whenCancel() {
+        whenValue.call(:cancel) if whenValue
         root.ego_death self
     }
 }

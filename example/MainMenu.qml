@@ -22,10 +22,11 @@ Widget {
         id: file;
         label: "file";
         layoutOpts: [:no_constraint]
-        options: ["clear", "load", "save", "quit"]
-        whenValue: lambda { 
-            puts "menu elm selected = #{file.selected}"
-            menu.file_select
+        options: ["load instrument", "save instrument",
+                  "load master", "save master",
+                  "clear master", "clear instrument", "quit"]
+        whenValue: lambda {
+            menu.file_sel
         }
     }
 
@@ -42,6 +43,7 @@ Widget {
         puts "file select"
         win = window()
         wid = Qml::FileSelector.new(db)
+        wid.whenValue = lambda { |x| menu.file_value(x)}
         wid.x = 0#-global_x
         wid.y = 0#-global_y
         wid.w = win.w
@@ -60,6 +62,39 @@ Widget {
             #puts "smash layout"
             root.smash_layout
             root.damage_item(win, :all)
+        end
+    }
+
+    function file_sel()
+    {
+        opt = file.options[file.selected]
+        if(["load instrument", "save instrument", "load master", "save master"].include? opt)
+            menu.file_select
+        elsif(opt == "clear master")
+            $remote.action("/reset_master")
+        elsif(opt == "clear instrument")
+            prt  = root.get_view_pos(:part)
+            $remote.action("/part#{prt}/clear")
+        else
+            puts "[WARNING] Unhandled Option #{opt}"
+        end
+
+    }
+
+    function file_value(val)
+    {
+        puts "I got a #{val.inspect}"
+        return if val == :cancel
+        opt = file.options[file.selected]
+        prt  = root.get_view_pos(:part)
+        if(opt == "load instrument")
+            $remote.action("/load_xiz", prt, val)
+        elsif(opt == "save instrument")
+            $remote.action("/save_xiz", prt, val)
+        elsif(opt == "load master")
+            $remote.action("/load_xmz", val)
+        elsif(opt == "save master")
+            $remote.action("/save_xmz", val)
         end
     }
     //1

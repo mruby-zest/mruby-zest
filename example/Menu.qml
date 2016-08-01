@@ -5,6 +5,8 @@ Widget {
     property Function whenValue: nil
 
     function set_value_user(val) {
+        puts "set_value_user #{val}"
+        self.selected = val
         whenValue.call if whenValue
     }
 
@@ -82,7 +84,7 @@ Widget {
     {
         n = options.length
         widget = DropDown.new(self.db)
-        widget.w = self.w
+        widget.w = 3*self.w
         widget.h = self.h*n
         widget.x = 0
         widget.y = 0

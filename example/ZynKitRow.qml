@@ -1,6 +1,7 @@
 Widget {
     id: kit_item
     property Array weights: [0.05, 0.10, 0.10, 0.10, 0.05, 0.10, 0.10, 0.10, 0.30]
+    property Int   kitnum: 0
 
     ToggleButton {
         extern: kit_item.extern + "Penabled"
@@ -28,35 +29,47 @@ Widget {
         extern: kit_item.extern + "Pmaxkey"
     }
     FancyButton {
+        id: add
         extern: kit_item.extern + "Padenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
         whenClick: lambda {
+            if(!add.children[0].value)
+                $remote.action(add.extern, true)
+            end
             rt = kit_item.root
             rt.set_view_pos(:view, :add_synth)
-            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.set_view_pos(:kit, kit_item.kitnum)
             rt.change_view
         }
     }
     FancyButton {
+        id: sub
         extern: kit_item.extern + "Psubenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
         whenClick: lambda {
+            if(!sub.children[0].value)
+                $remote.action(sub.extern, true)
+            end
             rt = kit_item.root
             rt.set_view_pos(:view, :sub_synth)
-            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.set_view_pos(:kit, kit_item.kitnum)
             rt.change_view
         }
     }
     FancyButton {
+        id: pad_but
         extern: kit_item.extern + "Ppadenabled"
         layoutOpts: [:no_constraint];
         label: "edit"
         whenClick: lambda {
+            if(!pad_but.children[0].value)
+                $remote.action(pad_but.extern, true)
+            end
             rt = kit_item.root
             rt.set_view_pos(:view, :pad_synth)
-            rt.set_view_pos(:kit, kit_item.label.to_i)
+            rt.set_view_pos(:kit, kit_item.kitnum)
             rt.change_view
         }
     }

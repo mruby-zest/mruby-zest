@@ -9,8 +9,9 @@ Widget {
         puts "Zyn Kit Setup..."
         return if children.length > 2
         (0...16).each do |r|
-            row = Qml::ZynKitRow.new(db)
-            row.label = (r+1).to_s
+            row         = Qml::ZynKitRow.new(db)
+            row.label   = (r+1).to_s
+            row.kitnum  = r
             row.weights = self.weights
             row.extern  = kittable.extern + "kit#{r}/"
             row.extern()

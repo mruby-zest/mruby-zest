@@ -2,6 +2,7 @@ Widget {
     id: subfl
     //visual
     Swappable {
+        id: edit
         extern: subfl.extern + "GlobalFilterEnvelope/"
         content: Qml::ZynEnvEdit
     }
@@ -13,6 +14,7 @@ Widget {
         }
         ZynFilterEnv {
             extern: subfl.extern+"GlobalFilterEnvelope/"
+            whenModified: lambda { edit.children[0].refresh }
         }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

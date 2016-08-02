@@ -3,6 +3,7 @@ Widget {
     extern: "/part0/kit0/subpars/"
     //visual
     ZynEnvEdit {
+        id: edit
         extern: subamp.extern + "AmpEnvelope/"
     }
     Widget {
@@ -16,7 +17,10 @@ Widget {
                 Knob { extern: subamp.extern + "PAmpVelocityScaleFunction" }
             }
         }
-        ZynAmpEnv {extern: subamp.extern+"AmpEnvelope/"}
+        ZynAmpEnv {
+            extern: subamp.extern+"AmpEnvelope/"
+            whenModified: lambda { edit.refresh }
+        }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))
         }

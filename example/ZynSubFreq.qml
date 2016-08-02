@@ -3,6 +3,7 @@ Widget {
     extern: "/part0/kit0/subpars/"
     //visual
     ZynEnvEdit {
+        id: edit
         extern: subfq.extern + "FreqEnvelope/"
     }
     Widget {
@@ -23,6 +24,7 @@ Widget {
         ZynFreqEnv {
             toggleable: subfq.extern + "PFreqEnvelopeEnabled"
             extern: subfq.extern+"FreqEnvelope/"
+            whenModified: lambda { edit.refresh }
         }
         function layout(l) {
             Draw::Layout::hpack(l, self_box(l), chBoxes(l))

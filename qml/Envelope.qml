@@ -10,8 +10,10 @@ Widget {
     property Int    sustain_point: 3
     property Object valueRef: nil
     property Bool   mouse_enable: true
+    property Function whenTime: nil
 
-    onExtern: {
+    function setup_valuerefs()
+    {
         ext = env.extern
         xpts = OSC::RemoteParam.new($remote, ext + "envdt")
         ypts = OSC::RemoteParam.new($remote, ext + "envval")
@@ -23,6 +25,7 @@ Widget {
         xpts.callback = lambda { |x|
             env.xpoints = x
             env.damage_self
+            whenTime.call if whenTime
         }
         ypts.callback = lambda { |x|
             env.ypoints = x.map {|xx| 2*xx-1}
@@ -31,6 +34,7 @@ Widget {
         pts.callback = lambda { |x|
             env.points = x
             env.damage_self
+            whenTime.call if whenTime
         }
         sus.callback = lambda { |x|
             env.sustain_point = x
@@ -40,6 +44,10 @@ Widget {
             env.mouse_enable = x
         }
         env.valueRef = [xpts, ypts, pts, sus, free]
+    }
+
+    onExtern: {
+        env.setup_valuerefs
     }
 
     function refresh() {

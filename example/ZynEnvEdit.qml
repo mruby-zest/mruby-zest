@@ -27,9 +27,25 @@ Widget {
     {
         env.refresh()
     }
+
+    function update_time()
+    {
+        t = 0.0;
+        env.xpoints.each_with_index do |pt, idx|
+            next if idx > env.points
+            t += pt
+        end
+
+        ll = (t/1000).to_s[0..4] + "  sec" if(t > 1000)
+        ll = (t).to_s[0..4]      + " msec" if(t < 1000)
+        total_len.label = ll
+        total_len.damage_self
+    }
+
     Envelope {
         id: env
         extern: enveditor.extern
+        whenTime: lambda { enveditor.update_time }
     }
     Col {
         spacer: 8
@@ -38,7 +54,7 @@ Widget {
         TriggerButton  { whenValue: lambda {enveditor.del_point()}; label: "delete" }
         Text           { label: "sustain point" }
         NumEntry       { extern: enveditor.extern + "Penvsustain"; label: "sustain" }
-        Text           { label: "1.47 sec" }
+        Text           { id: total_len; label: "1.47 sec" }
     }
 
     function layout(l) {

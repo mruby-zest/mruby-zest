@@ -58,22 +58,9 @@ Widget {
         }
 
 
-        Swappable {
-            id: amp_gen
-            //content: Qml::ZynPadAmp
-            //whenSwapped: lambda {
-            //    if(amp_gen.content == Qml::ZynAnalogFilter)
-            //        ch = amp_gen.children[0]
-            //        ch.whenClick = lambda {row1.setDataVis(:filter, :filter)}
-            //    end
-            //}
-        }
-        Swappable {
-            id: amp_env
-        }
-        Swappable {
-            id: amp_lfo
-        }
+        Swappable { id: amp_gen }
+        Swappable { id: amp_env }
+        Swappable { id: amp_lfo }
     }
     Widget {
         id: footer
@@ -128,7 +115,7 @@ Widget {
         TabButton { label: "frequency"; whenClick: lambda {footer.setTab(1)}; highlight_pos: :top}
         TabButton { label: "filter";    whenClick: lambda {footer.setTab(2)}; highlight_pos: :top}
     }
-    
+
     function set_view()
     {
         puts "====================set_view..."

@@ -11,6 +11,7 @@ Widget {
     property Object valueRef: nil
     property Bool   mouse_enable: true
     property Function whenTime: nil
+    property Int      emode: nil
 
     function setup_valuerefs()
     {
@@ -22,6 +23,8 @@ Widget {
         sus = OSC::RemoteParam.new($remote, ext + "Penvsustain")
         sus.mode = :full
         free = OSC::RemoteParam.new($remote, ext + "Pfreemode")
+        mode = OSC::RemoteParam.new($remote, ext + "Envmode")
+        mode.mode = :selector
         xpts.callback = lambda { |x|
             env.xpoints = x
             env.damage_self
@@ -43,7 +46,10 @@ Widget {
         free.callback = lambda { |x|
             env.mouse_enable = x
         }
-        env.valueRef = [xpts, ypts, pts, sus, free]
+        mode.callback = lambda { |x|
+            env.emode = x
+        }
+        env.valueRef = [xpts, ypts, pts, sus, free, mode]
     }
 
     onExtern: {
@@ -61,7 +67,7 @@ Widget {
     }
 
     function onMousePress(ev) {
-        return if !self.mouse_enable
+        #return if !self.mouse_enable
         #//Try to identify the location  of the nearest grabbable point
         #valuator.prev = ev.pos
         xdat = get_x_points()
@@ -104,7 +110,7 @@ Widget {
     }
 
     function onMouseMove(ev) {
-        return if !self.mouse_enable
+        #return if !self.mouse_enable
 
         if(env.selected)
             scalex = 4*(env.xpoints[env.selected]+10)
@@ -122,11 +128,77 @@ Widget {
             bound_points(env.xpoints,  0.0, 40950.0)
             bound_points(env.ypoints, -1.0, 1.0)
 
-            send_points()
+            send_points() if mouse_enable
+            update_nonfree_x(env.xpoints) if !mouse_enable
+            update_nonfree_y(env.ypoints) if !mouse_enable
+
             env.prev = ev.pos
             env.root.damage_item env
         end
     }
+
+    function cvt_x(x)
+    {
+        fval = Math::log2(x/10.0 + 1.0) * 127.0/12.0
+        [0, [127, fval.round].min].max.to_i
+    }
+
+    function update_nonfree_x(pts)
+    {
+        if(emode == 1)
+            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
+            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
+            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+        elsif(emode == 2)
+            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
+            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
+            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+        elsif(emode == 3)
+            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
+            $remote.seti(extern + "PR_dt", cvt_x(pts[2]))
+        elsif(emode == 4)
+            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
+            $remote.seti(extern + "PD_dt", cvt_x(pts[2]))
+            $remote.seti(extern + "PR_dt", cvt_x(pts[3]))
+        elsif(emode == 5)
+            $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
+            $remote.seti(extern + "PR_dt", cvt_x(pts[2]))
+        end
+    }
+
+    function cvt_y(x)
+    {
+        [0, [127, 127*(x+1)/2].min].max.to_i
+    }
+
+    function update_nonfree_y(pts)
+    {
+        if(emode == 1)
+            pts[0]      = -1.0
+            pts[1]      = +1.0
+            $remote.seti(extern + "PS_val", cvt_y(pts[2]))
+            pts[3]      = -1.0
+        elsif(emode == 2)
+            pts[0]      = -1.0
+            pts[1]      = +1.0
+            $remote.seti(extern + "PS_val", cvt_y(pts[2]))
+            pts[3]      = -1.0
+        elsif(emode == 3)
+            $remote.seti(extern + "PA_val", cvt_y(pts[0]))
+            pts[1]      = 0.0
+            $remote.seti(extern + "PR_val", cvt_y(pts[2]))
+        elsif(emode == 4)
+            $remote.seti(extern + "PA_val", cvt_y(pts[0]))
+            $remote.seti(extern + "PD_val", cvt_y(pts[1]))
+            pts[2]      = 0.0
+            $remote.seti(extern + "PR_val", cvt_y(pts[3]))
+        elsif(emode == 5)
+            $remote.seti(extern + "PA_val", cvt_y(pts[0]))
+            pts[1]      = 0.0
+            $remote.seti(extern + "PR_val", cvt_y(pts[2]))
+        end
+    }
+
 
     function send_points()
     {

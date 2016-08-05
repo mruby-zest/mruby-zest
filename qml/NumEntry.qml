@@ -12,6 +12,8 @@ Widget {
         meta = OSC::RemoteMetadata.new($remote, numentry.extern)
         numentry.label   = meta.short_name
         numentry.tooltip = meta.tooltip
+        numentry.minimum = meta.min.to_i
+        numentry.maximum = meta.max.to_i
 
         numentry.valueRef = OSC::RemoteParam.new($remote, numentry.extern)
         numentry.valueRef.mode     = :full

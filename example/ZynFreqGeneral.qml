@@ -4,7 +4,7 @@ Group {
     extern: "/part0/kit0/adpars/GlobalPar/"
     ParModuleRow {
         Knob { extern: box.extern + "PDetune" }
-        Knob { extern: box.extern + "octave" }
+        NumEntry { extern: box.extern + "octave" }
         Knob { extern: box.extern + "PBandwidth" }
     }
 

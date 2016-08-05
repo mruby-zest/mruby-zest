@@ -3,7 +3,7 @@ Group {
     label: "General"
     ParModuleRow {
         Knob { extern: box.extern + "PFMDetune" }
-        Knob { extern: box.extern + "FMoctave" }
+        NumEntry { extern: box.extern + "FMoctave" }
         ToggleButton { extern: box.extern + "PFMFixedFreq" }
     }
 

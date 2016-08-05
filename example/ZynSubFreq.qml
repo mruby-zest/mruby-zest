@@ -11,7 +11,7 @@ Widget {
             label: "general"
             ParModuleRow {
                 Knob {     extern: subfq.extern + "PDetune" }
-                Knob {     extern: subfq.extern + "octave" }
+                NumEntry { extern: subfq.extern + "octave" }
                 Selector { extern: subfq.extern + "PDetuneType" }
                 //TODO relbw
                 //eqt

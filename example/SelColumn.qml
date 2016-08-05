@@ -23,6 +23,11 @@ Widget {
         whenValue: lambda { col.tryScroll }
     }
 
+    function onScroll(ev)
+    {
+        scroll.onScroll(ev)
+    }
+
     function draw(vg)
     {
         titleH = self.h*1.0/(children.length + 1)

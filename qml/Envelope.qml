@@ -116,7 +116,7 @@ Widget {
             scalex = 4*(env.xpoints[env.selected]+10)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = scalex*(ev.pos.x - env.prev.x)/env.w
-            puts env.xpoints[env.selected]
+            #puts env.xpoints[env.selected]
             n  = [env.xpoints.length, env.ypoints.length].min
             if(env.selected == 0 || env.selected == n-1)
                 env.ypoints[env.selected] -= dy
@@ -164,6 +164,7 @@ Widget {
             $remote.seti(extern + "PA_dt", cvt_x(pts[1]))
             $remote.seti(extern + "PR_dt", cvt_x(pts[2]))
         end
+        whenTime.call if whenTime
     }
 
     function cvt_y(x)

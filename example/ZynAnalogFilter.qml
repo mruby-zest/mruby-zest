@@ -15,6 +15,7 @@ Group {
 
     function change_cat()
     {
+        root.change_view()
         dest = self.extern + "Ptype"    if cat.selected == 0
         return                          if cat.selected == 1
         dest = self.extern + "type-svf" if cat.selected == 2

@@ -9,11 +9,13 @@ Widget {
     property Int  oldOff: 0
     property Object value_sel: nil
     property Object value_lab: nil
+    property Bool   clear_on_extern: nil
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
         col.valueRef.callback = Proc.new {|x|
             x = [x] if x.class != Array
+            col.clear_sel if col.clear_on_extern
             col.setValue(col.filter(x))
         }
     }
@@ -21,6 +23,12 @@ Widget {
     ScrollBar {
         id: scroll
         whenValue: lambda { col.tryScroll }
+    }
+
+    function clear_sel()
+    {
+        self.value_sel = nil
+        self.value_lab = nil
     }
 
     function onScroll(ev)
@@ -148,12 +156,15 @@ Widget {
         n = [x.length/stride, children.length-1].min
         (1..n).each do |i|
             #puts "#{i} => #{x[(i-1+offset)*stride]}"
+            nv = (children[i].label == self.value_lab &&
+                  children[i].tooltip == self.value_sel)
             children[i].label   = x[(i-1+offset)*stride]
             children[i].tooltip = x[(i-1+offset)*stride+1] if stride == 2
-            children[i].value   = (children[i].label == self.value_lab && children[i].tooltip == self.value_sel)
+            children[i].value   = nv
         end
         ((n+1)...children.length).each do |i|
             children[i].label = ""
+            children[i].value = false
         end
         damage_self
     }

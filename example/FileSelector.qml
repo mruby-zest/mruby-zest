@@ -4,22 +4,28 @@ Widget {
     property Object valueRef: nil
     property Function whenValue: nil
 
+    property String state:     "invalid-dir"
+    property String path_mode: "unix"
+
     SelColumn {
         id: folders;
         layer: 2;
         extern: "/file_list_dirs"
+        clear_on_extern: true
         whenValue: lambda {file.set_dir(folders.selected)}
     }
     SelColumn {
         id: files;
         layer: 2;
         extern: "/file_list_files"
+        clear_on_extern: true
         whenValue: lambda {file.set_file(files.selected)}
     }
     TextLine {
         id: line
         layer: 2;
         upcase: false
+        whenValue: lambda {file.check}
     }
     TriggerButton {
         layer: 2;
@@ -62,32 +68,69 @@ Widget {
 
     function set_home(x)
     {
-        puts "Set home..."
         line.label = x
         line.damage_self
+        set_state("in-directory")
         $remote.action("/file_list_dirs",  x)
         $remote.action("/file_list_files", x)
     }
 
     function set_dir(x)
     {
-        puts "set dir..."
-        puts x
+        return if x.nil? || x.empty?
+
+        if(self.state == "on-file")
+            line.label = updir(line.label)
+            set_state("in-directory")
+        end
+
         line.label += "/" if line.label[-1] != "/"
         line.label += x + "/"
         line.label = path_simp(line.label)
         line.damage_self
+        set_state("in-directory")
         $remote.action("/file_list_dirs",  line.label)
         $remote.action("/file_list_files", line.label)
     }
 
+    function check()
+    {
+        set_state("partial-file-dir")
+        dir = line.label
+        dir = updir(dir) if dir[-1] != "/"
+        $remote.action("/file_list_dirs",  dir)
+        $remote.action("/file_list_files", dir)
+    }
+
     function set_file(x)
     {
-        puts "set file..."
-        puts x
-        line.label += "/"
-        line.label += x
-        line.damage_self
+        if(x.nil? || x.empty?)
+            puts "up directory"
+            set_state("in-directory")
+            line.label = updir(line.label)
+            line.damage_self
+        else
+            set_state("on-file")
+            line.label += "/"
+            line.label += x
+            line.damage_self
+        end
+    }
+
+    function simplify()
+    {
+        line.label = path_simp(line.label)
+    }
+
+    function updir(x)
+    {
+        dat = x.split("/").reverse
+        dat[1..dat.length].reverse.join("/")
+    }
+
+    function set_state(x)
+    {
+        self.state = x
     }
 
     function draw(vg) {

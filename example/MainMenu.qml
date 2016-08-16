@@ -71,9 +71,20 @@ Widget {
         if(["load instrument", "save instrument", "load master", "save master"].include? opt)
             menu.file_select
         elsif(opt == "clear master")
+            root.set_view_pos(:part, 0)
+            root.set_view_pos(:kit, 0)
+            root.set_view_pos(:voice, 0)
+            root.set_view_pos(:view, :add_synth)
+            root.set_view_pos(:subview, :global)
+            root.change_view
             $remote.action("/reset_master")
         elsif(opt == "clear instrument")
+            root.set_view_pos(:voice, 0)
+            root.set_view_pos(:kit, 0)
+            root.set_view_pos(:view, :add_synth)
+            root.set_view_pos(:subview, :global)
             prt  = root.get_view_pos(:part)
+            root.change_view
             $remote.action("/part#{prt}/clear")
         else
             puts "[WARNING] Unhandled Option #{opt}"

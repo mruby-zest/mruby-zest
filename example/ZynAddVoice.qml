@@ -140,7 +140,7 @@ Widget {
         gen.extern  = base
         env.extern  = base + "FreqEnvelope/"
         lfo.extern  = base + "FreqLfo/"
-        gen.content = Qml::ZynFreqGeneral
+        gen.content = Qml::ZynFreqGeneralVoice
         env.content = Qml::ZynFreqEnv
         lfo.content = Qml::ZynLFO
         env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}

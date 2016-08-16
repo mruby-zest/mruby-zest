@@ -29,9 +29,10 @@ Widget {
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
 
-        TriggerButton {
+        ApplyButton {
             layoutOpts: [:no_constraint];
-            label: "apply"
+            label: "   apply"
+            extern: center.extern + "needPrepare"
             whenValue: lambda {center.apply() }
         }
         Button { layoutOpts: [:no_constraint]; label: "export" }

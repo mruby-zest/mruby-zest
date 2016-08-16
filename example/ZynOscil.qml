@@ -106,7 +106,12 @@ Widget {
             HSlider  { extern: modsel.extern + "par3"}
 
             //bot
-            Button { label: "as base"}
+            TriggerButton {
+                label: "as base"
+                whenValue: lambda {
+                    $remote.action(base_osc.extern+"use-as-base")
+                }
+            }
 
             //COL 2
             //shape
@@ -125,7 +130,7 @@ Widget {
             Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
 
             //bot
-            Button {label: "auto-clear"}
+            ToggleButton {label: "auto-clear"}
 
             //COL 3
 
@@ -158,7 +163,7 @@ Widget {
             HSlider  {extern: base_osc.extern + "Padaptiveharmonicspar"}
 
             //bot
-            Button   {
+            TriggerButton   {
                 whenValue: lambda {base_osc.clear}
                 label: "clear all"
             }
@@ -182,7 +187,12 @@ Widget {
             HSlider  { extern: base_osc.extern + "Psapar"}
 
             //bot
-            Button {label: "to sine"}
+            TriggerButton {
+                label: "to sine"
+                whenValue: lambda {
+                    $remote.action(base_osc.extern+"convert2sine")
+                }
+            }
 
             function onSetup(old=nil)
             {

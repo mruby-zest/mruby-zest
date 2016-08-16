@@ -7,13 +7,12 @@ Group {
         id: top
         Knob { extern: box.extern+"PVolume" }
         Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
-        Knob { extern: box.extern+"PPanning"}
-        Knob { extern: box.extern+"PDelay"}
 
     }
     ParModuleRow {
         id: bot
-        ToggleButton   {label: "stereo"; extern: box.extern+"Pstereo"}
+        Knob { extern: box.extern+"PPanning"}
+        Knob { extern: box.extern+"PDelay"}
         ToggleButton   {label: "reson";  extern: box.extern+"Presonance"}
     }
 }

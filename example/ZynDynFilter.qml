@@ -3,7 +3,7 @@ Widget {
     VisFilter {
         extern: dyn.extern + "filterpars/"
     }
-    ZynAnalogFilter {
+    ZynDyFilter {
         extern: dyn.extern + "filterpars/"
     }
     ParModuleRow {

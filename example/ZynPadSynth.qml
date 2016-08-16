@@ -120,8 +120,8 @@ Widget {
                    :oscil      => 1,
                    :global_pad => 2}
         if(!mapping.include?(subview))
-            subview = :harmonics
-            root.set_view_pos(:subview, :harmonics)
+            subview = :oscil
+            root.set_view_pos(:subview, :oscil)
         end
 
 

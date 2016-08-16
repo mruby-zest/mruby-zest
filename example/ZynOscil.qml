@@ -25,6 +25,7 @@ Widget {
     function clear()
     {
         hedit.clear
+        refresh
     }
 
     function refresh()
@@ -139,8 +140,14 @@ Widget {
             Selector {extern: base_osc.extern + "Phmagtype" }
             HSlider {extern: base_osc.extern + "Pharmonicshift"}
             Widget {
-                Button  {label: "R"}
-                Button  {extern: base_osc.extern + "Pharmonicshiftfirst"; label: "pre/post"}
+                TriggerButton  {
+                    label: "R"
+                    whenValue: lambda {
+                        $remote.action(base_osc.extern + "Pharmonicshift", 0.to_i)
+                        base_osc.refresh
+                    }
+                }
+                ToggleButton  {extern: base_osc.extern + "Pharmonicshiftfirst"; label: "pre/post"}
                 function layout(l) {
                     selfBox = l.genBox :idk, self
                     restBox = children[0].layout l

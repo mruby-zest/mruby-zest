@@ -1,9 +1,11 @@
 Widget {
     id: dyn
     VisFilter {
-        extern: dyn.extern + "filterpars/"
+        id: vis
+        extern: dyn.extern + "filterpars/response"
     }
     ZynDyFilter {
+        whenModified: lambda { vis.refresh }
         extern: dyn.extern + "filterpars/"
     }
     ParModuleRow {

@@ -386,6 +386,17 @@ module Draw
             end
             x
         end
+        def self.pad_norm(x,y)
+            prev = -99.0
+            xx = []
+            x.each do |pt|
+                p = pt
+                p = prev + y if p - prev < y
+                xx << p
+                prev = p
+            end
+            xx
+        end
     end
     module Layout
         def self.vpack(l, selfBox, b, x=0, w=1,fixed_pad=0, y=0, h=1)

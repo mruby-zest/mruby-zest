@@ -63,7 +63,8 @@ Widget {
     }
 
     function get_x_points() {
-        Draw::DSP::norm_0_1(Draw::DSP::cumsum(xpoints[0...points]))
+        tmp = Draw::DSP::norm_0_1(Draw::DSP::cumsum(xpoints[0...points]))
+        Draw::DSP::pad_norm(tmp, 0.01)
     }
 
     function onMousePress(ev) {

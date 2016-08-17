@@ -2,6 +2,7 @@ Valuator {
     property Bool centered: false;
     property Float pad: 0.02
     property Float height: 0.6
+    property Bool  active: true
     vertical: false
 
     function draw_centered(vg, pad)
@@ -63,5 +64,14 @@ Valuator {
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(Draw::fade(Theme::TextColor))
         vg.text(w/2,h/2,label.upcase)
+
+        if(!self.active)
+            vg.path do
+                vg.move_to(pad*w, pad*h)
+                vg.line_to(pad2*w, pad2*h)
+                vg.stroke_color Theme::SliderStroke
+                vg.stroke
+            end
+        end
     }
 }

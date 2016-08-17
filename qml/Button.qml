@@ -1,14 +1,14 @@
 Widget {
     id: button
-    property signal action: nil;
-    property Bool   value:    false;
-    property String renderer: nil;
-    property Float  textScale: 0.75;
+    property signal   action: nil;
+    property Bool     value:    false;
+    property String   renderer: nil;
+    property Float    textScale: 0.75;
     property Function whenValue: nil;
-    property Float pad: 1/64
+    property Float    pad: 1/64
+    property Bool     active: true
 
     function onMousePress(ev) {
-        puts "Button Press"
         button.value = !button.value
         damage_self
         whenValue.call if whenValue
@@ -93,6 +93,14 @@ Widget {
         else
             vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
             vg.text(w/2,h/2,button.label.upcase)
+        end
+        if(!self.active)
+            vg.path do
+                vg.move_to(w*pad, h*pad)
+                vg.line_to(w*(1-2*pad), h*(1-2*pad))
+                vg.stroke_color text_color2
+                vg.stroke
+            end
         end
     }
 }

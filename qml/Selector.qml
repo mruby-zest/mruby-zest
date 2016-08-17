@@ -5,6 +5,7 @@ Widget {
     property Array  options: ["text", "test", "asdf"];
     property Array  opt_vals: []
     property Int    selected: 0
+    property Bool   active:   true
     property Function whenValue: nil
 
     onExtern: {
@@ -39,6 +40,7 @@ Widget {
         self.selected = sel
         rt = self.root
         rt.damage_item self if rt
+        whenValue.call if whenValue
     }
 
     function layout(l)
@@ -123,6 +125,17 @@ Widget {
             v.fill_color Theme::TextColor
             v.fill
         end
+
+        if(self.active == false)
+            vg.path do
+                vg.move_to(w*pad, h*pad)
+                vg.line_to(w*pad2, h*pad2)
+                vg.stroke_color text_color
+                vg.stroke_width 1
+                vg.stroke
+            end
+        end
+
         return if options[selected].nil?
 
         vg.font_face("bold")

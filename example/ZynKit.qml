@@ -15,6 +15,12 @@ Widget {
             children[0].children[i].value = i == x
             children[0].children[i].damage_self
         end
+        any_kit = (x != 0)
+        if(any_kit)
+            children[1].set_active_kit()
+        else
+            children[1].set_non_kit()
+        end
     }
 
     function set_mode(x)

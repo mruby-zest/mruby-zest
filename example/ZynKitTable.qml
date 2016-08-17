@@ -3,6 +3,7 @@ Widget {
     //0.2
     //                       0     1     2     3     4     5     6     7     8
     property Array weights: [0.05, 0.19, 0.15, 0.10, 0.15, 0.07, 0.07, 0.07, 0.15]
+    property Bool  active: true
 
     function onSetup(old=nil)
     {
@@ -15,6 +16,7 @@ Widget {
             row.weights = self.weights
             row.extern  = kittable.extern + "kit#{r}/"
             row.extern()
+            row.set_active(false) if !self.active && r != 0
             Qml::add_child(self, row)
         end
     }
@@ -46,5 +48,23 @@ Widget {
     function class_name() { "kittable" }
     function layout(l) {
         Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 2)
+    }
+
+    function set_active_kit()
+    {
+        self.active = true
+        return if children.length < 3
+        children[2..-1].each do |c|
+            c.set_active(true)
+        end
+    }
+
+    function set_non_kit()
+    {
+        self.active = false
+        return if children.length < 3
+        children[2..-1].each do |c|
+            c.set_active(false)
+        end
     }
 }

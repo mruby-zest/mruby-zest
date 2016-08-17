@@ -3,6 +3,13 @@ Widget {
     property Array weights: [0.05, 0.10, 0.10, 0.10, 0.05, 0.10, 0.10, 0.10, 0.30]
     property Int   kitnum: 0
 
+    function set_active(a)
+    {
+        minkey.active = a
+        maxkey.active = a
+        damage_self
+    }
+
     ToggleButton {
         extern: kit_item.extern + "Penabled"
         label: kit_item.label;

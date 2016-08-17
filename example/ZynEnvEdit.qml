@@ -42,6 +42,14 @@ Widget {
         total_len.damage_self
     }
 
+    function set_free()
+    {
+        add.active = free.value
+        del.active = free.value
+        add.damage_self
+        del.damage_self
+    }
+
     Envelope {
         id: env
         extern: enveditor.extern
@@ -49,9 +57,24 @@ Widget {
     }
     Col {
         spacer: 8
-        ToggleButton   { id: free; extern: enveditor.extern + "Pfreemode"; label: "free" }
-        TriggerButton  { whenValue: lambda {enveditor.add_point()}; label: "add"  }
-        TriggerButton  { whenValue: lambda {enveditor.del_point()}; label: "delete" }
+        ConfirmButton   {
+            id: free;
+            whenValue: lambda {enveditor.set_free()}
+            extern: enveditor.extern + "Pfreemode";
+            label: "free"
+        }
+        TriggerButton  {
+            id: add
+            active: false
+            whenValue: lambda {enveditor.add_point()};
+            label: "add"
+        }
+        TriggerButton  {
+            id: del
+            active: false
+            whenValue: lambda {enveditor.del_point()};
+            label: "delete"
+        }
         Text           { label: "sustain point" }
         NumEntry       { extern: enveditor.extern + "Penvsustain"; label: "sustain" }
         Text           { id: total_len; label: "1.47 sec" }

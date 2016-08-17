@@ -17,6 +17,15 @@ Button {
     }
 
     function onMousePress(ev) {
+        if(self.label != "confirm" && self.value)
+            @true_label = self.label
+            self.label = "confirm"
+            damage_self
+            return
+        elsif(self.label == "confirm")
+            self.label = @true_label
+            damage_self
+        end
         self.value = !self.value
         self.valueRef.value = self.value if self.valueRef
         damage_self

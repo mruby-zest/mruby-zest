@@ -37,6 +37,7 @@ Widget {
 
     function create_radial()
     {
+        return
         gbl_cx = valuator.global_x + 0.5*valuator.w
         gbl_cy = valuator.global_y + 0.5*valuator.h
         gbl_w  = window.w

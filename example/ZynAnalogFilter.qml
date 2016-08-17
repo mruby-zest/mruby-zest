@@ -16,13 +16,19 @@ Group {
     function change_cat()
     {
         root.change_view()
+        if(cat.selected == 1)
+            typ.active = false
+            typ.damage_self
+            return
+        end
         dest = self.extern + "Ptype"    if cat.selected == 0
-        return                          if cat.selected == 1
         dest = self.extern + "type-svf" if cat.selected == 2
         if(typ.extern != dest)
             typ.extern = dest
             typ.extern()
         end
+        typ.active = true
+        typ.damage_self
     }
 
     function remove_sense() {

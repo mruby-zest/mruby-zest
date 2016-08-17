@@ -21,6 +21,7 @@ Widget {
     }
     Widget {
         id: header
+        PowButton {id: vpow}
         NumEntry  {
             value:      header.get_voice + 1
             whenValue:  lambda {header.set_voice()}
@@ -29,6 +30,7 @@ Widget {
             maximum:    8
             minimum:    1
         }
+
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
         TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
@@ -55,6 +57,7 @@ Widget {
                 $vg.font_size scale
                 label = ch.label
                 label = "- 9999 +" if ch.class == Qml::NumEntry
+                label = "-+" if ch.class == Qml::PowButton
                 weight   = $vg.text_bounds(0, 0, label.upcase + "  ")
                 weights << weight
                 total   += weight
@@ -73,12 +76,12 @@ Widget {
                 box = ch.layout(l)
                 l.contains(selfBox,box)
 
-                if(idx < 8)
+                if(idx < 9)
                     l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
 
                     #add in the aspect constraint
                     l.aspect(box, 100, weights[idx])
-                elsif(idx == 8)
+                elsif(idx == 9)
                     l.weak(box.x)
                 end
 
@@ -93,18 +96,6 @@ Widget {
 
         function setTab(id)
         {
-            #n = children.length
-            #tab_id = 0
-            #(0..n).each do |ch_id|
-            #    child = children[ch_id]
-            #    if(child.class == Qml::TabButton)
-            #        puts "#{child.label} = > #{(tab_id == id)}"
-            #        child.value = (tab_id == id)
-            #        tab_id += 1
-            #        child.damage_self
-            #    end
-            #end
-
             #Define a mapping from tabs to values
             mapping = {0 => :global,
                        1 => :voice,
@@ -116,10 +107,6 @@ Widget {
 
             root.set_view_pos(:subview, mapping[id])
             root.change_view
-
-            #swap.force_update
-            #swap.children[0].voice_button.value = true if(id == 2)
-            #swap.children[0].mod_button.value   = true if(id == 3)
         }
 
     }
@@ -149,13 +136,13 @@ Widget {
                    :modulate  => Qml::ZynOscilMod,
                    :vce_list  => Qml::ZynAddVoiceList,
                    :resonance => Qml::ZynResonance}
-        tabid   = {:global    => 1,
-                   :voice     => 2,
-                   :oscil     => 3,
-                   :modosc    => 4,
-                   :modulate  => 5,
-                   :vce_list  => 6,
-                   :resonance => 7}
+        tabid   = {:global    => 2,
+                   :voice     => 3,
+                   :oscil     => 4,
+                   :modosc    => 5,
+                   :modulate  => 6,
+                   :vce_list  => 7,
+                   :resonance => 8}
         if(!mapping.include?(subview))
             subview = :global
             root.set_view_pos(:subview, :global)
@@ -172,6 +159,7 @@ Widget {
 
         cpy_but.extern = extbase
         pst_but.extern = extbase
+        vpow.extern    = extbase + "VoicePar#{vce}/Enabled"
 
     }
 

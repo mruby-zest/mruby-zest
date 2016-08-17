@@ -1,5 +1,7 @@
 Widget {
-    HSlider {height: 0.8; label: "detune" }
+    ToggleButton {
+        label: "fine"
+    }
     HSlider {extern: "/Pvolume"; height: 0.8; label: "volume" }
     Button  {layoutOpts: [:no_constraint]; label: "nrpn" }
     HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }

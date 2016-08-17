@@ -128,10 +128,10 @@ Widget {
             Selector { extern: base_osc.extern + "Pfiltertype";}
             HSlider  { extern: base_osc.extern + "Pfilterpar1";}
             HSlider  { extern: base_osc.extern + "Pfilterpar2";}
-            Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
+            Widget {}
 
             //bot
-            ToggleButton {label: "auto-clear"}
+            Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
 
             //COL 3
 

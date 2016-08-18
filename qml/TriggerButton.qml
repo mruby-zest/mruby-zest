@@ -9,7 +9,7 @@ Button {
     {
         return if self.value == 0
         return if self.value == false
-        self.value *= 0.7
+        self.value *= 0.9
         self.value  = 0 if self.value < 0.02
         damage_self
     }

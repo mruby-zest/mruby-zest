@@ -17,6 +17,21 @@ Widget {
     {
         "Text"
     }
+    
+    function onKey(k, mode)
+    {
+        return if mode != "press"
+        if(k.ord == 8)
+            self.label[-1] = "\0"
+            self.label = self.label[0...-1]
+        else
+            self.label += k
+        end
+        ll = self.label
+        puts ll
+        self.valueRef.value = ll if self.valueRef
+        damage_self
+    }
 
     function draw(vg)
     {

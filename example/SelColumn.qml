@@ -25,6 +25,15 @@ Widget {
         whenValue: lambda { col.tryScroll }
     }
 
+    function clear()
+    {
+        clear_sel
+        children.each do |c|
+            c.value = false if c.class != Qml::ScrollBar
+            c.damage_self
+        end
+    }
+
     function clear_sel()
     {
         self.value_sel = nil
@@ -191,5 +200,14 @@ Widget {
     {
         return "" if(value_sel.nil?)
         return value_sel
+    }
+
+    function selected_id()
+    {
+        self.children.each_with_index do |c,i|
+            next       if c.class == Qml::ScrollBar
+            return i-1 if c.value
+        end
+        nil
     }
 }

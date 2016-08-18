@@ -22,23 +22,40 @@ Widget {
         end
 
         text_color = Theme::TextColor
-        #Record Icon
+
+        draw_stop(vg, text_color)
+        draw_pause( vg, text_color)
+        draw_play(  vg, text_color)
+    }
+
+    function draw_record(vg, text_color) {
         r = [1/6*w, 1/2*h].min*0.4
         vg.path do |v|
             v.circle(1/6*w, 1/2*h, r)
             v.fill_color text_color
             v.fill
         end
-        
-        #Pause Icon
+    }
+
+    function draw_stop(vg, text_color) {
+        r = [1/6*w, 1/2*h].min*0.4
+        vg.path do |v|
+            v.rect(1/6*w-r, 1/2*h-r, 2*r, 2*r)
+            v.fill_color text_color
+            v.fill
+        end
+    }
+
+    function draw_pause(vg, text_color) {
         vg.path do |v|
             v.rect((3/6-1/18)*w, 0.2*h, 1/24*w, 0.6*h)
             v.rect((3/6+1/18)*w, 0.2*h, 1/24*w, 0.6*h)
             v.fill_color text_color
             v.fill
         end
-        
-        #Play Icon
+    }
+
+    function draw_play(vg, text_color) {
         vg.path do |v|
             v.move_to((5/6-1/18)*w, 0.25*h)
             v.line_to((5/6-1/18)*w, 0.75*h)
@@ -47,5 +64,18 @@ Widget {
             v.fill_color text_color
             v.fill
         end
+    }
+
+    function onMousePress(ev)
+    {
+        px = (ev.pos.x-global_x)/w
+        if(px > 0.666)
+            $remote.action("/HDDRecorder/start")
+        elsif(px > 0.333)
+            $remote.action("/HDDRecorder/pause")
+        else
+            $remote.action("/HDDRecorder/stop")
+        end
+
     }
 }

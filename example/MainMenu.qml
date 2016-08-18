@@ -24,7 +24,8 @@ Widget {
         layoutOpts: [:no_constraint]
         options: ["load instrument", "save instrument",
                   "load master", "save master",
-                  "clear master", "clear instrument", "quit"]
+                  "clear master", "clear instrument", 
+                  "setup record", "quit"]
         whenValue: lambda {
             menu.file_sel
         }
@@ -68,7 +69,7 @@ Widget {
     function file_sel()
     {
         opt = file.options[file.selected]
-        if(["load instrument", "save instrument", "load master", "save master"].include? opt)
+        if(["load instrument", "save instrument", "load master", "save master", "setup record"].include? opt)
             menu.file_select
         elsif(opt == "clear master")
             root.set_view_pos(:part, 0)
@@ -106,6 +107,8 @@ Widget {
             $remote.action("/load_xmz", val)
         elsif(opt == "save master")
             $remote.action("/save_xmz", val)
+        elsif(opt == "setup record")
+            $remote.action("/HDDRecorder/preparefile", val)
         end
     }
     //1

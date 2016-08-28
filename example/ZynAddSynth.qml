@@ -43,7 +43,7 @@ Widget {
         PasteButton {id: pst_but}
 
         function set_voice() {
-            root.set_view_pos(:voice, children[0].value-1)
+            root.set_view_pos(:voice, children[1].value-1)
             root.change_view
         }
         function get_voice() { root.get_view_pos(:voice) }

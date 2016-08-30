@@ -38,8 +38,10 @@ Widget {
     function onMousePress(ev) {
         n   = options.length
         opt = (n*(ev.pos.y-global_y)/h).to_i
+        xsp = (ev.pos.x-global_x)/w
+        inx = 0 <= xsp && xsp <= 1
 
-        callback.call opt if callback
+        callback.call opt if callback && inx
         rt = self.root
         rt.ego_death self
     }

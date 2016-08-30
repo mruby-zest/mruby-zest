@@ -50,6 +50,8 @@ Widget {
             env.emode = x
         }
         env.valueRef = [xpts, ypts, pts, sus, free, mode]
+
+        run_view.extern = env.extern+"out"
     }
 
     onExtern: {

@@ -24,6 +24,7 @@ Widget {
         PowButton {id: vpow}
         NumEntry  {
             value:      header.get_voice + 1
+            format:     "VCE "
             whenValue:  lambda {header.set_voice()}
             layoutOpts: [:free]
             tooltip:    "voice"
@@ -156,6 +157,8 @@ Widget {
                 ch.damage_self
             end
         end
+
+        header.children[1].setValue(vce+1)
 
         cpy_but.extern = extbase
         pst_but.extern = extbase

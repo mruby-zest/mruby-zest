@@ -1,6 +1,5 @@
 ParModuleRow {
     id: resopt
-    extern: "/part0/kit0/adpars/GlobalPar/Reson/"
     property Function whenValue: nil
     function cb()
     {
@@ -16,7 +15,7 @@ ParModuleRow {
     //TODO interpolate previously worked with right/left click
     //This should be broken into two separate buttons
     //Each button should have a tooltip that actually makes sense
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "interpolatepeaks"
             $remote.action(path, 0)
@@ -24,10 +23,12 @@ ParModuleRow {
         }
         label: "interp"
     }
-    Button {label: "p.t. st"}
+    ToggleButton {
+        extern: resopt.extern + "Pprotectthefundamental"
+    }
     TextBox {}
     TextBox {}
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "zero"
             $remote.action(path)
@@ -35,7 +36,7 @@ ParModuleRow {
         }
         label: "zero"
     }
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "smooth"
             $remote.action(path)
@@ -43,7 +44,7 @@ ParModuleRow {
         }
         label: "smooth"
     }
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 0)
@@ -51,7 +52,7 @@ ParModuleRow {
         }
         label: "random 1"
     }
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 1)
@@ -59,7 +60,7 @@ ParModuleRow {
         }
         label: "random 2"
     }
-    Button {
+    TriggerButton {
         whenValue: lambda {
             path = resopt.extern + "randomize"
             $remote.action(path, 2)

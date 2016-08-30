@@ -28,11 +28,13 @@ Widget {
         whenValue: lambda {file.check}
     }
     TriggerButton {
+        id:    ebutton
         layer: 2;
         label: "Enter"
         whenValue: lambda {file.whenEnter}
     }
     TriggerButton {
+        id:    cbutton
         layer: 2;
         label: "cancel"
         whenValue: lambda {file.whenCancel}
@@ -95,6 +97,22 @@ Widget {
 
     function check()
     {
+        if(line.label[-1].ord == 27) #esc
+            whenCancel
+            return
+        elsif(line.label[-1].ord == 9) #tab
+            if(ebutton.value != true)
+                ebutton.value = true
+                cbutton.value = 0.0
+            else
+                cbutton.value = true
+                ebutton.value = 0.0
+            end
+            ebutton.damage_self
+            cbutton.damage_self
+            line.label = line.label[0...-1]
+            return
+        end
         set_state("partial-file-dir")
         dir = line.label
         dir = updir(dir) if dir[-1] != "/"

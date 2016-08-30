@@ -10,7 +10,7 @@ Widget {
         fancy.tooltip = meta.tooltip
 
         fancy.valueRef = OSC::RemoteParam.new($remote, fancy.extern)
-        fancy.valueRef.callback = Proc.new {|x| fancy.set_value(x)}
+        fancy.valueRef.callback = Proc.new {|x| fancy.set_sub_value(x)}
         pow.extern = fancy.extern
         pow.extern()
     }
@@ -18,6 +18,12 @@ Widget {
     function set_value(x)
     {
         self.value = x
+        damage_self
+    }
+
+    function set_sub_value(x)
+    {
+        pow.value = x
         damage_self
     }
 
@@ -53,7 +59,7 @@ Widget {
         vg.path do |v|
             pad = 0
             v.rect(w/4+pad,0,w*3/4,h)
-            if(value && false)
+            if(value)
                 v.fill_paint grad
             else
                 v.fill_paint grad2

@@ -2,6 +2,9 @@ Widget {
     property Array    options:  []
     property Function callback: nil
     property Int      hl:       nil
+    function prime() {
+        @ctime = Time.new
+    }
     function draw(vg)
     {
         n  = options.length
@@ -36,6 +39,8 @@ Widget {
     }
 
     function onMousePress(ev) {
+        #Allow Tap within 200ms
+        return if @ctime && Time.new-@ctime < 0.200
         n   = options.length
         opt = (n*(ev.pos.y-global_y)/h).to_i
         xsp = (ev.pos.x-global_x)/w

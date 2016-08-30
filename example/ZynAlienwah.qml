@@ -12,7 +12,7 @@ Group {
         Selector     { extern: wah.extern + "Alienwah/PLFOtype" }
         ToggleButton { extern: wah.extern + "Alienwah/PStereo" }
         Knob { extern: wah.extern + "Alienwah/Pdepth" }
-        Knob { extern: wah.extern + "Alienwah/Pfb" }
+        Knob { extern: wah.extern + "Alienwah/Pfeedback" }
         Knob { extern: wah.extern + "Alienwah/Pdelay" }
         Knob { extern: wah.extern + "Alienwah/Plrcross" }
         Knob { extern: wah.extern + "Alienwah/Pphase" }

@@ -1,6 +1,15 @@
 Widget {
     ToggleButton {
+        id: fn
         label: "fine"
+
+        function animate()
+        {
+            if(fn.value != root.fine_mode)
+                fn.value = root.fine_mode
+                fn.damage_self
+            end
+        }
     }
     HSlider {extern: "/Pvolume"; height: 0.8; label: "volume" }
     Button  {layoutOpts: [:no_constraint]; label: "nrpn" }

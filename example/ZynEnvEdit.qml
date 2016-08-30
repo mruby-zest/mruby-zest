@@ -46,8 +46,11 @@ Widget {
     {
         add.active = free.value
         del.active = free.value
+        sus.active = free.value
         add.damage_self
         del.damage_self
+        sus.damage_self
+        refresh
     }
 
     Envelope {
@@ -76,7 +79,11 @@ Widget {
             label: "delete"
         }
         Text           { label: "sustain point" }
-        NumEntry       { extern: enveditor.extern + "Penvsustain"; label: "sustain" }
+        NumEntry       {
+            id: sus
+            active: false
+            extern: enveditor.extern + "Penvsustain";
+        }
         Text           { id: total_len; label: "1.47 sec" }
     }
 

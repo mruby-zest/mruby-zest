@@ -24,7 +24,13 @@ Widget {
 
     function clear()
     {
-        hedit.clear
+        (0...128).each do |i|
+            mval = 64
+            pval = 64
+            mval = 127 if i == 0
+            $remote.seti(base_osc.extern + "magnitude" + i.to_s, mval)
+            $remote.seti(base_osc.extern + "phase" + i.to_s,     pval)
+        end
         refresh
     }
 

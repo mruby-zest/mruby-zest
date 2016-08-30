@@ -13,7 +13,7 @@ Group {
         id: top
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PA_dt" }
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt" }
-        Button { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+        ToggleButton { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
     }
     ParModuleRow {
         id: bot

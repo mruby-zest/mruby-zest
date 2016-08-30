@@ -19,8 +19,8 @@ Group {
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt"}
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
         Col {
-            Button   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
-            Button   { label: "lin/log"; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
+            ToggleButton   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+            ToggleButton   { label: "lin/log"; whenValue: lambda { box.cb }; extern: box.extern+"Plinearenvelope"}
         }
     }
 }

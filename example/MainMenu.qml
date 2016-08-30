@@ -41,6 +41,7 @@ Widget {
 
     function file_select()
     {
+        opt = file.options[file.selected]
         puts "file select"
         win = window()
         wid = Qml::FileSelector.new(db)
@@ -49,6 +50,9 @@ Widget {
         wid.y = 0#-global_y
         wid.w = win.w
         wid.h = win.h
+        wid.ext = ".xiz" if opt == "save instrument"
+        wid.ext = ".xmz" if opt == "save master"
+        wid.ext = ".wav" if opt == "setup record"
         #puts "[DEBUG] Add Child"
         Qml::add_child(win, wid)
         #puts "[DEBUG] Update Values"

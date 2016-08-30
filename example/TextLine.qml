@@ -3,6 +3,7 @@ Widget {
     property Function whenValue: nil
     property Object   valueRef:  nil
     property Bool     upcase:    true
+    property String   ext:       nil
     onExtern: {
         ref = OSC::RemoteParam.new($remote, textedit.extern)
         ref.callback = lambda {|x|
@@ -19,6 +20,7 @@ Widget {
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color = Theme::TextColor
         l = label.empty? ? "..." : label
+        l = l+self.ext if self.ext && !l.end_with?(self.ext)
         l = l.upcase if self.upcase
         vg.text(8,h/2,l)
     }

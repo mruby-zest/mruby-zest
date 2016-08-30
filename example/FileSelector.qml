@@ -6,6 +6,7 @@ Widget {
 
     property String state:     "invalid-dir"
     property String path_mode: "unix"
+    property String ext:       nil
 
     SelColumn {
         id: folders;
@@ -25,6 +26,7 @@ Widget {
         id: line
         layer: 2;
         upcase: false
+        ext:    file.ext
         whenValue: lambda {file.check}
     }
     TriggerButton {
@@ -97,6 +99,7 @@ Widget {
 
     function check()
     {
+        line.label = "/" if line.label.empty?
         if(line.label[-1].ord == 27) #esc
             whenCancel
             return
@@ -112,6 +115,15 @@ Widget {
             cbutton.damage_self
             line.label = line.label[0...-1]
             return
+        elsif(line.label[-1].ord == 13) #enter
+            line.label = line.label[0...-1]
+            if(cbutton.value == true)
+                whenCancel
+                return
+            else
+                whenEnter
+                return
+            end
         end
         set_state("partial-file-dir")
         dir = line.label
@@ -156,7 +168,9 @@ Widget {
     }
 
     function whenEnter() {
-        whenValue.call(line.label) if whenValue
+        ll = line.label
+        ll = ll + self.ext if self.ext && !ll.end_with?(self.ext)
+        whenValue.call(ll) if whenValue
         root.ego_death self
     }
 

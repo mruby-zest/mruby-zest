@@ -9,7 +9,7 @@ Group {
 
         Knob { extern: chorus.extern + "Chorus/Pfreq" }
         Knob { extern: chorus.extern + "Chorus/Pfreqrnd" }
-        Knob { extern: chorus.extern + "Chorus/PLFOtype" }
+        Selector { extern: chorus.extern + "Chorus/PLFOtype" }
         ToggleButton { extern: chorus.extern + "Chorus/PStereo" }
         Knob { extern: chorus.extern + "Chorus/Pdepth" }
         Knob { extern: chorus.extern + "Chorus/Pdelay" }

@@ -1,16 +1,16 @@
 Widget {
+    id: base
     Widget {
         function onSetup()
         {
             num_eff = 3
             (0...num_eff).each do |i|
                 #TODO part id
-                pid = 0
                 sel = Qml::Selector.new(db)
-                sel.extern = "/part#{pid}/partefx#{i}/efftype"
+                sel.extern = base.extern+"partefx#{i}/efftype"
                 but = Qml::ZynEffectBypass.new(db)
-                but.children[1].extern = "/part#{pid}/Pefxbypass#{i}"
-                but.children[0].extern = "/part#{pid}/Pefxroute#{i}"
+                but.children[1].extern = base.extern+"Pefxbypass#{i}"
+                but.children[0].extern = base.extern+"Pefxroute#{i}"
                 Qml::add_child(self, sel)
                 Qml::add_child(self, but)
             end
@@ -26,7 +26,7 @@ Widget {
     }
     ZynEffectGroup {
         maxeffects: 3
-        extern: "/part0/partefx"
+        extern: base.extern + "partefx"
     }
     function layout(l)
     {

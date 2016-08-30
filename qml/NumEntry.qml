@@ -3,10 +3,13 @@ Widget {
     property Function whenValue: nil
     property Int      value: 0
     property Object   valueRef: nil
+    property String   format:   ""
 
     property Int      offset: 0
     property Int      minimum: 0
     property Int      maximum: 10
+    
+    property Bool     active: true
 
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote, numentry.extern)
@@ -36,6 +39,7 @@ Widget {
 
         selfBox
     }
+
     function draw(vg)
     {
         textHeight = 0.8
@@ -63,10 +67,17 @@ Widget {
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.text(0.1*w,h/2,"-")
         vg.text(0.9*w,h/2,"+")
-        vg.text(0.5*w,h/2,self.value.to_s)
+        vg.text(0.5*w,h/2,self.format+self.value.to_s)
 
-        #background color("54321")
-        #background color("54321")
+        if(!self.active)
+            pad = 0
+            vg.path do
+                vg.move_to(w*pad, h*pad)
+                vg.line_to(w*(1-2*pad), h*(1-2*pad))
+                vg.stroke_color Theme::TextColor
+                vg.stroke
+            end
+        end
     }
 
     function setValue(val)
@@ -77,6 +88,7 @@ Widget {
 
     function updatePos(delta)
     {
+        return if !self.active
         if self.value + delta > maximum
             self.value = maximum
             return
@@ -113,6 +125,5 @@ Widget {
         else
             updatePos(-1)
         end
-        #puts "UNHANDLED"
     }
 }

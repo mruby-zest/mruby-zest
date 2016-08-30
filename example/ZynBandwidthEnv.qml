@@ -18,6 +18,6 @@ Group {
     ParModuleRow {
         id: bot
         Knob     { whenValue: lambda { box.cb }; extern: box.extern+"Penvstretch"}
-        Button   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+        ToggleButton   { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
     }
 }

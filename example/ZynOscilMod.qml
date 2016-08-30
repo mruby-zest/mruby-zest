@@ -1,6 +1,5 @@
 Widget {
     id: basemod
-    extern: "/part0/kit0/adpars/VoicePar0/"
     Widget {
         Widget {
             Widget {

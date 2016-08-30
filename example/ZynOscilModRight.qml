@@ -46,6 +46,17 @@ Widget {
                 ParModuleRow {
                     Selector {
                         id: ext
+                        whenValue: lambda {
+                            off  = ext.opt_vals[ext.selected]
+                            off  = root.get_view_pos(:voice) if off == -1
+                            off  = root.get_view_pos(:voice) if off.nil?
+                            ext1 = "/VoicePar#{off}/OscilSmp/waveform"
+                            ext2 = "/VoicePar#{off}/Type"
+                            osc_wave.noise  = path_simp(base.extern+"../") + ext2
+                            osc_wave.extern = path_simp(base.extern+"../") + ext1
+                            osc_wave.damage_self
+                        }
+                        extern: base.extern + "Pextoscil"
                     }
                     Knob {
                         id: phase_osc
@@ -79,6 +90,15 @@ Widget {
                 ParModuleRow {
                     Selector {
                         id: extfm
+                        whenValue: lambda {
+                            off = extfm.opt_vals[extfm.selected]
+                            off = root.get_view_pos(:voice) if off == -1
+                            off = root.get_view_pos(:voice) if off.nil?
+                            ext = "/VoicePar#{off}/FMSmp/waveform"
+                            mod_wave.extern = path_simp(base.extern+"../") + ext
+                            mod_wave.damage_self
+                        }
+                        extern: base.extern + "PextFMoscil"
                     }
                     Knob {
                         id: phase_mod

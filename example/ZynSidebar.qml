@@ -60,7 +60,7 @@ Widget {
         whenClick: lambda { side.set_content :pad_synth }
     }
 
-    function set_content(type)
+    function set_content(type, flag=nil)
     {
         tabs = [:part, :banks, :mixer, :kits, :midi_learn, :effects,
                 :add_synth, :sub_synth, :pad_synth]
@@ -76,16 +76,18 @@ Widget {
             end
         end
 
-        parent.set_content(type) if parent.respond_to? :set_content
+        parent.set_content(type) if flag.nil? && parent.respond_to?(:set_content)
     }
 
     function set_view()
     {
         prt  = root.get_view_pos(:part)
         kid  = root.get_view_pos(:kit)
+        typ  = root.get_view_pos(:view)
         padButton.extern = "/part#{prt}/kit#{kid}/Ppadenabled"
         subButton.extern = "/part#{prt}/kit#{kid}/Psubenabled"
         add.extern       = "/part#{prt}/kit#{kid}/Padenabled"
+        set_content(typ, true)
     }
 
     function onSetup(old=nil)

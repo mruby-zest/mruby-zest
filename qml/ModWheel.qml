@@ -1,9 +1,9 @@
 Valuator {
     function draw(vg)
     {
-        c1 = NVG.rgba(0x0b,0x0b,0x0b,255)
-        c2 = NVG.rgba(0x52,0x52,0x52,255)
-        bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
+        c1 = color("0b0b0b")
+        c2 = color("525252")
+        bright_green = color("00AE9C")
         grad1 = vg.linear_gradient(0,0,0,h/2,c1,c2)
         grad2 = vg.linear_gradient(0,h/2,0,h,c2,c1)
         vg.path do |v|

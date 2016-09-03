@@ -55,8 +55,7 @@ Widget {
     {
         off_color     = Theme::ButtonInactive
         on_color      = Theme::ButtonActive
-        outline_color = color("707070")
-        text_color1   = color("52FAFE")
+        text_color1   = Theme::TextActiveColor
         text_color2   = Theme::TextColor
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
@@ -74,7 +73,6 @@ Widget {
                 Theme::ButtonGrad1, Theme::ButtonGrad2)
                 v.fill_paint paint
             end
-            #v.stroke_color(outline_color)
             v.fill
             v.stroke_width 1
             v.stroke

@@ -3,8 +3,6 @@ Button {
     function draw(vg)
     {
         on_color      = Theme::ButtonActive
-        text_color1   = color("52FAFE")
-        text_color2   = color("B9CADE")
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             if(button.value)

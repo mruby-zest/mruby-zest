@@ -20,7 +20,7 @@ Widget {
     {
         bg_color      = color("424B56")
         bg_on_color   = color("00818E")
-        outline_color = NVG.rgba(0x00,0x00,0x00,255)
+        outline_color = color("000000")
         dark_off      = color("325A6E")
         text_color1   = color("52FAFE")
         text_color2   = Theme::TextColor

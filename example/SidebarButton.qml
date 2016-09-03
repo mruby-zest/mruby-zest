@@ -14,8 +14,8 @@ Widget {
         h = button.h
         w = button.w
         #puts("drawing a button...")
-        bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
-        dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+        bright_green = color("00AE9C")
+        dark_green   = color("007368")
         grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
         vg.stroke_color(NVG.rgba(0,0,0,0x80))
 
@@ -25,8 +25,8 @@ Widget {
         vg.path do |v|
             v.rect(0,0,w,h)
             if(value)
-                bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
-                dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+                bright_green = color("00AE9C")
+                dark_green   = color("007368")
                 grad = vg.linear_gradient(0,0,0,h, bright_green, dark_green)
                 v.fill_paint grad
             else

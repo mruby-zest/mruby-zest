@@ -29,7 +29,7 @@ Widget {
             v.arc(cx, cy, outer, start, end_, 1);
             v.arc(cx, cy, inner, end_, start, 2);
             v.close_path
-            v.fill_color(NVG.rgba(0x11,0x45,0x75,255));
+            v.fill_color(color("114575"))
             v.fill
         end
 
@@ -46,7 +46,7 @@ Widget {
             v.arc(cx, cy, inner, cang, startt, 2);
             v.arc(cx, cy, outer, startt, cang, 1);
             v.close_path
-            v.fill_color(NVG.rgba(0x3a,0xc5,0xec,255));
+            v.fill_color(color("3AC5EC"))
             v.fill
         end
     }

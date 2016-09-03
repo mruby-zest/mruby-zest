@@ -15,7 +15,7 @@ Valuator {
             v.arc(cx, cy, outer, start, end_, 1);
             v.arc(cx, cy, inner, end_, start, 2);
             v.close_path
-            v.fill_color(NVG.rgba(0x11,0x45,0x75,255));
+            v.fill_color color("114575")
             v.fill
         end
 
@@ -26,7 +26,7 @@ Valuator {
             v.arc(cx, cy, inner, end_, startt, 2);
             v.arc(cx, cy, outer, startt, end_, 1);
             v.close_path
-            v.fill_color(NVG.rgba(0x3a,0xc5,0xec,255));
+            v.fill_color color("3AC5EC")
             v.fill
         end
     }
@@ -50,7 +50,7 @@ Valuator {
             v.arc(cx, cy, outer, start, end_, 1);
             v.arc(cx, cy, inner, end_, start, 2);
             v.close_path
-            v.fill_color(NVG.rgba(0x11,0x45,0x75,255));
+            v.fill_color color("114575")
             v.fill
         end
 
@@ -61,12 +61,12 @@ Valuator {
             v.arc(cx, cy, inner, end_, startt, 2);
             v.arc(cx, cy, outer, startt, end_, 1);
             v.close_path
-            v.fill_color(NVG.rgba(0x3a,0xc5,0xec,255));
+            v.fill_color color("3AC5EC")
             v.fill
             v.stroke
         end
 
-        knob_dash = NVG.rgba(0xe7, 0xe5, 0xe2, 255)
+        knob_dash = color("E7E5E2")
 
         vg.path do |v|
             v.circle(cx, cy, radius)

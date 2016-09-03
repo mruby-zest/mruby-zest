@@ -71,7 +71,7 @@ Widget {
     {
         vg.path do |v|
             v.rect(0, 0, mod.w, mod.h)
-            v.fill_color(NVG.rgba(0,0,0,255))
+            v.fill_color(color("000000"))
             v.fill
         end
         #//paint the top half

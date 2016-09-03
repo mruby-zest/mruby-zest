@@ -3,8 +3,8 @@ ToggleButton {
     function draw(vg) {
         #Draw background
         grad = if(self.value)
-            bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
-            dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+            bright_green = color("00Ae9c")
+            dark_green   = color("007368")
             vg.linear_gradient(0,0,0,h, bright_green, dark_green)
         else
             grey1 = Theme::ButtonGrad1

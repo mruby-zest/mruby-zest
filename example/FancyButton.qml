@@ -36,8 +36,8 @@ Widget {
     function draw(vg)
     {
         grad = if(value)
-            bright_green = NVG.rgba(0x00,0xAe,0x9c, 255)
-            dark_green   = NVG.rgba(0x00,0x73,0x68,0xff)
+            bright_green = color("00AE9C")
+            dark_green   = color("007368")
             vg.linear_gradient(0,0,0,h, bright_green, dark_green)
         else
             grey1 = Theme::ButtonGrad1
@@ -68,7 +68,7 @@ Widget {
             v.stroke
         end
 
-        text_color1   = color("52FAFE")
+        text_color1   = Theme::TextActiveColor
         text_color2   = Theme::TextColor
         vg.font_face("bold")
         vg.font_size h*0.6

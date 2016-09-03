@@ -36,11 +36,12 @@ Widget {
 
     function draw(vg)
     {
-        off_color     = NVG.rgba(0x3A,0x42,0x4D,255)
-        on_color      = color("00828C")
-        outline_color = NVG.rgba(0x00,0x89,0xb9,255)
-        text_color1   = color("52FAFE")
+        off_color     = Theme::ButtonInactive
+        on_color      = Theme::ButtonActive
+        outline_color = color("0089b9")
+        text_color1   = Theme::TextActiveColor
         text_color2   = color("B9CADE")
+        #TODO check textcolor2 and outline
         pad = 1/32
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))

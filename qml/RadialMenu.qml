@@ -26,7 +26,7 @@ Widget {
             v.arc(cx, cy, outer, start, end_, 1);
             v.arc(cx, cy, inner, end_, start, 2);
             v.close_path
-            v.fill_color(NVG.rgba(0x11,0x45,0x75,205));
+            v.fill_color color("114575",205)
             v.fill
         end
 
@@ -37,7 +37,7 @@ Widget {
                 v.arc(cx, cy, outer, start, end_, 1);
                 v.arc(cx, cy, inner, end_, start, 2);
                 v.close_path
-                v.fill_color(NVG.rgba(0x21,0x85,0xf5,205));
+                v.fill_color color("2185F5", 205)
                 v.fill
             end
         end
@@ -48,11 +48,11 @@ Widget {
             v.line_to(cx+outer,cy+outer)
             v.move_to(cx+outer,cy-outer)
             v.line_to(cx-outer,cy+outer)
-            v.stroke_color(NVG.rgba(0xff,0xff,0xff,0xff))
+            v.stroke_color color("ffffff")
             v.stroke
         end
 
-        textColor = NVG.rgba(0x3a,0xc5,0xec,255)
+        textColor = color("3AC5EC")
 
         #Draw North
         vg.font_face("bold")

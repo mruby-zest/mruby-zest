@@ -5,7 +5,7 @@ Widget {
     property String extern: "";
 
     layoutOpts: [:horizontal]
-    
+
     function class_name() { "ParModule" }
 
     onChildren: {
@@ -160,7 +160,7 @@ Widget {
         vg.path do |v|
             border(pos[3]*0.01, pos);
             vg.rect(*pos);
-            vg.fill_color(NVG.rgba(0xa, 0x2e, 0x4c, 255))
+            vg.fill_color(color("0A2E4C"))
             vg.fill
         end
 

@@ -10,6 +10,7 @@ Widget {
     property Object value_sel: nil
     property Object value_lab: nil
     property Bool   clear_on_extern: nil
+    property String pattern: nil
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
@@ -144,6 +145,7 @@ Widget {
         x.each do |x|
             next if(x != "." && x != ".." && x[0] == ".")
             next if(x[-1] == "~")
+            next if self.pattern && !x.end_with?(self.pattern)
             y << x
         end
         y

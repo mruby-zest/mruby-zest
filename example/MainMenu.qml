@@ -53,6 +53,8 @@ Widget {
         wid.ext = ".xiz" if opt == "save instrument"
         wid.ext = ".xmz" if opt == "save master"
         wid.ext = ".wav" if opt == "setup record"
+        wid.pat = ".xiz" if opt == "load instrument"
+        wid.pat = ".xmz" if opt == "load master"
         #puts "[DEBUG] Add Child"
         Qml::add_child(win, wid)
         #puts "[DEBUG] Update Values"

@@ -7,6 +7,7 @@ Widget {
     property String state:     "invalid-dir"
     property String path_mode: "unix"
     property String ext:       nil
+    property String pat:       nil
 
     SelColumn {
         id: folders;
@@ -20,6 +21,7 @@ Widget {
         layer: 2;
         extern: "/file_list_files"
         clear_on_extern: true
+        pattern: file.pat
         whenValue: lambda {file.set_file(files.selected)}
     }
     TextLine {

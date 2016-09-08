@@ -40,6 +40,10 @@ Widget {
         selfBox
     }
 
+    function refresh() {
+        self.valueRef.refresh if self.valueRef
+    }
+
     function draw(vg)
     {
         textHeight = 0.8

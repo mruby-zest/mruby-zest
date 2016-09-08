@@ -6,7 +6,10 @@ Widget {
                 extern: base.extern + "PFMEnabled";
                 layoutOpts: [:no_constraint]
             }
-            Button { label: "external modulator"; }
+            Selector {
+                id: extmod;
+                label: "external modulator";
+            }
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
@@ -137,9 +140,11 @@ Widget {
         vce     = root.get_view_pos(:voice)
         mapper  = [-1]
         names   = ["Normal"]
+        names2  = ["Normal"]
         (0...vce).each do |i|
             mapper << i
-            names  << "Oscil #{i}"
+            names  << "Oscil #{i+1}"
+            names2 << "Mod   #{i+1}"
         end
 
         extfm.opt_vals = mapper
@@ -148,5 +153,9 @@ Widget {
         ext.opt_vals   = mapper
         ext.options    = names
         ext.extern     = base.extern + "Pextoscil"
+        extmod.opt_vals = mapper
+        extmod.options  = names2
+        extmod.extern   = base.extern + "PFMVoice"
+
     }
 }

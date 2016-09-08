@@ -53,8 +53,9 @@ Widget {
             scale = 100
             $vg.font_size scale
             bb = 1
+            long_mode = layoutOpts.include?(:long_mode)
             selector.options.each do |x|
-                x = x[0..8] if x.length > 8
+                x = x[0..8] if x.length > 8 && !long_mode
                 bbl  = $vg.text_bounds(0, 0, (x+"    ").upcase)
                 bb   = [bb, bbl].max
             end
@@ -74,6 +75,10 @@ Widget {
 
     function set_value_user(val)
     {
+        if(val.nil?)
+            damage_self
+            return
+        end
         return if(val == self.selected)
         self.selected = val
         if(self.valueRef && self.selected <= opt_vals.length)
@@ -144,7 +149,12 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color text_color
-        vg.text(3+w*pad*2,h/2,(options[selected]).upcase)
+
+        long_mode = layoutOpts.include?(:long_mode)
+        str = options[selected].upcase
+        str = str[0..8] if str.length > 8 && !long_mode
+
+        vg.text(3+w*pad*2,h/2, str)
     }
 
     function create_menu()

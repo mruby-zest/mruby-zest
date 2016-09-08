@@ -1,7 +1,7 @@
 Group {
     id: box
     label: "General"
-    extern: "/part0/kit0/adpars/GlobalPar/"
+    property Function whenModified: nil
     ParModuleRow {
         Knob { extern: box.extern + "PDetune" }
         NumEntry { extern: box.extern + "octave" }

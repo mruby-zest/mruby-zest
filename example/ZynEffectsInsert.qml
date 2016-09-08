@@ -8,7 +8,9 @@ Widget {
             (0...num_eff).each do |i|
                 but = Qml::Selector.new(db)
                 but.extern = "/insefx#{i}/efftype"
+                but.active = false
                 sel = Qml::Selector.new(db)
+                sel.whenValue = lambda { but.active = sel.selected != 1; but.damage_self }
                 sel.extern = "/Pinsparts#{i}"
                 Qml::add_child(self, but)
                 Qml::add_child(self, sel)

@@ -29,6 +29,7 @@ Widget {
 
     ParModuleRow {
         id: ctrl
+        layoutOpts: []
         Knob {
             id: vel
             whenValue: lambda { key.velocity = vel.value*127 }
@@ -42,7 +43,10 @@ Widget {
             label: "vrnd"
         }
         Knob { value: 0.5; label: "octave" }
-        Selector { options: ["qwerty"] }
+        Selector {
+            options: ["qwerty"]
+            layoutOpts: {:weight=>0.2}
+        }
         Knob     {
             id: cc
             label: "c.val"
@@ -51,6 +55,7 @@ Widget {
         Selector {
             id: cctype
             label: "MIDI CC"
+            layoutOpts: {:weight=>2.0, :long_mode=>true}
             options: [ "01: Mod.Wheel",
                        "07: Volume",
                        "10: Panning",

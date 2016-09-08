@@ -16,6 +16,8 @@ Button {
         damage_self
     }
 
+    function refresh() { self.valueRef.refresh }
+
     function onMousePress(ev) {
         self.value = !self.value
         self.valueRef.value = self.value if self.valueRef

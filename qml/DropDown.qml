@@ -46,7 +46,8 @@ Widget {
         xsp = (ev.pos.x-global_x)/w
         inx = 0 <= xsp && xsp <= 1
 
-        callback.call opt if callback && inx
+        callback.call opt if callback &&  inx
+        callback.call nil if callback && !inx
         rt = self.root
         rt.ego_death self
     }

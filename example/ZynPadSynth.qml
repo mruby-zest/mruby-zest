@@ -35,7 +35,6 @@ Widget {
             extern: center.extern + "needPrepare"
             whenValue: lambda {center.apply() }
         }
-        Button { layoutOpts: [:no_constraint]; label: "export" }
         CopyButton {}
         PasteButton {}
         function gen_weights()
@@ -71,8 +70,6 @@ Widget {
                 elsif(idx == 3)
                     l.aspect(box, 100, weights[idx])
                     l.weak(box.x)
-                elsif(idx == 4)
-                    l.aspect(box, 100, weights[idx])
                 end
 
                 if(prev)

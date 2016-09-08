@@ -89,7 +89,7 @@ Widget {
 
     function onMousePress(ev)
     {
-        create_menu
+        create_menu if self.active
     }
 
     function onMouseEnter(ev) {

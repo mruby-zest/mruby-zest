@@ -167,7 +167,7 @@ Widget {
             }
 
             //pad
-            Widget {}
+            TextBox {label: "adapt. harm."}
 
             //adapt
             Selector {extern: base_osc.extern + "Padaptiveharmonics"}

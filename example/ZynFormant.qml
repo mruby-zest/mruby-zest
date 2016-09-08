@@ -1,8 +1,8 @@
 Widget {
     id: fbase
-    extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
     VisFormant {
         id: vis
+        extern: fbase.extern
     }
     Widget {
         Widget {
@@ -35,21 +35,24 @@ Widget {
                 extern: fbase.extern + "Pvowels0/Pformants0/"
                 function update_pos()
                 {
-                    vgrp.extern = fbase.extern + "Pvowels#{vow_num.value}/Pformants#{for_num.value}/"
+                    vis.vowel_num = vow_num.value
+                    vis.change()
+                    rt = fbase.extern + "Pvowels#{vow_num.value}/Pformants#{for_num.value}/"
+                    slide_freq.extern = rt + "freq"
+                    slide_q.extern    = rt + "q"
+                    slide_amp.extern  = rt + "amp"
                     db.update_values
-
-                    puts vgrp.extern
-                    children[0].children.each do |ch|
-                        puts ch.extern
-                    end
                 }
                 Widget {
                     NumEntry {
                         id: vow_num
                         label: "v. num"
+                        minimum: 0
+                        maximum: 5
                         whenValue: lambda {vgrp.update_pos}
                     }
                     HSlider {
+                        id: slide_freq
                         extern: vgrp.extern + "freq";
                         label: "freq"
                         whenValue: lambda { vis.refresh() }
@@ -57,9 +60,12 @@ Widget {
                     NumEntry {
                         id: for_num;
                         label: "formant"
+                        minimum: 0
+                        maximum: 11
                         whenValue: lambda {vgrp.update_pos}
                     }
                     HSlider {
+                        id: slide_q
                         extern: vgrp.extern + "q";
                         label: "q"
                         whenValue: lambda { vis.refresh() }
@@ -68,6 +74,7 @@ Widget {
                     Widget {}
                     Widget {}
                     HSlider {
+                        id: slide_amp
                         extern: vgrp.extern + "amp";
                         label: "amp"
                         whenValue: lambda { vis.refresh() }

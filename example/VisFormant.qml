@@ -1,6 +1,5 @@
 Widget {
     id: vfor
-    extern: "/part0/kit0/adpars/GlobalPar/GlobalFilter/"
     property Object valueRef: nil
     property Object numformants: 4
     property Object q_value: 1
@@ -9,8 +8,10 @@ Widget {
     property Array  vowels: nil
     property Bool   pending_damage: false
     property Bool   refreshing: false
+    property Int    vowel_num: 0
 
     function change() {
+        #puts "[DEBUG] Pending Change"
         self.pending_damage = true
     }
 
@@ -19,7 +20,9 @@ Widget {
     }
 
     function onSetup(old=nil) {
+        #puts "[DEBUG] Formant Graph"
         base = vfor.extern
+        #puts "[DEBUG] extern root is <#{base}>"
         refs = []
 
         #Vowel data
@@ -100,7 +103,7 @@ Widget {
             #puts "stages= #{self.stages}"
             #puts "gain  = #{self.gain_value}"
             #puts "vowels= #{self.vowels}"
-            response(0) if !self.vowels.nil?
+            response(self.vowel_num) if !self.vowels.nil?
         end
     }
 
@@ -108,12 +111,14 @@ Widget {
     {
         xpts = Draw::DSP::logspace(1, 20000, 256)
         vo   = self.vowels[nvowel]
+        return if vo.nil?
         fo   = vo
         fo   = fo[0...numformants] if numformants <= fo.length
         ypts = formant_filter_response(xpts, fo, q_value, stages,
                gain_value)
         data_view.data = ypts
         data_view.damage_self
+        damage_self
     }
 
     DataView {

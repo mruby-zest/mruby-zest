@@ -18,6 +18,11 @@ Widget {
         vphase = ignore_phase ? 0 : phase
         if(data.class == Array && data[0].class == Float)
             Draw::WaveForm::plot(vg, self.data, box, normal, vphase)
+        elsif(data.class == Array && data[0] == -40)
+            Draw::WaveForm::plot(vg, self.data, box, normal, vphase)
+        elsif(data.class == Array && data[0] == 0 && data[5] == 0)
+        puts "this case..."
+            Draw::WaveForm::plot(vg, self.data, box, false, vphase)
         elsif(data.class == Array && data[0].class == Array)
             Draw::WaveForm::plot(vg, self.data[0], box, normal, vphase)
             Draw::WaveForm::plot(vg, self.data[1], box, normal, vphase)

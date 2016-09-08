@@ -3,6 +3,7 @@ Widget {
     property Float lsize: 0.3
     property Int   whitespace: nil
     property Symbol outer: nil
+    layoutOpts: [:fixed_width]
 
 
     function onSetup(old=nil) {
@@ -35,25 +36,30 @@ Widget {
         return blist if children.empty?
         fixed_height = nil
         fixed_width  = nil
+        fixed_width_mode = layoutOpts.include? :fixed_width
         if(mode == :labels)
             fixed_height = l.gensym :modlabelHeight
-            #fixed_width  = l.gensym :modWidgetWidth
-        else
+        elsif(fixed_width_mode)
             fixed_width  = l.gensym :modWidgetWidth
         end
+        weight_list = []
         begin
             prev = nil
             children.each_with_index do |ch, i|
                 bb = ch.layout(l)
+                if(ch.layoutOpts.include? :weight)
+                    weight_list << ch.layoutOpts[:weight]
+                else
+                    weight_list << 1.0
+                end
                 if(bb)
                     l.sheq([bb.x], [1], 0) if i==0 && outer == :none
                     blist << bb
                     l.contains(box, bb)
                     if(mode == :labels)
                         l.sheq([fixed_height, bb.h], [1, -1], 0)
-                        #l.sheq([fixed_width,  bb.w], [1, -1], 0)
                     else
-                        l.sheq([fixed_width,  bb.w], [1, -1], 0)
+                        l.sheq([fixed_width,  bb.w], [1, -1], 0) if fixed_width
                     end
                     if(prev)
                         l.rightOf(prev, bb, i != whitespace)
@@ -69,8 +75,9 @@ Widget {
 
         #Punish Different Widths
         if(mode == :normal)
-            blist.each do |x|
-                l.punish2([selfBox.w], [1.0/blist.length], x.w)
+            ww = abs_sum(weight_list)
+            blist.each_with_index do |x,i|
+                l.punish2([selfBox.w], [weight_list[i]/ww], x.w)
             end
 
             #Punish floating in the y dir
@@ -120,6 +127,7 @@ Widget {
         end
         selfBox
     }
+    function class_name() { "ParModuleRow" }
 
     Widget {
         id: content

@@ -2,7 +2,21 @@ Group {
     id: dst
     label: "distortion"
     topSize: 0.2
+    function refresh() {
+        return if rw.content.nil?
+        return if rw.content.children.length < 4
+        rw.content.children[3..-1].each do |c|
+            c.refresh
+        end
+    }
     ParModuleRow {
+        id: rw
+        layoutOpts: []
+        Selector {
+            extern: dst.extern + "Distorsion/preset"
+            whenValue: lambda { dst.refresh }
+            layoutOpts: [:long_mode]
+        }
         Knob { extern: dst.extern + "Pvolume"}
         Knob { extern: dst.extern + "Ppanning"}
 

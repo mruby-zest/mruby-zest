@@ -44,16 +44,34 @@ Widget {
         whenValue: lambda {file.whenCancel}
     }
 
+    Menu {
+        id: favs
+        options: []
+        layer: 2
+        layoutOpts: [:no_constraint]
+        label: "favorites"
+        whenValue: lambda { file.set_pos(favs.options[favs.selected]) }
+    }
+
+    TriggerButton {
+        label: "add favorite"
+        layer: 2
+        whenValue: lambda { file.addFav }
+        layoutOpts: [:no_constraint]
+    }
+
     function layout(l) {
         puts "layout of file editor"
         selfBox = self_box(l)
         ch      = chBoxes(l)
         hpad = 0.10
-        l.fixed(ch[0], selfBox, 0.0+hpad, 0.05, 0.5-2*hpad, 0.60)
-        l.fixed(ch[1], selfBox, 0.5+hpad, 0.05, 0.5-2*hpad, 0.60)
+        l.fixed(ch[0], selfBox, 0.0+hpad, 0.10, 0.5-2*hpad, 0.60)
+        l.fixed(ch[1], selfBox, 0.5+hpad, 0.10, 0.5-2*hpad, 0.60)
         l.fixed(ch[2], selfBox, 0.10,     0.73, 0.80, 0.03)
         l.fixed(ch[3], selfBox, 0.10,     0.85, 0.20, 0.1)
         l.fixed(ch[4], selfBox, 0.40,     0.85, 0.20, 0.1)
+        l.fixed(ch[5], selfBox, 0.0+hpad, 0.02, 0.2,  0.05)
+        l.fixed(ch[6], selfBox, 0.3+hpad, 0.02, 0.2,  0.05)
         selfBox
     }
 
@@ -68,6 +86,9 @@ Widget {
         #Get the starting path i.e. the HOME dir
         home  = OSC::RemoteParam.new($remote, "/file_home_dir")
         home.callback = lambda { |x| set_home(x) }
+
+        fav   = OSC::RemoteParam.new($remote, "/config/favorites")
+        fav.callback  = lambda { |x| set_favs(x) }
 
         self.valueRef = [dirs, files, home]
     }
@@ -97,6 +118,29 @@ Widget {
         set_state("in-directory")
         $remote.action("/file_list_dirs",  line.label)
         $remote.action("/file_list_files", line.label)
+    }
+
+    function set_favs(x)
+    {
+        return if x.nil? || x.empty?
+
+        favs.options = x
+        favs.damage_self
+    }
+
+    function set_pos(x)
+    {
+        set_state("in-directory")
+        line.label = x
+        line.damage_self
+        check()
+    }
+
+    function addFav()
+    {
+        return if line.label[-1] != "/"
+        $remote.action("/config/add-favorite", line.label)
+        $remote.action("/config/favorites")
     }
 
     function check()

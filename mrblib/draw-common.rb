@@ -166,7 +166,7 @@ module Draw
             sel_color    = Theme::VisualSelect
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
-                xx = bb.x + bb.w*(pts[2*i]-1)*0.33
+                xx = bb.x + bb.w*(pts[2*i])
                 yy = bb.y + bb.h*(1-pts[2*i+1])
 
                 vg.stroke_color sel_color
@@ -311,6 +311,7 @@ module Draw
                 max = x if x > max
             end
             mag = [max,-min].max
+            mag = 1.0 if mag == 0.0
             (0...seq.length).each do |i|
                 seq[i] /= mag
             end

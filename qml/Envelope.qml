@@ -69,6 +69,28 @@ Widget {
         Draw::DSP::pad_norm(tmp, 0.01)
     }
 
+    function warp(x)
+    {
+        wp = get_x_points()
+        y  = []
+        x.each_with_index do |xx, i|
+            if((i%2) == 1)
+                y << xx
+            else
+                ps = xx.to_i
+                fr = xx-ps
+                ps -= 1
+                y << xx if(ps >= wp.length)
+                next    if(ps >= wp.length)
+                aa = wp[ps]
+                bb = wp[ps]
+                bb = wp[ps+1] if(ps+1 < wp.length)
+                y << aa+fr*(bb-aa)
+            end
+        end
+        y
+    }
+
     function onMousePress(ev) {
         #return if !self.mouse_enable
         #//Try to identify the location  of the nearest grabbable point
@@ -91,8 +113,6 @@ Widget {
                 next_sel  = i
             end
         end
-        #print "selected = "
-        #puts next_sel
         if(env.selected != next_sel)
             env.selected = next_sel
             env.root.damage_item env
@@ -119,7 +139,6 @@ Widget {
             scalex = 4*(env.xpoints[env.selected]+10)
             dy = 2*(ev.pos.y - env.prev.y)/env.h
             dx = scalex*(ev.pos.x - env.prev.x)/env.w
-            #puts env.xpoints[env.selected]
             n  = [env.xpoints.length, env.ypoints.length].min
             if(env.selected == 0 || env.selected == n-1)
                 env.ypoints[env.selected] -= dy
@@ -280,11 +299,10 @@ Widget {
 
         onExtern: {
             return if run_view.extern.nil?
-            meta = OSC::RemoteMetadata.new($remote, run_view.extern)
-
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
+            run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|
-                run_view.runtime_points = x;
+                run_view.runtime_points = env.warp(x);
                 run_view.root.damage_item run_view
                 run_view.valueRef.watch run_view.extern
             }

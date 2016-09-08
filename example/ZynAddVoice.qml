@@ -1,6 +1,8 @@
 Widget {
     id: addbase
-    extern: "/part0/kit0/adpars/VoicePar0/"
+
+    property Object valueRef: nil
+    property Symbol filtertype: nil
 
     function layout(l)
     {
@@ -158,6 +160,7 @@ Widget {
         gen.content = Qml::ZynAnalogFilter
         env.content = Qml::ZynFilterEnv
         lfo.content = Qml::ZynLFO
+        gen.children[0].whenClick = lambda {row1.setDataVis(:filter, :filter)}
         env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
         lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
         env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
@@ -193,13 +196,12 @@ Widget {
 
     function set_vis_filter(ext, dummy)
     {
-        #puts "addglobal.filtertype = #{addglobal.filtertype}"
-        row1.extern = ext + "GlobalFilter/"
-        if(addglobal.filtertype == :formant)
+        row1.extern = ext + "VoiceFilter/"
+        if(addbase.filtertype == :formant)
             row1.content = Qml::ZynFormant
         else
             row1.content = Qml::VisFilter
-            row1.children[0].extern = ext + "GlobalFilter/response"
+            row1.children[0].extern = ext + "VoiceFilter/response"
         end
         gen.children[0].whenModified = lambda {
             elm = row1.children[0]
@@ -244,6 +246,15 @@ Widget {
 
     function onSetup(old=nil)
     {
+        return if self.valueRef
+        if(self.valueRef.nil?)
+            path = self.extern + "VoiceFilter/Pcategory"
+            self.valueRef = OSC::RemoteParam.new($remote, path)
+            self.valueRef.mode = :full
+            self.valueRef.callback = lambda {|x|
+                addbase.filtertype = [:analog, :formant, :statevar][x]
+            }
+        end
         set_view()
     }
 }

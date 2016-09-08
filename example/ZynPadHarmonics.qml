@@ -67,6 +67,7 @@ Widget {
             Text {label: "sample size"}
             Selector {
                 extern: base.extern + "Pquality.samplesize"
+                layoutOpts: [:long_mode]
             }
         }
         function layout(l) {

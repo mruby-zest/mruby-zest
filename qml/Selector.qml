@@ -160,7 +160,19 @@ Widget {
         widget.callback = lambda { |v|
             set_value_user(v)
         }
-        widget.y = -self.h*(n-1) if(widget.h+global_y > window.h)
+        #Check if it's too big
+        if(widget.h+global_y > window.h)
+            if(global_y - self.h*(n-1) < 0)
+                if(global_y > window.h*0.5)#upper
+                    widget.h = (global_y+self.h)
+                    widget.y = -global_y
+                else#lower
+                    widget.h = (window.h-global_y)
+                end
+            else
+                widget.y = -self.h*(n-1)
+            end
+        end
         widget.prime
 
         Qml::add_child(self, widget)

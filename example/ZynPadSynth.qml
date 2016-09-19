@@ -20,7 +20,6 @@ Widget {
 
     function apply()
     {
-        puts "extern = #{center.extern}"
         $remote.action(center.extern+"prepare")
     }
     TabGroup {
@@ -35,8 +34,14 @@ Widget {
             extern: center.extern + "needPrepare"
             whenValue: lambda {center.apply() }
         }
-        CopyButton {}
-        PasteButton {}
+        CopyButton {
+            id: copy
+            extern: center.extern
+        }
+        PasteButton {
+            id: paste
+            extern: center.extern
+        }
         function gen_weights()
         {
             total   = 0
@@ -123,6 +128,8 @@ Widget {
         end
 
 
+        copy.extern  = base + ext[subview]
+        paste.extern = base + ext[subview]
         swap.extern  = base + ext[subview]
         swap.content = mapping[subview]
         header.children[tabid[subview]].value = true

@@ -160,8 +160,13 @@ Widget {
 
         header.children[1].setValue(vce+1)
 
-        cpy_but.extern = extbase
-        pst_but.extern = extbase
+        if([:oscil, :modosc].include?(subview))
+            cpy_but.extern = extbase + ext[subview]
+            pst_but.extern = extbase + ext[subview]
+        else
+            cpy_but.extern = extbase
+            pst_but.extern = extbase
+        end
         vpow.extern    = extbase + "VoicePar#{vce}/Enabled"
 
     }

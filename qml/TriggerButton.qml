@@ -1,5 +1,6 @@
 Button {
     function onMousePress(ev) {
+        return if !self.active
         self.value = 1.0
         whenValue.call if whenValue
         damage_self

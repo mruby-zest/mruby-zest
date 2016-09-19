@@ -46,7 +46,7 @@ Widget {
 
         vg.font_face("bold")
         vg.font_size height*h
-        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
         vg.text_box(0,height*h,w, input)
     }

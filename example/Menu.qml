@@ -71,7 +71,6 @@ Widget {
             v.fill_color Theme::TextColor
             v.fill
         end
-        return if options[selected].nil?
 
         vg.font_face("bold")
         vg.font_size h*0.8
@@ -96,6 +95,7 @@ Widget {
         #print "widget.x = "
         #puts widget.x
         widget.y = -self.h*(n-1) if(widget.h+global_y > window.h)
+        widget.prime
 
         Qml::add_child(self, widget)
         root.smash_draw_seq

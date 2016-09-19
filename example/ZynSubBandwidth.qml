@@ -11,7 +11,7 @@ Widget {
             label: "general"
             ParModuleRow {
                 Selector { extern: subbw.extern + "Pstart" }
-                Selector { extern: subbw.extern + "Pnumstages" }
+                NumEntry { extern: subbw.extern + "Pnumstages" }
             }
             ParModuleRow {
                 Knob { extern: subbw.extern + "Pbandwidth" }

@@ -93,7 +93,7 @@ Widget {
             end
         elsif(ev.buttons.include? :middleButton)
             #Reset
-            reset_value = 64/127.0
+            reset_value = 64.01/127.0
             if(valueRef)
                 old_dsp = self.valueRef.display_value
 

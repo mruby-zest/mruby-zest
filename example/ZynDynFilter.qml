@@ -15,7 +15,7 @@ Widget {
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
         Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }
-        ToggleButton { extern: dyn.extern + "DynamicFilter/PStereo" }
+        Knob {         extern: dyn.extern + "DynamicFilter/PStereo" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pdepth" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsns" }
         ToggleButton { extern: dyn.extern + "DynamicFilter/Pampsnsinv" }

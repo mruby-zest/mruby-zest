@@ -24,7 +24,7 @@ Group {
         Knob { extern: wah.extern + "Alienwah/Pfreq"   }
         Knob { extern: wah.extern + "Alienwah/Pfreqrnd"   }
         Selector     { extern: wah.extern + "Alienwah/PLFOtype" }
-        ToggleButton { extern: wah.extern + "Alienwah/PStereo" }
+        Knob { extern: wah.extern + "Alienwah/PStereo" }
         Knob { extern: wah.extern + "Alienwah/Pdepth" }
         Knob { extern: wah.extern + "Alienwah/Pfeedback" }
         Knob { extern: wah.extern + "Alienwah/Pdelay" }

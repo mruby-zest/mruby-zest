@@ -10,18 +10,22 @@ Widget {
     property String pat:       nil
 
     SelColumn {
-        id: folders;
-        layer: 2;
+        id: folders
+        layer: 2
         extern: "/file_list_dirs"
+        doupcase: false
+        nrows: 20
         clear_on_extern: true
         whenValue: lambda {file.set_dir(folders.selected)}
     }
     SelColumn {
-        id: files;
-        layer: 2;
+        id: files
+        layer: 2
         extern: "/file_list_files"
+        nrows: 20
+        doupcase: false
         clear_on_extern: true
-        pattern: file.pat
+        pattern: Regexp.new(file.pat) if file.pat
         whenValue: lambda {file.set_file(files.selected)}
     }
     TextLine {
@@ -84,8 +88,13 @@ Widget {
         #files.callback = lambda { |x| set_file(x) }
 
         #Get the starting path i.e. the HOME dir
-        home  = OSC::RemoteParam.new($remote, "/file_home_dir")
-        home.callback = lambda { |x| set_home(x) }
+        home = nil
+        if($current_dir.nil?)
+            home  = OSC::RemoteParam.new($remote, "/file_home_dir")
+            home.callback = lambda { |x| set_home(x) }
+        else
+            set_home($current_dir)
+        end
 
         fav   = OSC::RemoteParam.new($remote, "/config/favorites")
         fav.callback  = lambda { |x| set_favs(x) }
@@ -146,6 +155,7 @@ Widget {
     function check()
     {
         line.label = "/" if line.label.empty?
+        puts line.label[-1].ord
         if(line.label[-1].ord == 27) #esc
             whenCancel
             return
@@ -171,9 +181,30 @@ Widget {
                 return
             end
         end
-        set_state("partial-file-dir")
+        if(line.label[-1] != "/")
+            last = line.label.split("/")[-1]
+            set_state("partial-file-dir")
+            folders.pattern = Regexp.new(last)
+            files.pattern   = Regexp.new(last)          if file.pat.nil?
+            files.pattern   = Regexp.new(last+".*"+pat) if file.pat
+        else
+            folders.pattern = nil
+            files.pattern   = nil              if file.pat.nil?
+            files.pattern   = Regexp.new(pat)  if file.pat
+            set_state("in-directory")
+        end
         dir = line.label
-        dir = updir(dir) if dir[-1] != "/"
+        if(dir[-1] != "/")
+            dir = updir(dir)
+        else
+            #hacky work around c-string conversion bug
+            dir2 = ""
+            dir.each_char do |c|
+                dir2 += c
+            end
+            dir = dir2
+        end
+
         $remote.action("/file_list_dirs",  dir)
         $remote.action("/file_list_files", dir)
     }
@@ -186,6 +217,7 @@ Widget {
             line.label = updir(line.label)
             line.damage_self
         else
+            line.label = updir(line.label) if self.state == "on-file"
             set_state("on-file")
             line.label += "/"
             line.label += x
@@ -207,6 +239,7 @@ Widget {
     function set_state(x)
     {
         self.state = x
+        $current_dir = line.label if x == "in-directory"
     }
 
     function draw(vg) {

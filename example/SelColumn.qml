@@ -10,6 +10,7 @@ Widget {
     property Object value_sel: nil
     property Object value_lab: nil
     property Bool   clear_on_extern: nil
+    property Bool   doupcase: true
     property String pattern: nil
 
     onExtern: {
@@ -92,6 +93,7 @@ Widget {
 
             ch.layer      = col.layer
             ch.number = x if number
+            ch.doupcase = self.doupcase if ch.respond_to? :doupcase
             if(!number)
                 ch.pad = 0
                 ch.bg = Theme::BankEven if x%2 == 0
@@ -145,7 +147,7 @@ Widget {
         x.each do |x|
             next if(x != "." && x != ".." && x[0] == ".")
             next if(x[-1] == "~")
-            next if self.pattern && !x.end_with?(self.pattern)
+            next if self.pattern && !self.pattern.match(x)
             y << x
         end
         y

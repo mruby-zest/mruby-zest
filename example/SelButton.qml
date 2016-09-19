@@ -1,5 +1,6 @@
 Button {
     property Color bg: nil
+    property Bool  doupcase: true
     function draw(vg)
     {
         on_color      = Theme::ButtonActive
@@ -21,7 +22,9 @@ Button {
         else
             Theme::TextColor
         end
-        vg.text(8,h/2,button.label.upcase)
+        ll = self.label
+        ll = ll.upcase if self.doupcase
+        vg.text(8,h/2,ll)
     }
     function onMouseEnter(ev) {
         if(self.tooltip != "")

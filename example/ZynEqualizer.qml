@@ -8,6 +8,10 @@ Widget {
         NumEntry {
             id: fil_sel
             whenValue: lambda {eq.change_filter}
+            minimum: 1
+            maximum: 8
+            offset:  1
+            value:   1
         }
         Swappable {
             id: filter
@@ -27,7 +31,7 @@ Widget {
 
     function change_filter()
     {
-        filter.extern  = eq.extern + "EQ/filter#{fil_sel.value}/"
+        filter.extern  = eq.extern + "EQ/filter#{fil_sel.value-1}/"
         filter.content = Qml::ZynEqFilter
         filter.children[0].whenValue = lambda { vis.refresh }
     }

@@ -2,6 +2,7 @@ Group {
     id: box
     label: "General"
     copyable: false
+    property Function whenModified: nil
 
     ParModuleRow {
         id: top

@@ -59,7 +59,8 @@ Widget {
     }
 
     function refresh() {
-        env.valueRef.each do |v|
+        return if self.valueRef.nil?
+        self.valueRef.each do |v|
             v.refresh
         end
     }

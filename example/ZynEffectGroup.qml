@@ -211,7 +211,7 @@ Widget {
                   :dynamicfilter => 3,
                   :eq => 2,
                   :echo => 1,
-                  :phaser => 1,
+                  :phaser => 2,
                   :reverb => 1}
         mapper[type]
     }

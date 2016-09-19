@@ -2,11 +2,14 @@ Group {
     id: phaser
     label: "phaser"
     topSize: 0.2
-    
+
     function refresh() {
         return if rw.content.nil?
         return if rw.content.children.length < 4
         rw.content.children[3..-1].each do |c|
+            c.refresh
+        end
+        rw2.content.children.each do |c|
             c.refresh
         end
     }
@@ -25,9 +28,14 @@ Group {
         Knob { extern: phaser.extern + "Phaser/lfo.Pfreq" }
         Knob { extern: phaser.extern + "Phaser/lfo.Prandomness" }
         Selector { extern: phaser.extern + "Phaser/lfo.PLFOtype" }
-        ToggleButton { extern: phaser.extern + "Phaser/lfo.Pstereo" }
+        Knob { extern: phaser.extern + "Phaser/lfo.Pstereo" }
         Knob { extern: phaser.extern + "Phaser/Pdepth" }
         Knob { extern: phaser.extern + "Phaser/Pfb" }
+    }
+
+    ParModuleRow {
+        id: rw2
+        layoutOpts: []
         NumEntry { extern: phaser.extern + "Phaser/Pstages" }
         Knob { extern: phaser.extern + "Phaser/Plrcross" }
         Knob { extern: phaser.extern + "Phaser/Poffset" }

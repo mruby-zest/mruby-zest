@@ -24,10 +24,12 @@ Widget {
         layoutOpts: [:no_constraint]
         options: ["load instrument", "save instrument",
                   "load master", "save master",
+                  "load microtonal", "save microtonal",
+                  "load midi bindings", "save midi bindings",
                   "clear master", "clear instrument", 
                   "setup record", "quit"]
         whenValue: lambda {
-            menu.file_sel
+            menu.file_sel if file.selected
         }
     }
 
@@ -55,6 +57,10 @@ Widget {
         wid.ext = ".wav" if opt == "setup record"
         wid.pat = ".xiz" if opt == "load instrument"
         wid.pat = ".xmz" if opt == "load master"
+        wid.pat = ".xsz" if opt == "load microtonal"
+        wid.pat = ".xsz" if opt == "save microtonal"
+        wid.pat = ".xlz" if opt == "load midi bindings"
+        wid.pat = ".xlz" if opt == "save midi bindings"
         #puts "[DEBUG] Add Child"
         Qml::add_child(win, wid)
         #puts "[DEBUG] Update Values"
@@ -66,7 +72,6 @@ Widget {
         #puts self
 
         if(root)
-            #puts "smash layout"
             root.smash_layout
             root.damage_item(win, :all)
         end
@@ -75,7 +80,8 @@ Widget {
     function file_sel()
     {
         opt = file.options[file.selected]
-        if(["load instrument", "save instrument", "load master", "save master", "setup record"].include? opt)
+        if(["load instrument", "save instrument", "load master", "save master", "setup record",
+            "load microtonal", "save microtonal", "load midi bindings", "save midi bindings"].include? opt)
             menu.file_select
         elsif(opt == "clear master")
             root.set_view_pos(:part, 0)
@@ -113,6 +119,14 @@ Widget {
             $remote.action("/load_xmz", val)
         elsif(opt == "save master")
             $remote.action("/save_xmz", val)
+        elsif(opt == "save microtonal")
+            $remote.action("/save_xsz", val)
+        elsif(opt == "load microtonal")
+            $remote.action("/load_xsz", val)
+        elsif(opt == "load midi bindins")
+            $remote.action("/save_xlz", val)
+        elsif(opt == "save midi bindings")
+            $remote.action("/load_xlz", val)
         elsif(opt == "setup record")
             $remote.action("/HDDRecorder/preparefile", val)
         end

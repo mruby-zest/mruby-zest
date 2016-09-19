@@ -6,14 +6,22 @@ Widget {
             label: "tunings"
             extern: scale.extern + "tunings"
             copyable: false
-            ColorBox { pad: 0.03; bg: color("222222") }
+            TextEdit {
+                height: 0.05
+                extern: "/microtonal/tunings"
+            }
+            //ColorBox { pad: 0.03; bg: color("222222") }
         }
         Group {
             id: mapp
             label: "key mapping"
             extern: scale.extern + "mapping"
             copyable: false
-            ColorBox { pad: 0.03; bg: color("222222") }
+            TextEdit {
+                height: 0.05
+                extern: "/microtonal/mapping"
+            }
+            //ColorBox { pad: 0.03; bg: color("222222") }
         }
         function class_name() { "partsub" }
         function layout(l) {
@@ -26,14 +34,17 @@ Widget {
             FileButton {
                 label: "import .scl"
                 extern: "/load_scl"
+                active: false
             }
             FileButton {
                 label: "import .kbm"
                 extern: "/load_kbm"
+                active: false
             }
             TriggerButton {
                 label: "retune"
                 whenValue: lambda { scale.apply }
+                active: false
             }
         }
     }
@@ -44,6 +55,7 @@ Widget {
     }
 
     function apply() {
+        return false
         tune.apply
         mapp.apply
     }

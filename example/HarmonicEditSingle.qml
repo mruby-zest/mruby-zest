@@ -26,7 +26,7 @@ ColorBox {
     Text {
         layoutOpts: [:ignoreAspect]
         height: 1.0
-        label: hes.num.to_s
+        label: (1+hes.num).to_s
     }
 
     Slider {

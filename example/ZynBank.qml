@@ -11,7 +11,7 @@ Widget {
         search_ += " " + search.label
         $remote.action("/bank/search", search_)
     }
-    
+
     function doBank()
     {
         doSearch if self.mode == :read
@@ -172,18 +172,27 @@ Widget {
                     copyable: false
                     label: "name"
                     topSize: 0.3
-                    TextLine { extern: "/part0/Pname" }
+                    TextLine {
+                        id: namebox
+                        extern: "/part0/Pname"
+                    }
                 }
                 Group {
                     topSize: 0.2
                     copyable: false
                     label: "author"
-                    TextEdit { extern: "/part0/info.Pauthor" }
+                    TextEdit {
+                        id: authbox
+                        extern: "/part0/info.Pauthor"
+                    }
                 }
                 Group {
                     copyable: false
                     label: "comments"
-                    TextEdit { extern: "/part0/info.Pcomments" }
+                    TextEdit {
+                        id: commbox
+                        extern: "/part0/info.Pcomments"
+                    }
                 }
 
                 function layout(l)
@@ -199,6 +208,13 @@ Widget {
                     l.fixed(comment, selfBox, 0, 0.35, 1, 0.65)
 
                     selfBox
+                }
+                function set_view()
+                {
+                    prt = root.get_view_pos(:part)
+                    namebox.extern = "/part#{prt}/Pname"
+                    authbox.extern = "/part#{prt}/info.Pauthor"
+                    commbox.extern = "/part#{prt}/info.Pcomments"
                 }
             }
 

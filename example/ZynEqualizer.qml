@@ -5,13 +5,20 @@ Widget {
         extern: eq.extern + "EQ/coeff"
     }
     Widget {
-        NumEntry {
-            id: fil_sel
-            whenValue: lambda {eq.change_filter}
-            minimum: 1
-            maximum: 8
-            offset:  1
-            value:   1
+        ParModuleRow {
+            Knob {
+                extern: eq.extern + "Pvolume"
+                label: "vol"
+            }
+            NumEntry {
+                id: fil_sel
+                whenValue: lambda {eq.change_filter}
+                label: "filter id"
+                minimum: 1
+                maximum: 8
+                offset:  1
+                value:   1
+            }
         }
         Swappable {
             id: filter

@@ -1,7 +1,6 @@
 Widget {
     id: subsynth
 
-    Swappable { id: swap }
 
     TabGroup {
         id: subtabs
@@ -10,11 +9,11 @@ Widget {
         TabButton {label: "bandwidth" }
         TabButton {label: "frequency" }
         TabButton {label: "filter" }
+        CopyButton  { id: cpy; extern: subsynth.extern}
+        PasteButton { extern: subsynth.extern}
 
-        function onSetup(old=nil) {
-            children.each do |ch|
-                ch.highlight_pos = :top
-            end
+        function layout(l) {
+            Draw::Layout::tabpack(l, self, cpy)
         }
 
         function set_tab(wid)
@@ -31,15 +30,14 @@ Widget {
             return if !mapping.include?(selected)
             root.set_view_pos(:subview, mapping[selected])
             root.change_view
-
-            #swap.extern  = "/part0/kit0/subpars/"
-            #swap.content = mapping[selected]
         }
     }
+    
+    Swappable { id: swap }
 
     function layout(l) {
         selfBox = l.genBox :subsynth, self
-        Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.95, 0.05])
+        Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.05, 0.95])
     }
 
     function set_view()

@@ -11,7 +11,7 @@ Widget {
     function cb() {
         whenValue.call if whenValue
     }
-    function onSetup() {
+    function onSetup(old=nil) {
         children[0].children.each do |ch|
             ch.whenValue = lambda {fil.cb} if ch.respond_to? :whenValue
         end

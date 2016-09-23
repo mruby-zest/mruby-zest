@@ -1,12 +1,33 @@
 Widget {
     id: dyn
-    VisFilter {
-        id: vis
-        extern: dyn.extern + "filterpars/response"
+
+    property Object valueRef: nil
+    property Symbol filtertype: nil
+    
+    onExtern: {
+        dyn.add_cat()
     }
-    ZynDyFilter {
-        whenModified: lambda { vis.refresh }
-        extern: dyn.extern + "filterpars/"
+
+    function add_cat()
+    {
+        return if self.valueRef
+        if(self.valueRef.nil?)
+            path = self.extern + "filterpars/Pcategory"
+            self.valueRef = OSC::RemoteParam.new($remote, path)
+            self.valueRef.mode = :full
+            self.valueRef.callback = lambda {|x|
+                puts "asdf"
+                dyn.filtertype = [:analog, :formant, :statevar][x]
+                swapp.content  = Qml::ZynDAFilter if dyn.filtertype != :formant
+                swapp.content  = Qml::ZynDFFilter if dyn.filtertype == :formant
+            }
+        end
+    }
+
+    Swappable {
+        id: swapp
+        extern: dyn.extern
+        content: Qml::ZynDAFilter
     }
     ParModuleRow {
         Knob { extern: dyn.extern + "Pvolume"}
@@ -20,13 +41,18 @@ Widget {
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsns" }
         ToggleButton { extern: dyn.extern + "DynamicFilter/Pampsnsinv" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pampsmooth" }
+        Selector {
+            id: cat
+            //whenValue: lambda { box.change_cat};
+            extern: dyn.extern + "filterpars/Pcategory"
+        }
     }
     function draw(vg) {
         Draw::GradBox(vg, Rect.new(0, 0, w, h))
     }
 
     function layout(l) {
-        Draw::Layout::vpack(l, self_box(l), chBoxes(l))
+        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.75,0.25])
     }
 
     function onSetup(old=nil)

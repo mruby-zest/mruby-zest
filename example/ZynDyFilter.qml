@@ -29,7 +29,6 @@ Group {
     ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
 
         NumEntry {
             whenValue: lambda { box.cb}
@@ -40,7 +39,7 @@ Group {
         }
         Selector {
             id: cat
-            whenValue: lambda { box.change_cat};
+            //whenValue: lambda { box.change_cat};
             extern: box.extern + "Pcategory"
         }
         Selector {

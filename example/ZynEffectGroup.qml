@@ -208,7 +208,7 @@ Widget {
         mapper = {:alienwah => 1,
                   :chorus => 1,
                   :distortion => 1,
-                  :dynamicfilter => 3,
+                  :dynamicfilter => 4,
                   :eq => 2,
                   :echo => 1,
                   :phaser => 2,

@@ -25,15 +25,12 @@ Widget {
             ntype = [:sine, :triangle, :square, :rampup,
                 :rampdown, :exp1, :exp2][x]
             return if(ntype == lfo_vis.type)
-            puts "#{ntype} vs #{lfo_vis.type}"
-            puts "type callback"
             lfo_vis.type = [:sine, :triangle, :square, :rampup,
                 :rampdown, :exp1, :exp2][x]}
 
         depth_var = OSC::RemoteParam.new($remote, base+"Pintensity")
         depth_var.callback = lambda {|x|
             lfo_vis.depth = x
-            puts "depth callback"
             lfo_vis.damage_self}
 
         delay_var = OSC::RemoteParam.new($remote, base+"Pdelay")
@@ -46,10 +43,16 @@ Widget {
             lfo_vis.period = 2000*x
             lfo_vis.damage_self}
 
+        phase_var = OSC::RemoteParam.new($remote, base+"Pstartphase")
+        phase_var.callback = lambda {|x|
+            lfo_vis.phase = x
+            lfo_vis.updateType
+            lfo_vis.damage_self}
 
 
         refs << type_var
         refs << depth_var
+        refs << phase_var
         self.valueRef = refs
 
     }

@@ -179,9 +179,8 @@ Widget {
 
     function set_vis_filter(ext, dummy)
     {
-        #puts "addglobal.filtertype = #{addglobal.filtertype}"
         row1.extern = ext + "GlobalFilter/"
-        if(addglobal.filtertype == :formant)
+        if(self.filtertype == :formant)
             row1.content = Qml::ZynFormant
         else
             row1.content = Qml::VisFilter
@@ -229,8 +228,9 @@ Widget {
         amp_gen.content = Qml::ZynAnalogFilter
         amp_env.content = Qml::ZynFilterEnv
         amp_lfo.content = Qml::ZynLFO
-        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
-        amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+        amp_gen.children[0].whenClick = lambda {row1.setDataVis(:filter, :filter)}
+        amp_env.children[0].whenClick = lambda {row1.setDataVis(:env,    :filter)}
+        amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo,    :filter)}
     }
 
     function onSetup(old=nil)

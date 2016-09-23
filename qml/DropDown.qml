@@ -2,8 +2,9 @@ Widget {
     property Array    options:  []
     property Function callback: nil
     property Int      hl:       nil
-    function prime() {
+    function prime(root) {
         @ctime = Time.new
+        root.set_modal(self)
     }
     function draw(vg)
     {
@@ -49,6 +50,7 @@ Widget {
         callback.call opt if callback &&  inx
         callback.call nil if callback && !inx
         rt = self.root
+        rt.set_modal(nil)
         rt.ego_death self
     }
 

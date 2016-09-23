@@ -183,7 +183,7 @@ Widget {
                 widget.y = -self.h*(n-1)
             end
         end
-        widget.prime
+        widget.prime(root())
 
         Qml::add_child(self, widget)
         root.smash_draw_seq

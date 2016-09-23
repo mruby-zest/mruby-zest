@@ -31,10 +31,10 @@ Widget {
         xpts.each do |pt|
             xnorm << pt / 48000.0
         end
-        yy = Draw::opt_magnitude(b, a, xnorm, 1)
+        yy = Draw::opt_magnitude(b, a, xnorm, x[0]+1)
         ypts = []
         yy.each do |pt|
-            ypts << Math::log10(pt)
+            ypts << Math::log10(pt)/4
         end
         #puts ypts
         #vis_filter.xpoints = xpts

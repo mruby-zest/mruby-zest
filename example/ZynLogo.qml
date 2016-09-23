@@ -19,7 +19,7 @@ Widget {
             v.fill_color logo_top
             v.fill
         end
-        
+
         vg.path do |v|
             l = 0.4*w
             v.move_to(l,h)
@@ -35,5 +35,11 @@ Widget {
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color logo_top
         vg.text(w*1/2,h/2,"ZYN")
+    }
+
+    function onMousePress(m)
+    {
+        root.set_view_pos(:view, :about)
+        root.change_view
     }
 }

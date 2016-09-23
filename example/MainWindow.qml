@@ -128,6 +128,9 @@ Widget {
         elsif(type == :banks)
             main_widget.extern  = "/"
             main_widget.content = Qml::ZynBank
+        elsif(type == :about)
+            main_widget.extern  = "/"
+            main_widget.content = Qml::ZynAbout
         else
             main_widget.content = Qml::Widget
         end

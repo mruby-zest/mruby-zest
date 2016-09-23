@@ -5,6 +5,7 @@ Widget {
     property Bool editable: false;
     property Function whenClick: nil
     property Float topSize: 0.1
+    property Float pxpad: 8.0
 
     layoutOpts: [:horizontal]
 
@@ -55,9 +56,11 @@ Widget {
         #Constrain Content Box
         l.contains(selfBox,titleBox)
         l.contains(selfBox,contentBox)
-        l.topOf(titleBox,contentBox)
-        l.sheq([contentBox.h, selfBox.h], [1, -(1-topSize)], 0)
-        l.sheq([contentBox.w, selfBox.w], [1, -1], 0)
+        #l.topOf(titleBox,contentBox)
+        l.sh([contentBox.h, selfBox.h], [1, -(1-topSize)], -pxpad)
+        l.sheq([contentBox.x], [1], pxpad)
+        l.sheq([contentBox.w, selfBox.w], [1, -1], -2*pxpad)
+        l.sh([contentBox.y, selfBox.h], [-1, topSize], -pxpad)
 
         l.contains(selfBox, titleBox)
         l.sheq([titleBox.x],[1],0)

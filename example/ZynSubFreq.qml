@@ -11,14 +11,16 @@ Widget {
             label: "general"
             ParModuleRow {
                 Knob {     extern: subfq.extern + "PDetune" }
-                NumEntry { extern: subfq.extern + "octave" }
                 Selector { extern: subfq.extern + "PDetuneType" }
-                //TODO relbw
+                NumEntry { extern: subfq.extern + "octave" }
+                Knob     { extern: subfq.extern + "PBendAdjust"}
                 //eqt
+
+            }
+            ParModuleRow {
                 ToggleButton {   extern: subfq.extern + "Pfixedfreq" }
                 Knob   {   extern: subfq.extern + "PfixedfreqET" }
-                //TODO cdet
-
+                Knob     { extern: subfq.extern + "POffsetHz"}
             }
         }
         ZynFreqEnv {

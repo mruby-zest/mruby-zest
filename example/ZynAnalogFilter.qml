@@ -35,6 +35,11 @@ Group {
         root.ego_death snsa
         root.ego_death snsb
     }
+    
+    function move_sense() {
+        snsa.extern = path_simp(box.extern + "../PGlobalFilterVelocityScale")
+        snsb.extern = path_simp(box.extern + "../PGlobalFilterVelocityScaleFunction")
+    }
 
     ParModuleRow {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }

@@ -100,7 +100,7 @@ Widget {
 
     function onSetup(old=nil) {
 
-        gen.remove_sense()
+        gen.move_sense()
         set_view()
     }
 }

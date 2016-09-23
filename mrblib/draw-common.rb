@@ -94,6 +94,15 @@ module Draw
                 vg.stroke
             end
         end
+        
+        def self.flat_line(vg, bb, co, yy)
+            vg.path do
+                vg.move_to(bb.x,      bb.y+bb.h/2-yy*bb.h/2)
+                vg.line_to(bb.x+bb.w, bb.y+bb.h/2-yy*bb.h/2)
+                vg.stroke_color co
+                vg.stroke
+            end
+        end
 
         def self.env_sel_line(vg, bb, m, dat, co)
             n = dat.length
@@ -387,6 +396,24 @@ module Draw
             end
             x
         end
+
+        def self.ary_sum(x)
+            sum = 0
+            x.each do |xx|
+                sum += xx
+            end
+            sum
+        end
+
+        def self.norm_sum(x)
+            sum = ary_sum(x)
+            n   = x.length
+            (0...n).each do |i|
+                x[i] /= sum
+            end
+            x
+        end
+
         def self.pad_norm(x,y)
             prev = -99.0
             xx = []
@@ -488,8 +515,9 @@ module Draw
 
                 l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
 
+                bxclass = ch.class
                 #add in the aspect constraint
-                l.aspect(box, 100, weights[idx])
+                l.aspect(box, 100, weights[idx]) unless [Qml::CopyButton, Qml::PasteButton].include?(bxclass)
 
                 l.weak(box.x) if ch == weak
 

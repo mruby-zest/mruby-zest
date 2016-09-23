@@ -166,57 +166,7 @@ Widget {
                 skip:   true
                 whenValue: lambda {bank.doInsSelect}
             }
-            Widget {
-                id: info_box
-                Group {
-                    copyable: false
-                    label: "name"
-                    topSize: 0.3
-                    TextLine {
-                        id: namebox
-                        extern: "/part0/Pname"
-                    }
-                }
-                Group {
-                    topSize: 0.2
-                    copyable: false
-                    label: "author"
-                    TextEdit {
-                        id: authbox
-                        extern: "/part0/info.Pauthor"
-                    }
-                }
-                Group {
-                    copyable: false
-                    label: "comments"
-                    TextEdit {
-                        id: commbox
-                        extern: "/part0/info.Pcomments"
-                    }
-                }
-
-                function layout(l)
-                {
-                    selfBox = l.genBox :widget, self
-
-                    name    = children[0].layout l
-                    author  = children[1].layout l
-                    comment = children[2].layout l
-
-                    l.fixed(name,    selfBox, 0, 0.00, 1, 0.10)
-                    l.fixed(author,  selfBox, 0, 0.10, 1, 0.25)
-                    l.fixed(comment, selfBox, 0, 0.35, 1, 0.65)
-
-                    selfBox
-                }
-                function set_view()
-                {
-                    prt = root.get_view_pos(:part)
-                    namebox.extern = "/part#{prt}/Pname"
-                    authbox.extern = "/part#{prt}/info.Pauthor"
-                    commbox.extern = "/part#{prt}/info.Pcomments"
-                }
-            }
+            ZynPatchInfo {}
 
             function layout(l)
             {

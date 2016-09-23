@@ -10,7 +10,10 @@ Widget {
         label: "scale settings"
         ParModuleRow {
             ToggleButton { extern: micro.extern + "Penabled" }
-            ColorBox { extern: micro.extern + "osctavesize"; label: "per/oct" }
+            NumBox   {
+                extern: micro.extern + "octavesize"
+                label: "per/oct"
+            }
             Knob {
                 extern: micro.extern + "PAfreq"
                 type: "f"

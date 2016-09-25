@@ -46,7 +46,7 @@ Widget {
         end
         vg.stroke_color color("000000", 0xa0)
         vg.path do |v|
-            v.rect(0,0,w/4,h)
+            v.rounded_rect(0,0,w/4,h, 5)
             v.fill_paint(grad)
             v.fill
             v.stroke_width 1
@@ -58,7 +58,7 @@ Widget {
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             pad = 0
-            v.rect(w/4+pad,0,w*3/4,h)
+            v.rounded_rect(w/4+pad,0,w*3/4,h, 3)
             if(value)
                 v.fill_paint grad
             else

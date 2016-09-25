@@ -18,7 +18,7 @@ ToggleButton {
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             pad = 0
-            v.rect(pad,0,w,h)
+            v.rounded_rect(pad,0,w,h,3)
             if(self.value)
                 v.fill_paint grad
             else

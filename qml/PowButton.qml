@@ -44,7 +44,7 @@ ToggleButton {
             vg.arc(cx, cy, r, center+pi*0.75, center-pi*0.75, 1);
             vg.move_to(cx, 0.45*h);
             vg.line_to(cx, 0.30*h);
-            vg.stroke_width(1.0);
+            vg.stroke_width(w/20.0);
             vg.stroke_color(super_green)
             vg.stroke
         end

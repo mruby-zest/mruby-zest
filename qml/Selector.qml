@@ -103,20 +103,23 @@ Widget {
         end
     }
 
-    function draw(vg)
+    function draw_strike(vg)
     {
-        text_color = Theme::TextColor
         pad  = 1/64
         pad2 = (1-2*pad)
-        vg.path do |v|
-            v.rect(w*pad, h*pad, w*pad2, h*pad2)
-            paint = v.linear_gradient(0,0,0,h,
-            Theme::ButtonGrad1, Theme::ButtonGrad2)
-            v.fill_paint paint
-            v.fill
-            v.stroke_width 1
-            v.stroke
+        vg.path do
+            vg.move_to(w*pad, h*pad)
+            vg.line_to(w*pad2, h*pad2)
+            vg.stroke_color Theme::TextColor
+            vg.stroke_width 1
+            vg.stroke
         end
+    }
+
+    function draw_arrow(vg)
+    {
+        pad  = 1/64
+        pad2 = (1-2*pad)
 
         vg.path do |v|
             tx = w*pad2-h*pad2
@@ -132,18 +135,43 @@ Widget {
             v.fill_color Theme::TextColor
             v.fill
         end
+    }
 
-        if(self.active == false)
-            vg.path do
-                vg.move_to(w*pad, h*pad)
-                vg.line_to(w*pad2, h*pad2)
-                vg.stroke_color text_color
-                vg.stroke_width 1
-                vg.stroke
-            end
+    function draw_button(vg)
+    {
+        pad  = 1/64
+        pad2 = (1-2*pad)
+        vg.path do |v|
+            v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
+            paint = v.linear_gradient(0,0,0,h, Theme::ButtonGrad1, Theme::ButtonGrad2)
+            v.fill_paint paint
+            v.fill
+            v.stroke_width 1
+            v.stroke
         end
 
+        vg.path do |v|
+            hh = h/20
+            v.move_to(w*pad+2,       h*pad+hh)
+            v.line_to(w*(1-2*pad)+1, h*pad+hh)
+            v.stroke_color color("5c5c5c")
+            v.stroke_width hh 
+            v.stroke
+        end
+    }
+
+    function draw(vg)
+    {
+        draw_button(vg)
+
+        draw_arrow(vg)
+
+        draw_strike(vg) if !self.active
+
         return if options[selected].nil?
+
+        pad  = 1/64
+        text_color = Theme::TextColor
 
         vg.font_face("bold")
         vg.font_size h*0.8

@@ -51,33 +51,10 @@ Widget {
         selfBox
     }
 
-    function draw(vg)
+    function draw_text(vg)
     {
-        off_color     = Theme::ButtonInactive
-        on_color      = Theme::ButtonActive
         text_color1   = Theme::TextActiveColor
         text_color2   = Theme::TextColor
-        vg.path do |v|
-            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
-            if(button.value == true)
-                v.fill_color on_color
-            elsif(button.value.class == Float && button.value != 0)
-                t = button.value
-                on = on_color
-                of = Theme::ButtonGrad1
-                v.fill_color(color_rgb(on.r*t + of.r*(1-t),
-                                       on.g*t + of.g*(1-t),
-                                       on.b*t + of.b*(1-t)))
-            else
-                paint = v.linear_gradient(0,0,0,h,
-                Theme::ButtonGrad1, Theme::ButtonGrad2)
-                v.fill_paint paint
-            end
-            v.fill
-            v.stroke_width 1
-            v.stroke
-        end
-
         vg.font_face("bold")
         vg.font_size h*self.textScale
         if(value == true)
@@ -92,13 +69,72 @@ Widget {
             vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
             vg.text(w/2,h/2,button.label.upcase)
         end
-        if(!self.active)
-            vg.path do
-                vg.move_to(w*pad, h*pad)
-                vg.line_to(w*(1-2*pad), h*(1-2*pad))
-                vg.stroke_color text_color2
-                vg.stroke
+    }
+
+    function draw_inactive(vg)
+    {
+        strike_color = Theme::TextColor
+        vg.path do
+            vg.move_to(w*pad, h*pad)
+            vg.line_to(w*(1-2*pad), h*(1-2*pad))
+            vg.stroke_width 1.0
+            vg.stroke_color strike_color
+            vg.stroke
+        end
+    }
+
+    function draw_button(vg)
+    {
+        off_color     = Theme::ButtonInactive
+        on_color      = Theme::ButtonActive
+        cs = 0
+        vg.path do |v|
+            v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
+            if(button.value == true)
+                cs = 1
+                v.fill_color on_color
+            elsif(button.value.class == Float && button.value != 0)
+                cs = 2
+                t = button.value
+                on = on_color
+                of = Theme::ButtonGrad1
+                v.fill_color(color_rgb(on.r*t + of.r*(1-t),
+                                       on.g*t + of.g*(1-t),
+                                       on.b*t + of.b*(1-t)))
+            else
+                paint = v.linear_gradient(0,0,0,h,
+                Theme::ButtonGrad1, Theme::ButtonGrad2)
+                v.fill_paint paint
+            end
+            v.fill
+            v.stroke_width 1
+            v.stroke
+
+        end
+
+        vg.path do |v|
+            hh = h/20
+            v.move_to(w*pad+1,       h*pad+hh)
+            v.line_to(w*(1-2*pad)+1, h*pad+hh)
+            if(cs == 0)
+                v.stroke_color color("5c5c5c")
+            elsif(cs == 1)
+                v.stroke_color color("16a39c")
+            end
+            if([0,1].include?(cs))
+                v.stroke_width hh 
+                v.stroke
             end
         end
+    }
+
+
+    function draw(vg)
+    {
+        draw_button(vg)
+
+        draw_text(vg)
+
+        draw_inactive(vg) if !self.active
     }
 }

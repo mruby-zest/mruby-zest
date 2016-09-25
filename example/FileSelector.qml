@@ -6,6 +6,7 @@ Widget {
 
     property String state:     "invalid-dir"
     property String path_mode: "unix"
+    property String path_sep:  "/"
     property String ext:       nil
     property String pat:       nil
 
@@ -65,7 +66,6 @@ Widget {
     }
 
     function layout(l) {
-        puts "layout of file editor"
         selfBox = self_box(l)
         ch      = chBoxes(l)
         hpad = 0.10
@@ -102,6 +102,15 @@ Widget {
         self.valueRef = [dirs, files, home]
     }
 
+    function is_windows_path(x)
+    {
+        return false if x.length < 4
+        return false if x[0].ord < "A".ord || x[0].ord > "Z".ord
+        return false if x[1].ord != 58
+        return false if x[2].ord != 92
+        return true
+    }
+
     function set_home(x)
     {
         line.label = x
@@ -109,6 +118,8 @@ Widget {
         set_state("in-directory")
         $remote.action("/file_list_dirs",  x)
         $remote.action("/file_list_files", x)
+        self.path_mode = "windows" if is_windows_path(x)
+        self.path_sep  = "\\"      if path_mode == "windows"
     }
 
     function set_dir(x)
@@ -120,9 +131,9 @@ Widget {
             set_state("in-directory")
         end
 
-        line.label += "/" if line.label[-1] != "/"
-        line.label += x + "/"
-        line.label = path_simp(line.label)
+        line.label += path_sep if line.label[-1] != path_sep
+        line.label += x + path_sep
+        simplify()
         line.damage_self
         set_state("in-directory")
         $remote.action("/file_list_dirs",  line.label)
@@ -147,15 +158,15 @@ Widget {
 
     function addFav()
     {
-        return if line.label[-1] != "/"
+        return if line.label[-1] != path_sep
         $remote.action("/config/add-favorite", line.label)
         $remote.action("/config/favorites")
     }
 
     function check()
     {
-        line.label = "/" if line.label.empty?
-        puts line.label[-1].ord
+        line.label = "/"    if line.label.empty? && path_mode == "unix"
+        line.label = "C:\\" if line.label.empty? && path_mode == "windows"
         if(line.label[-1].ord == 27) #esc
             whenCancel
             return
@@ -181,8 +192,8 @@ Widget {
                 return
             end
         end
-        if(line.label[-1] != "/")
-            last = line.label.split("/")[-1]
+        if(line.label[-1] != path_sep)
+            last = line.label.split(path_sep)[-1]
             set_state("partial-file-dir")
             folders.pattern = Regexp.new(last)
             files.pattern   = Regexp.new(last)          if file.pat.nil?
@@ -194,7 +205,7 @@ Widget {
             set_state("in-directory")
         end
         dir = line.label
-        if(dir[-1] != "/")
+        if(dir[-1] != path_sep)
             dir = updir(dir)
         else
             #hacky work around c-string conversion bug
@@ -212,28 +223,53 @@ Widget {
     function set_file(x)
     {
         if(x.nil? || x.empty?)
-            puts "up directory"
             set_state("in-directory")
             line.label = updir(line.label)
             line.damage_self
         else
             line.label = updir(line.label) if self.state == "on-file"
             set_state("on-file")
-            line.label += "/"
+            line.label += path_sep
             line.label += x
             line.damage_self
         end
     }
 
+    function simp_win(x)
+    {
+        dat = x.split("\\").reverse
+        todel = 0
+        o = []
+        dat.each do |d|
+            if(d == "..")
+                todel += 1
+            elsif(todel != 0)
+                todel -= 1
+            elsif(d != "")
+                o << d
+            end
+        end
+        return "C:\\" if o.empty?
+        o << ""
+        tmp = o.reverse.join("\\")
+        tmp[1..tmp.length]
+    }
+
     function simplify()
     {
-        line.label = path_simp(line.label)
+        line.label = path_simp(line.label) if path_mode == "unix"
+        line.label = simp_win(line.label)  if path_mode == "windows"
     }
 
     function updir(x)
     {
-        dat = x.split("/").reverse
-        dat[1..dat.length].reverse.join("/")
+        dat = x.split(path_sep).reverse
+        tmp = dat[1..dat.length].reverse.join(path_sep)
+        if(path_mode == "unix")
+            tmp
+        else
+            tmp[1..tmp.length]
+        end
     }
 
     function set_state(x)

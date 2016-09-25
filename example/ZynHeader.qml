@@ -28,18 +28,21 @@ Widget {
         layoutOpts: [:no_constraint]
     }
 
-    Button {
-        id: close
-        label: "x"
-        layoutOpts: [:no_constraint]
-    }
+    Widget { id: close }
+    Widget { id: minimize }
 
-    Button {
-        id: minimize
-        label: "-"
-        layoutOpts: [:no_constraint]
-        textScale: 1.2
-    }
+    //Button {
+    //    id: close
+    //    label: "x"
+    //    layoutOpts: [:no_constraint]
+    //}
+
+    //Button {
+    //    id: minimize
+    //    label: "-"
+    //    layoutOpts: [:no_constraint]
+    //    textScale: 1.2
+    //}
 
     function layout(l)
     {

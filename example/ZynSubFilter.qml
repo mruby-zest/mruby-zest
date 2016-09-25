@@ -48,8 +48,6 @@ Widget {
 
     function set_vis_filter(ext)
     {
-        puts "working on set_vis_filter"
-        puts "<#{self.filtertype}>"
         edit.extern = ext + "GlobalFilter/"
         if(self.filtertype == :formant)
             edit.content = Qml::ZynFormant

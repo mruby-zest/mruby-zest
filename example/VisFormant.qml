@@ -11,7 +11,6 @@ Widget {
     property Int    vowel_num: 0
 
     function change() {
-        #puts "[DEBUG] Pending Change"
         self.pending_damage = true
     }
 
@@ -20,9 +19,7 @@ Widget {
     }
 
     function onSetup(old=nil) {
-        #puts "[DEBUG] Formant Graph"
         base = vfor.extern
-        #puts "[DEBUG] extern root is <#{base}>"
         refs = []
 
         #Vowel data
@@ -98,11 +95,6 @@ Widget {
         end
         if(self.pending_damage)
             self.pending_damage = false
-            #puts "numfor= #{self.numformants}"
-            #puts "q_valu= #{self.q_value}"
-            #puts "stages= #{self.stages}"
-            #puts "gain  = #{self.gain_value}"
-            #puts "vowels= #{self.vowels}"
             response(self.vowel_num) if !self.vowels.nil?
         end
     }

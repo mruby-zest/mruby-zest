@@ -11,8 +11,6 @@ Widget {
                 children[i].set_level(data[6+i])
             end
         end
-        #puts "animate"
-        #puts "vu meters..."
     }
 
     function update_data(x)

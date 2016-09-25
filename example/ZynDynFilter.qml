@@ -16,7 +16,6 @@ Widget {
             self.valueRef = OSC::RemoteParam.new($remote, path)
             self.valueRef.mode = :full
             self.valueRef.callback = lambda {|x|
-                puts "asdf"
                 dyn.filtertype = [:analog, :formant, :statevar][x]
                 swapp.content  = Qml::ZynDAFilter if dyn.filtertype != :formant
                 swapp.content  = Qml::ZynDFFilter if dyn.filtertype == :formant

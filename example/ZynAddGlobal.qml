@@ -7,7 +7,6 @@ Widget {
 
     function layout(l)
     {
-        #puts "Center layout"
         selfBox = l.genBox :zynAddGlobal, self
         row1Box  = row1.layout(l)
         row2Box  = row2.layout(l)
@@ -111,7 +110,6 @@ Widget {
 
         function setTab(id)
         {
-            #puts "set tab in add global"
             (0..2).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
                 children[ch_id].damage_self
@@ -131,7 +129,6 @@ Widget {
 
     function set_view()
     {
-        puts "====================set_view..."
         subsubview = root.get_view_pos(:subsubview)
         types = [:amplitude, :frequency, :filter]
         if(!types.include?(subsubview))
@@ -153,7 +150,6 @@ Widget {
             set_filter(self.extern)
         end
 
-        puts "vis = #{vis}..."
         if(vis == :lfo)
             set_vis_lfo(self.extern, subsubview)
         elsif(vis == :envelope)
@@ -192,7 +188,6 @@ Widget {
 
     function set_vis_filter(ext, dummy)
     {
-        #puts "addglobal.filtertype = #{addglobal.filtertype}"
         row1.extern = ext + "GlobalFilter/"
         if(addglobal.filtertype == :formant)
             row1.content = Qml::ZynFormant
@@ -235,7 +230,6 @@ Widget {
     function set_filter(base)
     {
         footer.children[2].value = true
-        #puts "*********************************set filter = #{base}"
         amp_gen.extern  = base + "GlobalFilter/"
         amp_env.extern  = base + "FilterEnvelope/"
         amp_lfo.extern  = base + "FilterLfo/"
@@ -248,7 +242,6 @@ Widget {
 
     function onSetup(old=nil)
     {
-        #puts "Global Setup <#{self.valueRef}>"
         return if self.valueRef
         if(self.valueRef.nil?)
             path = self.extern + "GlobalFilter/Pcategory"

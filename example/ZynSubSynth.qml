@@ -58,7 +58,6 @@ Widget {
             vw = :harmonic
         end
 
-        puts "subsynth extern is #{subsynth.extern}"
         swap.extern  = subsynth.extern
         swap.content = mapping[vw]
         subtabs.children[tabid[vw]].value = true

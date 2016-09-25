@@ -6,7 +6,6 @@ Widget {
 
     function layout(l)
     {
-        #puts "Center layout"
         selfBox = l.genBox :zynAddGlobal, self
         row1Box  = row1.layout(l)
         row2Box  = row2.layout(l)
@@ -104,7 +103,6 @@ Widget {
 
         function setTab(id)
         {
-            puts "set tab"
             (0..2).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
                 self.root.damage_item children[ch_id]

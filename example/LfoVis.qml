@@ -173,7 +173,7 @@ Widget {
         updateType if dat.empty?
         dat = lfo_vis.points
         if(dat.empty?)
-            puts "um, it's empty..."
+            puts "[Zyn-Zest:ERROR] LfoVis - um, it's empty..."
             return
         end
 

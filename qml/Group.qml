@@ -22,7 +22,6 @@ Widget {
             pb.extern = mod.toggleable
             pb.parent = titleW
             ch = titleW.children
-            puts ch
             ch.insert(1, pb)
             titleW.children = ch
         end
@@ -174,7 +173,6 @@ Widget {
 
         function layout(l)
         {
-            (0..100).print '&'
             selfBox = l.genBox :contentBox, self
             begin
                 prev = nil

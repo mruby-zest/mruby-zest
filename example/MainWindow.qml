@@ -86,7 +86,6 @@ Widget {
 
     function set_view()
     {
-        puts "main window set view"
         prt  = root.get_view_pos(:part)
         kit  = root.get_view_pos(:kit)
         type = root.get_view_pos(:view)

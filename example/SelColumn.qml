@@ -117,7 +117,6 @@ Widget {
         center = (n-24)*(1-scroll.value)+12
         off    = (center-12).to_i
         if(off != self.oldOff)
-            #puts "new offset #{off}"
             setValue(rows, off)
         end
     }
@@ -168,7 +167,6 @@ Widget {
         end
         n = [x.length/stride, children.length-1].min
         (1..n).each do |i|
-            #puts "#{i} => #{x[(i-1+offset)*stride]}"
             nv = (children[i].label == self.value_lab &&
                   children[i].tooltip == self.value_sel)
             children[i].label   = x[(i-1+offset)*stride]

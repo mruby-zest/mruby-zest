@@ -121,17 +121,13 @@ Widget {
         dne = Time.new
         tot = dne-srt
         #scl = 100/tot
-        puts("[INFO] Content chagned to #{swappable.content} from #{cls} in #{1000*tot}ms")
-        puts("[INFO] <#{ext}> => <#{extern}>") if ext != extern
+        #puts("[INFO] Content chagned to #{swappable.content} from #{cls} in #{1000*tot}ms")
+        #puts("[INFO] <#{ext}> => <#{extern}>") if ext != extern
         #puts("[INFO] Content swap took #{1000*tot}ms (#{(scl*(mid-srt)).to_i}% remove) (#{(scl*(dne-mid)).to_i}% add)")
         #puts("[INFO]                                 (#{(scl*d2[0]).to_i}% init) (#{(scl*d2[1]).to_i}% update) (#{(scl*d2[2]).to_i}% setup)")
     }
 
     onContent: {
-        #puts "cls = #{swappable.content}"
-        #puts "swappable empty   = #{!swappable.children.empty?}"
-        #puts "swappable diffcls = #{swappable.children[0].class == swappable.content}"
-        #puts "swappable extdiff = #{swappable.extern.empty? || swappable.extern == swappable.children[0].class}"
         return if(!swappable.children.empty? &&
             swappable.children[0].class == swappable.content &&
             (swappable.extern.empty? || swappable.extern == swappable.children[0].extern))
@@ -140,9 +136,6 @@ Widget {
 
     function layout(l)
     {
-        #puts "swappable layout"
-        #puts "swappable content is"
-        #puts self.children[0].class
         t = self.class_name.to_sym
         selfBox = l.genBox t, widget
         self.children.each do |child|

@@ -7,7 +7,6 @@ Widget {
 
     function layout(l)
     {
-        #puts "Center layout"
         selfBox = l.genBox :zynAddGlobal, self
         row1Box  = row1.layout(l)
         row2Box  = row2.layout(l)
@@ -99,7 +98,6 @@ Widget {
 
         function setTab(id)
         {
-            puts "set tab in padsynth"
             (0..2).each do |ch_id|
                 children[ch_id].value = (ch_id == id)
                 children[ch_id].damage_self
@@ -118,7 +116,6 @@ Widget {
 
     function set_view()
     {
-        puts "====================set_view..."
         subsubview = root.get_view_pos(:subsubview)
         types = [:amplitude, :frequency, :filter]
         if(!types.include?(subsubview))
@@ -140,7 +137,6 @@ Widget {
             set_filter(self.extern)
         end
 
-        puts "vis = #{vis}..."
         if(vis == :lfo)
             set_vis_lfo(self.extern, subsubview)
         elsif(vis == :envelope)
@@ -220,7 +216,6 @@ Widget {
 
     function set_filter(base)
     {
-        #puts "*********************************set filter = #{base}"
         footer.children[2].value = true
         amp_gen.extern  = base + "GlobalFilter/"
         amp_env.extern  = base + "FilterEnvelope/"

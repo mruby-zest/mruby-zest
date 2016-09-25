@@ -36,7 +36,6 @@ Widget {
         yy.each do |pt|
             ypts << Math::log10(pt)/4
         end
-        #puts ypts
         #vis_filter.xpoints = xpts
         data_view.data = ypts
         data_view.damage_self

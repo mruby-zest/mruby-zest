@@ -11,8 +11,6 @@ Widget {
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote,
                                        selector.extern)
-        #print "selector extern = "
-        #puts meta.options
         selector.label   = meta.short_name
         selector.tooltip = meta.tooltip
         if(meta.options)

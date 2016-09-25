@@ -51,7 +51,6 @@ Widget {
     {
         return if ii < 0
         return if ii >= children.length
-        puts "set_kit_enable #{self.sym}"
         children[ii].set_enable(val)
     }
 

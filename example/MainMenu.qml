@@ -2,10 +2,8 @@ Widget {
     id: menu
     function layout(l)
     {
-        puts "Menu layout"
         selfBox = l.genBox :menu, menu
         chBox   = chBoxes(l)
-        puts "chBox.length = #{chBox.length}"
 
         pad  = 1/32
         pad2 = 0.5-2*pad
@@ -44,7 +42,6 @@ Widget {
     function file_select()
     {
         opt = file.options[file.selected]
-        puts "file select"
         win = window()
         wid = Qml::FileSelector.new(db)
         wid.whenValue = lambda { |x| menu.file_value(x)}
@@ -61,15 +58,10 @@ Widget {
         wid.pat = ".xsz" if opt == "save microtonal"
         wid.pat = ".xlz" if opt == "load midi bindings"
         wid.pat = ".xlz" if opt == "save midi bindings"
-        #puts "[DEBUG] Add Child"
         Qml::add_child(win, wid)
-        #puts "[DEBUG] Update Values"
         self.db.update_values
-        #puts "[DEBUG] Setup"
         setup_widget wid
-        #puts "[DEBUG] Update Values 2"
         self.db.update_values
-        #puts self
 
         if(root)
             root.smash_layout
@@ -107,7 +99,6 @@ Widget {
 
     function file_value(val)
     {
-        puts "I got a #{val.inspect}"
         return if val == :cancel
         opt = file.options[file.selected]
         prt  = root.get_view_pos(:part)

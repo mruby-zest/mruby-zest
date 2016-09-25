@@ -5,7 +5,6 @@ Widget {
     property Function whenValue: nil
 
     function set_value_user(val) {
-        puts "set_value_user #{val}"
         self.selected = val
         whenValue.call if whenValue
     }
@@ -92,8 +91,6 @@ Widget {
         widget.callback = lambda { |v|
             set_value_user(v)
         }
-        #print "widget.x = "
-        #puts widget.x
         widget.y = -self.h*(n-1) if(widget.h+global_y > window.h)
         widget.prime(root())
 

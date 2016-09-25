@@ -44,10 +44,6 @@ Widget {
         gbl_h  = window.h
 
         ropt = [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy].min
-        #print "maximum radius is "
-        #puts ropt
-        #puts [gbl_cx, gbl_cy, gbl_w, gbl_h]
-        #puts [gbl_cx, gbl_cy, gbl_w-gbl_cx, gbl_h-gbl_cy]
 
         diameter = [2.0*ropt, 3.0*0.5*(valuator.w+valuator.h)].min
 
@@ -69,8 +65,6 @@ Widget {
                 valueRef.default if valueRef
             end
         }
-        print "widget.x = "
-        puts widget.x
 
         Qml::add_child(valuator, widget)
         valuator.root.smash_draw_seq
@@ -113,7 +107,6 @@ Widget {
 
     function onMouseMove(ev) {
         fine = root.fine_mode ? 0.05 : 1.0
-        #puts "I got a mouse move (value)"
         if(prev)
             delta = if(vertical)
                 +(ev.pos.y - self.prev.y)

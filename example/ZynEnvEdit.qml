@@ -6,7 +6,6 @@ Widget {
         return if self.extern.empty?
         return if env.selected == nil
         return if !free.value
-        puts "try to add point"
         path = self.extern + "addPoint"
         $remote.action(path, env.selected)
         env.refresh
@@ -16,7 +15,6 @@ Widget {
         return if self.extern.empty?
         return if env.selected == nil
         return if !free.value
-        puts "try to delete point"
         path = self.extern + "delPoint"
         $remote.action(path, env.selected)
         env.refresh

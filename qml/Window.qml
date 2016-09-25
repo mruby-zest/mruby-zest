@@ -5,6 +5,5 @@ Widget {
     }
     function draw(vg)
     {
-        #puts("window => w=#{w}, h=#{h}")
     }
 }

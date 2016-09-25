@@ -7,7 +7,6 @@ Widget {
 
     function onSetup(old=nil)
     {
-        puts "Zyn Kit Setup..."
         return if children.length > 2
         (0...16).each do |r|
             row         = Qml::ZynKitRow.new(db)

@@ -45,8 +45,6 @@ Widget {
                     l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
                 end
             end
-        else
-            #puts "NONONONONONONONONN"
         end
         selfBox
     }

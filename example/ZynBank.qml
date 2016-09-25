@@ -41,7 +41,6 @@ Widget {
         ins = ins_sel.selected_val
         part = root.get_view_pos(:part)
         return if part.class != Fixnum
-        puts "loading #{ins}"
         $remote.action("/load_xiz", part, ins) if !ins.empty?
         $remote.damage("/part#{part}/");
     }
@@ -49,7 +48,6 @@ Widget {
     function doSave()
     {
         return if ins_sel.selected_val.nil?
-        puts "Save to slot #{ins_sel.selected_val}"
         part = root.get_view_pos(:part)
         $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
     }

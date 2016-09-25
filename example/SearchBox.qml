@@ -14,7 +14,6 @@ Widget {
     function onKey(k, mode)
     {
         return if mode != "press"
-        puts k.ord
         if(k.ord == 8)
             self.label = self.label[0...-1]
         else

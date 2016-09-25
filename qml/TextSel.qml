@@ -10,8 +10,6 @@ Widget {
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote,
                                        textsel.extern)
-        #print "textsel extern = "
-        #puts meta.options
         textsel.label   = meta.short_name
         textsel.tooltip = meta.tooltip
         if(meta.options)

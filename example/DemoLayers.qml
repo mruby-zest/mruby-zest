@@ -3,7 +3,6 @@ Widget {
 
     function draw(vg)
     {
-        #puts "doing a draw..."
         vg.path do |v|
             v.rect(0,0,w,h)
             grad = v.linear_gradient(0,0,512,512,NVG.rgba(0,0,0,255),
@@ -11,15 +10,9 @@ Widget {
             v.fill_paint = grad
             v.fill
         end
-
-        #puts "root = "
-        #puts root
     }
 
-    function onMousePress(ev)
-    {
-        puts "Mouse Press..."
-    }
+    function onMousePress(ev) { }
 
     function onMouseHover(ev)
     {

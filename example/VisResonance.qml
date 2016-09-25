@@ -39,7 +39,6 @@ Widget {
     function animate()
     {
         if(@send_update)
-            puts "sending update..."
             @send_update = false
             self.valueRef.value = rescale(draw_layer.points)
         end

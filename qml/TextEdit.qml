@@ -17,7 +17,7 @@ Widget {
     {
         "Text"
     }
-    
+
     function onKey(k, mode)
     {
         return if mode != "press"
@@ -28,7 +28,6 @@ Widget {
             self.label += k
         end
         ll = self.label
-        puts ll
         self.valueRef.value = ll if self.valueRef
         damage_self
     }

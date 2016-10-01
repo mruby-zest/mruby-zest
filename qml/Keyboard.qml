@@ -208,7 +208,7 @@ Widget {
             vg.stroke
         end
         id = black_key_id i
-        next if no_black i
+        return if no_black i
 
         box = black_bb(i, white_keys)
         vg.path do |vg|

@@ -8,6 +8,7 @@ Widget {
     }
     function draw(vg)
     {
+        self.options = [self.options] if self.options.class == String
         n  = options.length
         dy = h/n
 
@@ -50,6 +51,7 @@ Widget {
         callback.call opt if callback &&  inx
         callback.call nil if callback && !inx
         rt = self.root
+        return if rt.nil?
         rt.set_modal(nil)
         rt.ego_death self
     }

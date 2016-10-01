@@ -18,6 +18,7 @@ Widget {
     Widget {
         ZynAnalogFilter {
             id: gen
+            subsynth: true
             toggleable: subfl.extern + "PGlobalFilterEnabled"
             extern: subfl.extern + "GlobalFilter/"
             whenClick: lambda { subfl.change_vis(:filter) }

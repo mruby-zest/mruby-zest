@@ -3,6 +3,7 @@ Group {
     label: "General"
     property Function whenModified: nil
     property Bool     type: :analog
+    property Bool     subsynth: false
 
     onType: {
         #Changes filter type
@@ -45,8 +46,23 @@ Group {
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
         Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
-        Knob { id: snsa; extern: path_simp(box.extern + "../PFilterVelocityScale") }
-        Knob { id: snsb; extern: path_simp(box.extern + "../PFilterVelocityScaleFunction") }
+        Knob {
+            id: snsa;
+            extern: {
+                ext = "../PFilterVelocityScale"       if !box.subsynth
+                ext = "../PGlobalFilterVelocityScale" if  box.subsynth
+                path_simp(box.extern + ext)
+            }
+        }
+        Knob {
+            id: snsb;
+            extern: {
+                ext = "../PFilterVelocityScaleFunction"       if !box.subsynth
+                ext = "../PGlobalFilterVelocityScaleFunction" if  box.subsynth
+
+                path_simp(box.extern + ext)
+            }
+        }
     }
     ParModuleRow {
         NumEntry {

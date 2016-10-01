@@ -57,7 +57,7 @@ Widget {
         clseBox = close.layout(l)
         miniBox = minimize.layout(l)
 
-        l.fixed(logoBox, selfBox, 0.016, 0.2,  0.080, 0.6)
+        l.fixed(logoBox, selfBox, 0.016, 0.15,  0.080, 0.7)
         l.fixed(menuBox, selfBox, 0.100, 0.15, 0.112, 0.7)
         l.fixed(statBox, selfBox, 0.220, 0.15, 0.520, 0.7)
         l.fixed(shrtBox, selfBox, 0.745, 0.15, 0.160, 0.7)

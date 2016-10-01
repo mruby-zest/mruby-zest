@@ -72,7 +72,7 @@ Widget {
                 Qml::SelButton.new(db)
             end
             if(rows.nil? || rows.empty?)
-                ch.label = Pokemon[x]
+                ch.label = ""
             else
                 stride = 1
                 stride = 2 if skip

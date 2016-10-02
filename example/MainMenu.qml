@@ -24,7 +24,7 @@ Widget {
                   "load master", "save master",
                   "load microtonal", "save microtonal",
                   "load midi bindings", "save midi bindings",
-                  "clear master", "clear instrument", 
+                  "clear master", "clear instrument",
                   "setup record", "quit"]
         whenValue: lambda {
             menu.file_sel if file.selected
@@ -91,6 +91,9 @@ Widget {
             prt  = root.get_view_pos(:part)
             root.change_view
             $remote.action("/part#{prt}/clear")
+        elsif(opt == "quit")
+            $remote.action("/quit")
+            root.quit
         else
             puts "[WARNING] Unhandled Option #{opt}"
         end

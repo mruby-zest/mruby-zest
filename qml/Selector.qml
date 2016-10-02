@@ -7,6 +7,7 @@ Widget {
     property Int    selected: 0
     property Bool   active:   true
     property Function whenValue: nil
+    property Int    max_text: 8
 
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote,
@@ -53,7 +54,7 @@ Widget {
             bb = 1
             long_mode = layoutOpts.include?(:long_mode)
             selector.options.each do |x|
-                x = x[0..8] if x.length > 8 && !long_mode
+                x = x[0..self.max_text] if x.length > self.max_text && !long_mode
                 bbl  = $vg.text_bounds(0, 0, (x+"    ").upcase)
                 bb   = [bb, bbl].max
             end
@@ -153,7 +154,7 @@ Widget {
             v.move_to(w*pad+2,       h*pad+hh)
             v.line_to(w*(1-2*pad)+1, h*pad+hh)
             v.stroke_color color("5c5c5c")
-            v.stroke_width hh 
+            v.stroke_width hh
             v.stroke
         end
     }
@@ -178,7 +179,7 @@ Widget {
 
         long_mode = layoutOpts.include?(:long_mode)
         str = options[selected].upcase
-        str = str[0..8] if str.length > 8 && !long_mode
+        str = str[0..self.max_text] if str.length > self.max_text && !long_mode
 
         vg.text(3+w*pad*2,h/2, str)
     }

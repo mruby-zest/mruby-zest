@@ -279,7 +279,7 @@ Widget {
 
         function class_name()
         {
-            "LfoVisAnimation"
+            "EnvVisAnimation"
         }
 
         //Workaround due to buggy nested properties
@@ -303,11 +303,26 @@ Widget {
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
             run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|
+                run_view.update_points(env.warp(x))
                 run_view.runtime_points = env.warp(x);
                 run_view.root.damage_item run_view
-                run_view.valueRef.watch run_view.extern
             }
+        }
+
+        function update_points(xx)
+        {
+            self.runtime_points = xx
+            damage_self
+
+            @last = Time.new
+        }
+
+        function animate()
+        {
             run_view.valueRef.watch run_view.extern
+            now     = Time.new
+            @last ||= now
+            update_points([]) if((now-@last)>0.1)
         }
 
         function draw(vg)

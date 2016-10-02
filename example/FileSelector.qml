@@ -55,10 +55,13 @@ Widget {
         layer: 2
         layoutOpts: [:no_constraint]
         label: "favorites"
-        whenValue: lambda { file.set_pos(favs.options[favs.selected]) }
+        whenValue: lambda {
+            file.set_pos(favs.options[favs.selected]) if favs.selected
+        }
     }
 
     TriggerButton {
+        id: add
         label: "add favorite"
         layer: 2
         whenValue: lambda { file.addFav }
@@ -150,6 +153,7 @@ Widget {
 
     function set_pos(x)
     {
+        return if x.nil?
         set_state("in-directory")
         line.label = x
         line.damage_self
@@ -158,7 +162,10 @@ Widget {
 
     function addFav()
     {
-        return if line.label[-1] != path_sep
+        if line.label[-1] != path_sep
+            add.label = "Missing Path Sep."
+            return
+        end
         $remote.action("/config/add-favorite", line.label)
         $remote.action("/config/favorites")
     }
@@ -292,5 +299,16 @@ Widget {
     function whenCancel() {
         whenValue.call(:cancel) if whenValue
         root.ego_death self
+    }
+
+    function animate() {
+        if(add.label == "Missing Path Sep.")
+            @timer = Time.new if(@timer == nil)
+            if((Time.new-@timer) > 1.5)
+                add.label = "add favorite"
+                @timer = nil
+                add.damage_self
+            end
+        end
     }
 }

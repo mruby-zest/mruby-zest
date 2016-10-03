@@ -123,6 +123,11 @@ Widget {
         $remote.action("/file_list_files", x)
         self.path_mode = "windows" if is_windows_path(x)
         self.path_sep  = "\\"      if path_mode == "windows"
+
+        if(self.valueRef && self.valueRef[2])
+            self.valueRef[2].clean
+            self.valueRef = [self.valueRef[0], self.valueRef[1], nil]
+        end
     }
 
     function set_dir(x)
@@ -147,7 +152,8 @@ Widget {
     {
         return if x.nil? || x.empty?
 
-        favs.options = x
+        favs.options =  x  if x.class == Array
+        favs.options = [x] if x.class != Array
         favs.damage_self
     }
 
@@ -310,5 +316,9 @@ Widget {
                 add.damage_self
             end
         end
+    }
+
+    function onMousePress(m)
+    {
     }
 }

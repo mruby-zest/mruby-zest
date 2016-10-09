@@ -41,7 +41,9 @@ Widget {
             l << "    Andre Sklenar (UI Pixmaps)\n"
             l << "    Harald Hvaal (General Code Modernization)\n"
             l << "    Olivier Jolly (DSSI Bank Load Fix)\n"
-
+            l << "\n"
+            l << "This is the 3.0.0 version of ZynAddSubFX\n"
+            l << "For more information please see http://zynaddsubfx.sourceforge.net/\n"
             l
         }
     }

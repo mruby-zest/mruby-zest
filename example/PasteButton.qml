@@ -1,4 +1,10 @@
 Button {
+    id: paste_button
+
+    onExtern: {
+        paste_button.tooltip = "paste to " + paste_button.extern.to_s
+    }
+
     function layout(l)
     {
         selfBox = l.genBox :pasteButton, self

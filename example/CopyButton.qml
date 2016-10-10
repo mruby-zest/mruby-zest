@@ -1,4 +1,10 @@
 Button {
+    id: copy_button
+
+    onExtern: {
+        copy_button.tooltip = "copy from " + copy_button.extern.to_s
+    }
+
     function layout(l) {
         selfBox = l.genBox :copyButton, self
         l.aspect(selfBox, 1, 1)

@@ -5,6 +5,7 @@ Button {
         meta = OSC::RemoteMetadata.new($remote, toggle.extern)
         toggle.label   = meta.short_name if toggle.label.empty?
         toggle.tooltip = meta.tooltip
+        toggle.valueRef.clean if toggle.valueRef
         toggle.valueRef = OSC::RemoteParam.new($remote, toggle.extern)
         toggle.valueRef.callback = lambda {|x| toggle.setValue(x)}
     }

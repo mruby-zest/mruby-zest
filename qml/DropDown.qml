@@ -46,7 +46,8 @@ Widget {
         n   = options.length
         opt = (n*(ev.pos.y-global_y)/h).to_i
         xsp = (ev.pos.x-global_x)/w
-        inx = 0 <= xsp && xsp <= 1
+        inx = (0 <= xsp && xsp <= 1) && (0 <= opt && opt < n)
+
 
         callback.call opt if callback &&  inx
         callback.call nil if callback && !inx
@@ -57,6 +58,7 @@ Widget {
     }
 
     function onMouseRelease(ev) { onMousePress(ev) }
+    function onMouseHover(ev)   { onMouseMove(ev)  }
     function onMouseMove(ev)
     {
         n   = options.length

@@ -47,6 +47,8 @@ Widget {
                 topSize: 0.15
                 copyable: false
                 ParModuleRow {
+                    layoutOpts: []
+                    lsize: 0.4
                     Selector {
                         id: ext
                         whenValue: lambda {
@@ -68,6 +70,7 @@ Widget {
                     }
                 }
                 ParModuleRow {
+                    lsize: 0.4
                     Selector {
                         extern: base.extern + "Type"
                     }

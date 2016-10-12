@@ -121,7 +121,7 @@ Widget {
         dx = ev.pos.x-radial.w/2
         dy = ev.pos.y-radial.h/2
         slice = find_slice(dx, dy)
-        callback.call slice if callback
+        callback.call(self.flavor) if callback
         rt = radial.root
         rt.ego_death radial
     }

@@ -115,6 +115,7 @@ Widget {
             //bot
             TriggerButton {
                 label: "as base"
+                tooltip: "use combined waveform as base waveform"
                 whenValue: lambda {
                     $remote.action(base_osc.extern+"use-as-base")
                 }
@@ -137,7 +138,10 @@ Widget {
             Widget {}
 
             //bot
-            Button   { extern: base_osc.extern + "Pfilterbeforews"; label: "pre/post"}
+            ToggleButton   {
+                extern: base_osc.extern + "Pfilterbeforews";
+                label: "pre/post"
+            }
 
             //COL 3
 
@@ -179,6 +183,7 @@ Widget {
             TriggerButton   {
                 whenValue: lambda {base_osc.clear}
                 label: "clear all"
+                tooltip: "clear all harmonics"
             }
 
             //COL 4
@@ -202,6 +207,7 @@ Widget {
             //bot
             TriggerButton {
                 label: "to sine"
+                tooltip: "convert full waveform to sinasoidal components"
                 whenValue: lambda {
                     $remote.action(base_osc.extern+"convert2sine")
                 }

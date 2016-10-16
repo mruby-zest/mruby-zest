@@ -126,9 +126,16 @@ Widget {
         end
     }
     //1
-    Button {id: learn;  label: "midi"; layoutOpts: [:no_constraint]}
+    Button {
+        id: learn;
+        label: "midi";
+        tooltip: "use ctrl to enable midi learn"
+        layoutOpts: [:no_constraint]
+    }
     //2
     Record {}
     //3
-    LearnButton { }
+    LearnButton { 
+        tooltip: "just click on a widget while in learning mode to start mapping"
+    }
 }

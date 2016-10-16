@@ -8,7 +8,10 @@ Widget {
         Widget {
             id: total
             Text    { label:  "formants" }
-            NumEntry { extern: fbase.extern + "Pnumformants";  }
+            NumEntry {
+                format: "PKs "
+                extern: fbase.extern + "Pnumformants";
+            }
             HSlider { extern: fbase.extern + "Pformantslowness"; }
             HSlider { extern: fbase.extern + "Pvowelclearness"; }
             //space
@@ -35,9 +38,9 @@ Widget {
                 extern: fbase.extern + "Pvowels0/Pformants0/"
                 function update_pos()
                 {
-                    vis.vowel_num = vow_num.value
+                    vis.vowel_num = vow_num.value-1
                     vis.change()
-                    rt = fbase.extern + "Pvowels#{vow_num.value}/Pformants#{for_num.value}/"
+                    rt = fbase.extern + "Pvowels#{vow_num.value-1}/Pformants#{for_num.value-1}/"
                     slide_freq.extern = rt + "freq"
                     slide_q.extern    = rt + "q"
                     slide_amp.extern  = rt + "amp"
@@ -47,8 +50,11 @@ Widget {
                     NumEntry {
                         id: vow_num
                         label: "v. num"
-                        minimum: 0
-                        maximum: 5
+                        format: "VW "
+                        tooltip: "vowel number - each formant filter is composed of one or more vowels"
+                        minimum: 1
+                        maximum: 6
+                        value: 1
                         whenValue: lambda {vgrp.update_pos}
                     }
                     HSlider {
@@ -60,8 +66,11 @@ Widget {
                     NumEntry {
                         id: for_num;
                         label: "formant"
-                        minimum: 0
-                        maximum: 11
+                        format: "PK "
+                        tooltip: "formant peak - each formant vowel is composed of one or more peaks"
+                        minimum: 1
+                        maximum: 12
+                        value: 1
                         whenValue: lambda {vgrp.update_pos}
                     }
                     HSlider {
@@ -90,20 +99,44 @@ Widget {
                 topSize: 0.2
                 copyable: false
                 Widget {
-                    HSlider {
+                    NumEntry {
                         extern: fbase.extern + "Psequencesize";
+                        format: "LEN "
                         label: "seqsize"
                         whenValue: lambda { vis.refresh() }
+                    }
+                    NumEntry {
+                        id: pos_id
+                        format: "POS "
+                        value:  1
+                        minimum: 1
+                        maximum: 8
+                        label: "s.pos"
+                        whenValue: lambda {
+                            pos_vowel.extern = 
+                            fbase.extern + "vowel_seq#{pos_id.value-1}"
+                        }
                     }
                     HSlider {
                         extern: fbase.extern + "Psequencestretch";
                         label: "strch"
                         whenValue: lambda { vis.refresh() }
                     }
-                    HSlider { label: "s.pos" }
                     Widget {}
-                    HSlider { label: "vowel"}
-                    Button {  extern: fbase.extern + "Psequencereversed"; label: "neg. input"; layoutOpts: [:no_constraint]}
+                    NumEntry {
+                        id: pos_vowel
+                        format: "VW "
+                        label: "vowel"
+                        offset: 1
+                        minimum: 1
+                        maximum: 8
+                        extern: fbase.extern + "vowel_seq0"
+                    }
+                    Button {
+                        extern: fbase.extern + "Psequencereversed";
+                        label: "neg. input";
+                        layoutOpts: [:no_constraint]
+                    }
 
                     function layout(l) {
                         Draw::Layout::grid(l, self_box(l), chBoxes(l), 3, 2, 2, 4)

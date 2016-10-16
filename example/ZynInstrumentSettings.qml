@@ -7,25 +7,29 @@ Group {
             whitespace: 2
             Knob { extern: insset.extern + "Pvolume"}
             Knob { extern: insset.extern + "Ppanning"}
-            Knob { extern: insset.extern + "Pminkey" }
-            Knob { extern: insset.extern + "Pmaxkey" }
+            Knob {
+                id: minkey
+                extern: insset.extern + "Pminkey"
+            }
+            Knob {
+                id: maxkey
+                extern: insset.extern + "Pmaxkey"
+            }
         }
         ParModuleRow {
             whitespace: 3
             outer: :none
+            layoutOpts: []
             Knob {extern: insset.extern + "Pvelsns"}
             Knob {extern: insset.extern + "Pveloffs"}
             Knob {extern: insset.extern + "Pkeyshift"}
-            Widget {
-                Button   { label: "m"; layoutOpts: [:no_constraint] }
-                Button   { label: "r"; layoutOpts: [:no_constraint] }
-                Button   { label: "m"; layoutOpts: [:no_constraint] }
-                function layout(l) {
-                    sb = self_box(l)
-                    l.aspect(sb, 1, 3)
-                    Draw::Layout::hpack(l, sb, chBoxes(l))
+            ZynKitKeyButton {
+                layoutOpts: [:aspect]
+                extern: insset.extern
+                whenValue: lambda {
+                    minkey.refresh
+                    maxkey.refresh
                 }
-
             }
         }
         ParModuleRow {

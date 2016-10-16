@@ -23,7 +23,11 @@ Widget {
         end
 
         text_color = Theme::TextColor
-        vg.font_size h*0.8
+        if self.layoutOpts.include? :aspect
+            vg.font_size h*0.5 
+        else
+            vg.font_size h*0.8 
+        end
         vg.fill_color text_color
         vg.path do |v|
             v.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
@@ -43,6 +47,21 @@ Widget {
         end
     }
 
+    function onMouseHover(ev)
+    {
+        rel = (ev.pos.x-global_x)/w
+        if(rel < 1/3)
+            self.root.log(:tooltip, 
+            "Capture minimum key")
+        elsif(rel < 2/3)
+            self.root.log(:tooltip, 
+            "Reset key range")
+        else
+            self.root.log(:tooltip, 
+            "Capture maximum key")
+        end
+    }
+
     function onMousePress(ev)
     {
         rel = (ev.pos.x-global_x)/w
@@ -55,5 +74,14 @@ Widget {
             $remote.action(extern + "captureMax")
         end
         whenValue.call if whenValue
+    }
+
+    function layout(l)
+    {
+        s = self_box(l)
+        if(self.layoutOpts.include? :aspect)
+            l.aspect(s, 1.0, 3.0)
+        end
+        s
     }
 }

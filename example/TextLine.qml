@@ -19,9 +19,12 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color = Theme::TextColor
-        l = label.empty? ? "..." : label
+        l = label.empty? ? "..." : label.clone
         l = l+self.ext if self.ext && !l.end_with?(self.ext)
         l = l.upcase if self.upcase
+        (0...l.length).each do |i|
+            l[i] = "?" if l.getbyte(i) > 127
+        end
         vg.text(8,h/2,l)
     }
 

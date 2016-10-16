@@ -22,8 +22,11 @@ Button {
         else
             Theme::TextColor
         end
-        ll = self.label
+        ll = self.label.clone
         ll = ll.upcase if self.doupcase
+        (0...ll.length).each do |i|
+            ll[i] = "?" if ll.getbyte(i) > 127
+        end
         vg.text(8,h/2,ll)
     }
     function onMouseEnter(ev) {

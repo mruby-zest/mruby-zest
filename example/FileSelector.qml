@@ -179,7 +179,7 @@ Widget {
     function check()
     {
         line.label = "/"    if line.label.empty? && path_mode == "unix"
-        line.label = "C:\\" if line.label.empty? && path_mode == "windows"
+        return if line.label.empty? && path_mode == "windows"
         if(line.label[-1].ord == 27) #esc
             whenCancel
             return

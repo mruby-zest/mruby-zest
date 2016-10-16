@@ -71,6 +71,11 @@ Widget {
         note = get_note(ev.pos)
         self.prev_note = note
 
+        noteOn(note)
+    }
+
+    function noteOn(note)
+    {
         vel = velocity+(rand-0.5)*velrnd;
         vel = [0, [127, vel].min].max.to_i
 
@@ -84,7 +89,7 @@ Widget {
         note = get_note(ev.pos)
         if(note != self.prev_note)
             $remote.action("/noteOff", 0, self.prev_note)
-            $remote.action("/noteOn",  0, note, 100)
+            noteOn(note)
             self.prev_note = note
         end
     }
@@ -124,7 +129,7 @@ Widget {
         return if note.nil?
 
         if(act == "press")
-            $remote.action("/noteOn",  0, note, 100)
+            noteOn(note)
         else
             $remote.action("/noteOff", 0, note)
         end

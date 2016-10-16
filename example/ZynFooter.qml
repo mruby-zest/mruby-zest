@@ -25,6 +25,8 @@ Widget {
 
     Keyboard {
         id: key
+        velocity: 0.7*127
+        velrnd:   0.2*127
     }
 
     ParModuleRow {
@@ -35,26 +37,31 @@ Widget {
             whenValue: lambda { key.velocity = vel.value*127 }
             value: 0.7;
             label: "velocity"
+            tooltip: "velocity of virtual keyboard notes"
         }
         Knob {
             id: rnd
             whenValue: lambda { key.velrnd = rnd.value*127 }
             value: 0.2;
             label: "vrnd"
+            tooltip: "velocity randomness of virtual keyboard notes"
         }
         Knob { value: 0.5; label: "octave" }
         Selector {
             options: ["qwerty"]
             layoutOpts: {:weight=>0.2}
+            tooltip: "keyboard type for playing the virtual keyboard"
         }
         Knob     {
             id: cc
             label: "c.val"
             whenValue: lambda { foot.set_cc((cc.value*127).to_i) }
+            tooltip: "midi CC control"
         }
         Selector {
             id: cctype
             label: "MIDI CC"
+            tooltip: "midi CC selector"
             layoutOpts: {:weight=>2.0, :long_mode=>true}
             options: [ "01: Mod.Wheel",
                        "07: Volume",

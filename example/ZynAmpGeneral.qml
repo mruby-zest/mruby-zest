@@ -17,7 +17,7 @@ Group {
         Knob     {extern: box.extern+"PPunchStrength"}
         Knob     {extern: box.extern+"PPunchTime"}
         Col {
-            ToggleButton   {label: "stereo"; extern: box.extern+"Pstereo"}
+            ToggleButton   {label: "stereo"; extern: box.extern+"PStereo"}
             ToggleButton   {label: "rnd grp"; extern: box.extern+"Hrandgrouping"}
         }
     }

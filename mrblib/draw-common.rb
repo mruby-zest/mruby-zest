@@ -659,7 +659,7 @@ module Theme
     KeyWhiteAccent      = color("AEB7BF")
     KeyBlack            = color("2F3C45")
     KeyBlackAccent      = color("3C4F56")
-    KeyEnable           = color("00ff00")
+    KeyEnable           = color("52FAFE")
     KeyBackground       = color("212121")
 
     TitleBar            = ButtonGrad1

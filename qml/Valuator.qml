@@ -73,11 +73,13 @@ Widget {
 
     function onScroll(ev)
     {
+        return if !self.active
         fine = root.fine_mode ? 0.2 : 1.0
         updatePos(-fine*ev.dy/50.0)
     }
 
     function onMousePress(ev) {
+        return if !self.active
         $remote.midi_learn extern if(root.learn_mode && extern)
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos
@@ -106,6 +108,7 @@ Widget {
     }
 
     function onMouseMove(ev) {
+        return if !self.active
         fine = root.fine_mode ? 0.05 : 1.0
         if(prev)
             delta = if(vertical)

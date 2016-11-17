@@ -30,6 +30,18 @@ Valuator {
             v.fill
         end
     }
+    
+    function strike_through(vg)
+    {
+        strike_color = Theme::TextColor
+        vg.path do
+            vg.move_to(w*0, h*0)
+            vg.line_to(w*(1-2*0), h*(1-2*0))
+            vg.stroke_width 1.0
+            vg.stroke_color strike_color
+            vg.stroke
+        end
+    }
 
     function draw(vg)
     {
@@ -85,6 +97,9 @@ Valuator {
             v.stroke_width 0.2*radius
             v.stroke
         end
+        
+        strike_through(vg) if !self.active
+        
     }
 
     function class_name()

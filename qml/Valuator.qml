@@ -122,9 +122,7 @@ Widget {
     }
 
     function onMouseEnter(ev) {
-        if(self.tooltip != "")
-            self.root.log(:tooltip, self.tooltip)
-        end
+        self.root.log(:tooltip, self.tooltip)
     }
 
     function lim(x, low, high)

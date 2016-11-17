@@ -14,6 +14,18 @@ Group {
         end
     }
 
+    function changeAnalog(value) {
+        knobWidth.active = value
+        knobPhase.active = !value
+        knobOffset.active = value
+        knobLRcross.active = !value
+        knobWidth.damage_self
+        knobPhase.damage_self
+        knobOffset.damage_self
+        knobLRcross.damage_self
+        refresh()
+    }
+
     ParModuleRow {
         id: rw
         layoutOpts: []
@@ -37,13 +49,21 @@ Group {
         id: rw2
         layoutOpts: []
         NumEntry { extern: phaser.extern + "Phaser/Pstages" }
-        Knob { extern: phaser.extern + "Phaser/Plrcross" }
-        Knob { extern: phaser.extern + "Phaser/Poffset" }
+        Knob { id: knobLRcross
+            extern: phaser.extern + "Phaser/Plrcross" }
+        Knob { id: knobOffset
+            extern: phaser.extern + "Phaser/Poffset" }
         ToggleButton { extern: phaser.extern + "Phaser/Poutsub" }
-        Knob { extern: phaser.extern + "Phaser/Pphase" }
-        Knob { extern: phaser.extern + "Phaser/Pwidth" }
+        Knob { id: knobPhase
+            extern: phaser.extern + "Phaser/Pphase" }
+        Knob { id: knobWidth
+            extern: phaser.extern + "Phaser/Pwidth" }
         ToggleButton { extern: phaser.extern + "Phaser/Phyper" }
         Knob { extern: phaser.extern + "Phaser/Pdistortion" }
-        ToggleButton { extern: phaser.extern + "Phaser/Panalog" }
+        ToggleButton {
+            id: analogButton
+            extern: phaser.extern + "Phaser/Panalog"
+            whenValue: lambda() { phaser.changeAnalog(analogButton.value) }
+        }
     }
 }

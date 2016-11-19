@@ -22,7 +22,7 @@ Widget {
     {
         return if mode != "press"
         if(k.ord == 8)
-            self.label[-1] = "\0"
+            self.label[-1] = "\0" if self.label.length > 0
             self.label = self.label[0...-1]
         else
             self.label += k

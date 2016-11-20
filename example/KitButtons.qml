@@ -57,6 +57,7 @@ Widget {
     function change_active(ii)
     {
         root.set_view_pos(self.sym,ii) if self.sym
+        root.set_view_pos(:view, :add_synth) if self.sym == :voice
         root.change_view               if self.sym
 
         children.each_with_index do |ch, i|

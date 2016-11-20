@@ -10,7 +10,7 @@ Widget {
             (rows).times do |x|
                 ch = Qml::ZynSendToRow.new(db)
                 ch.row_id = x
-                ch.cols   = rows
+                ch.cols   = 3
                 Qml::add_child(self, ch)
             end
         }

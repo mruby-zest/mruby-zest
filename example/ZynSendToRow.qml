@@ -13,7 +13,8 @@ Widget {
         name.label = (row.row_id+1).to_s + " reverb"
         (cols-row_id).times do |x|
             ch = Qml::HSlider.new(db)
-            ch.extern = "/sysefxfrom#{row_id}/to#{x+row_id}"
+            ch.extern = "/sysefxfrom#{row_id}/to#{x+row_id+1}"
+            ch.tooltip = "Route from system effect #{row_id+1} to effect #{x+row_id+2}"
             Qml::add_child(self, ch)
         end
     }

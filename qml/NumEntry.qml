@@ -74,10 +74,10 @@ Widget {
         vg.text(0.5*w,h/2,self.format+self.value.to_s)
 
         if(!self.active)
-            pad = 0
+            pad = 1
             vg.path do
-                vg.move_to(w*pad, h*pad)
-                vg.line_to(w*(1-2*pad), h*(1-2*pad))
+                vg.move_to(pad, pad)
+                vg.line_to(w-2*pad, h-2*pad)
                 vg.stroke_color Theme::TextColor
                 vg.stroke
             end

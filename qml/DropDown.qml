@@ -23,6 +23,9 @@ Widget {
                 v.fill_color Theme::BankEven     if row%2 == 0
                 v.fill_color Theme::BankOdd      if row%2 == 1
                 v.fill_color Theme::ButtonActive if hl == row
+                v.stroke_color color(:black)
+                v.stroke_width  2.0
+                v.stroke
                 v.fill
             end
         end
@@ -37,6 +40,12 @@ Widget {
         pad  = 1/64
         options.each_with_index do |opt, i|
             vg.text(3+w*pad*2,dy*(i+0.5),opt.upcase)
+        end
+        vg.path do |v|
+            v.rect(0, 0, w, h)
+            v.stroke_color color(:black)
+            v.stroke_width  2.0
+            v.stroke
         end
     }
 

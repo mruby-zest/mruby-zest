@@ -93,7 +93,7 @@ Widget {
 
     function onMousePress(ev)
     {
-        create_menu if self.active
+        create_menu if self.active && options.length != 1
     }
 
     function onMouseEnter(ev) {
@@ -163,7 +163,7 @@ Widget {
     {
         draw_button(vg)
 
-        draw_arrow(vg)
+        draw_arrow(vg) if options.length != 1
 
         draw_strike(vg) if !self.active
 

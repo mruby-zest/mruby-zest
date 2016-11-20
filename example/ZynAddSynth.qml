@@ -145,8 +145,8 @@ Widget {
                    :vce_list  => 7,
                    :resonance => 8}
         if(!mapping.include?(subview))
-            subview = :global
-            root.set_view_pos(:subview, :global)
+            subview = :oscil
+            root.set_view_pos(:subview, :oscil)
         end
 
         swap.extern  = extbase + ext[subview]

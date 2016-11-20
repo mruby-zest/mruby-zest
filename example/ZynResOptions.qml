@@ -22,6 +22,7 @@ ParModuleRow {
             resopt.cb
         }
         label: "interp"
+        tooltip: "Interpolate between sparsely added points"
     }
     ToggleButton {
         extern: resopt.extern + "Pprotectthefundamental"
@@ -35,6 +36,7 @@ ParModuleRow {
             resopt.cb
         }
         label: "zero"
+        tooltip: "reset frequency response"
     }
     TriggerButton {
         whenValue: lambda {
@@ -43,6 +45,7 @@ ParModuleRow {
             resopt.cb
         }
         label: "smooth"
+        tooltip: "smooth out frequency response"
     }
     TriggerButton {
         whenValue: lambda {
@@ -51,6 +54,7 @@ ParModuleRow {
             resopt.cb
         }
         label: "random 1"
+        tooltip: "create slow changing random response"
     }
     TriggerButton {
         whenValue: lambda {
@@ -59,6 +63,7 @@ ParModuleRow {
             resopt.cb
         }
         label: "random 2"
+        tooltip: "create random response"
     }
     TriggerButton {
         whenValue: lambda {
@@ -67,5 +72,6 @@ ParModuleRow {
             resopt.cb
         }
         label: "random 3"
+        tooltip: "create fast changing random response"
     }
 }

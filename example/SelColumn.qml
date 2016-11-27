@@ -182,9 +182,9 @@ Widget {
 
     function layout(l)
     {
-        selfBox = l.genBox :effvert, self
+        selfBox = l.genBox :selcolbox, self
         scrlBox = children[0].layout l
-        miniBox = l.genBox :virt, nil
+        miniBox = l.genBox :selminibox, nil
         titleH  = 1.0/(children.length + 1)
         l.fixed(miniBox, selfBox, 0.0, 0.0, 0.9, 1.0)
         l.fixed(scrlBox, selfBox, 0.9, 0.0, 0.1, 1.0)

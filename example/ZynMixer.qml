@@ -7,8 +7,9 @@ Widget {
         #self.valueRef.refresh if(self.valueRef)
 
         if(self.data)
-            (0...16).each do |i|
-                children[i].set_level(data[6+i])
+            children[0].set_level(data[0], data[1])
+            (1..16).each do |i|
+                children[i].set_level(data[6+i-1])
             end
         end
     }
@@ -33,6 +34,8 @@ Widget {
     function onSetup(old=nil)
     {
         return if children.length > 3
+        col = Qml::ZynMixerMasterCol.new(db)
+        Qml::add_child(self, col)
         (0...16).each do |r|
             col = Qml::ZynMixerCol.new(db)
             col.label  = (1+r).to_s

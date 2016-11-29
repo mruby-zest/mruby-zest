@@ -40,6 +40,12 @@ Widget {
         root.change_view
     }
 
+    function valueRef()
+    {
+        puts "valueref cleanup..."
+        return @refs
+    }
+
     function onSetup(old=nil)
     {
         return if main_widget.content

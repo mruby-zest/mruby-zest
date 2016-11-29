@@ -19,7 +19,7 @@ Widget {
 
         (0...n).each do |row|
             vg.path do |v|
-                v.rect(0, row*dy, w, dy+1)
+                v.rect(1, row*dy, w-1, dy+1)
                 v.fill_color Theme::BankEven     if row%2 == 0
                 v.fill_color Theme::BankOdd      if row%2 == 1
                 v.fill_color Theme::ButtonActive if hl == row
@@ -42,7 +42,7 @@ Widget {
             vg.text(3+w*pad*2,dy*(i+0.5),opt.upcase)
         end
         vg.path do |v|
-            v.rect(0, 0, w, h)
+            v.rect(1, 1, w-1, h-1)
             v.stroke_color color(:black)
             v.stroke_width  2.0
             v.stroke

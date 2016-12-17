@@ -276,6 +276,7 @@ Widget {
 
     function updir(x)
     {
+        return "" if x.nil?
         dat = x.split(path_sep).reverse
         tmp = dat[1..dat.length].reverse.join(path_sep)
         if(path_mode == "unix")

@@ -101,11 +101,19 @@ Widget {
             $remote.action("/noteOff", 0, note)
         end
     }
+        //qwertz_high = ['q','2','w','3','e','r','5','t','6','z','7','u','i','9','o','0','p',252,"'",'+','\\']
+        //qwertz_low  = ['y','s','x','d','c','v','g','b','h','n','j','m',',','l','.',246,'-']
+
+        //azerty_high = ['a',233,'z','"','e','r','(','t','-','y',232,'u','i',231,'o',224,'p',65106,'=','$']#)
+        //azerty_low  = ['w','s','x','d','c','v','g','b','h','n','j',',',';','l',':','m','!']
+        //dvorak_high = "'2,3.p5y6f7gc9r0l/]=\\".to_a
+        //dvorak_low  = ";oqejkixdbhmwnvsz".to_a
+        
 
     function onKey(k, act)
     {
-        qwerty_high = 'q2w3er5t6y7ui9o0p[=]\\'
-        qwerty_low  = 'zsxdcvgbhnjm,l.;/'
+        qwerty_high = "q2w3er5t6y7ui9o0p[=]\\"
+        qwerty_low  = "zsxdcvgbhnjm,l.;/"
 
         note = nil
         off = 0

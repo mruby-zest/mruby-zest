@@ -22,6 +22,11 @@ ColorBox {
             end
         }
         whenValue: lambda {hes.cb}
+
+        function onSetup(old=nil) {
+            undef :onMousePress
+            undef :onMouseMove
+        }
     }
     Text {
         layoutOpts: [:ignoreAspect]
@@ -41,6 +46,12 @@ ColorBox {
             end
         }
         whenValue: lambda {hes.cb}
+
+        function onSetup(old=nil) {
+            undef :onMousePress
+            undef :onMouseMove
+        }
+
     }
 
     function layout(l)

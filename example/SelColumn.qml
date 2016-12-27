@@ -107,15 +107,15 @@ Widget {
     function tryScroll()
     {
         #24 items are visible at a time
-        #center is at item 12     at value 0
-        #center is at item len-12 at value 1
+        #center is at item nrows/2     at value 0
+        #center is at item len-nrows/2 at value 1
         stride = 1
         stride = 2 if skip
         return if rows.nil?
         n = rows.length/stride
-        return if n<24
-        center = (n-24)*(1-scroll.value)+12
-        off    = (center-12).to_i
+        return if n<nrows
+        center = (n-nrows)*(1-scroll.value)+nrows/2
+        off    = (center-nrows/2).to_i
         if(off != self.oldOff)
             setValue(rows, off)
         end

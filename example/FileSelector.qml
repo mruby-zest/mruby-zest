@@ -14,6 +14,7 @@ Widget {
         id: folders
         layer: 2
         extern: "/file_list_dirs"
+        label: "Folder"
         doupcase: false
         nrows: 20
         clear_on_extern: true
@@ -23,6 +24,7 @@ Widget {
         id: files
         layer: 2
         extern: "/file_list_files"
+        label: "Files"
         nrows: 20
         doupcase: false
         clear_on_extern: true

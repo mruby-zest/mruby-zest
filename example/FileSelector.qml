@@ -13,6 +13,7 @@ Widget {
         layoutOpts: [:no_constraint]
         extern: "/file_list_dirs"
         style: :overlay
+        label: "Folder"
         doupcase: false
         nrows: 20
         clear_on_extern: true
@@ -27,6 +28,7 @@ Widget {
         layoutOpts: [:no_constraint]
         extern: "/file_list_files"
         style: :overlay
+        label: "Files"
         nrows: 20
         doupcase: false
         clear_on_extern: true

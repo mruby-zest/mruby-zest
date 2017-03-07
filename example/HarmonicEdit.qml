@@ -21,6 +21,7 @@ Widget {
             ch.children[2].valueRef.value = pval
         end
     }
+
     function animate()
     {
         return if(self.oldOff == self.curOff)
@@ -59,7 +60,8 @@ Widget {
             Qml::add_child(self, hm)
         end
     }
-    function layout(l, selfBox)
+
+    function layout(l)
     {
         n = children.length
         children.each_with_index do |ch, id|
@@ -68,6 +70,7 @@ Widget {
 
         selfBox
     }
+
     function draw(vg)
     {
         return
@@ -75,6 +78,47 @@ Widget {
             v.rect(0,0,self.w,self.h)
             v.fill_color color("ff600f")
             v.fill
+        end
+    }
+    
+    function onMousePress(ev) {
+        @active_widget  = root.activeWidget(ev.pos.x, ev.pos.y)
+        @active_y       = ev.pos.y
+        @active_buttons = ev.buttons
+        return if @active_widget.class != Qml::Slider
+        $remote.midi_learn @active_widget.extern if(root.learn_mode && @active_widget.extern)
+
+        if(ev.buttons.include? :leftButton)
+            @prev = ev.pos
+        elsif(ev.buttons.include? :rightButton)
+            if(children.empty?)
+                @active_widget.create_radial
+            end
+        elsif(ev.buttons.include? :middleButton)
+            @active_widget.reset
+        else
+            @prev = ev.pos
+        end
+    }
+
+    function onMouseMove(ev) {
+        fine = root.fine_mode ? 0.05 : 1.0
+        nactive = root.activeWidget(ev.pos.x, ev.pos.y)
+        if(@prev && @active_widget == nactive && @active_buttons.include?(:leftButton))
+            delta = +(ev.pos.y - @prev.y)
+            @active_widget.updatePos(fine*delta/@active_widget.dragScale)
+            @prev = ev.pos
+        elsif(@prev && @active_buttons.include?(:leftButton))
+            @active_widget = :dummy
+            nactive = root.activeWidget(ev.pos.x, @active_y)
+            return if nactive.class != Qml::Slider
+            val = (ev.pos.y-nactive.global_y)/nactive.h
+            nactive.updatePosAbs(1-val)
+        elsif(@active_buttons.include?(:middleButton))
+            @active_widget = :dummy
+            nactive = root.activeWidget(ev.pos.x, @active_y)
+            return if nactive.class != Qml::Slider
+            nactive.reset
         end
     }
 }

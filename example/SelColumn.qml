@@ -12,6 +12,7 @@ Widget {
     property Bool   clear_on_extern: nil
     property Bool   doupcase: true
     property String pattern: nil
+    property Symbol style: :normal
 
     onExtern: {
         col.valueRef = OSC::RemoteParam.new($remote, col.extern)
@@ -24,6 +25,7 @@ Widget {
 
     ScrollBar {
         id: scroll
+        style: col.style
         whenValue: lambda { col.tryScroll }
     }
 
@@ -48,6 +50,26 @@ Widget {
     }
 
     function draw(vg)
+    {
+        if(self.style == :overlay)
+            draw_overlay(vg)
+        else
+            draw_normal(vg)
+        end
+
+    }
+
+    function draw_overlay(vg)
+    {
+        vg.path do
+            vg.rect(0, 0, w, h)
+            vg.stroke_color  color("56c0a5")
+            vg.stroke_width 1.0
+            vg.stroke
+        end
+    }
+
+    function draw_normal(vg)
     {
         titleH = self.h*1.0/(children.length + 1)
         vg.path do
@@ -93,6 +115,7 @@ Widget {
 
             ch.layer      = col.layer
             ch.number = x if number
+            ch.style    = self.style    if ch.respond_to? :style
             ch.doupcase = self.doupcase if ch.respond_to? :doupcase
             if(!number)
                 ch.pad = 0

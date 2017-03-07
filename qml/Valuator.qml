@@ -78,6 +78,22 @@ Widget {
         updatePos(-fine*ev.dy/50.0)
     }
 
+    function reset() {
+        reset_value = 64.01/127.0
+        if(valueRef)
+            old_dsp = self.valueRef.display_value
+
+            self.valueRef.value = reset_value
+            self.value = reset_value
+            new_dsp = self.valueRef.display_value
+            whenValue.call if whenValue && old_dsp != new_dsp
+            valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
+        else
+            self.value = reset_value
+        end
+        damage_self
+    }
+
     function onMousePress(ev) {
         return if !self.active
         $remote.midi_learn extern if(root.learn_mode && extern)
@@ -88,20 +104,7 @@ Widget {
                 create_radial
             end
         elsif(ev.buttons.include? :middleButton)
-            #Reset
-            reset_value = 64.01/127.0
-            if(valueRef)
-                old_dsp = self.valueRef.display_value
-
-                self.valueRef.value = reset_value
-                self.value = reset_value
-                new_dsp = self.valueRef.display_value
-                whenValue.call if whenValue && old_dsp != new_dsp
-                valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
-            else
-                self.value = reset_value
-            end
-            damage_self
+            reset
         else
             valuator.prev = nil
         end
@@ -130,8 +133,7 @@ Widget {
         [low, [x, high].min].max
     }
 
-    function updatePos(delta) {
-        tmp = valuator.value - delta
+    function updatePosAbs(tmp) {
         nvalue = lim(tmp, 0.0, 1.0)
         if(valuator.valueRef)
             old_dsp = valuator.valueRef.display_value
@@ -145,6 +147,10 @@ Widget {
             whenValue.call if whenValue
         end
         damage_self
+    }
+     
+    function updatePos(delta) {
+        updatePosAbs(valuator.value - delta)
     }
 
     function onMerge(val)

@@ -4,51 +4,56 @@ Widget {
     property Object valueRef: nil
     property Function whenValue: nil
 
-    property String state:     "invalid-dir"
-    property String path_mode: "unix"
-    property String path_sep:  "/"
     property String ext:       nil
     property String pat:       nil
 
     SelColumn {
         id: folders
         layer: 2
+        layoutOpts: [:no_constraint]
         extern: "/file_list_dirs"
+        style: :overlay
         label: "Folder"
         doupcase: false
         nrows: 20
         clear_on_extern: true
-        whenValue: lambda {file.set_dir(folders.selected)}
+        whenValue: lambda {
+            file.browser.change_dir_rel(folders.selected)
+            file.check
+        }
     }
     SelColumn {
         id: files
         layer: 2
+        layoutOpts: [:no_constraint]
         extern: "/file_list_files"
+        style: :overlay
         label: "Files"
         nrows: 20
         doupcase: false
         clear_on_extern: true
         pattern: Regexp.new(file.pat) if file.pat
-        whenValue: lambda {file.set_file(files.selected)}
+        whenValue: lambda {
+            file.browser.set_file(files.selected)
+            file.check
+        }
     }
-    TextLine {
+    TextField {
         id: line
+        style: :overlay
+        layoutOpts: [:no_constraint]
         layer: 2;
-        upcase: false
-        ext:    file.ext
-        whenValue: lambda {file.check}
     }
     TriggerButton {
         id:    ebutton
+        layoutOpts: [:no_constraint]
         layer: 2;
         label: "Enter"
         whenValue: lambda {file.whenEnter}
-    }
-    TriggerButton {
-        id:    cbutton
-        layer: 2;
-        label: "cancel"
-        whenValue: lambda {file.whenCancel}
+        function draw(vg) {
+            parent.draw_button(vg, w, h, self.pad)
+            parent.draw_text(vg, w, h, self.label, self.textScale)
+        }
     }
 
     Menu {
@@ -58,7 +63,8 @@ Widget {
         layoutOpts: [:no_constraint]
         label: "favorites"
         whenValue: lambda {
-            file.set_pos(favs.options[favs.selected]) if favs.selected
+            file.browser.change_dir_abs(favs.options[favs.selected]) if favs.selected
+            file.browser.check
         }
     }
 
@@ -68,84 +74,124 @@ Widget {
         layer: 2
         whenValue: lambda { file.addFav }
         layoutOpts: [:no_constraint]
+
+        function draw(vg) {
+            parent.draw_button(vg, w, h, self.pad)
+            parent.draw_text(vg, w, h, self.label, self.textScale)
+        }
     }
 
+    function draw_text(vg, w, h, text, textScale=0.8)
+    {
+        vg.font_face("bold")
+        vg.font_size h*textScale
+        vg.fill_color color("56c0a5")
+        if(layoutOpts.include? :left_text)
+            vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
+            vg.text(8,h/2,text.upcase)
+        else
+            vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+            vg.text(w/2,h/2,text.upcase)
+        end
+    }
+
+    function draw_button(vg, w, h, pad)
+    {
+        vg.path do |v|
+            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
+            v.stroke_color color("56c0a5")
+            v.stroke_width 1
+            v.stroke
+        end
+    }
+
+
+    //Measurements from mockup
+    //1181x659 mockup
+    //left side 280px pad
+    //right side 900px of 1180 = 280px pad
+    //580px-600px inner trough
+    //30px-64px top
+    //813px-834px top tough
+    //85-573px selector y
+    //594-628px add y
     function layout(l, selfBox) {
-        hpad = 0.10
-        children[0].fixed(l, selfBox, 0.0+hpad, 0.10, 0.5-2*hpad, 0.60)
-        children[1].fixed(l, selfBox, 0.5+hpad, 0.10, 0.5-2*hpad, 0.60)
-        children[2].fixed(l, selfBox, 0.10,     0.73, 0.80, 0.03)
-        children[3].fixed(l, selfBox, 0.10,     0.85, 0.20, 0.1)
-        children[4].fixed(l, selfBox, 0.40,     0.85, 0.20, 0.1)
-        children[5].fixed(l, selfBox, 0.0+hpad, 0.02, 0.2,  0.05)
-        children[6].fixed(l, selfBox, 0.3+hpad, 0.02, 0.2,  0.05)
+        mockx   = 1181
+        mocky   = 659
+        xpad    = 280/mockx
+        xskip   = 20/mockx
+
+        top_y  = 30/mocky
+        top_h  = 34/mocky
+        top_w  = (813-280)/mockx
+        top_x  = xpad
+        top_x2 = top_x+top_w+xskip
+        top_w2 = 1-xpad-top_x2
+
+        ff_y    = 85/mocky
+        ff_h    = (573-85)/mocky
+        ff_w    = 0.5-xskip/2-xpad
+        ff_x    = xpad
+        ff_x2   = 0.5+0.5*xskip
+
+        fv_y  = 594/mocky
+        fv_h  = (628-594)/mocky
+        fv_x  = xpad
+        fv_x2 = 2*xpad
+        fv_w  = 0.1
+        fv_w2 = 0.1
+
+        sel_folder = children[0]
+        sel_column = children[1]
+        line       = children[2]
+        select     = children[3]
+        favs       = children[4]
+        add_favs   = children[5]
+        sel_folder.fixed(l, selfBox, ff_x,   ff_y,  ff_w,   ff_h)
+        sel_column.fixed(l, selfBox, ff_x2,  ff_y,  ff_w,   ff_h)
+        line.fixed(l,       selfBox, top_x,  top_y, top_w,  top_h)
+        select.fixed(l,     selfBox, top_x2, top_y, top_w2, top_h)
+        favs.fixed(l,       selfBox, fv_x,   fv_y,  fv_w,   fv_h)
+        add_favs.fixed(l,   selfBox, fv_x2,  fv_y,  fv_w2,  fv_h)
         selfBox
     }
 
+    function browser() { @browser }
+
     function onSetup(v=nil) {
+        puts "goodness"
+        @browser = FileBrowser.new
+        puts "arrow"
 
         #Get files when home dir (or any subsequent dir) is setup
         dirs  = OSC::RemoteParam.new($remote, "/file_list_dirs")
-        #dirs.callback   = lambda { |x| set_dirs(x) }
+        dirs.callback   = lambda { |x|
+            file.browser.set_dirs(x)
+            file.check
+        }
         files = OSC::RemoteParam.new($remote, "/file_list_files")
-        #files.callback = lambda { |x| set_file(x) }
+        files.callback = lambda { |x|
+            file.browser.set_files(x)
+            file.check
+        }
+
 
         #Get the starting path i.e. the HOME dir
         home = nil
         if($current_dir.nil?)
             home  = OSC::RemoteParam.new($remote, "/file_home_dir")
-            home.callback = lambda { |x| set_home(x) }
+            home.callback = lambda { |x|
+                file.browser.set_home_dir(x)
+                file.check
+            }
         else
-            set_home($current_dir)
+            @browser.set_home_dir($current_dir)
         end
 
         fav   = OSC::RemoteParam.new($remote, "/config/favorites")
         fav.callback  = lambda { |x| set_favs(x) }
 
         self.valueRef = [dirs, files, home]
-    }
-
-    function is_windows_path(x)
-    {
-        return false if x.length < 4
-        return false if x[0].ord < "A".ord || x[0].ord > "Z".ord
-        return false if x[1].ord != 58
-        return false if x[2].ord != 92
-        return true
-    }
-
-    function set_home(x)
-    {
-        line.label = x
-        line.damage_self
-        set_state("in-directory")
-        $remote.action("/file_list_dirs",  x)
-        $remote.action("/file_list_files", x)
-        self.path_mode = "windows" if is_windows_path(x)
-        self.path_sep  = "\\"      if path_mode == "windows"
-
-        if(self.valueRef && self.valueRef[2])
-            self.valueRef[2].clean
-            self.valueRef = [self.valueRef[0], self.valueRef[1], nil]
-        end
-    }
-
-    function set_dir(x)
-    {
-        return if x.nil? || x.empty?
-
-        if(self.state == "on-file")
-            line.label = updir(line.label)
-            set_state("in-directory")
-        end
-
-        line.label += path_sep if line.label[-1] != path_sep
-        line.label += x + path_sep
-        simplify()
-        line.damage_self
-        set_state("in-directory")
-        $remote.action("/file_list_dirs",  line.label)
-        $remote.action("/file_list_files", line.label)
     }
 
     function set_favs(x)
@@ -157,33 +203,20 @@ Widget {
         favs.damage_self
     }
 
-    function set_pos(x)
-    {
-        return if x.nil?
-        set_state("in-directory")
-        line.label = x
-        line.damage_self
-        check()
-    }
-
     function addFav()
     {
-        if line.label[-1] != path_sep
-            add.label = "Missing Path Sep."
-            return
-        end
+        #TODO
         $remote.action("/config/add-favorite", line.label)
         $remote.action("/config/favorites")
     }
 
-    function check()
+    function onKey(k, mode)
     {
-        line.label = "/"    if line.label.empty? && path_mode == "unix"
-        return if line.label.empty? && path_mode == "windows"
-        if(line.label[-1].ord == 27) #esc
+        return if mode != "press"
+        if(k.ord == 27) #esc
             whenCancel
             return
-        elsif(line.label[-1].ord == 9) #tab
+        elsif(k.ord == 9) #tab
             if(ebutton.value != true)
                 ebutton.value = true
                 cbutton.value = 0.0
@@ -195,7 +228,7 @@ Widget {
             cbutton.damage_self
             line.label = line.label[0...-1]
             return
-        elsif(line.label[-1].ord == 13) #enter
+        elsif(k.ord == 13) #enter
             line.label = line.label[0...-1]
             if(cbutton.value == true)
                 whenCancel
@@ -204,95 +237,36 @@ Widget {
                 whenEnter
                 return
             end
-        end
-        if(line.label[-1] != path_sep)
-            last = line.label.split(path_sep)[-1]
-            set_state("partial-file-dir")
-            folders.pattern = Regexp.new(last)
-            files.pattern   = Regexp.new(last)          if file.pat.nil?
-            files.pattern   = Regexp.new(last+".*"+pat) if file.pat
+        elsif(k.ord == 8)
+            @browser.del_char
         else
-            folders.pattern = nil
-            files.pattern   = nil              if file.pat.nil?
-            files.pattern   = Regexp.new(pat)  if file.pat
-            set_state("in-directory")
+            @browser.add_char k
         end
-        dir = line.label
-        if(dir[-1] != path_sep)
-            dir = updir(dir)
+
+        check
+    }
+
+    function check()
+    {
+        return if !@browser.needs_refresh
+        @browser.clear_flags
+
+        path = @browser.path
+        if self.ext && !path.end_with?(self.ext)
+            line.label = [@browser.path, self.ext]
         else
-            #hacky work around c-string conversion bug
-            dir2 = ""
-            dir.each_char do |c|
-                dir2 += c
-            end
-            dir = dir2
+            line.label = @browser.path
         end
+        line.damage_self
 
-        $remote.action("/file_list_dirs",  dir)
-        $remote.action("/file_list_files", dir)
-    }
+        search = @browser.search_path
 
-    function set_file(x)
-    {
-        if(x.nil? || x.empty?)
-            set_state("in-directory")
-            line.label = updir(line.label)
-            line.damage_self
-        else
-            line.label = updir(line.label) if self.state == "on-file"
-            set_state("on-file")
-            line.label += path_sep
-            line.label += x
-            line.damage_self
-        end
-    }
-
-    function simp_win(x)
-    {
-        dat = x.split("\\").reverse
-        todel = 0
-        o = []
-        dat.each do |d|
-            if(d == "..")
-                todel += 1
-            elsif(todel != 0)
-                todel -= 1
-            elsif(d != "")
-                o << d
-            end
-        end
-        return "C:\\" if o.empty?
-        o << ""
-        tmp = o.reverse.join("\\")
-        tmp[1..tmp.length]
-    }
-
-    function simplify()
-    {
-        line.label = path_simp(line.label) if path_mode == "unix"
-        line.label = simp_win(line.label)  if path_mode == "windows"
-    }
-
-    function updir(x)
-    {
-        dat = x.split(path_sep).reverse
-        tmp = dat[1..dat.length].reverse.join(path_sep)
-        if(path_mode == "unix")
-            tmp
-        else
-            tmp[1..tmp.length]
-        end
-    }
-
-    function set_state(x)
-    {
-        self.state = x
-        $current_dir = line.label if x == "in-directory"
+        $remote.action("/file_list_dirs",  search)
+        $remote.action("/file_list_files", search)
     }
 
     function draw(vg) {
-        background color("000000", 125)
+        background color("000000", 195)
     }
 
     function whenEnter() {
@@ -305,17 +279,6 @@ Widget {
     function whenCancel() {
         whenValue.call(:cancel) if whenValue
         root.ego_death self
-    }
-
-    function animate() {
-        if(add.label == "Missing Path Sep.")
-            @timer = Time.new if(@timer == nil)
-            if((Time.new-@timer) > 1.5)
-                add.label = "add favorite"
-                @timer = nil
-                add.damage_self
-            end
-        end
     }
 
     function onMousePress(m)

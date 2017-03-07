@@ -1,5 +1,34 @@
 Widget {
     id: scale
+    function load_scale(type)
+    {
+        @opt = type
+        win = window()
+        wid = Qml::FileSelector.new(db)
+        wid.whenValue = lambda { |x| scale.load_scale_file(x)}
+        wid.x = 0
+        wid.y = 0
+        wid.w = win.w
+        wid.h = win.h
+        wid.ext = type
+        Qml::add_child(win, wid)
+        self.db.update_values
+        setup_widget wid
+        self.db.update_values
+
+        if(root)
+            root.smash_layout
+            root.damage_item(win, :all)
+        end
+    }
+
+    function load_scale_file(val)
+    {
+        $remote.action("/save_kbm", val) if @opt == ".kbm"
+        $remote.action("/save_scl", val) if @opt == ".scl"
+        $remote.action("/microtonal/retune")
+    }
+
     Widget {
         Group {
             id: tune
@@ -31,13 +60,15 @@ Widget {
     ColorBox {
         bg: Theme::GeneralBackground
         ParModuleRow {
-            FileButton {
+            TriggerButton {
                 label: "import .scl"
-                extern: "/load_scl"
+                tooltip: "load microtonal scale"
+                whenValue: lambda {scale.load_scale(".scl")}
             }
-            FileButton {
+            TriggerButton {
                 label: "import .kbm"
-                extern: "/load_kbm"
+                tooltip: "load keyboard mapping"
+                whenValue: lambda {scale.load_scale(".kbm")}
             }
             TriggerButton {
                 label: "retune"

@@ -1,0 +1,7 @@
+MRuby-Zest
+----------
+
+This repository contains all of the widgets needed to create the 
+'zyn-fusion' user interface for ZynAddSubFX.
+The .qml files are *not* Qt's QML, but they borrow the syntax and use a
+set of ruby libraries to run them (mruby-qml-parse/mruby-qml-spawn/mruby-nanovg).

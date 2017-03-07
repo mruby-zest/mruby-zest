@@ -22,30 +22,36 @@ Object {
     property Int h: nil;
 
     function draw(vg)
-    {
-    }
+    {}
 
     function onSetup(old=nil)
     {
     }
 
-    function self_box(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, widget
-    }
-
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, widget
         widget.children.each do |child|
             if(child.respond_to?(:layout))
-                box = child.layout(l)
-                l.contains(selfBox, box)
+                nbox = l.genConstBox(0, 0,
+                    selfBox.w, selfBox.h, child)
+                child.layout(l, nbox)
             end
         end
+
         selfBox
+    }
+
+    function fixed(l, pbox, xc, yc, wc, hc)
+    {
+        box = nil
+        selfBox = l.genConstBox(pbox.w*xc, pbox.h*yc, pbox.w*wc, pbox.h*hc, self)
+        box = self.layout(l, selfBox)
+        box
+    }
+
+    function fixed_long(l, pbox, xc, yc, wc, hc, xf, yf, wf, hf)
+    {
+        l.fixed_long(self, pbox, xc, yc, wc, hc, xf, yf, wf, hf)
     }
 
     function damage_self(all=nil)
@@ -64,18 +70,11 @@ Object {
         end
     }
 
-    function chBoxes(l) {
-        children.map {|x| x.layout l}
-    }
-
-
-    function class_name()
-    {
+    function class_name() {
         "Widget"
     }
 
-    function window()
-    {
+    function window() {
         if(parent.respond_to?(:root))
             parent.window
         else
@@ -83,8 +82,7 @@ Object {
         end
     }
 
-    function root()
-    {
+    function root() {
         if(parent.respond_to?(:root))
             parent.root
         else
@@ -92,8 +90,7 @@ Object {
         end
     }
 
-    function global_x()
-    {
+    function global_x() {
         par = 0
         if(parent.respond_to?(:global_x))
             par = parent.global_x
@@ -101,8 +98,7 @@ Object {
         par + widget.x
     }
 
-    function global_y()
-    {
+    function global_y() {
         par = 0
         if(parent.respond_to?(:global_y))
             par = parent.global_y

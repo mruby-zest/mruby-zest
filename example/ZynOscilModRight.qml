@@ -1,6 +1,7 @@
 Widget {
     id: base
     Indent {
+        pad: 10
         ParModuleRow {
             Selector {
                 extern: base.extern + "PFMEnabled";
@@ -82,9 +83,8 @@ Widget {
                 extern: base.extern + "OscilSmp/waveform"
                 grid: false
             }
-            function layout(l) {
-                selfBox = l.genBox :modbox, self
-                Draw::Layout::vfill(l, selfBox, chBoxes(l),
+            function layout(l, selfBox) {
+                Draw::Layout::vfill(l, selfBox, children,
                     [0.4,0.6])
             }
         }
@@ -114,27 +114,25 @@ Widget {
                         }
                     }
                 }
+                Widget {}
             }
             WaveView {
                 id: mod_wave
                 grid: false
                 extern: base.extern + "FMSmp/waveform"
             }
-            function layout(l) {
-                selfBox = l.genBox :modbox, self
-                Draw::Layout::vfill(l, selfBox, chBoxes(l),
+            function layout(l, selfBox) {
+                Draw::Layout::vfill(l, selfBox, children,
                     [0.4,0.6])
             }
         }
-        function layout(l) {
-            selfBox = l.genBox :modbox, self
-            Draw::Layout::hpack(l, selfBox, chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::hpack(l, selfBox, children)
         }
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :modbox, self
-        Draw::Layout::vfill(l, selfBox, chBoxes(l),
+        Draw::Layout::vfill(l, selfBox, children,
             [0.15,0.2,0.65])
     }
 

@@ -180,15 +180,17 @@ Widget {
         damage_self
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :selcolbox, self
-        scrlBox = children[0].layout l
-        miniBox = l.genBox :selminibox, nil
+    function layout(l, selfBox) {
+        children[0].fixed(l, selfBox, 0.9, 0.0, 0.1, 1.0)
+        miniBox = nil
+        if(selfBox.class != LayoutConstBox)
+            miniBox = l.genBox :selminibox, nil
+            l.fixed(miniBox, selfBox, 0.0, 0.0, 0.9, 1.0)
+        else
+            miniBox = l.genConstBox(0.0, 0.0, 0.9*selfBox.w, selfBox.h)
+        end
         titleH  = 1.0/(children.length + 1)
-        l.fixed(miniBox, selfBox, 0.0, 0.0, 0.9, 1.0)
-        l.fixed(scrlBox, selfBox, 0.9, 0.0, 0.1, 1.0)
-        Draw::Layout::vpack(l, miniBox, children[1,99].map {|x| x.layout l}, 0, 1, 0, titleH, 1.0-titleH)
+        Draw::Layout::vpack(l, miniBox, children[1,99], 0, 1, 0, titleH, 1.0-titleH)
         selfBox
     }
 

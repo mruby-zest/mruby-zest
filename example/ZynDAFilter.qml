@@ -8,8 +8,7 @@ Widget {
         whenModified: lambda { vis.refresh }
         extern: dyn.extern + "filterpars/"
     }
-    function layout(l)
-    {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.5, 0.5])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.5, 0.5])
     }
 }

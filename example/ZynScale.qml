@@ -1,8 +1,8 @@
 Widget {
     id: micro
     function class_name() { "part" }
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.2,0.10,0.70])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.2,0.10,0.70])
     }
     Group {
         topSize: 0.2
@@ -32,8 +32,8 @@ Widget {
                 TextLine {
                     extern: micro.extern + "Pname"
                 }
-                function layout(l) {
-                    Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.3, 0.7], 0, 4)
+                function layout(l, selfBox) {
+                    Draw::Layout::hfill(l, selfBox, children, [0.3, 0.7], 0, 4)
                 }
             }
             Widget {
@@ -44,13 +44,13 @@ Widget {
                 TextLine {
                     extern: micro.extern + "Pcomment"
                 }
-                function layout(l) {
-                    Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.3, 0.7], 0, 4)
+                function layout(l, selfBox) {
+                    Draw::Layout::hfill(l, selfBox, children, [0.3, 0.7], 0, 4)
                 }
             }
             function class_name() { "partsub" }
-            function layout(l) {
-                Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 4)
+            function layout(l, selfBox) {
+                Draw::Layout::vpack(l, selfBox, children, 0, 1, 4)
             }
         }
         ParModuleRow {
@@ -59,11 +59,10 @@ Widget {
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :part, self
-            l.fixed(children[0].layout(l), selfBox, 0.0, 0, 0.9, 1)
-            l.fixed(children[1].layout(l), selfBox, 0.9, 0, 0.1, 1)
+            children[0].fixed(l, selfBox, 0.0, 0, 0.9, 1)
+            children[1].fixed(l, selfBox, 0.9, 0, 0.1, 1)
             selfBox
         }
     }

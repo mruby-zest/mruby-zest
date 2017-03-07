@@ -1,27 +1,14 @@
 Widget {
     id: center
 
-    function layout(l)
-    {
-        selfBox = l.genBox :zynCenter, center
-        headBox  = header.layout(l)
-        swapBox  = swap.layout(l)
-
-        l.contains(selfBox, headBox)
-        l.contains(selfBox, swapBox)
-
-        #Global Optimizatoin
-        l.topOf(headBox, swapBox)
-
-        l.sheq([headBox.h, selfBox.h], [1, -0.05], 0)
-
-        selfBox
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.05, 0.95])
     }
 
-    function apply()
-    {
+    function apply() {
         $remote.action(center.extern+"prepare")
     }
+
     TabGroup {
         id: header
         TabButton { label: "harmonic structure";}
@@ -29,6 +16,7 @@ Widget {
         TabButton { label: "envelopes & lfos"}
 
         ApplyButton {
+            id: appl
             layoutOpts: [:no_constraint];
             label: "   apply"
             extern: center.extern + "needPrepare"
@@ -42,47 +30,9 @@ Widget {
             id: paste
             extern: center.extern
         }
-        function gen_weights()
-        {
-            total   = 0
-            weights = []
-            children.each do |ch|
-                scale = 100
-                $vg.font_size scale
-                weight   = $vg.text_bounds(0, 0, ch.label.upcase + "  ")
-                weights << weight
-                total   += weight
-            end
-            return total, weights
-        }
 
-        function layout(l)
-        {
-            selfBox = l.genBox :zynCenterHeader, self
-            prev = nil
-
-            (total, weights) = gen_weights
-
-            children.each_with_index do |ch, idx|
-                box = ch.layout(l)
-                l.contains(selfBox,box)
-
-                if(idx < 3)
-                    l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
-
-                    #add in the aspect constraint
-                    l.aspect(box, 100, weights[idx])
-                elsif(idx == 3)
-                    l.aspect(box, 100, weights[idx])
-                    l.weak(box.x)
-                end
-
-                if(prev)
-                    l.rightOf(prev, box)
-                end
-                prev = box
-            end
-            selfBox
+        function layout(l, selfBox) {
+            selfBox = Draw::Layout::tabpack(l, selfBox, self, appl)
         }
 
         function set_tab(wid)

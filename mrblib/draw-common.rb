@@ -16,18 +16,31 @@ module Draw
         end
 
         def self.plot(vg, ypts, bb, do_norm=true, phase=0)
+            Draw::opt_plot(vg, ypts, bb, do_norm, phase)
+            return
             ypts = DSP::normalize(ypts) if do_norm
-            xpts = Draw::DSP::linspace(0,1,ypts.length)
+            #xpts = Draw::DSP::linspace(0,1,ypts.length)
             off = (phase * (ypts.length-1)).to_i
             vg.path do |v|
                 ypos = bb.y+bb.h/2-bb.h/2*ypts[off]
                 ypos = [bb.y, [ypos, bb.y+bb.h].min].max
                 vg.move_to(bb.x, ypos)
-                (1...ypts.length).each do |pt|
-                    ii = (off+pt)%ypts.length
-                    ypos = bb.y+bb.h/2-bb.h/2*ypts[ii]
-                    ypos = [bb.y, [ypos, bb.y+bb.h].min].max
-                    vg.line_to(bb.x+bb.w*xpts[pt], ypos)
+
+                x_m = bb.w
+                x_b = bb.x
+
+                y_m = -bb.h/2
+                y_b = bb.y+bb.h/2
+                mx = bb.y+bb.h
+                mn = bb.y
+
+                n = ypts.length
+                (1...n).each do |pt|
+                    ii = (off+pt)%n
+                    ypos = y_m*ypts[ii] + y_b
+                    ypos = mx if ypos > mx
+                    ypos = mn if ypos < mn
+                    vg.line_to(x_m*pt/n + x_b, ypos)
                 end
                 v.stroke_color Theme::VisualLine
                 v.stroke_width 2.0
@@ -36,18 +49,26 @@ module Draw
         end
 
         def self.bar(vg, data, bb, bar_color, xx=nil)
+            Draw::opt_bar(vg, data, bb, bar_color, xx)
+            return
             n    = data.length
             xpts = Draw::DSP::linspace(0,1,n)
+            bx   = bb.x
+            bw   = bb.w
+            by   = bb.y
+            bh   = bb.h
+
+            y  = by+bh
+
+            vg.stroke_color bar_color
+            vg.stroke_width 1.0
             (0...n).each do |i|
-                x  = bb.x+xpts[i]*bb.w
-                x  = bb.x+xx[i]*bb.w/64.0 if xx
-                y  = bb.y+bb.h
-                vg.path do |v|
-                    v.move_to(x, y)
-                    v.line_to(x, y-bb.h*data[i])
-                    v.stroke_color bar_color
-                    v.stroke_width 1.0
-                    v.stroke
+                x  = bx + xpts[i]*bw      if !xx
+                x  = bx + xx[i]  *bw/64.0 if  xx
+                vg.path do
+                    vg.move_to(x, y)
+                    vg.line_to(x, y-bh*data[i])
+                    vg.stroke
                 end
             end
         end
@@ -57,9 +78,11 @@ module Draw
             vg.scissor(bb.x, bb.y+bb.h/2, bb.w, bb.h/2)
             vg.path do
                 vg.move_to(0.0, 0.0);
-                (0...n).each do |i|
+                i = 0
+                while(i<n)
                     vg.line_to(bb.x + bb.w*dat[i].x,
                                bb.y + bb.h/2*(1-dat[i].y));
+                    i += 1
                 end
                 vg.line_to(bb.x+bb.w, 0.0)
                 vg.close_path
@@ -94,7 +117,7 @@ module Draw
                 vg.stroke
             end
         end
-        
+
         def self.flat_line(vg, bb, co, yy)
             vg.path do
                 vg.move_to(bb.x,      bb.y+bb.h/2-yy*bb.h/2)
@@ -328,6 +351,7 @@ module Draw
         end
 
         def self.norm_harmonics(seq)
+            return Draw::opt_norm_harmonics(seq)
             (0...seq.length).each do |i|
                 seq[i] = -seq[i] if seq[i] < 0
             end
@@ -438,12 +462,12 @@ module Draw
             selfBox
         end
 
-        def self.hpack(l, selfBox, b, y=0, h=1, fixed_pad=0)
+        def self.hpack(l, selfBox, children, y=0, h=1, fixed_pad=0)
             off = 0
-            delta = 1.0/b.length
-            b.each_with_index do |bb,i|
-                l.fixed_long(bb, selfBox, off, y, delta, h,
-                            fixed_pad, 0, -2*fixed_pad, 0)
+            delta = 1.0/children.length
+            children.each_with_index do |ch,i|
+                l.fixed_long(ch, selfBox, off, y, delta, h,
+                             fixed_pad, 0, -2*fixed_pad, 0)
                 off += delta
             end
             selfBox
@@ -460,6 +484,8 @@ module Draw
         end
 
         def self.vfill(l, selfBox, b, h, pad=0, fixed_pad=0)
+            #puts "vfill"
+            #puts "selfBox = #{selfBox}"
             off = 0
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, 0, off, 1,  h[i],
@@ -495,8 +521,7 @@ module Draw
             selfBox
         end
 
-        def self.tabpack(l, base, weak=nil)
-            selfBox = l.genBox(:tabbox, base)
+        def self.tabpack(l, selfBox, base, weak=nil)
             prev = nil
 
             total   = 0
@@ -504,42 +529,74 @@ module Draw
             base.children.each do |ch|
                 scale = 100
                 $vg.font_size scale
-                weight   = $vg.text_bounds(0, 0, ch.label.upcase)
+                lab      = ch.label.upcase
+                lab      = "- VCE9999 +" if lab.length < 5
+                weight   = $vg.text_bounds(0, 0, lab.upcase)
                 weights << weight
                 total   += weight
             end
 
+            n = base.children.length
+            pos = 0
+            boxes = []
+            weak_box_id = base.children.length
             base.children.each_with_index do |ch, idx|
-                box = ch.layout(l)
-                l.contains(selfBox,box)
-
-                l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
-
-                bxclass = ch.class
-                #add in the aspect constraint
-                l.aspect(box, 100, weights[idx]) unless [Qml::CopyButton, Qml::PasteButton].include?(bxclass)
-
-                l.weak(box.x) if ch == weak
-
-                if(prev)
-                    l.rightOf(prev, box)
-                end
-                prev = box
+                boxes << ch.fixed(l, selfBox, pos, 0, weights[idx]/total, 1)
+                pos += weights[idx]/total
+                weak_box_id = idx if ch == weak
             end
+            px = 0
+            boxes[0...weak_box_id].each do |b|
+                b.x  = px
+                px  += b.w
+            end
+
+            px = selfBox.w
+            boxes[weak_box_id..boxes.length].reverse.each do |b|
+                b.x  = px-b.w
+                px  -= b.w
+            end
+            #puts boxes.map{|b|b.x}
+            #puts boxes.map{|b|b.y}
+            #puts boxes.map{|b|b.w}
+            #puts boxes.map{|b|b.h}
+            #puts boxes.map{|b|b.info.class}
             selfBox
         end
-        def self.vstack(l, selfBox, children, vpad=10)
+        def self.vstack(l, selfBox, children, vpad=10, hpad=5)
             prev = nil
 
 
-            children.each_with_index do |ch|
-                box = ch.layout(l)
-                l.sh([box.y], [-1], -vpad/2)
-                l.contains(selfBox,box)
+            minheight = 99999
+            n = children.length
+
+            boxes = []
+            children.each_with_index do |ch, ind|
+                box = ch.fixed_long(l, selfBox, 0, ind/n, 1, 1/n,
+                                   hpad, 0, -2*hpad, 0)
+                minheight = box.h if box.h < minheight
+                boxes << box
+                #l.sh([box.y], [-1], -vpad/2)
+                #l.contains(selfBox,box)
                 #l.topOf(prev, box) if(prev)
-                l.sheq([prev.y, prev.h, box.y], [1,1,-1],-vpad) if(prev)
-                l.aspect(box, 1, 5) if(ch.class != Qml::Selector)
+                #l.sheq([prev.y, prev.h, box.y], [1,1,-1],-vpad) if(prev)
+                #l.aspect(box, 1, 5) if(ch.class != Qml::Selector)
                 prev = box
+            end
+
+            #Apply minimum height
+            boxes.each_with_index do |box, ind|
+                box.h = minheight
+                if(!box.info.children.empty?)
+                    box.info.layout(l, box)
+                end
+            end
+
+            yy = vpad
+            #Repack
+            boxes.each do |box|
+                box.y  = yy
+                yy    += box.h + vpad
             end
             selfBox
         end

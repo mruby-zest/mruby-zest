@@ -1,23 +1,9 @@
 Widget {
     id: center
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        #Center layout
-        selfBox = l.genBox :zynCenter, center
-        headBox  = header.layout(l)
-        swapBox  = swap.layout(l)
-
-        #module layout done
-        l.contains(selfBox, headBox)
-        l.contains(selfBox, swapBox)
-
-        #Global Optimizatoin
-        l.topOf(headBox, swapBox)
-
-        l.sheq([headBox.h, selfBox.h], [1, -0.05], 0)
-
-        selfBox
+        Draw::Layout::vfill(l, selfBox, children, [0.05, 0.95])
     }
     Widget {
         id: header
@@ -26,7 +12,6 @@ Widget {
             value:      header.get_voice + 1
             format:     "VCE "
             whenValue:  lambda {header.set_voice()}
-            layoutOpts: [:free]
             tooltip:    "voice"
             maximum:    8
             minimum:    1
@@ -49,49 +34,8 @@ Widget {
         }
         function get_voice() { root.get_view_pos(:voice) }
 
-        function gen_weights()
-        {
-            total   = 0
-            weights = []
-            children.each do |ch|
-                scale = 100
-                $vg.font_size scale
-                label = ch.label
-                label = "- 9999 +" if ch.class == Qml::NumEntry
-                label = "-+" if ch.class == Qml::PowButton
-                weight   = $vg.text_bounds(0, 0, label.upcase + "  ")
-                weights << weight
-                total   += weight
-            end
-            return total, weights
-        }
-
-        function layout(l)
-        {
-            selfBox = l.genBox :zynCenterHeader, self
-            prev = nil
-
-            (total, weights) = gen_weights
-
-            children.each_with_index do |ch, idx|
-                box = ch.layout(l)
-                l.contains(selfBox,box)
-
-                if(idx < 9)
-                    l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
-
-                    #add in the aspect constraint
-                    l.aspect(box, 100, weights[idx])
-                elsif(idx == 9)
-                    l.weak(box.x)
-                end
-
-                if(prev)
-                    l.rightOf(prev, box)
-                end
-                prev = box
-            end
-            selfBox
+        function layout(l, selfBox) {
+            selfBox = Draw::Layout::tabpack(l, selfBox, self, cpy_but)
         }
 
 

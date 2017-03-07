@@ -25,18 +25,15 @@ Widget {
             end
         }
 
-        function layout(l)
-        {
-            selfBox = l.genBox :part, self
-            rows = chBoxes(l)
-            Draw::Layout::vpack(l, selfBox, rows[0..15],  0.0, 0.2)
-            Draw::Layout::vpack(l, selfBox, rows[16..31], 0.2, 0.8)
+        function layout(l, selfBox) {
+            Draw::Layout::vpack(l, selfBox, children[0..15],  0.0, 0.2)
+            Draw::Layout::vpack(l, selfBox, children[16..31], 0.2, 0.8)
         }
     }
     Widget {
         function class_name() { "part" }
-        function layout(l) {
-            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.4,0.3,0.3])
+        function layout(l, selfBox) {
+            Draw::Layout::vfill(l, selfBox, children, [0.4,0.3,0.3])
         }
         ZynInstrumentSettings {
             extern: pset.extern
@@ -53,7 +50,7 @@ Widget {
     }
 
     function class_name() { "part" }
-    function layout(l) {
-        Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.2,0.4,0.4])
+    function layout(l, selfBox) {
+        Draw::Layout::hfill(l, selfBox, children, [0.2,0.4,0.4])
     }
 }

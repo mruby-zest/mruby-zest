@@ -43,13 +43,11 @@ ColorBox {
         whenValue: lambda {hes.cb}
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :harmonicEdit, self
-        chBox   = chBoxes(l)
-        l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.47)
-        l.fixed(chBox[1], selfBox, 0.0, 0.48, 1.0, 0.08)
-        l.fixed(chBox[2], selfBox, 0.0, 0.57, 1.0, 0.43)
+        children[0].fixed(l, selfBox, 0.0, 0.00, 1.0, 0.47)
+        children[1].fixed(l, selfBox, 0.0, 0.48, 1.0, 0.08)
+        children[2].fixed(l, selfBox, 0.0, 0.57, 1.0, 0.43)
         selfBox
     }
 

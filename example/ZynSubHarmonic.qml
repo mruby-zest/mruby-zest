@@ -6,60 +6,55 @@ Widget {
         extern: harm.extern + "response"
     }
     Widget {
-        Widget {
-            ParModuleRow {
-                TriggerButton   {
-                    label: "clear"
-                    whenValue: lambda {harm.clear}
-                }
-                Selector {
-                    extern: harm.extern + "Phmagtype"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
-                NumEntry {
-                    label:  "stages"
-                    extern: harm.extern + "Pnumstages"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
-                Widget { label: "          " }
-                Selector {
-                    //layoutOpts: [:no_constraint]
-                    extern: harm.extern+"POvertoneSpread.type"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
-                Knob {
-                    extern: harm.extern+"POvertoneSpread.par1"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
-                Knob {
-                    extern: harm.extern+"POvertoneSpread.par2"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
-                Knob {
-                    extern: harm.extern+"POvertoneSpread.par3"
-                    whenValue: lambda {sub_harmonics.refresh}
-                }
+        ParModuleRow {
+            lsize: 0.3
+            TriggerButton   {
+                label: "clear"
+                whenValue: lambda {harm.clear}
             }
-
-            function draw(vg) {
-                Draw::GradBox(vg, Rect.new(0,0,w,h))
+            Selector {
+                extern: harm.extern + "Phmagtype"
+                whenValue: lambda {sub_harmonics.refresh}
+            }
+            NumEntry {
+                label:  "stages"
+                extern: harm.extern + "Pnumstages"
+                whenValue: lambda {sub_harmonics.refresh}
+            }
+            Widget { label: "          " }
+            Selector {
+                //layoutOpts: [:no_constraint]
+                extern: harm.extern+"POvertoneSpread.type"
+                whenValue: lambda {sub_harmonics.refresh}
+            }
+            Knob {
+                extern: harm.extern+"POvertoneSpread.par1"
+                whenValue: lambda {sub_harmonics.refresh}
+            }
+            Knob {
+                extern: harm.extern+"POvertoneSpread.par2"
+                whenValue: lambda {sub_harmonics.refresh}
+            }
+            Knob {
+                extern: harm.extern+"POvertoneSpread.par3"
+                whenValue: lambda {sub_harmonics.refresh}
             }
         }
-        HarmonicEdit {
-            id: edit
-            extern: harm.extern
-            type:   :subsynth
-            whenValue: lambda { sub_harmonics.refresh }
-        }
 
-        function class_name() { "subsynthharm" }
-        function layout(l) {
-            Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.3, 0.7])
+        function draw(vg) {
+            Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
     }
+
+    HarmonicEdit {
+        id: edit
+        extern: harm.extern
+        type:   :subsynth
+        whenValue: lambda { sub_harmonics.refresh }
+    }
     function class_name() { "subsynth" }
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.45, 0.55])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.50, 0.10, 0.40])
     }
     function clear() {
         edit.clear

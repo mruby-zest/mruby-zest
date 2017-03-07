@@ -2,6 +2,7 @@ Widget {
     ToggleButton {
         id: fn
         label: "fine"
+        layoutOpts: [:no_constraint];
 
         function animate()
         {
@@ -15,19 +16,15 @@ Widget {
     Button  {layoutOpts: [:no_constraint]; label: "nrpn" }
     HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :headersub, self
-        chBox   = chBoxes(l)
-
+    function layout(l, selfBox) {
         padw  = 1/256
         padw2 = 0.5-2*padw
         padh = 1/32
         padh2 = 0.5-2*padh
-        l.fixed(chBox[0], selfBox, 0.0+padw, 0.0+padh, padw2, padh2)
-        l.fixed(chBox[1], selfBox, 0.5+padw, 0.0+padh, padw2, padh2)
-        l.fixed(chBox[2], selfBox, 0.0+padw, 0.5+padh, padw2, padh2)
-        l.fixed(chBox[3], selfBox, 0.5+padw, 0.5+padh, padw2, padh2)
+        children[0].fixed(l, selfBox, 0.0+padw, 0.0+padh, padw2, padh2)
+        children[1].fixed(l, selfBox, 0.5+padw, 0.0+padh, padw2, padh2)
+        children[2].fixed(l, selfBox, 0.0+padw, 0.5+padh, padw2, padh2)
+        children[3].fixed(l, selfBox, 0.5+padw, 0.5+padh, padw2, padh2)
 
         selfBox
     }

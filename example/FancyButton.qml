@@ -88,11 +88,15 @@ Widget {
         whenClick.call if whenClick
     }
 
-    function layout(l)
+    function layout(l,selfBox)
     {
-        selfBox = l.genBox :fancyButton, self
-        chldBox = l.genBox :fancyButtonPow, pow
-        l.fixed(chldBox, selfBox, 0, 0, 0.25, 1)
+        box = pow.fixed(l, selfBox, 0, 0, 0.25, 1)
+        if(layoutOpts.include? :no_constraint)
+            box.w = 0
+            box.y = 0
+            box.w = 0.25*selfBox.w
+            box.h = selfBox.h
+        end
         selfBox
     }
 

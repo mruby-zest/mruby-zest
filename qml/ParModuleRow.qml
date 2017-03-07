@@ -21,7 +21,7 @@ Widget {
         labels.children = []
         (0...n).each do |i|
             label = createInstance("Text", labels, row.db)
-            label.height = 0.7
+            label.height = 1.0
             label.layoutOpts = [:ignoreAspect]
             if(content.children[i].class_name != "Button")
                 label.label = content.children[i].label
@@ -29,90 +29,59 @@ Widget {
         end
     }
 
-    function layout_hpack(l, selfBox, box, children, mode, breal=nil)
+    function layout_hpack(l, selfBox, children, mode, breal=nil)
     {
         #Create A list of boxes
         blist = []
         return blist if children.empty?
-        fixed_height = nil
-        fixed_width  = nil
-        fixed_width_mode = layoutOpts.include? :fixed_width
-        if(mode == :labels)
-            fixed_height = l.gensym :modlabelHeight
-        elsif(fixed_width_mode)
-            fixed_width  = l.gensym :modWidgetWidth
-        end
         weight_list = []
+        bbs = []
         begin
             prev = nil
+            n = children.length
             children.each_with_index do |ch, i|
-                bb = ch.layout(l)
+                box = l.genConstBox(selfBox.w*i/n, 0,
+                selfBox.w/n, selfBox.h*1, ch)
+                bb = ch.layout(l, box)
+                bbs << bb
                 if(ch.layoutOpts.include? :weight)
                     weight_list << ch.layoutOpts[:weight]
                 else
                     weight_list << 1.0
                 end
-                if(bb)
-                    l.sheq([bb.x], [1], 0) if i==0 && outer == :none
-                    blist << bb
-                    l.contains(box, bb)
-                    if(mode == :labels)
-                        l.sheq([fixed_height, bb.h], [1, -1], 0)
-                    else
-                        l.sheq([fixed_width,  bb.w], [1, -1], 0) if fixed_width
-                    end
-                    if(prev)
-                        l.rightOf(prev, bb, i != whitespace)
-                    end
-
-
-                    l.weak(bb.x) if(i == whitespace)
-                    prev = bb
-                    l.sheq([bb.x, bb.w, selfBox.w], [1, 1, -1], 0) if i==children.length-1 && outer == :none
-                end
             end
         end
 
-        #Punish Different Widths
-        if(mode == :normal)
-            ww = abs_sum(weight_list)
-            blist.each_with_index do |x,i|
-                l.punish2([selfBox.w], [weight_list[i]/ww], x.w)
-            end
+        #print("classes = ")
+        #puts(bbs.map{|b| b.info.class})
+        #print("widths  = ")
+        #puts(bbs.map{|b| b.w})
+        #print("heights = ")
+        #puts(bbs.map{|b| b.h})
 
-            #Punish floating in the y dir
-            blist.each do |x|
-                l.weak(x.y)
-            end
+        heights = Hash.new
+        bbs.each do |b|
+            tp = b.info.class == Qml::Knob ? :knob : :other
+            heights[tp]  ||= b.h
+            heights[tp]    = b.h if b.h < heights[tp]
         end
-
-        #Center Stuff Horizontally
-        if(!blist.empty? && whitespace.nil?)
-            l.sheq([blist[0].x, selfBox.w, blist[-1].x, blist[-1].w],
-            [1,       -1,       1,     1], 0)
+        #puts heights
+        bbs.each do |b|
+            tp = b.info.class == Qml::Knob ? :knob : :other
+            b.y += (b.h-heights[tp])/2
+            b.h  = heights[tp]
         end
 
         content_items = blist
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox    = l.genBox :parmodulerow, row
-        contentBox = content.layout(l)
-        labelBox   = labels.layout(l)
+        contentBox = content.fixed(l, selfBox, 0, 0, 1, (1-lsize))
+        labelBox   = labels.fixed(l,  selfBox, 0, (1-lsize), 1, lsize)
 
-        #Constrain Content Box
-        l.contains(selfBox,contentBox)
-        l.contains(selfBox,labelBox)
-        l.topOf(contentBox,labelBox)
-
-        l.sh([contentBox.h, selfBox.h], [1, -(1-lsize)], 0)
-        l.sheq([contentBox.w, selfBox.w], [1, -1],   0)
-        l.sh([labelBox.h,   selfBox.h], [1, -lsize], 0)
-        l.sheq([labelBox.w,   selfBox.w], [1, -1],   0)
-
-        content_items = layout_hpack(l, selfBox, contentBox, row.content.children, :normal)
-        label_items   = layout_hpack(l, selfBox, labelBox,   row.labels.children,  :labels,
+        content_items = layout_hpack(l, contentBox, row.content.children, :normal)
+        label_items   = layout_hpack(l, labelBox,   row.labels.children,  :labels,
                                      content_items)
 
 

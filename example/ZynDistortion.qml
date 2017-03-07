@@ -30,10 +30,6 @@ Widget {
             Knob { extern: dst.extern + "Pvolume"}
             Knob { extern: dst.extern + "Ppanning"}
             Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }
-            Knob {
-                extern: dst.extern + "Distorsion/Pdrive"; label: "drive"
-                whenValue: lambda {wave.refresh}
-            }
             Knob {   extern: dst.extern + "Distorsion/Plpf"}
             Knob {   extern: dst.extern + "Distorsion/Phpf"}
 
@@ -46,16 +42,22 @@ Widget {
                 whenValue: lambda {wave.refresh}
                 layoutOpts: [:long_mode]
             }
+            Knob {
+                extern: dst.extern + "Distorsion/Pdrive"; label: "drive"
+                whenValue: lambda {wave.refresh}
+            }
             Knob {   extern: dst.extern + "Distorsion/Plevel"; label: "level" }
-            ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}
-            ToggleButton { extern: dst.extern + "Distorsion/Pstereo"}
+            Col {
+                ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}
+                ToggleButton { extern: dst.extern + "Distorsion/Pstereo"}
+            }
         }
-        function layout(l) {
-            Draw::Layout::vpack(l, self_box(l), chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::vpack(l, selfBox, children)
         }
     }
 
-    function layout(l) {
-        Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+    function layout(l, selfBox) {
+        Draw::Layout::hpack(l, selfBox, children)
     }
 }

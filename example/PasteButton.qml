@@ -5,9 +5,7 @@ Button {
         paste_button.tooltip = "paste to " + paste_button.extern.to_s
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :pasteButton, self
+    function layout(l, selfBox) {
         l.aspect(selfBox, 1, 1)
         selfBox
     }

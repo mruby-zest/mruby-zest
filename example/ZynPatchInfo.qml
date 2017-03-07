@@ -21,11 +21,11 @@ Widget {
         height: 1.0/8.0
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
         weights = Draw::DSP::norm_sum([1,1,1,4,1,8])
 
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), weights)
+        Draw::Layout::vfill(l, selfBox, children, weights)
     }
 
     function set_view()

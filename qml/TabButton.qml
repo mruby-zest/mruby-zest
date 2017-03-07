@@ -66,10 +66,15 @@ Widget {
         vg.text(w/2,h/2,button.label.upcase)
     }
 
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, button
+    function layout(l, selfBox) {
+        return selfBox if layoutOpts.include? :no_constraint
+        scale = 100
+        $vg.font_size scale
+        bb = $vg.text_bounds(0, 0, label.upcase)
+        if(bb != 0)
+            #Width cannot be so small that letters overflow
+            l.aspect(selfBox, bb, scale)
+        end
         selfBox
     }
 }

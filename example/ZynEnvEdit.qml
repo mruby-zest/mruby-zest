@@ -76,17 +76,27 @@ Widget {
             whenValue: lambda {enveditor.del_point()};
             label: "delete"
         }
-        Text           { label: "sustain point" }
-        NumEntry       {
+        Text {
+            height: 0.9; label: "sustain pt"
+        }
+        NumEntry {
             id: sus
             active: false
             extern: enveditor.extern + "Penvsustain";
         }
-        Text           { id: total_len; label: "1.47 sec" }
+        Text {
+            id: total_len;
+            height: 0.9;
+            label: "1.47 sec"
+        }
     }
 
-    function layout(l) {
-        Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.85, 0.15], 0, 3)
+    function layout(l, selfBox) {
+        main_width = 0.9
+        main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
+        puts layoutOpts
+        Draw::Layout::hfill(l, selfBox, children,
+        [main_width, 1-main_width], 0, 3)
     }
 
     //Activate Envelope

@@ -47,8 +47,9 @@ Widget {
             extern: kit.extern + "Pdrummode"
             label: "drum mode"
         }
-        function layout(l) {
-            Draw::Layout::tabpack(l, self, drum)
+        function layout(l, selfBox) {
+            puts "TABPACK"
+            Draw::Layout::tabpack(l, selfBox, self, drum)
         }
     }
 
@@ -56,7 +57,7 @@ Widget {
         extern: kit.extern
     }
 
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.05,0.95], 1, 2)
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.05,0.95], 1, 2)
     }
 }

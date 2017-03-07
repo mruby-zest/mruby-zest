@@ -1,9 +1,7 @@
 Widget {
     id: button
     property signal action: nil;
-    property String extern:   "";
     property Bool   value:    false;
-    property String renderer: nil;
     property Bool   enable:   false
 
     function set_enable(v) {
@@ -28,10 +26,13 @@ Widget {
         "KitButton"
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        l.genBox t, widget
+        if(selfBox.nil?)
+            t = widget.class_name.to_sym
+            selfBox = l.genBox t, widget
+        end
+        selfBox
     }
 
     function draw(vg)

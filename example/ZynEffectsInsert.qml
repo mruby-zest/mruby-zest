@@ -17,8 +17,8 @@ Widget {
             end
         }
 
-        function layout(l) {
-            Draw::Layout::vstack(l, self_box(l), self.children, 5)
+        function layout(l, selfBox) {
+            Draw::Layout::vstack(l, selfBox, children, 5)
         }
         function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
@@ -28,9 +28,8 @@ Widget {
         maxeffects: 8
         extern: "/insefx"
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :eff, self
-        Draw::Layout::hfill(l, selfBox, chBoxes(l), [0.1, 0.9], 0, 3)
+        Draw::Layout::hfill(l, selfBox, children, [0.1, 0.9], 0, 3)
     }
 }

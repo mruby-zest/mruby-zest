@@ -32,20 +32,18 @@ Widget {
         end
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
         scale = 100
         $vg.font_size scale
         bb = $vg.text_bounds(0, 0, label.upcase)
-        selfBox = l.genBox t, text
         if(bb != 0 && !self.layoutOpts.include?(:ignoreAspect) &&
            !self.layoutOpts.include?(:no_constraint))
             #Width cannot be so small that letters overflow
             if(height == 0.5)
-                l.sh([selfBox.w, selfBox.h], [-1.5, bb/scale], 0)
+                l.aspect(selfBox, bb, 1.5*scale)
             else
-                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+                l.aspect(selfBox, bb, scale)
             end
         end
         selfBox

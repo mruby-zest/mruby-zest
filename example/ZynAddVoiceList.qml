@@ -40,32 +40,28 @@ Widget {
         TextBox  {bg: nil; label: "detune"}
         //5
         TextBox  {bg: nil; label: "vib-depth"}
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :zavlh, self
             chBox   = []
 
             off = 0.0
             children.each_with_index do |ch, ind|
                 weight = vce_list.weights[ind]
-                box    = ch.layout(l)
-                l.fixed(box, selfBox, off, 0.0, weight, 1.0)
+                ch.fixed(l, selfBox, off, 0.0, weight, 1.0)
                 off += weight
             end
             selfBox
         }
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :zavlh, self
         n = children.length
         off  = 0
         gap  = 0.040
         step = (1.0-(n)*gap)/n
         children.each_with_index do |ch, id|
-            chBox = ch.layout(l)
-            l.fixed(chBox, selfBox, 0.01, off, 0.98, step)
+            ch.fixed(l, selfBox, 0.01, off, 0.98, step)
             off += step + gap
         end
         selfBox

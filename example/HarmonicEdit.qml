@@ -59,14 +59,11 @@ Widget {
             Qml::add_child(self, hm)
         end
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :harmonicEdit, self
-
         n = children.length
         children.each_with_index do |ch, id|
-            box = ch.layout(l)
-            l.fixed(box, selfBox, id/n, 0, 1.0/n, 1.0)
+            ch.fixed(l, selfBox, id/n, 0, 1.0/n, 1.0)
         end
 
         selfBox

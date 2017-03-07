@@ -31,22 +31,17 @@ Widget {
             pad: 0.01
         }
         function class_name() { "mixbox" }
-        function layout(l) {
-            Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+        function layout(l,selfBox) {
+            Draw::Layout::hpack(l, selfBox, children)
         }
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :mixerCol, self
-        chBox   = []
-
+    function layout(l, selfBox) {
         off = 0.0
         fixed_pad = 2
         children.each_with_index do |ch, ind|
             weight = weights[ind]
-            box    = ch.layout(l)
-            l.fixed_long(box, selfBox, 0, off, 1.0, weight,
+            l.fixed_long(ch, selfBox, 0, off, 1.0, weight,
                          0, fixed_pad, 0, -2*fixed_pad)
             off += weight
         end

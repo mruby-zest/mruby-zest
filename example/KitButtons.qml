@@ -69,20 +69,20 @@ Widget {
         end
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :kitButtons, self
-        b = 0
         cols = 4
+        l.aspect(selfBox, cols, rows)
+
+        b = 0
         ch = self.children
         (0...rows).each do |r|
             (0...cols).each do |c|
-                bb = ch[b].layout(l)
+                child = ch[b]
                 b += 1
-                l.fixed(bb, selfBox, c/4, r/self.rows, 0.25, 1/self.rows)
+                child.fixed(l, selfBox, c/4, r/self.rows, 0.25, 1/self.rows)
             end
         end
-        l.aspect(selfBox, rows, cols)
         selfBox
     }
 
@@ -90,6 +90,8 @@ Widget {
     {
         return if !self.sym
         vv = root.get_view_pos self.sym
+        return if(vv == @vv)
+        @vv = vv
         children.each_with_index do |ch, i|
             n = (i == vv)
             if(n != ch.value)

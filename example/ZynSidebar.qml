@@ -95,34 +95,20 @@ Widget {
         set_view
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :sidebar, side
-        psBox   = partsetting.layout(l)
-        partBox = part.layout(l)
-        browBox = browser.layout(l)
-        mixrBox = mixer.layout(l)
-        kiteBox = kitedit.layout(l)
-        kitsBox = kit.layout(l)
-        arpsBox = arp.layout(l)
-        effsBox = eff.layout(l)
-        addsBox = add.layout(l)
-        vcesBox = voices.layout(l)
-        subsBox = subButton.layout(l)
-        padsBox = padButton.layout(l)
-
-        l.fixed(psBox,   selfBox, 0.1, 0,     0.8, 0.045)
-        l.fixed(partBox, selfBox, 0.1, 0.05,  0.8, 0.19)
-        l.fixed(browBox, selfBox, 0.1, 0.248, 0.8, 0.045)
-        l.fixed(mixrBox, selfBox, 0.1, 0.3,   0.8, 0.045)
-        l.fixed(kiteBox, selfBox, 0.1, 0.35,  0.8, 0.045)
-        l.fixed(kitsBox, selfBox, 0.1, 0.405, 0.8, 0.187)
-        l.fixed(arpsBox, selfBox, 0.1, 0.6,   0.8, 0.045)
-        l.fixed(effsBox, selfBox, 0.1, 0.65,  0.8, 0.045)
-        l.fixed(addsBox, selfBox, 0.1, 0.7,   0.8, 0.045)
-        l.fixed(vcesBox, selfBox, 0.1, 0.76,  0.8, 0.10)
-        l.fixed(subsBox, selfBox, 0.1, 0.88,  0.8, 0.045)
-        l.fixed(padsBox, selfBox, 0.1, 0.94,  0.8, 0.045)
+        partsetting.fixed(l, selfBox, 0.1, 0,     0.8, 0.045)
+        part.fixed(l,        selfBox, 0.1, 0.05,  0.8, 0.19)
+        browser.fixed(l,     selfBox, 0.1, 0.248, 0.8, 0.045)
+        mixer.fixed(l,       selfBox, 0.1, 0.3,   0.8, 0.045)
+        kitedit.fixed(l,     selfBox, 0.1, 0.35,  0.8, 0.045)
+        kit.fixed(l,         selfBox, 0.1, 0.405, 0.8, 0.187)
+        arp.fixed(l,         selfBox, 0.1, 0.6,   0.8, 0.045)
+        eff.fixed(l,         selfBox, 0.1, 0.65,  0.8, 0.045)
+        add.fixed(l,         selfBox, 0.1, 0.7,   0.8, 0.045)
+        voices.fixed(l,      selfBox, 0.1, 0.76,  0.8, 0.10)
+        subButton.fixed(l,   selfBox, 0.1, 0.88,  0.8, 0.045)
+        padButton.fixed(l,   selfBox, 0.1, 0.94,  0.8, 0.045)
 
         selfBox
     }

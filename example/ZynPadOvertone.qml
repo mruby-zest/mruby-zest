@@ -55,8 +55,8 @@ Widget {
         //8    9   10
 
         function class_name() { "overtone" }
-        function layout(l) {
-            Draw::Layout::grid(l, self_box(l), chBoxes(l), 4, 3, 1, 2)
+        function layout(l, selfBox) {
+            Draw::Layout::grid(l, selfBox, children, 4, 3, 1, 2)
         }
 
         function onSetup(old=nil)
@@ -67,12 +67,10 @@ Widget {
             end
         }
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :overtone, self
-        chBox   = children[0].layout l
         pad = 4
-        l.fixed_long(chBox, selfBox, 0, 0, 1, 1,
+        l.fixed_long(children[0], selfBox, 0, 0, 1, 1,
             pad, pad, -2*pad, -2*pad)
         selfBox
     }

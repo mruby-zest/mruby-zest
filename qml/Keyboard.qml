@@ -33,6 +33,9 @@ Widget {
 
     function white_key_id(ind)
     {
+        @@key_lookup ||= Hash.new
+        return @@key_lookup[ind] if @@key_lookup.include?(ind)
+
         base = 9
         black_pattern = [1,0,1,1,0,1,1];
 
@@ -46,6 +49,7 @@ Widget {
             black_pos += 1
         end
 
+        @@key_lookup[ind] = base + off
         base + off
     }
 

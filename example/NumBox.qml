@@ -22,19 +22,16 @@ ColorBox {
         numBox.valueRef = ref
     }
     
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, self
         return selfBox if layoutOpts.include?(:free)
 
         #Assume all digit bounding boxes are roughly the same
         scale = 100
         $vg.font_size scale
         bb = $vg.text_bounds(0, 0, " 0.12 ")
-        l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
-        chbox = children[0].layout(l)
-        l.contains(selfBox, chbox)
+        l.aspect(selfBox, bb, scale)
+        children[0].fixed(l, selfBox, 0, 0, 1, 1)
 
         selfBox
     }

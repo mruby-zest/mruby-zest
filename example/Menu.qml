@@ -9,10 +9,7 @@ Widget {
         whenValue.call if whenValue
     }
 
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, self
+    function layout(l,selfBox) {
         if(!layoutOpts.include?(:no_constraint))
             scale = 100
             $vg.font_size scale

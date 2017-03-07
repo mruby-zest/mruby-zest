@@ -50,12 +50,10 @@ Widget {
         Draw::GradBox(vg, Rect.new(0, 0, w, h))
     }
 
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.75,0.25])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.75,0.25])
     }
 
     function onSetup(old=nil)
-    {
-    }
-
+    {}
 }

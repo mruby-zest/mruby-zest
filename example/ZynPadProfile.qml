@@ -44,16 +44,14 @@ Widget {
         HSlider { extern: padprofile.extern + "Php.amp.par2"}
 
         function class_name() { "overtone" }
-        function layout(l) {
-            Draw::Layout::grid(l, self_box(l), chBoxes(l), 8, 2, 1, 2)
+        function layout(l, selfBox) {
+            Draw::Layout::grid(l, selfBox, children, 8, 2, 1, 2)
         }
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :overtone, self
-        chBox   = children[0].layout l
         pad = 4
-        l.fixed_long(chBox, selfBox, 0, 0, 1, 1,
+        children[0].fixed_long(l, selfBox, 0, 0, 1, 1,
             pad, pad, -2*pad, -2*pad)
         selfBox
     }

@@ -134,16 +134,25 @@ Widget {
         swappable.force_update
     }
 
-    function layout(l)
+    function layout(l,selfBox)
     {
-        t = self.class_name.to_sym
-        selfBox = l.genBox t, widget
-        self.children.each do |child|
-            if(child.respond_to?(:layout))
-                box = child.layout(l)
-                l.contains(selfBox, box)
-            end
+        if(selfBox.nil?)
+            t = self.class_name.to_sym
+            selfBox = l.genBox t, widget
         end
+
+        return if children.empty?
+
+        child = children[0]
+        if(selfBox.class == LayoutConstBox)
+            box = l.genConstBox(0, 0, selfBox.w, selfBox.h,
+                        child)
+            child.layout(l, box)
+        else
+            box = child.layout(l, nil)
+            l.contains(selfBox, box)
+        end
+
         selfBox
     }
 }

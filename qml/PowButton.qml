@@ -49,8 +49,10 @@ ToggleButton {
             vg.stroke
         end
     }
-    function layout(l)
+
+    function layout(l, selfBox)
     {
-        self_box(l)
+        l.aspect(selfBox, 1, 1)
+        selfBox
     }
 }

@@ -12,10 +12,10 @@ Widget {
             ParModuleRow {
                 Selector { extern: subbw.extern + "Pstart" }
                 NumEntry { extern: subbw.extern + "Pnumstages" }
-            }
-            ParModuleRow {
                 Knob { extern: subbw.extern + "Pbandwidth" }
                 Knob { extern: subbw.extern + "Pbwscale" }
+            }
+            Widget {
             }
         }
         ZynBandwidthEnv {
@@ -23,11 +23,11 @@ Widget {
             whenModified: lambda {edit.refresh}
             extern: subbw.extern + "BandWidthEnvelope/"
         }
-        function layout(l) {
-            Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::hpack(l, selfBox, children)
         }
     }
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.6, 0.4])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.6, 0.4])
     }
 }

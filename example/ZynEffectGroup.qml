@@ -216,19 +216,16 @@ Widget {
         mapper[type]
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :eff, self
-        scroll  = children[0].layout(l)
+        children[0].fixed(l, selfBox, 0.98, 0, 0.02, 1)
         padw = 5
         padh = 3
-        l.fixed(scroll, selfBox, 0.98, 0, 0.02, 1)
         if(children.length > 1 && self.shownWeights.length > 0)
             off = 0
             children[1..-1].each_with_index do |ch, i|
-                bx = ch.layout(l)
                 lh = shownWeights[i]
-                l.fixed_long(bx, selfBox, 0, off/nunits, 0.98,
+                ch.fixed_long(l, selfBox, 0, off/nunits, 0.98,
                   lh/nunits, padw, padh, -2*padw, -2*padh)
                 off += lh
             end

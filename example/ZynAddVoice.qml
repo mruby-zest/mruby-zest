@@ -4,24 +4,9 @@ Widget {
     property Object valueRef: nil
     property Symbol filtertype: nil
 
-    function layout(l)
-    {
-        selfBox = l.genBox :zynAddGlobal, self
-        row1Box  = row1.layout(l)
-        row2Box  = row2.layout(l)
-        footBox  = footer.layout(l)
-
-        [row1Box, row2Box, footBox].each do |box|
-            l.contains(selfBox, box)
-        end
-
-        #Global Optimization
-        l.topOf(row1Box, row2Box)
-        l.topOf(row2Box, footBox)
-        l.sheq([row1Box.h, row2Box.h], [1, -1.2], 0)
-        l.sheq([footBox.h, selfBox.h], [1, -0.05], 0)
-
-        selfBox
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, 
+                            [0.55, 0.40, 0.05])
     }
 
     Swappable {
@@ -35,23 +20,8 @@ Widget {
 
     Widget {
         id: row2
-        function layout(l)
-        {
-            selfBox  = l.genBox :zynCenterRow2, self
-            genBox   = gen.layout(l)
-            envBox   = env.layout(l)
-            lfoBox   = lfo.layout(l)
-            l.contains(selfBox, genBox)
-            l.contains(selfBox, envBox)
-            l.contains(selfBox, lfoBox)
-            l.rightOf(genBox, envBox)
-            l.rightOf(envBox, lfoBox)
-
-            #Making things look nice
-            l.sheq([genBox.w, selfBox.w], [1, -1/3.0],  0)
-            l.sheq([envBox.w, selfBox.w], [1, -1/3.0],  0)
-
-            selfBox
+        function layout(l, selfBox) {
+            Draw::Layout::hpack(l, selfBox, children)
         }
 
 
@@ -68,36 +38,8 @@ Widget {
     Widget {
         id: footer
 
-        function layout(l)
-        {
-            selfBox = l.genBox :zynCenterHeader, footer
-            prev = nil
-
-            total   = 0
-            weights = []
-            footer.children.each do |ch|
-                scale = 100
-                $vg.font_size scale
-                weight   = $vg.text_bounds(0, 0, ch.label.upcase)
-                weights << weight
-                total   += weight
-            end
-
-            footer.children.each_with_index do |ch, idx|
-                box = ch.layout(l)
-                l.contains(selfBox,box)
-
-                l.sh([box.w, selfBox.w], [1, -(1-1e-4)*weights[idx]/total], 0)
-
-                #add in the aspect constraint
-                l.aspect(box, 100, weights[idx])
-
-                if(prev)
-                    l.rightOf(prev, box)
-                end
-                prev = box
-            end
-            selfBox
+        function layout(l, selfBox) {
+            Draw::Layout::tabpack(l, selfBox, self)
         }
 
 

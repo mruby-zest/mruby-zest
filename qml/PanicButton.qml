@@ -1,9 +1,7 @@
 TriggerButton {
     whenValue: lambda { $remote.action("/Panic") }
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, self
+    function layout(l, selfBox) {
+        selfBox
     }
 
     function draw(vg)

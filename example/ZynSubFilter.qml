@@ -28,13 +28,13 @@ Widget {
             extern: subfl.extern+"GlobalFilterEnvelope/"
             whenClick: lambda { subfl.change_vis(:envlope) }
         }
-        function layout(l) {
-            Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::hpack(l, selfBox, children)
         }
     }
 
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.6, 0.4])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.6, 0.4])
     }
 
     function set_vis_env(ext)
@@ -52,7 +52,7 @@ Widget {
         edit.extern = ext + "GlobalFilter/"
         if(self.filtertype == :formant)
             edit.content = Qml::ZynFormant
-        else
+        elsif(!children.empty?)
             edit.children[0].extern = ext + "GlobalFilter/response"
             edit.content = Qml::VisFilter
         end

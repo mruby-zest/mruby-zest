@@ -44,10 +44,24 @@ Widget {
         whenValue.call if whenValue
     }
 
-    function layout(l)
+    function aspect2(box, ww, hh)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, selector
+        provided    = box.w/box.h
+        recommended = ww/hh
+        if(recommended > provided)
+            #Decrease height
+            new_height = box.h*provided/recommended
+            box.y += (box.h-new_height)/2
+            box.h = new_height
+        else
+            new_width = box.w*recommended/provided
+            box.x += (box.w-new_width)/2
+            box.w  = new_width
+        end
+    }
+
+    function layout(l, selfBox)
+    {
         if(!layoutOpts.include?(:no_constraint))
             scale = 100
             $vg.font_size scale
@@ -61,7 +75,7 @@ Widget {
             scale *= layoutOpts[0] if layoutOpts.include?(:rescale)
             if(bb != 0)
                 #Width cannot be so small that letters overflow
-                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+                self.aspect2(selfBox, bb, scale)
             end
         end
         selfBox

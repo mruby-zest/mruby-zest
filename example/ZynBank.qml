@@ -84,36 +84,14 @@ Widget {
                 extern: "/bank/tags"
                 whenValue: lambda { bank.doSearch }
             }
-            function layout(l)
-            {
-                selfBox = l.genBox :widget, self
-
-                rhs_box = children[0].layout l
-                mid_box = children[1].layout l
-                lhs_box = children[2].layout l
-
-                l.contains(selfBox, rhs_box)
-                l.contains(selfBox, mid_box)
-                l.contains(selfBox, lhs_box)
-
-                l.rightOf(rhs_box, mid_box)
-                l.rightOf(mid_box, lhs_box)
-                l.sheq([rhs_box.w, selfBox.w], [1.0, -0.3], 0)
-                l.sheq([mid_box.w, selfBox.w], [1.0, -0.3], 0)
-
-                selfBox
+            function layout(l, selfBox) {
+                Draw::Layout::hfill(l, selfBox, children, [0.3, 0.3, 0.4])
             }
         }
 
-        function layout(l)
-        {
-            selfBox = l.genBox :widget, self
-
-            search  = children[0].layout l
-            content = children[1].layout l
-
-            l.fixed(search,  selfBox, 0, 0.00, 1, 0.05)
-            l.fixed(content, selfBox, 0, 0.05, 1, 0.95)
+        function layout(l, selfBox) {
+            children[0].fixed(l, selfBox, 0, 0.00, 1, 0.05)
+            children[1].fixed(l, selfBox, 0, 0.05, 1, 0.95)
 
             selfBox
         }
@@ -126,10 +104,12 @@ Widget {
                 label: "read"
                 value: true
                 whenClick: lambda { rwbox.setrw(0) }
+                layoutOpts: [:no_constraint]
             }
             TabButton {
                 label: "write"
                 whenClick: lambda { rwbox.setrw(1) }
+                layoutOpts: [:no_constraint]
             }
             TriggerButton {
                 label: "save"
@@ -150,9 +130,8 @@ Widget {
                 children[1].damage_self
             }
 
-            function layout(l)
-            {
-                Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+            function layout(l, selfBox) {
+                Draw::Layout::hpack(l, selfBox, children)
             }
         }
         Widget {
@@ -166,46 +145,25 @@ Widget {
             }
             ZynPatchInfo {}
 
-            function layout(l)
-            {
-                selfBox = l.genBox :widget, self
-
-                rhs_box = children[0].layout l
-                lhs_box = children[1].layout l
-                l.contains(selfBox, rhs_box)
-                l.contains(selfBox, lhs_box)
-
-                l.rightOf(rhs_box, lhs_box)
-                l.sheq([rhs_box.w, selfBox.w], [1.0, -0.5], 0)
+            function layout(l, selfBox) {
+                children[0].fixed(l, selfBox, 0.0, 0, 0.5, 1)
+                children[1].fixed(l, selfBox, 0.5, 0, 0.5, 1)
 
                 selfBox
             }
         }
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :widget, self
-
-            t_box = children[0].layout l
-            b_box = children[1].layout l
-            l.contains(selfBox, t_box)
-            l.contains(selfBox, b_box)
-
-            l.topOf(t_box, b_box)
-            l.sheq([t_box.h, selfBox.h], [1.0, -0.05], 0)
+            children[0].fixed(l, selfBox, 0, 0.00, 1, 0.05)
+            children[1].fixed(l, selfBox, 0, 0.05, 1, 0.95)
 
             selfBox
         }
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :bank, self
-        rhs_box = rhs.layout l
-        lhs_box = lhs.layout l
-        l.contains(selfBox, rhs_box)
-        l.contains(selfBox, lhs_box)
-
-        l.rightOf(lhs_box, rhs_box)
-        l.sheq([rhs_box.w, selfBox.w], [1.0, -0.5], 0)
+        rhs.fixed(l,  selfBox, 0.5, 0, 0.5, 1)
+        lhs.fixed(l, selfBox, 0.0, 0, 0.5, 1)
 
         selfBox
     }

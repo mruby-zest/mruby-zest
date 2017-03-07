@@ -4,6 +4,7 @@ Widget {
     Indent {
         id: wheelwell
         ModWheel {
+            id: wheel
             value: 0
             label: "wheel"
             tooltip: "modulation wheel"
@@ -13,12 +14,8 @@ Widget {
 
         }
 
-        function layout(l)
-        {
-            selfBox = l.genBox :modwheelwell, self
-            whelBox = self.children[0].layout l
-
-            l.fixed(whelBox, selfBox, 0.1, 0.1, 0.8, 0.8)
+        function layout(l, selfBox) {
+            wheel.fixed(l, selfBox, 0.1, 0.1, 0.8, 0.8)
             selfBox
         }
     }
@@ -47,11 +44,6 @@ Widget {
             tooltip: "velocity randomness of virtual keyboard notes"
         }
         Knob { value: 0.5; label: "octave" }
-        Selector {
-            options: ["qwerty"]
-            layoutOpts: {:weight=>0.2}
-            tooltip: "keyboard type for playing the virtual keyboard"
-        }
         Knob     {
             id: cc
             label: "c.val"
@@ -85,16 +77,10 @@ Widget {
 
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :footer, self
-        whelBox = wheelwell.layout l
-        keybBox = key.layout l
-        ctrlBox = ctrl.layout l
-
-        l.fixed(whelBox, selfBox, 0.010, 0.15, 0.017, (1-2*0.15))
-        l.fixed(keybBox, selfBox, 0.032, 0.10, 0.536, 0.8)
-        l.fixed(ctrlBox, selfBox, 0.600, 0.05, 0.400, 0.9)
+    function layout(l, selfBox) {
+        wheelwell.fixed(l,  selfBox, 0.010, 0.15, 0.017, (1-2*0.15))
+        key.fixed(l,        selfBox, 0.032, 0.10, 0.536, 0.8)
+        ctrl.fixed(l,       selfBox, 0.600, 0.05, 0.400, 0.9)
         selfBox
     }
 }

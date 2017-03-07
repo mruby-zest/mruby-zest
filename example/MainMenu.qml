@@ -1,16 +1,12 @@
 Widget {
     id: menu
-    function layout(l)
-    {
-        selfBox = l.genBox :menu, menu
-        chBox   = chBoxes(l)
-
+    function layout(l, selfBox) {
         pad  = 1/32
         pad2 = 0.5-2*pad
-        l.fixed(chBox[0], selfBox, 0.0+pad, 0.0+pad, pad2, pad2)
-        l.fixed(chBox[1], selfBox, 0.5+pad, 0.0+pad, pad2, pad2)
-        l.fixed(chBox[2], selfBox, 0.0+pad, 0.5+pad, pad2, pad2)
-        l.fixed(chBox[3], selfBox, 0.5+pad, 0.5+pad, pad2, pad2)
+        children[0].fixed(l, selfBox, 0.0+pad, 0.0+pad, pad2, pad2)
+        children[1].fixed(l, selfBox, 0.5+pad, 0.0+pad, pad2, pad2)
+        children[2].fixed(l, selfBox, 0.0+pad, 0.5+pad, pad2, pad2)
+        children[3].fixed(l, selfBox, 0.5+pad, 0.5+pad, pad2, pad2)
 
         selfBox
     }

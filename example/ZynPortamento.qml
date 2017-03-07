@@ -3,8 +3,10 @@ Group {
     label: "portamento"
     copyable: false
     ParModuleRow {
-        ToggleButton { extern: port.extern+"portamento.receive"}
-        ToggleButton { extern: port.extern+"portamento.pitchthreshtype"}
+        Col{
+            ToggleButton { extern: port.extern+"portamento.receive"}
+            ToggleButton { extern: port.extern+"portamento.pitchthreshtype"}
+        }
         Knob   { extern: port.extern+"portamento.pitchthresh"}
         Knob   { extern: port.extern+"portamento.time"}
         Knob   { extern: port.extern+"portamento.updowntimestretch"}

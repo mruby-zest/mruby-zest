@@ -69,21 +69,18 @@ Widget {
         //5
         TextBox  {bg: nil; label: "max"}
         function class_name() { "zavlh" }
-        function layout(l) {
-            Draw::Layout::hfill(l, self_box(l), chBoxes(l), vce_list.weights)
+        function layout(l, selfBox) {
+            Draw::Layout::hfill(l, selfBox, children, vce_list.weights)
         }
     }
 
-    function layout(l)
-    {
-        selfBox = l.genBox :zavlh, self
-        n = children.length
+    function layout(l, selfBox) {
+        n    = children.length
         off  = 0
         gap  = 0.005
         step = (1.0-(n)*gap)/n
         children.each_with_index do |ch, id|
-            chBox = ch.layout(l)
-            l.fixed(chBox, selfBox, 0.01, off, 0.98, step)
+            ch.fixed(l, selfBox, 0.01, off, 0.98, step)
             off += step + gap
         end
         selfBox

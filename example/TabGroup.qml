@@ -1,6 +1,7 @@
 Widget {
-    function layout(l) {
-        Draw::Layout::tabpack(l, self)
+    function layout(l, selfBox) {
+        puts "TabGroup = #{selfBox}"
+        selfBox = Draw::Layout::tabpack(l, selfBox, self)
     }
 
     function get_tab(wid)

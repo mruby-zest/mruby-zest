@@ -2,22 +2,19 @@ Widget {
     id: window
     function class_name() { "MainWindow" }
 
-    function layout(l)
+    //Layout window
+    // l - layout engine
+    // p - constraint solution from parent widget
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, widget
-        chBox   = main_widget.layout(l)
-        sideBox = side.layout(l)
-        headBox = head1.layout(l)
-        footBox = sub1.layout(l)
+        side.fixed(l,        selfBox, 0, 0.1, 0.1, 0.8)
+        head1.fixed(l,       selfBox, 0, 0,   1.0, 0.1)
+        sub1.fixed(l,        selfBox, 0, 0.9, 1.0, 0.1)
+        main_widget.fixed(l, selfBox, 0.102, 0.1, 0.89, 0.80)
 
-        l.fixed(chBox, selfBox, 0.102, 0.1, 0.89, 0.80)
-        l.fixed(sideBox, selfBox, 0, 0.1, 0.1, 0.8)
-        l.fixed(headBox, selfBox, 0, 0,   1.0, 0.1)
-        l.fixed(footBox, selfBox, 0, 0.9, 1.0, 0.1)
-
+        #Layout overlay panel (e.g. file browser)
         if(children.length == 5)
-            l.fixed(children[4].layout(l), selfBox, 0, 0, 1, 1)
+            children[4].fixed(l, selfBox, 0, 0, 1, 1)
         end
 
         selfBox

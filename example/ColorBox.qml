@@ -11,31 +11,4 @@ Widget {
             v.fill
         end
     }
-
-    function layout(l)
-    {
-        selfBox = l.genBox :colorBox, self
-        prev = nil
-        n = self.children.length
-        self.children.each do |child|
-            box = child.layout l
-
-            #Child
-            l.contains(selfBox, box)
-
-            next if(!layoutOpts.include?(:think_of_the_children))
-            #Centered
-            #l.sheq([box.x, box.w, selfBox.w],
-            #[0.5,       1.0,       -1.0], 0)
-
-            #Ordered
-            l.topOf(prev, box) if prev
-
-            #Equal Spacing
-            #l.sh([box.h, selfBox.h], [1.0, -1/n], 0)
-
-            prev = box
-        end
-        selfBox
-    }
 }

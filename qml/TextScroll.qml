@@ -40,11 +40,9 @@ Widget {
         end
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = self_box(l)
-        ch      = chBoxes(l)
-        l.fixed(ch[0], selfBox, 0.00, 0, 0.02, 1.0)
+        children[0].fixed(l, selfBox, 0.00, 0, 0.02, 1.0)
         selfBox
     }
 

@@ -110,17 +110,16 @@ Button {
     }
 
 
-    function layout(l)
-    {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, button
-        bx = lp.layout(l)
-        l.sheq([selfBox.w, bx.w], [-0.2, 1.0], 0)
-        l.sh([selfBox.h, bx.h], [-1.0, 1.0], 0)
-        l.sheq([bx.x], [1.0], 5)
-        l.contains(selfBox, bx)
+    function layout(l, selfBox) {
+        scale = 100
+        $vg.font_size scale
+        bb = $vg.text_bounds(0, 0, "000 " + label.upcase)
+        if(bb != 0)
+            #Width cannot be so small that letters overflow
+            l.aspect(selfBox, bb, scale)
+        end
+
+        lp.fixed(l, selfBox, 0.1, 0.1, 0.2, 0.8)
         selfBox
     }
-
-
 }

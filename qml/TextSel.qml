@@ -39,10 +39,8 @@ Widget {
         rt.damage_item self if rt
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, textsel
         if(!layoutOpts.include?(:no_constraint))
             scale = 100
             $vg.font_size scale
@@ -55,7 +53,7 @@ Widget {
             scale *= layoutOpts[0] if layoutOpts.include?(:rescale)
             if(bb != 0)
                 #Width cannot be so small that letters overflow
-                l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+                l.aspect(selfBox, scale, bb)
             end
         end
         selfBox

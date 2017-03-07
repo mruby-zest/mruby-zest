@@ -39,14 +39,14 @@ Widget {
         TextBox  {bg: Theme::TitleBar; label: "pad"}
         //8
         TextBox  {bg: Theme::TitleBar; label: "effect route"}
-        function layout(l) {
-            Draw::Layout::hfill(l, self_box(l), chBoxes(l), kittable.weights, 0, 3)
+        function layout(l, selfBox) {
+            Draw::Layout::hfill(l, selfBox, children, kittable.weights, 0, 3)
         }
     }
 
     function class_name() { "kittable" }
-    function layout(l) {
-        Draw::Layout::vpack(l, self_box(l), chBoxes(l), 0, 1, 2)
+    function layout(l, selfBox) {
+        Draw::Layout::vpack(l, selfBox, children, 0, 1, 2)
     }
 
     function set_active_kit()

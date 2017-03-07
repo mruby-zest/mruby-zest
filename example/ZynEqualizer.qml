@@ -23,8 +23,8 @@ Widget {
         Swappable {
             id: filter
         }
-        function layout(l) {
-            Draw::Layout::vpack(l, self_box(l), chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::vpack(l, selfBox, children)
         }
 
     }
@@ -32,8 +32,8 @@ Widget {
         Draw::GradBox(vg, Rect.new(0, 0, w, h))
     }
 
-    function layout(l) {
-        Draw::Layout::hpack(l, self_box(l), chBoxes(l))
+    function layout(l, selfBox) {
+        Draw::Layout::hpack(l, selfBox, children)
     }
 
     function change_filter()

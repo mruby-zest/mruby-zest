@@ -76,12 +76,11 @@ Widget {
         whenValue.call if whenValue
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        s = self_box(l)
         if(self.layoutOpts.include? :aspect)
-            l.aspect(s, 1.0, 3.0)
+            l.aspect(selfBox, 3.0, 1.0)
         end
-        s
+        selfBox
     }
 }

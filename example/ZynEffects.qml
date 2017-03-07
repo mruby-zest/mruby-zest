@@ -22,9 +22,8 @@ Widget {
         content: Qml::ZynEffectsSystem
     }
 
-    function layout(l)
-    {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.05, 0.95])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.05, 0.95])
     }
 
     function set_view()

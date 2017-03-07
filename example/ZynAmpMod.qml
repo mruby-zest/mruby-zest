@@ -9,4 +9,5 @@ Group {
         Knob { extern: box.extern+"PFMVelocityScaleFunction"}
 
     }
+    Widget {}
 }

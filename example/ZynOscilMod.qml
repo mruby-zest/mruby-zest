@@ -8,24 +8,21 @@ Widget {
             Widget {
                 Swappable { id: gen }
                 Swappable { id: env }
-                function layout(l) {
-                    selfBox = l.genBox :modbox, self
-                    Draw::Layout::hpack(l, selfBox, chBoxes(l))
+                function layout(l, selfBox) {
+                    Draw::Layout::hpack(l, selfBox, children)
                 }
             }
-            function layout(l) {
-                selfBox = l.genBox :modbox, self
-                Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.6,0.4])
+            function layout(l, selfBox) {
+                Draw::Layout::vfill(l, selfBox, children, [0.6,0.4])
             }
         }
         ZynOscilModRight {
             extern: basemod.extern
         }
 
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :modbox, self
-            Draw::Layout::hfill(l, selfBox, chBoxes(l), [0.6,0.4])
+            Draw::Layout::hfill(l, selfBox, children, [0.6,0.4])
         }
     }
     TabGroup {
@@ -49,10 +46,9 @@ Widget {
         }
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :modbox, self
-        Draw::Layout::vfill(l, selfBox, chBoxes(l),
+        Draw::Layout::vfill(l, selfBox, children,
         [0.95,0.05])
     }
 
@@ -72,6 +68,8 @@ Widget {
             gen.content = Qml::ZynAmpMod
             env.content = Qml::ZynAmpEnv
             vis.content = Qml::ZynEnvEdit
+            vis.children[0].layoutOpts = Hash.new
+            vis.children[0].layoutOpts[:main_width] = 0.8
 
             env.children[0].toggleable   = basemod.extern + "PFMAmpEnvelopeEnabled"
             env.children[0].whenModified = lambda {
@@ -86,6 +84,8 @@ Widget {
             gen.content = Qml::ZynFreqMod
             env.content = Qml::ZynFreqEnv
             vis.content = Qml::ZynEnvEdit
+            vis.children[0].layoutOpts = Hash.new
+            vis.children[0].layoutOpts[:main_width] = 0.8
 
             env.children[0].toggleable   = basemod.extern + "PFMFreqEnvelopeEnabled"
             env.children[0].whenModified = lambda {

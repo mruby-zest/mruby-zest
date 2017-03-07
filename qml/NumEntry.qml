@@ -25,17 +25,15 @@ Widget {
     }
 
     function class_name() {"num_entry"}
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, self
         return selfBox if layoutOpts.include?(:free)
 
         #Assume all digit bounding boxes are roughly the same
         scale = 100
         $vg.font_size scale
-        bb = $vg.text_bounds(0, 0, "- 9999 +")
-        l.sh([selfBox.w, selfBox.h], [-1.0, bb/scale], 0)
+        bb = $vg.text_bounds(0, 0, "- 9999 +"+format)
+        l.aspect(selfBox, bb, scale)
 
         selfBox
     }

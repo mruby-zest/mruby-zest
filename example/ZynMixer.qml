@@ -50,7 +50,7 @@ Widget {
     }
 
     function class_name() { "mixer" }
-    function layout(l) {
-        Draw::Layout::hpack(l, self_box(l), chBoxes(l), 0.02, 0.96, 4)
+    function layout(l, selfBox) {
+        Draw::Layout::hpack(l, selfBox, children, 0.02, 0.96, 4)
     }
 }

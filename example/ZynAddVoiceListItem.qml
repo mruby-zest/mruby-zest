@@ -41,17 +41,15 @@ Widget {
         label: "100%"
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :zavlr, self
         chBox   = []
 
         off = 0.0
         hpad = 1/128
         children.each_with_index do |ch, ind|
             weight = weights[ind]
-            box    = ch.layout(l)
-            l.fixed(box, selfBox, off+hpad, 0.0, weight-2*hpad, 1.0)
+            ch.fixed(l, selfBox, off+hpad, 0.0, weight-2*hpad, 1.0)
             off += weight
         end
         selfBox

@@ -19,16 +19,13 @@ Widget {
         end
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :zavlh, self
-        chBox   = chBoxes(l)
-
         step = 1/(cols+1)
-        l.fixed(chBox[0], selfBox, 0, 0, step, 1)
+        children[0].fixed(l, selfBox, 0, 0, step, 1)
         off = step*(1+row_id)
-        (1...chBox.length).each do |bx|
-            l.fixed(chBox[bx], selfBox, off, 0, step, 1)
+        (1...children.length).each do |bx|
+            children[bx].fixed(l, selfBox, off, 0, step, 1)
             off += step
         end
         selfBox

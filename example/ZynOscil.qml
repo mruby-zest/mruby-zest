@@ -158,14 +158,8 @@ Widget {
                     }
                 }
                 ToggleButton  {extern: base_osc.extern + "Pharmonicshiftfirst"; label: "pre/post"}
-                function layout(l) {
-                    selfBox = l.genBox :idk, self
-                    restBox = children[0].layout l
-                    postBox = children[1].layout l
-                    l.contains(selfBox, restBox)
-                    l.contains(selfBox, postBox)
-                    l.rightOf(restBox, postBox)
-                    selfBox
+                function layout(l, selfBox) {
+                    Draw::Layout::hpack(l, selfBox, children)
                 }
 
             }
@@ -223,9 +217,9 @@ Widget {
             }
 
             function class_name() { "oscgrid" }
-            function layout(l) {
+            function layout(l, selfBox) {
                 pad = 3
-                Draw::Layout::gridt(l, self_box(l), chBoxes(l), 10, 4, pad, pad)
+                Draw::Layout::gridt(l, selfBox, children, 10, 4, pad, pad)
             }
 
         }
@@ -235,42 +229,32 @@ Widget {
         }
 
 
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :osc_mid, self
             pad = 6
-            l.fixed_long(children[0].layout(l), selfBox, 0, 0, 1, 1,
-            pad, pad, -2*pad, -2*pad)
+            l.fixed_long(children[0], selfBox, 0, 0, 1, 1,
+                                pad, pad, -2*pad, -2*pad)
             selfBox
         }
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :oscil, self
-        baseBox = base.layout(l)
-        fullBox = full.layout(l)
-        bashBox = base_harm.layout(l)
-        fulhBox = full_harm.layout(l)
-        bastBox = base_title.layout(l)
-        fultBox = full_title.layout(l)
-        hediBox = hedit.layout(l)
-        scrlBox = scroll.layout(l)
+        base.fixed(l,           selfBox, 0.00, 0.15, 0.30, 0.38)
+        full.fixed(l,           selfBox, 0.70, 0.15, 0.30, 0.38)
+        base_harm.fixed(l,      selfBox, 0.00, 0.05, 0.30, 0.12)
+        full_harm.fixed(l,      selfBox, 0.70, 0.05, 0.30, 0.12)
+        base_title.fixed(l,     selfBox, 0.00, 0.00, 0.30, 0.05)
+        full_title.fixed(l,     selfBox, 0.70, 0.00, 0.30, 0.05)
+        hedit.fixed(l,          selfBox, 0.00, 0.53, 1.00, 0.42)
+        scroll.fixed(l,         selfBox, 0.00, 0.95, 1.00, 0.05)
+        middle_panel.fixed(l,   selfBox, 0.30, 0.0,  0.40, 0.53)
+
         #voceBox = voice_button.layout(l)
         #modbBox = mod_button.layout(l)
-        middBox = middle_panel.layout(l)
-        l.fixed(baseBox, selfBox, 0.00, 0.15, 0.30, 0.38)
-        l.fixed(fullBox, selfBox, 0.70, 0.15, 0.30, 0.38)
-        l.fixed(bashBox, selfBox, 0.00, 0.05, 0.30, 0.12)
-        l.fixed(fulhBox, selfBox, 0.70, 0.05, 0.30, 0.12)
-        l.fixed(bastBox, selfBox, 0.00, 0.00, 0.30, 0.05)
-        l.fixed(fultBox, selfBox, 0.70, 0.00, 0.30, 0.05)
-        l.fixed(hediBox, selfBox, 0.00, 0.53, 1.00, 0.42)
-        l.fixed(scrlBox, selfBox, 0.00, 0.95, 1.00, 0.05)
         #l.fixed(scrlBox, selfBox, 0.10, 0.95, 0.80, 0.05)
         #l.fixed(voceBox, selfBox, 0.00, 0.95, 0.10, 0.05)
         #l.fixed(modbBox, selfBox, 0.90, 0.95, 0.10, 0.05)
-        l.fixed(middBox, selfBox, 0.30, 0.0,  0.40, 0.53)
 
         selfBox
     }

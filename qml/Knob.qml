@@ -107,10 +107,8 @@ Valuator {
         "Knob"
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
-        t = widget.class_name.to_sym
-        selfBox = l.genBox t, widget
         l.aspect(selfBox, 0.9, 1)
         selfBox
     }

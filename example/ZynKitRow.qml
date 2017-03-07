@@ -87,8 +87,8 @@ Widget {
     }
 
     function class_name() { "kitrow" }
-    function layout(l) {
-        Draw::Layout::hfill(l, self_box(l), chBoxes(l), kit_item.weights, 0, 3)
+    function layout(l, selfBox) {
+        Draw::Layout::hfill(l, selfBox, children, kit_item.weights, 0, 3)
     }
 
     function onSetup(old=nil)

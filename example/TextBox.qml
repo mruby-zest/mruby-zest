@@ -20,4 +20,9 @@ ColorBox {
         }
         textBox.valueRef = ref
     }
+
+    function layout(l, selfBox) {
+        children[0].fixed(l, selfBox, 0, 0, 1, 1)
+        selfBox
+    }
 }

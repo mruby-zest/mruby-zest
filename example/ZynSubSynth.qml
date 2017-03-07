@@ -12,8 +12,8 @@ Widget {
         CopyButton  { id: cpy; extern: subsynth.extern}
         PasteButton { extern: subsynth.extern}
 
-        function layout(l) {
-            Draw::Layout::tabpack(l, self, cpy)
+        function layout(l, selfBox) {
+            selfBox = Draw::Layout::tabpack(l, selfBox, self, cpy)
         }
 
         function set_tab(wid)
@@ -35,9 +35,8 @@ Widget {
     
     Swappable { id: swap }
 
-    function layout(l) {
-        selfBox = l.genBox :subsynth, self
-        Draw::Layout::vfill(l, selfBox, chBoxes(l), [0.05, 0.95])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.05, 0.95])
     }
 
     function set_view()

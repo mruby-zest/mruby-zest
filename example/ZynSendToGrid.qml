@@ -17,19 +17,17 @@ Widget {
 
         function class_name() { "send_to_grid" }
 
-        function layout(l) {
-            Draw::Layout::vpack(l, self_box(l), chBoxes(l))
+        function layout(l, selfBox) {
+            Draw::Layout::vpack(l, selfBox, children)
         }
     }
     function draw(vg) {
         Draw::GradBox(vg, Rect.new(0,0,w,h))
     }
 
-    function layout(l) {
-        selfBox = self_box l
-        chBox   = children[0].layout(l)
+    function layout(l, selfBox) {
         pad = 4
-        l.fixed_long(chBox, selfBox, 0, 0, 1, 1,
+        children[0].fixed_long(l, selfBox, 0, 0, 1, 1,
         pad, pad, -2*pad, -2*pad)
         selfBox
     }

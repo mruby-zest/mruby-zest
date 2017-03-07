@@ -46,25 +46,10 @@ Widget {
     //2. The children of this widget exist
     //   within the bounding box
     //3. The children are packed horizontally
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :parmodule, mod
-        contentBox = content.layout(l)
-        titleBox   = titleW.layout(l)
-
-        #Constrain Content Box
-        l.contains(selfBox,titleBox)
-        l.contains(selfBox,contentBox)
-        #l.topOf(titleBox,contentBox)
-        l.sh([contentBox.h, selfBox.h], [1, -(1-topSize)], -pxpad)
-        l.sheq([contentBox.x], [1], pxpad)
-        l.sheq([contentBox.w, selfBox.w], [1, -1], -2*pxpad)
-        l.sh([contentBox.y, selfBox.h], [-1, topSize], -pxpad)
-
-        l.contains(selfBox, titleBox)
-        l.sheq([titleBox.x],[1],0)
-        l.sheq([titleBox.h, selfBox.h], [1, -topSize], 0)
-
+        titleW.fixed(l,   selfBox, 0, 0,       1, topSize)
+        content.fixed_long(l, selfBox, 0, topSize, 1, 1-topSize, pxpad, pxpad, -2*pxpad, -2*pxpad)
 
         selfBox
     }
@@ -119,6 +104,45 @@ Widget {
 
         function pack_misc(l, selfBox, ch)
         {
+            #Create A list of boxes
+            bbs = []
+            n = children.length
+            children.each_with_index do |ch, i|
+                box = l.genConstBox(selfBox.w*i/n, 0,
+                selfBox.w/n, selfBox.h, ch)
+                bb = ch.layout(l, box)
+                bbs << bb
+            end
+
+            bbs[0].x = 15 if bbs[0].x > 15
+
+            #put stuff on backwards
+            bx = selfBox.w
+            bbs[1..-1].reverse.each do |b|
+                b.x  = bx-b.w
+                bx  -= b.w
+            end
+
+            return selfBox
+
+            minheight = 99999
+            widths = Hash.new
+            bbs.each do |b|
+                tp = b.info.class == Qml::Knob ? :knob : :other
+                minheight     = b.h if b.h < minheight
+                widths[tp]  ||= b.w
+                widths[tp]    = b.w if b.w < widths[tp]
+            end
+            bbs.each do |b|
+                tp = b.info.class == Qml::Knob ? :knob : :other
+                #b.y += (b.h-widths[tp])/2
+                b.y  += (b.h-minheight)/2
+                b.h   = minheight
+                b.x   = 0
+                b.w   = selfBox.w
+            end
+            selfBox
+            return
             prev = ch[0]
             ch[1..-1].each_with_index do |c,i|
                 l.contains(selfBox, c)
@@ -130,16 +154,10 @@ Widget {
             selfBox
         }
 
-        function layout(l)
+        function layout(l, selfBox)
         {
-            selfBox = l.genBox :titleBox, titleW
-            ch = chBoxes(l)
-            t  = ch[0]
-            l.contains(selfBox,t)
-            l.sheq([t.x, selfBox.w], [1, -0.02], 0)
-
-            return selfBox if ch.length == 1
-            pack_misc(l, selfBox, ch)
+            #return selfBox if children.length == 1
+            pack_misc(l, selfBox, children)
         }
 
         Text {
@@ -171,22 +189,8 @@ Widget {
     Widget {
         id: content
 
-        function layout(l)
-        {
-            selfBox = l.genBox :contentBox, self
-            begin
-                prev = nil
-                n = self.children.length
-                self.children.each do |ch|
-                    ch_box = ch.layout(l)
-                    #child.h = 1/n * parent.h
-                    l.contains(selfBox, ch_box)
-                    l.sheq([ch_box.h, selfBox.h], [1, -1.0/n], 0)
-                    l.topOf(prev, ch_box) if prev
-                    prev   = ch_box
-                end
-            end
-            selfBox
+        function layout(l, selfBox) {
+            Draw::Layout::vpack(l, selfBox, children)
         }
 
         function class_name() { "ContentBox" }

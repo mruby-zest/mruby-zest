@@ -16,8 +16,8 @@ Widget {
             end
         }
 
-        function layout(l) {
-            Draw::Layout::vstack(l, self_box(l), self.children)
+        function layout(l, selfBox) {
+            Draw::Layout::vstack(l, selfBox, children)
         }
 
         function draw(vg) {
@@ -28,9 +28,8 @@ Widget {
         maxeffects: 3
         extern: base.extern + "partefx"
     }
-    function layout(l)
-    {
-        selfBox = l.genBox :eff, self
-        Draw::Layout::hfill(l, selfBox, chBoxes(l), [0.1, 0.9], 0, 3)
+
+    function layout(l, selfBox) {
+        Draw::Layout::hfill(l, selfBox, children, [0.1, 0.9], 0, 3)
     }
 }

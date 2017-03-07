@@ -27,12 +27,10 @@ Widget {
             end
         }
     }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :res, self
-        chldBox = chBoxes(l)
-        l.fixed(chldBox[0], selfBox, 0, 0.0, 1, 0.8)
-        l.fixed(chldBox[1], selfBox, 0, 0.8, 1, 0.2)
+        children[0].fixed(l, selfBox, 0, 0.0, 1, 0.8)
+        children[1].fixed(l, selfBox, 0, 0.8, 1, 0.2)
         selfBox
     }
     function draw(vg)

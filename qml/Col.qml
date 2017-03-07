@@ -1,33 +1,47 @@
 Widget {
     id: col
-    property Float spacer: 0
+    property Float spacer: 5
 
-    function layout(l)
-    {
-        selfBox = l.genBox :col, col
-        prev = nil
-        n = col.children.length
-        col.children.each do |child|
-            box = child.layout l
-
-            #Child
-            l.contains(selfBox, box)
-
-            #Centered
-            l.sheq([box.x, box.w, selfBox.w],
-            [1,       0.5,       -0.5], 0)
-
-            #Ordered
-            if(prev)
-                l.sh([prev.y, prev.h, box.y], [1, 1, -1], -spacer)
+    function layout(l, selfBox) {
+        #Create A list of boxes
+        bbs = []
+        begin
+            n = children.length
+            children.each_with_index do |ch, i|
+                sh = selfBox.h-spacer*n
+                box = l.genConstBox(0, selfBox.h*i/n,
+                selfBox.w, sh/n, ch)
+                bb = ch.layout(l, box)
+                bbs << bb
             end
-            #l.topOf(prev, box) if prev
-
-            #Equal Spacing
-            l.sh([box.h, selfBox.h], [1.0, -1/n], -spacer)
-
-            prev = box
         end
+
+        minheight = 99999
+        widths = Hash.new
+        bbs.each do |b|
+            tp = b.info.class == Qml::Knob ? :knob : :other
+            minheight     = b.h if b.h < minheight
+            widths[tp]  ||= b.w
+            widths[tp]    = b.w if b.w < widths[tp]
+        end
+
+        bbs.each do |b|
+            tp = b.info.class == Qml::Knob ? :knob : :other
+            b.y  += (b.h-minheight)/2
+            b.h   = minheight
+            b.x   = 0
+            b.w   = selfBox.w
+        end
+
+        #make longer lists compact
+        if(bbs.length > 3)
+            py = spacer
+            bbs.each do |b|
+                b.y  = py
+                py  += b.h + spacer
+            end
+        end
+
         selfBox
     }
 

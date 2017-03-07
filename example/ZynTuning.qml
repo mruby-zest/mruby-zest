@@ -24,8 +24,8 @@ Widget {
             //ColorBox { pad: 0.03; bg: color("222222") }
         }
         function class_name() { "partsub" }
-        function layout(l) {
-            Draw::Layout::hfill(l, self_box(l), chBoxes(l), [0.5, 0.5])
+        function layout(l, selfBox) {
+            Draw::Layout::hfill(l, selfBox, children, [0.5, 0.5])
         }
     }
     ColorBox {
@@ -34,12 +34,10 @@ Widget {
             FileButton {
                 label: "import .scl"
                 extern: "/load_scl"
-                active: false
             }
             FileButton {
                 label: "import .kbm"
                 extern: "/load_kbm"
-                active: false
             }
             TriggerButton {
                 label: "retune"
@@ -50,8 +48,8 @@ Widget {
     }
 
     function class_name() { "part" }
-    function layout(l) {
-        Draw::Layout::vfill(l, self_box(l), chBoxes(l), [0.9, 0.1])
+    function layout(l, selfBox) {
+        Draw::Layout::vfill(l, selfBox, children, [0.9, 0.1])
     }
 
     function apply() {

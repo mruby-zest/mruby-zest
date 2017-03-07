@@ -11,12 +11,9 @@ Widget {
             extern: base.extern
             whenValue: lambda { nhr.refresh }
         }
-        function layout(l) {
-            selfBox = l.genBox :tmp, self
-            chiaBox = children[0].layout(l)
-            chibBox = children[1].layout(l)
-            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.6, 1.0)
-            l.fixed(chibBox, selfBox, 0.6, 0.0, 0.4, 1.0)
+        function layout(l, selfBox) {
+            children[0].fixed(l, selfBox, 0.0, 0.0, 0.6, 1.0)
+            children[1].fixed(l, selfBox, 0.6, 0.0, 0.4, 1.0)
             selfBox
         }
     }
@@ -35,12 +32,9 @@ Widget {
                 whenValue: lambda { visharm.refresh }
             }
         }
-        function layout(l) {
-            selfBox = l.genBox :tmp, self
-            chiaBox = children[0].layout(l)
-            chibBox = children[1].layout(l)
-            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.7, 1.0)
-            l.fixed(chibBox, selfBox, 0.7, 0.0, 0.3, 1.0)
+        function layout(l, selfBox) {
+            children[0].fixed(l, selfBox, 0.0, 0.0, 0.7, 1.0)
+            children[1].fixed(l, selfBox, 0.7, 0.0, 0.3, 1.0)
             selfBox
         }
     }
@@ -53,6 +47,7 @@ Widget {
             label: "harmonic content"
             copyable: false
             ParModuleRow {
+                lsize: 0.4
                 Selector {
                     extern: base.extern + "Pquality.basenote"
                 }
@@ -64,28 +59,25 @@ Widget {
                     label: "octaves"
                 }
             }
-            Text {label: "sample size"}
-            Selector {
-                extern: base.extern + "Pquality.samplesize"
-                layoutOpts: [:long_mode]
+            Col{
+                Selector {
+                    extern: base.extern + "Pquality.samplesize"
+                    layoutOpts: [:long_mode]
+                }
+                Text {label: "sample size"}
             }
         }
-        function layout(l) {
-            selfBox = l.genBox :tmp, self
-            chiaBox = children[0].layout(l)
-            chibBox = children[1].layout(l)
-            l.fixed(chiaBox, selfBox, 0.0, 0.0, 0.7, 1.0)
-            l.fixed(chibBox, selfBox, 0.7, 0.0, 0.3, 1.0)
+        function layout(l, selfBox) {
+            children[0].fixed(l, selfBox, 0.0, 0.0, 0.7, 1.0)
+            children[1].fixed(l, selfBox, 0.7, 0.0, 0.3, 1.0)
             selfBox
         }
     }
 
-    function layout(l) {
-        selfBox = l.genBox :tmp, self
-        chBox   = chBoxes(l)
-        l.fixed(chBox[0], selfBox, 0.0, 0.00, 1.0, 0.17)
-        l.fixed(chBox[1], selfBox, 0.0, 0.17, 1.0, 0.50)
-        l.fixed(chBox[2], selfBox, 0.0, 0.67, 1.0, 0.33)
+    function layout(l, selfBox) {
+        children[0].fixed(l, selfBox, 0.0, 0.00, 1.0, 0.17)
+        children[1].fixed(l, selfBox, 0.0, 0.17, 1.0, 0.50)
+        children[2].fixed(l, selfBox, 0.0, 0.67, 1.0, 0.33)
         selfBox
     }
 }

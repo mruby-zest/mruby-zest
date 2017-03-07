@@ -1,23 +1,17 @@
 Widget {
     id: indent
-    property Float pad: 1/32
+    property Unused pad: 2;
 
     function class_name() { "Indent" }
-    function layout(l)
+    function layout(l, selfBox)
     {
-        selfBox = l.genBox :indent, indent
-        if(!indent.children.empty?)
-            ch = indent.children[0].layout l
-            #l.fixed(ch, selfBox, pad, pad, 1-2*pad, 1-2*pad)
-            l.contains selfBox, ch
-            l.sh([ch.w, ch.x, selfBox.w], [+1, +1, -1], -3)
-            l.sh([ch.h, ch.y, selfBox.h], [+1, +1, -1], -3)
+        return selfBox if children.empty?
 
-            l.sheq([ch.x, ch.w, selfBox.w],
-                [2, 1, -1], 0)
-            l.sheq([ch.y, ch.h, selfBox.h],
-                [2, 1, -1], 0)
-        end
+        child = self.children[0]
+
+        chBox = l.genConstBox(pad, pad,
+                selfBox.w-2*pad, selfBox.h-2*pad, child)
+        child.layout(l, chBox)
         selfBox
     }
 

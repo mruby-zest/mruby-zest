@@ -67,6 +67,11 @@ Widget {
             vg.stroke_width 1.0
             vg.stroke
         end
+        titleH = self.h*1.0/(children.length + 1)
+        vg.fill_color Theme::TextModColor
+        vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+        vg.font_size titleH*0.9
+        vg.text(0.9*w/2,titleH/2,label.upcase)
     }
 
     function draw_normal(vg)

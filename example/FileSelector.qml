@@ -64,7 +64,7 @@ Widget {
         label: "favorites"
         whenValue: lambda {
             file.browser.change_dir_abs(favs.options[favs.selected]) if favs.selected
-            file.browser.check
+            file.check
         }
     }
 
@@ -266,7 +266,7 @@ Widget {
     }
 
     function draw(vg) {
-        background color("000000", 195)
+        background color("000000", 145)
     }
 
     function whenEnter() {
@@ -283,5 +283,6 @@ Widget {
 
     function onMousePress(m)
     {
+        whenCancel
     }
 }

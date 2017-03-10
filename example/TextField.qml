@@ -36,8 +36,13 @@ Widget {
             l[i] = "?" if l.getbyte(i) > 127
         end
 
+        bnd = vg.text_bounds(0,0,l+"|")
+        if(bnd+8 > self.w)
+            vg.font_size self.h*self.w/(bnd+8)*0.8
+            bnd = vg.text_bounds(0,0,l)
+        end
+
         vg.text(8,h/2,l)
-        bnd = vg.text_bounds(0,0,l)
         if(@state)
             vg.text(8+bnd,h/2,"|")
         end

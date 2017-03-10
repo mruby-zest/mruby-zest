@@ -198,6 +198,10 @@ class FileBrowser
     end
 
     def change_dir_abs(dir_name)
+        path = Path.new(dir_name)
+        npath = path.to_s
+        @needs_refresh = true if npath != @path
+        @path = npath
     end
 
     def clear_flags()

@@ -39,7 +39,13 @@ Widget {
                 ii         = (1+c + 4*r)
                 but        = Qml::KitButton.new(db)
                 but.label  = ii.to_s
-                but.action = lambda {kitbuttons.change_active(ii-1)}
+                but.action = lambda {|act|
+                    if(act == :change_view)
+                        kitbuttons.change_active(ii-1)
+                    else
+                        kitbuttons.toggle(ii-1)
+                    end
+                }
                 Qml::add_child(self, but)
             end
         end
@@ -67,6 +73,11 @@ Widget {
                 ch.damage_self
             end
         end
+    }
+
+    function toggle(ii)
+    {
+        self.valueRef[ii].value = !children[ii].enable
     }
 
     function layout(l, selfBox)

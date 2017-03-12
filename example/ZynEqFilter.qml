@@ -12,13 +12,23 @@ Widget {
                 fil.cb # parent callback
             }
         }
-        Knob     { extern: fil.extern + "Pfreq" }
+        Knob {
+            extern: fil.extern + "Pfreq"
+            whenValue: lambda { fil.cb }
+        }
         Knob     {
             id: gain
             extern: fil.extern + "Pgain"
+            whenValue: lambda { fil.cb }
         }
-        Knob     { extern: fil.extern + "Pq" }
-        NumEntry { extern: fil.extern + "Pstages"}
+        Knob     {
+            extern: fil.extern + "Pq"
+            whenValue: lambda { fil.cb }
+        }
+        NumEntry {
+            extern: fil.extern + "Pstages"
+            whenValue: lambda { fil.cb }
+        }
     }
     function cb() {
         whenValue.call if whenValue

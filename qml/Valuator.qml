@@ -86,7 +86,7 @@ Widget {
             self.valueRef.value = reset_value
             self.value = reset_value
             new_dsp = self.valueRef.display_value
-            whenValue.call if whenValue && old_dsp != new_dsp
+            whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         else
             self.value = reset_value
@@ -140,7 +140,7 @@ Widget {
             valuator.valueRef.value = nvalue
             valuator.value = nvalue
             new_dsp = valuator.valueRef.display_value
-            whenValue.call if whenValue && old_dsp != new_dsp
+            whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
             valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
         else
             valuator.value = nvalue

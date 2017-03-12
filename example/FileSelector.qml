@@ -34,7 +34,7 @@ Widget {
         clear_on_extern: true
         pattern: Regexp.new(file.pat) if file.pat
         whenValue: lambda {
-            file.browser.set_file(files.selected)
+            file.browser.change_file(files.selected)
             file.check
         }
     }

@@ -30,7 +30,12 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color = color("56c0a5")
-        l = label.empty? ? "..." : label.clone
+        l = "..."
+        if(label.class == String && !label.empty?)
+            l = label.clone
+        elsif(label.class == Array)
+            l = label[0].clone
+        end
 
         (0...l.length).each do |i|
             l[i] = "?" if l.getbyte(i) > 127

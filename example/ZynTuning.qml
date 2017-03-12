@@ -10,7 +10,7 @@ Widget {
         wid.y = 0
         wid.w = win.w
         wid.h = win.h
-        wid.ext = type
+        wid.pat = type
         Qml::add_child(win, wid)
         self.db.update_values
         setup_widget wid
@@ -19,6 +19,14 @@ Widget {
         if(root)
             root.smash_layout
             root.damage_item(win, :all)
+        end
+    }
+    
+    function setup_widget(w)
+    {
+        w.onSetup()
+        w.children.each do |c|
+            setup_widget(c)
         end
     }
 

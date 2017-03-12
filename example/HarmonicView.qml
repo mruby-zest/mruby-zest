@@ -13,7 +13,8 @@ Widget {
         ref.callback = lambda {|x|
             #x = x.map {|x| Math.log10(x)}
             x = Draw::DSP::norm_harmonics(x)
-            x = x[0..255] if x.length > 256
+            nharmonics = 64
+            x = x[0..nharmonics-1] if x.length > nharmonics
             harmonic_view.points = x
             harmonic_view.damage_self
         }

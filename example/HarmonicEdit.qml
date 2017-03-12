@@ -61,7 +61,7 @@ Widget {
         end
     }
 
-    function layout(l)
+    function layout(l, selfBox)
     {
         n = children.length
         children.each_with_index do |ch, id|

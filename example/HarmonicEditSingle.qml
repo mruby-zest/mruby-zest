@@ -24,8 +24,8 @@ ColorBox {
         whenValue: lambda {hes.cb}
 
         function onSetup(old=nil) {
-            undef :onMousePress
-            undef :onMouseMove
+            undef :onMousePress if self.respond_to?(:onMousePress)
+            undef :onMouseMove  if self.respond_to?(:onMouseMove)
         }
     }
     Text {
@@ -48,8 +48,8 @@ ColorBox {
         whenValue: lambda {hes.cb}
 
         function onSetup(old=nil) {
-            undef :onMousePress
-            undef :onMouseMove
+            undef :onMousePress if self.respond_to?(:onMousePress)
+            undef :onMouseMove  if self.respond_to?(:onMouseMove)
         }
 
     }

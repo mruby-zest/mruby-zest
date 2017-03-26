@@ -106,7 +106,9 @@ Widget {
 
     function onMousePress(m)
     {
-        root.set_view_pos(:view, :about)
+        view = root.get_view_pos(:view)
+        root.set_view_pos(:view, :about)    if(view != :about)
+        root.set_view_pos(:view, :automate) if(view == :about)
         root.change_view
     }
 }

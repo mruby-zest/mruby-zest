@@ -9,7 +9,7 @@ Widget {
     {
         side.fixed(l,        selfBox, 0, 0.1, 0.1, 0.8)
         head1.fixed(l,       selfBox, 0, 0,   1.0, 0.1)
-        sub1.fixed(l,        selfBox, 0, 0.9, 1.0, 0.1)
+        footerbox.fixed(l,        selfBox, 0, 0.9, 1.0, 0.1)
         main_widget.fixed(l, selfBox, 0.102, 0.1, 0.89, 0.80)
 
         #Layout overlay panel (e.g. file browser)
@@ -133,6 +133,9 @@ Widget {
         elsif(type == :about)
             main_widget.extern  = "/"
             main_widget.content = Qml::ZynAbout
+        elsif(type == :automate)
+            main_widget.extern  = "/"
+            main_widget.content = Qml::ZynAutomation
         else
             main_widget.content = Qml::Widget
         end
@@ -140,6 +143,6 @@ Widget {
 
     ZynSidebar  { id: side  }
     ZynHeader   { id: head1 }
-    ZynFooter   { id: sub1  }
+    ZynFooter   { id: footerbox  }
     Swappable { id: main_widget }
 }

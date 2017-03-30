@@ -164,6 +164,7 @@ class FileBrowser
         path   = Path.new(dir_name)
         path.convert_partial_to_dir
         @path  = path.to_s
+        $current_dir = @path
         @needs_refresh = true
     end
 
@@ -195,6 +196,7 @@ class FileBrowser
         npath = path.to_s
         @needs_refresh = true if npath != @path
         @path = npath
+        $current_dir = @path
     end
 
     def change_dir_abs(dir_name)
@@ -202,6 +204,7 @@ class FileBrowser
         npath = path.to_s
         @needs_refresh = true if npath != @path
         @path = npath
+        $current_dir = @path
     end
 
     def clear_flags()

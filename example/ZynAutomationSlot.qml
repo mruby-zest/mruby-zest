@@ -1,7 +1,12 @@
 Widget {
     //Draw the header
     PowButton {}
-    TextField {label: "text"}
+    TextField {
+        label: "slot"
+        function onKey(k, mode)
+        {
+        }
+    }
     function onSetup(old=nil)
     {
         #//Fetch parameters

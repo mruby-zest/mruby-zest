@@ -16,7 +16,6 @@ Widget {
         }
         function draw(vg)
         {
-            background(color(:red))
         }
     }
 

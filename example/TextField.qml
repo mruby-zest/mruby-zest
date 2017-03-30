@@ -2,6 +2,14 @@ Widget {
     property Symbol style: :normal
     function animate()
     {
+        if(root.key_widget != self)
+            @next = nil
+            if(@state == 1)
+                @state = 0
+                damage_self
+            end
+            return
+        end
         now = Time.new
         if(@next.nil?)
             @next = now + 1

@@ -29,8 +29,6 @@ Widget {
         #Calculate y=1 x value
         xp = (1-@offset)/@gain
 
-        puts [xm, xp, ym, yp]
-
         @points = []
 
         if(ym < 0)
@@ -54,7 +52,6 @@ Widget {
 
     function set_offset(o)
     {
-        puts "offset = #{o}"
         @offset = o + 0.5
         recalc()
     }

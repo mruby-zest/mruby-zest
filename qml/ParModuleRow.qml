@@ -52,12 +52,6 @@ Widget {
             end
         end
 
-        #print("classes = ")
-        #puts(bbs.map{|b| b.info.class})
-        #print("widths  = ")
-        #puts(bbs.map{|b| b.w})
-        #print("heights = ")
-        #puts(bbs.map{|b| b.h})
 
         heights = Hash.new
         bbs.each do |b|
@@ -65,7 +59,7 @@ Widget {
             heights[tp]  ||= b.h
             heights[tp]    = b.h if b.h < heights[tp]
         end
-        #puts heights
+
         bbs.each do |b|
             tp = b.info.class == Qml::Knob ? :knob : :other
             b.y += (b.h-heights[tp])/2

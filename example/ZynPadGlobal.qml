@@ -6,7 +6,6 @@ Widget {
 
 
     function layout(l, selfBox) {
-        puts "pad global = #{selfBox}"
         Draw::Layout::vfill(l, selfBox, children, [0.55, 0.4, 0.05])
     }
 
@@ -23,7 +22,6 @@ Widget {
     Widget {
         id: row2
         function layout(l, selfBox) {
-            puts "pad row2 = #{selfBox}"
             Draw::Layout::hpack(l, selfBox, children)
         }
 

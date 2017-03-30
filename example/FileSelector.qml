@@ -159,9 +159,7 @@ Widget {
     function browser() { @browser }
 
     function onSetup(v=nil) {
-        puts "goodness"
         @browser = FileBrowser.new
-        puts "arrow"
 
         #Get files when home dir (or any subsequent dir) is setup
         dirs  = OSC::RemoteParam.new($remote, "/file_list_dirs")

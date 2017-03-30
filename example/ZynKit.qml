@@ -48,7 +48,6 @@ Widget {
             label: "drum mode"
         }
         function layout(l, selfBox) {
-            puts "TABPACK"
             Draw::Layout::tabpack(l, selfBox, self, drum)
         }
     }

@@ -94,7 +94,6 @@ Widget {
     function layout(l, selfBox) {
         main_width = 0.9
         main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
-        puts layoutOpts
         Draw::Layout::hfill(l, selfBox, children,
         [main_width, 1-main_width], 0, 3)
     }

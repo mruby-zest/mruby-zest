@@ -1,6 +1,5 @@
 Widget {
     function layout(l, selfBox) {
-        puts "TabGroup = #{selfBox}"
         selfBox = Draw::Layout::tabpack(l, selfBox, self)
     }
 

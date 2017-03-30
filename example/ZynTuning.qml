@@ -32,9 +32,10 @@ Widget {
 
     function load_scale_file(val)
     {
-        $remote.action("/save_kbm", val) if @opt == ".kbm"
-        $remote.action("/save_scl", val) if @opt == ".scl"
-        $remote.action("/microtonal/retune")
+        $remote.action("/load_kbm", val) if @opt == ".kbm"
+        $remote.action("/load_scl", val) if @opt == ".scl"
+        $remote.action("/microtonal/mapping")
+        $remote.action("/microtonal/tunings")
     }
 
     Widget {

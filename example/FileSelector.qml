@@ -18,6 +18,7 @@ Widget {
         nrows: 20
         clear_on_extern: true
         whenValue: lambda {
+            return if folders.selected.empty?
             file.browser.change_dir_rel(folders.selected)
             file.check
         }
@@ -34,6 +35,7 @@ Widget {
         clear_on_extern: true
         pattern: Regexp.new(file.pat) if file.pat
         whenValue: lambda {
+            return if files.selected.empty?
             file.browser.change_file(files.selected)
             file.check
         }

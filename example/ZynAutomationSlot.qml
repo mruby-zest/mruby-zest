@@ -1,4 +1,10 @@
 Widget {
+
+    function setActive()
+    {
+        active_indicator.active = true
+    }
+
     //Draw the header
     PowButton {}
     TextField {
@@ -6,6 +12,9 @@ Widget {
         function onKey(k, mode)
         {
         }
+    }
+    ArrowBox {
+        id: active_indicator
     }
     function onSetup(old=nil)
     {
@@ -16,6 +25,6 @@ Widget {
 
     function layout(l, selfBox)
     {
-        Draw::Layout::hpack(l, selfBox, children)
+        Draw::Layout::hfill(l, selfBox, children, [0.15, 0.7, 0.15])
     }
 }

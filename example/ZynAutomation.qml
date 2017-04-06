@@ -6,9 +6,10 @@ Widget {
         {
             return if children.length > 5
             #//Fetch all parameters
-            10.times do 
+            10.times do |i|
                 slot = Qml::ZynAutomationSlot.new(db)
                 Qml::add_child(self,slot)
+                slot.setActive if(i==7)
             end
         }
         function layout(l, selfBox) {

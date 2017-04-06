@@ -5,6 +5,26 @@ Widget {
     property Float  height: 0.1
     property Object valueRef: nil
 
+    function animate()
+    {
+        if(root.key_widget != self)
+            @next = nil
+            if(@state)
+                @state = nil
+                damage_self
+            end
+            return
+        end
+        now = Time.new
+        if(@next.nil?)
+            @next = now + 0.1
+            return
+        elsif(@next < now)
+            @state = !@state
+            @next = now + 0.7
+            damage_self
+        end
+    }
 
     onExtern: {
         text.valueRef = OSC::RemoteParam.new($remote, text.extern)
@@ -47,6 +67,17 @@ Widget {
         vg.font_size height*h
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
-        vg.text_box(0,height*h,w, input)
+        ypos = height*h/2
+        lasty = h/2
+        lastx = 0
+        vg.text_break_lines(input, w) do |str, width, minx, maxx|
+            vg.text(0, ypos, str)
+            lasty = ypos
+            lastx = width
+            ypos += height*h
+        end
+        if(@state)
+            vg.text(lastx,lasty,"|")
+        end
     }
 }

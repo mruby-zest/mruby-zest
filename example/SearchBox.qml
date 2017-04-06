@@ -1,5 +1,27 @@
 Widget {
     property Function whenValue: nil
+
+    function animate()
+    {
+        if(root.key_widget != self)
+            @next = nil
+            if(@state)
+                @state = nil
+                damage_self
+            end
+            return
+        end
+        now = Time.new
+        if(@next.nil?)
+            @next = now + 0.1
+            return
+        elsif(@next < now)
+            @state = !@state
+            @next = now + 0.7
+            damage_self
+        end
+    }
+
     function draw(vg)
     {
         background Theme::GeneralBackground
@@ -9,6 +31,10 @@ Widget {
         vg.fill_color = Theme::TextColor
         l = label.empty? ? "search..." : label
         vg.text(8,h/2,l.upcase)
+        bnd = vg.text_bounds(0,0,l.upcase)
+        if(@state)
+            vg.text(8+bnd,h/2,"|")
+        end
     }
 
     function onKey(k, mode)

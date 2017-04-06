@@ -4,19 +4,19 @@ Widget {
     {
         if(root.key_widget != self)
             @next = nil
-            if(@state == 1)
-                @state = 0
+            if(@state)
+                @state = nil
                 damage_self
             end
             return
         end
         now = Time.new
         if(@next.nil?)
-            @next = now + 1
+            @next = now + 0.1
             return
         elsif(@next < now)
             @state = !@state
-            @next = now + 1
+            @next = now + 0.7
             damage_self
         end
     }

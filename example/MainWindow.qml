@@ -39,7 +39,6 @@ Widget {
 
     function valueRef()
     {
-        puts "valueref cleanup..."
         return @refs
     }
 

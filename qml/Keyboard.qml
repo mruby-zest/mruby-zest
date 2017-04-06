@@ -9,6 +9,7 @@ Widget {
 
     property Float  velocity: 100
     property Float  velrnd: 0
+    property Int    octave: 0
 
     function set_data(data_)
     {
@@ -123,7 +124,7 @@ Widget {
         off = 0
         qwerty_low.each_char do |i|
             if(k==i)
-                note = 60 - 12 + off
+                note = 60 - 12 + off + self.octave*12
                 break
             end
             off += 1

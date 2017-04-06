@@ -43,7 +43,11 @@ Widget {
             label: "vrnd"
             tooltip: "velocity randomness of virtual keyboard notes"
         }
-        Knob { value: 0.5; label: "octave" }
+        Knob {
+            id: oct
+            value: 0.5; label: "octave"
+            whenValue: lambda {key.octave = (4*(oct.value-0.5)).to_i}
+        }
         Knob     {
             id: cc
             label: "c.val"

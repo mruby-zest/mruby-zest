@@ -105,6 +105,9 @@ Widget {
             end
         elsif(ev.buttons.include? :middleButton)
             reset
+        elsif(ev.buttons.include? :drag_and_drop)
+            puts "sending dnd event..."
+            $remote.action("/last_dnd", self.extern)
         else
             valuator.prev = nil
         end

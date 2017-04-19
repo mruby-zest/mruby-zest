@@ -2,16 +2,12 @@ Widget {
     id: dst
     //label: "distortion"
     //topSize: 0.2
-    function refresh() {
-        return if rw.content.nil?
-        return if rw.content.children.length < 4
-        rw.content.children[3..-1].each do |c|
-            c.refresh
+    function refresh(x=nil) {
+        x ||= dst
+        x.children.each do |xx|
+            xx.refresh() if xx.respond_to? :refresh
+            dst.refresh(xx)
         end
-        rw2.content.children.each do |c|
-            c.refresh
-        end
-        wave.refresh
     }
     WaveView {
         id: wave

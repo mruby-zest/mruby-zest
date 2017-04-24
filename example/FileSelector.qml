@@ -219,24 +219,16 @@ Widget {
         elsif(k.ord == 9) #tab
             if(ebutton.value != true)
                 ebutton.value = true
-                cbutton.value = 0.0
             else
-                cbutton.value = true
                 ebutton.value = 0.0
             end
             ebutton.damage_self
-            cbutton.damage_self
             line.label = line.label[0...-1]
             return
         elsif(k.ord == 13) #enter
             line.label = line.label[0...-1]
-            if(cbutton.value == true)
-                whenCancel
-                return
-            else
-                whenEnter
-                return
-            end
+            whenEnter
+            return
         elsif(k.ord == 8)
             @browser.del_char
         else

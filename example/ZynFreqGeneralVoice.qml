@@ -10,7 +10,7 @@ Group {
 
     ParModuleRow {
         Selector { extern: box.extern + "PDetuneType" }
-        Knob { extern: box.extern + "PCoarseDetune" }
+        Knob { extern: box.extern + "coarsedetune" }
         ToggleButton { extern: box.extern + "Pfixedfreq" }
     }
 }

@@ -1,5 +1,8 @@
 Widget {
+    id: text_field
+    property Object valueRef: nil
     property Symbol style: :normal
+    property Function whenValue: nil
     function animate()
     {
         if(root.key_widget != self)
@@ -80,8 +83,30 @@ Widget {
         end
     }
 
+    function onKey(k, mode)
+    {
+        return if mode != "press"
+        if(k.ord == 8)
+            self.label = self.label[0...-1]
+        else
+            self.label += k
+        end
+        whenValue.call if whenValue
+        valueRef.value = self.label if valueRef
+        damage_self
+    }
+
     function onMerge(val)
     {
         self.label = val.label
+    }
+
+    onExtern: {
+        ref = OSC::RemoteParam.new($remote, text_field.extern)
+        ref.callback = lambda {|x|
+            text_field.label = x;
+            text_field.damage_self
+        }
+        text_field.valueRef = ref
     }
 }

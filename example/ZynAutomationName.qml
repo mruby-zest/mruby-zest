@@ -1,7 +1,15 @@
 Widget {
     Text {
+        id: textrender
         label: "Ins 1 · Kit 1 · Add · Vce 1 · Vol"
         height: 1.0
+    }
+
+    function update_path(path)
+    {
+        textrender.label = path if path.length > 0
+        textrender.label = "Unconnected" if path.length <= 0
+        damage_self
     }
 
     function create_menu(options, xx)

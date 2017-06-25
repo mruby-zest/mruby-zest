@@ -1,9 +1,18 @@
 Widget {
     id: box
     property Bool active: false
+    property Function whenValue: nil;
 
     onActive: {
         box.damage_self
+    }
+
+    function onMousePress(ev) {
+        return if box.active
+
+        box.active = true
+        damage_self
+        whenValue.call if whenValue
     }
 
 
@@ -20,7 +29,7 @@ Widget {
             vg.fill
         end
     }
-    
+
     function layout(l, selfBox) {
         l.aspect(selfBox, 1, 1)
         selfBox

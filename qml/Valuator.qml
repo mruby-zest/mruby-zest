@@ -14,14 +14,18 @@ Widget {
 
     property Symbol type: nil
 
+    property String units: nil
+
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote, valuator.extern)
         valuator.label   = meta.short_name
         valuator.tooltip = meta.tooltip
+        valuator.units   = meta.units
 
         valuator.valueRef = OSC::RemoteParam.new($remote, valuator.extern)
         valuator.valueRef.set_min(meta.min)
         valuator.valueRef.set_max(meta.max)
+        valuator.valueRef.set_scale(meta.scale)
         valuator.valueRef.type     = "f" if valuator.type
         valuator.valueRef.callback = Proc.new {|x| valuator.setValue(x)}
 
@@ -96,7 +100,7 @@ Widget {
 
     function onMousePress(ev) {
         return if !self.active
-        $remote.midi_learn extern if(root.learn_mode && extern)
+        $remote.automate(extern) if(root.learn_mode && extern)
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos
         elsif(ev.buttons.include? :rightButton)
@@ -144,14 +148,21 @@ Widget {
             valuator.value = nvalue
             new_dsp = valuator.valueRef.display_value
             whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
-            valuator.root.log(:user_value, valuator.valueRef.display_value, src=valuator.label)
+            out_value = valuator.valueRef.display_value
+            if(valuator.units && valuator.units != "none")
+                out_value = out_value.round(2) if out_value.class == Float
+                out_value = out_value.to_s
+                out_value += " "
+                out_value += valuator.units
+            end
+            valuator.root.log(:user_value, out_value, src=valuator.label)
         else
             valuator.value = nvalue
             whenValue.call if whenValue
         end
         damage_self
     }
-     
+
     function updatePos(delta) {
         updatePosAbs(valuator.value - delta)
     }

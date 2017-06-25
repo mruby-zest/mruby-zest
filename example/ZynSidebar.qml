@@ -32,7 +32,7 @@ Widget {
     SidebarButton {
         id: arp
         label: "midi learn"
-        whenClick: lambda { side.set_content :midi_learn }
+        whenClick: lambda { side.set_content :automate }
     }
     SidebarButton {
         id: eff

@@ -80,13 +80,13 @@ Widget {
             v.fill
         end
     }
-    
+
     function onMousePress(ev) {
         @active_widget  = root.activeWidget(ev.pos.x, ev.pos.y)
         @active_y       = ev.pos.y
         @active_buttons = ev.buttons
         return if @active_widget.class != Qml::Slider
-        $remote.midi_learn @active_widget.extern if(root.learn_mode && @active_widget.extern)
+        $remote.automate(@active_widget.extern) if(root.learn_mode && @active_widget.extern)
 
         if(ev.buttons.include? :leftButton)
             @prev = ev.pos

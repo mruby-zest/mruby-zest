@@ -1,4 +1,5 @@
 Widget {
+    id: au_plot
     property Float minimum: 0
     property Float maximum: 0
 
@@ -38,7 +39,7 @@ Widget {
         else
             @points << [0.0, ym]
         end
-        
+
         if(yp < 0)
             @points << [(xm+1)/2, 0.0, 1.0, 0.0]
         elsif(yp > 1)
@@ -69,7 +70,7 @@ Widget {
         recalc() if(@points.nil?)
         background(color("222222"))
 
-        
+
         vg.path do
             vg.move_to(0,h/2)
             vg.line_to(w,h/2)
@@ -77,7 +78,7 @@ Widget {
             vg.stroke_width(1)
             vg.stroke
         end
-        
+
         vg.path do
             vg.move_to(w/2,0)
             vg.line_to(w/2,h)
@@ -85,7 +86,7 @@ Widget {
             vg.stroke_width(1)
             vg.stroke
         end
-        
+
         vg.path do
             vg.move_to(0,0)
             vg.line_to(w,0)
@@ -96,7 +97,7 @@ Widget {
             vg.stroke_width(1)
             vg.stroke
         end
-        
+
         #Draw the actual line
         n = @points.length/2
         vg.path do
@@ -111,16 +112,26 @@ Widget {
         end
 
         #Draw the active point
-        input = 0.3
-        out = @offset + input * @gain
+        @input ||= 0.3
+        out = @offset + @input * @gain
         if(out > 0 && out < 1)
             vg.path do
-                vg.circle((input+1)/2*w, (1-out)*h, 5)
+                vg.circle((@input+1)/2*w, (1-out)*h, 5)
                 vg.stroke
             end
         end
 
 
 
+    }
+
+    property Object valueRef: nil
+
+    function input=(x) {if(@input != x);@input = x;damage_self;end}
+
+    onExtern: {
+        value_ref =  OSC::RemoteParam.new($remote, au_plot.ext + "../value")
+        value_ref.callback = lambda {|x| au_plot.input = x}
+        au_plot.valueRef = [value_ref]
     }
 }

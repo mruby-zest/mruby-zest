@@ -26,7 +26,7 @@ Widget {
             a = x[3..4]
         end
         vis_filter.coeff = x;
-        xpts = Draw::DSP::logspace(10, 20000, 256)
+        xpts = Draw::DSP::logspace(50, 30000, 256)
         xnorm = []
         xpts.each do |pt|
             xnorm << pt / 48000.0
@@ -61,7 +61,7 @@ Widget {
         box = Rect.new(w*pad  + fixedpad,   h*pad  + fixedpad,
                        w*pad2 - 2*fixedpad, h*pad2 - 2*fixedpad)
         background Theme::VisualBackground
-        Draw::Grid::log_x(vg, 1, 20000, box)
+        Draw::Grid::log_x(vg, 50, 30000, box)
         Draw::Grid::linear_y(vg, 1, 20, box)
     }
 

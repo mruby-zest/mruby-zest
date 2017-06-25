@@ -36,16 +36,28 @@ Group {
         root.ego_death snsa
         root.ego_death snsb
     }
-    
+
     function move_sense() {
         snsa.extern = path_simp(box.extern + "../PGlobalFilterVelocityScale")
         snsb.extern = path_simp(box.extern + "../PGlobalFilterVelocityScaleFunction")
     }
 
     ParModuleRow {
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreqtrack" }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern:    box.extern + "basefreq"
+        }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern:    box.extern + "baseq"
+        }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern:    box.extern + "freqtracking"
+        }
         Knob {
             id: snsa;
             extern: {
@@ -82,6 +94,10 @@ Group {
             whenValue: lambda { box.cb};
             extern: box.extern + "Ptype"
         }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern: box.extern + "gain"
+        }
     }
 }

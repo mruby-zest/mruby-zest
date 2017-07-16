@@ -103,6 +103,12 @@ Widget {
         $remote.automate(extern) if(root.learn_mode && extern)
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos
+            now = Time.new
+            #400 ms delta for double click
+            if(@click_time && (now-@click_time) < 0.400)
+                $remote.default(extern) if extern
+            end
+            @click_time = now
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
                 create_radial

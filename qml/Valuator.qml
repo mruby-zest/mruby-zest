@@ -100,7 +100,10 @@ Widget {
 
     function onMousePress(ev) {
         return if !self.active
-        $remote.automate(extern) if(root.learn_mode && extern)
+        if(root.learn_mode && extern)
+            $remote.automate(extern)
+            root.log(:tooltip, "Learning #{extern}")
+        end
         if(ev.buttons.include? :leftButton)
             valuator.prev = ev.pos
             now = Time.new

@@ -9,9 +9,9 @@ Widget {
     }
 
     //Draw the header
-    PowButton {
-        id: pow
-    }
+    //PowButton {
+    //    id: pow
+    //}
     ClearBox {
         id: clr
         tooltip: "clear automation slot"
@@ -47,14 +47,14 @@ Widget {
     }
 
     onExtern: {
-        pow.extern   = slot.extern + "active"
+        #pow.extern   = slot.extern + "active"
         name.extern  = slot.extern + "name"
         slide.extern = slot.extern + "value"
     }
 
     function layout(l, selfBox)
     {
-        Draw::Layout::hfill(l, selfBox, children, [0.10, 0.10, 0.7, 0.10])
+        Draw::Layout::hfill(l, selfBox, children, [0.10, 0.8, 0.10])
     }
 
     function animate()

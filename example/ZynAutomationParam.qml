@@ -60,6 +60,11 @@ Widget {
     function onSetup(old=nil) {
     }
 
+    function animate() {
+        plot.set_gain(4*(gain.value-0.5))
+        plot.set_offset(offset.value-0.5)
+    }
+
     function update_path(path) {
         aname.update_path(path)
         if(path.empty?)

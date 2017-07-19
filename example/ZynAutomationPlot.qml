@@ -53,12 +53,14 @@ Widget {
 
     function set_offset(o)
     {
+        return if o == @offset + 0.5
         @offset = o + 0.5
         recalc()
     }
 
     function set_gain(g)
     {
+        return if @gain == g
         @gain = g
         recalc()
     }

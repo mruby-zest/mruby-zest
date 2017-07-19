@@ -51,7 +51,7 @@ Widget {
 
         end
 
-        pad = 1/16
+        pad = 1/4
 
         vg.stroke_color(color("bbbbbb")) #if !self.active
         #vg.stroke_color(color("55ff55")) if  self.active

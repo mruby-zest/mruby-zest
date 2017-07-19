@@ -1,7 +1,8 @@
 Widget {
     Text {
         id: textrender
-        label: "Ins 1 · Kit 1 · Add · Vce 1 · Vol"
+        //label: "Ins 1 · Kit 1 · Add · Vce 1 · Vol"
+        label: ""
         height: 1.0
     }
 

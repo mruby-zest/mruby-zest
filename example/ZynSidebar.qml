@@ -31,7 +31,7 @@ Widget {
     }
     SidebarButton {
         id: arp
-        label: "midi learn"
+        label: "macro learn"
         whenClick: lambda { side.set_content :automate }
     }
     SidebarButton {
@@ -62,7 +62,7 @@ Widget {
 
     function set_content(type, flag=nil)
     {
-        tabs = [:part, :banks, :mixer, :kits, :midi_learn, :effects,
+        tabs = [:part, :banks, :mixer, :kits, :automate, :effects,
                 :add_synth, :sub_synth, :pad_synth]
         ind = 0
         self.children.each do |ch|

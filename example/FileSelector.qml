@@ -262,7 +262,7 @@ Widget {
     }
 
     function whenEnter() {
-        ll = line.label
+        ll = @browser.path
         ll = ll + self.ext if self.ext && !ll.end_with?(self.ext)
         whenValue.call(ll) if whenValue
         root.ego_death self

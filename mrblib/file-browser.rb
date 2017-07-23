@@ -48,7 +48,7 @@ class Path
     end
 
     def parse_windows_path(path_str)
-        #[A-Za-z]:\\path\folder\etc\partial
+        #[A-Za-z]:\\?path\folder\etc\partial
         @path_elements = []
         partial = ""
         len = 0
@@ -58,6 +58,9 @@ class Path
                 partial += chr
                 @path_elements << PathElm.new(:windows_start, partial, @separator)
                 partial = ""
+            elsif(chr != "\\" && len == 0 && partial.length == 3)
+                @path_elements << PathElm.new(:windows_start, partial, @separator)
+                partial = chr
             elsif(chr != "\\" && len > 0)
                 partial += chr
             elsif(chr == "\\" && len > 0)
@@ -66,6 +69,9 @@ class Path
             else
                 partial += chr
             end
+        end
+        if(len == 0 && partial.length == 3)
+            @path_elements << PathElm.new(:windows_start, partial, @separator)
         end
         @path_elements << PathElm.new(:partial, partial, @separator) if len != 0 && partial != ""
     end
@@ -92,7 +98,7 @@ class Path
 
     def windows_path?(path)
         x = path
-        return false if x.length < 4
+        return false if x.length < 2
         return false if x[0].ord < "A".ord || x[0].ord > "Z".ord
         return false if x[1].ord != 58
         return false if x[2].ord != 92
@@ -227,7 +233,7 @@ class FileBrowser
 
 end
 
-if(false)
+if(true)
     require "test/unit"
 
     class FileBrowserTest < Test::Unit::TestCase
@@ -404,6 +410,41 @@ if(false)
 
             @file.change_dir_rel ".."
             assert_equal("C:\\\\", @file.path)
+        end
+
+        def test_window_cd_alt
+            @file.set_home_dir "C:\\foo\\bar\\blam"
+            assert_equal("C:\\foo\\bar\\blam\\", @file.path)
+            assert_equal(true, @file.needs_refresh)
+
+            @file.clear_flags
+            assert_equal(false, @file.needs_refresh)
+
+            @file.change_dir_rel "box"
+            assert_equal("C:\\foo\\bar\\blam\\box\\", @file.path)
+            assert_equal(true, @file.needs_refresh)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\foo\\bar\\blam\\", @file.path)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\foo\\bar\\", @file.path)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\foo\\", @file.path)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\", @file.path)
+
+            assert_equal(true, @file.needs_refresh)
+            @file.clear_flags
+            assert_equal(false, @file.needs_refresh)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\", @file.path)
+
+            @file.change_dir_rel ".."
+            assert_equal("C:\\", @file.path)
         end
 
         def test_windows_file

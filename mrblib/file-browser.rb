@@ -233,7 +233,7 @@ class FileBrowser
 
 end
 
-if(true)
+if(false)
     require "test/unit"
 
     class FileBrowserTest < Test::Unit::TestCase

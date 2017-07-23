@@ -106,6 +106,7 @@ Widget {
         nactive = root.activeWidget(ev.pos.x, ev.pos.y)
         if(@prev && @active_widget == nactive && @active_buttons.include?(:leftButton))
             delta = +(ev.pos.y - @prev.y)
+            return if nactive.class != Qml::Slider
             @active_widget.updatePos(fine*delta/@active_widget.dragScale)
             @prev = ev.pos
         elsif(@prev && @active_buttons.include?(:leftButton))

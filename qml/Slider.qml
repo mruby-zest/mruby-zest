@@ -78,5 +78,8 @@ Valuator {
             v.stroke
         end
     }
+    function onMousePress(ev) {
+        mouse_handle(ev) if !visual
+    }
 }
 

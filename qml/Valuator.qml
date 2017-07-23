@@ -99,6 +99,10 @@ Widget {
     }
 
     function onMousePress(ev) {
+        mouse_handle(ev)
+    }
+
+    function mouse_handle(ev) {
         return if !self.active
         if(root.learn_mode && extern)
             $remote.automate(extern)

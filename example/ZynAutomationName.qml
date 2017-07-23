@@ -38,6 +38,7 @@ Widget {
 
     function onMousePress(ev)
     {
+        return
         ps = (ev.pos.x-global_x)/w
         opts = []
         if(ps<0.2)

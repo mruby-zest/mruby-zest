@@ -201,6 +201,7 @@ Widget {
     function create_menu()
     {
         n = options.length
+        return if n < 1
         widget = DropDown.new(self.db)
         widget.w = self.w
         widget.h = self.h*n

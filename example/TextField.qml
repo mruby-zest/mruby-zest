@@ -96,6 +96,12 @@ Widget {
         damage_self
     }
 
+    //Do nothing, but accept the event
+    function onMousePress(ev) {
+    }
+
+
+
     function onMerge(val)
     {
         self.label = val.label

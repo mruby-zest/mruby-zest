@@ -74,8 +74,25 @@ Widget {
         id: add
         label: "add favorite"
         layer: 2
-        whenValue: lambda { file.addFav }
         layoutOpts: [:no_constraint]
+
+        function onMousePress(ev) {
+            add = "add favorite"
+            clr = "clear favs?"
+            if(ev.buttons.include? :leftButton)
+                file.addFav
+                self.label = add
+                self.whenValue.call if self.whenValue
+            elsif(ev.buttons.include? :rightButton)
+                if(self.label == clr)
+                    file.clrFav
+                    self.label = add
+                else
+                    self.label = clr
+                end
+            end
+            damage_self
+        }
 
         function draw(vg) {
             parent.draw_button(vg, w, h, self.pad)
@@ -140,8 +157,12 @@ Widget {
         fv_h  = (628-594)/mocky
         fv_x  = xpad
         fv_x2 = 2*xpad
-        fv_w  = 0.1
-        fv_w2 = 0.1
+        #values from mockup
+        #fv_w  = 0.1
+        #fv_w2 = 0.1
+        #values to not make the current revision look dumb
+        fv_w  = 0.2
+        fv_w2 = 0.2
 
         sel_folder = children[0]
         sel_column = children[1]
@@ -210,6 +231,12 @@ Widget {
         $remote.action("/config/favorites")
     }
 
+    function clrFav()
+    {
+        $remote.action("/config/clear-favorites")
+        $remote.action("/config/favorites")
+    }
+
     function onKey(k, mode)
     {
         return if mode != "press"
@@ -258,7 +285,7 @@ Widget {
     }
 
     function draw(vg) {
-        background color("000000", 145)
+        background color("000000", 220)
     }
 
     function whenEnter() {

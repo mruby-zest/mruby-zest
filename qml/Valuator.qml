@@ -114,6 +114,7 @@ Widget {
             #400 ms delta for double click
             if(@click_time && (now-@click_time) < 0.400)
                 $remote.default(extern) if extern
+                whenValue.call if whenValue
             end
             @click_time = now
         elsif(ev.buttons.include? :rightButton)

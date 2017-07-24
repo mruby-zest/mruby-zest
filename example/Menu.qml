@@ -79,6 +79,7 @@ Widget {
     {
         n = options.length
         n = 1 if options.class != Array
+        return if n < 1
         widget = DropDown.new(self.db)
         widget.w = 3*self.w
         widget.h = self.h*n

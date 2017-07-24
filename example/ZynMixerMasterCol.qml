@@ -8,10 +8,10 @@ Widget {
 
     function set_level(l,r)
     {
-        old = children[1].children[0].value
+        old = children[1].children[1].value
         if(old != cv(l))
-            children[1].children[0].value = cv(l)
-            children[1].children[1].value = cv(r)
+            children[1].children[1].value = cv(l)
+            children[1].children[0].value = cv(r)
             children[1].children[0].damage_self
             children[1].children[1].damage_self
         end

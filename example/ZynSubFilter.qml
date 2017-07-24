@@ -52,8 +52,8 @@ Widget {
         edit.extern = ext + "GlobalFilter/"
         if(self.filtertype == :formant)
             edit.content = Qml::ZynFormant
-        elsif(!children.empty?)
-            edit.children[0].extern = ext + "GlobalFilter/response"
+        else
+            edit.extern = ext + "GlobalFilter/response"
             edit.content = Qml::VisFilter
         end
         gen.whenModified = lambda {

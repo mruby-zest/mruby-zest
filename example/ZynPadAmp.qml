@@ -3,6 +3,8 @@ Group {
     label: "General"
     copyable: false
 
+    property Function whenModified: nil
+
     ParModuleRow {
         id: top
         Knob { extern: box.extern+"PVolume" }

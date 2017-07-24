@@ -100,4 +100,9 @@ Group {
             extern: box.extern + "gain"
         }
     }
+
+    function class_name()
+    {
+        "ZynAnalogFilter"
+    }
 }

@@ -2,12 +2,21 @@ Widget {
     id: dst
     //label: "distortion"
     //topSize: 0.2
-    function refresh(x=nil) {
-        x ||= dst
+    function refresh_recur(x) {
+        #@@recur_level ||= 0
+        #@@recur_level += 1
+        #print " "*@@recur_level
+        #puts "Distort refresh = {#{x.class}} of {#{dst.class}}"
         x.children.each do |xx|
+            #print " "*(@@recur_level+1)
+            #puts "child = #{xx.class}"
             xx.refresh() if xx.respond_to? :refresh
-            dst.refresh(xx)
+            dst.refresh_recur(xx)
         end
+        #@@recur_level -= 1
+    }
+    function refresh() {
+        refresh_recur(self)
     }
     WaveView {
         id: wave

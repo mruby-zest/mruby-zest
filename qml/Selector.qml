@@ -29,7 +29,9 @@ Widget {
         selector.valueRef.callback = Proc.new {|x| selector.set_value(x)}
     }
 
-    function refresh() { self.valueRef.refresh }
+    function refresh() {
+        self.valueRef.refresh if self.valueRef
+    }
 
     function set_value(x)
     {

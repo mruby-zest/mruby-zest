@@ -1,7 +1,7 @@
 //Scrollable container for Zyn effects
 
 //Vertically packs effects according to type
-//each type is either 1U, 2U, or 3U and gets space accordingly
+//each type is either 1U, 2U, 3U, or 4U and gets space accordingly
 //either a whole effect can fit on the screen or a series of 1U
 //placeholders are put in its place
 
@@ -49,29 +49,25 @@ Widget {
         total
     }
 
-    function translate_off(x)
+    function max(a,b)
     {
-        total = 0
-        (0..maxeffects).each do |r|
-            if(effects.include?(r) && effects[r] != :none)
-                lu = get_units(effects[r])
-                total += lu
-            else
-                total += 1
-            end
-            return r if total > x
+        if(a>b)
+            a
+        else
+            b
         end
-        return maxeffects-1
     }
 
+    //Watch the scroll bar and when it changes see if the different
+    //position places the group at a different unit-boundary.
+    //
+    //The for a 5U group with 10U of contents it maps to offsets
+    //0U, 1U, 2U, 3U, 4U, 5U
     function animate()
     {
-        #Check for a new offset
         v = 1.0-children[0].value
-        range = 1.0+total_len-self.nunits
-        new_off = 0
-        new_off = v*range if(range > 0)
-        noff = translate_off(new_off)
+        range = max(0, total_len-self.nunits)
+        noff = (v*range).to_i
         if(noff != self.offset)
             self.offset = noff
             self.needsRegen = true
@@ -114,13 +110,36 @@ Widget {
     function regen_children()
     {
         self.needsRegen = false
+
+        #//Clear children
         children[1..-1].each do |ch|
             rec_clean_cbs(ch)
             del_list = rec_del_props(ch)
             @db.remove_properties del_list
         end
         self.children = [self.children[0]]
+
+        #//Calculate offsets that every field exists at
+        @children_locs = []
+
+        begin
+            total = 0
+            (0...maxeffects).each do |r|
+                @children_locs[r] = total
+                if(effects.include?(r) && effects[r] != :none)
+                    lu = get_units(effects[r])
+                    total += lu
+                else
+                    total += 1
+                end
+            end
+            total
+        end
+
+        #//Create new children
         generate_children()
+
+        #//Force layout update
         if(root)
             root.smash_layout
             damage_self :all
@@ -135,32 +154,52 @@ Widget {
         end
     }
 
+    function find(arr, elm)
+    {
+        return if arr.nil?
+        arr.each_with_index do |x, ind|
+            if(elm == x)
+                return ind
+            end
+        end
+        nil
+    }
+
     function generate_children()
     {
         return if children.length > 1
+
+        #Box Weight array
         w = []
+
+
         running = 0
+        excl    = 0
+        
         (0...self.nunits).each do |r|
-            r += self.offset
-            if(effects.include?(r) && effects[r] != :none)
-                un = get_units(effects[r])
-                if(running + un <= nunits)
-                    col = make_child(effects[r])
-                    col.extern = extern + r.to_s + "/"
+            place = r + self.offset
+            elm = find(@children_locs, place)
+            if(elm && effects[elm] != :none)
+                uheight = get_units(effects[elm])
+                if(r + uheight <= nunits)
+                    col = make_child(effects[elm])
+                    col.extern = extern + elm.to_s + "/"
                     Qml::add_child(self, col)
                     db.update_values
                     setup_widget(col)
-                    w << un
-                    running += un
+                    w << uheight
+                    running += uheight 
+                    excl     = uheight - 1
                     next
                 end
             end
-            if(running < nunits)
+            if(running < nunits && excl < 1)
                 col = Qml::DummyBox.new(db)
                 Qml::add_child(self, col)
                 w << 1
                 running += 1
             end
+            excl -= 1
         end
         self.shownWeights = w
     }

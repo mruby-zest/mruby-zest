@@ -2,7 +2,7 @@ Widget {
     id: keyboard
     property Array  data: nil
     property Object valueRef: nil
-    property Int    whiteKeys: 8*7-4
+    property Int    whiteKeys: 8*7-5
     property Float  fixpad: 1.5
     property Int    select_id: nil
     property Int    prev_note: nil
@@ -168,7 +168,7 @@ Widget {
     function white_bb(i, white_keys, pad=true)
     {
         padh = fixpad/2
-        box  = [i*w*1.0/(white_keys), padh, w*1.0/(white_keys), h-padh];
+        box  = [i*w*1.0/(white_keys+1), padh, w*1.0/(white_keys+1), h-padh];
         if(pad)
             fixedpad(box, fixpad)
         else
@@ -179,8 +179,8 @@ Widget {
     function black_bb(i, white_keys, pad=true)
     {
         width = 0.65
-        box = [(i+1.0-width/2)*w*1.0/(white_keys), 0,
-               w*width/(white_keys), h*0.7];
+        box = [(i+1.0-width/2)*w*1.0/(white_keys+1), 0,
+               w*width/(white_keys+1), h*0.7];
         if(pad)
             fixedpad(box, fixpad)
         else

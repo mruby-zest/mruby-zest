@@ -39,8 +39,11 @@ Widget {
             lfo_vis.damage_self}
 
         freq_var  = OSC::RemoteParam.new($remote, base+"Pfreq")
+        freq_var.type = "f"
+        freq_var.set_min(0)
+        freq_var.set_max(1)
         freq_var.callback = lambda {|x|
-            lfo_vis.period = 2000*x
+            lfo_vis.period = 20*Math.exp(Math.log(1500/20)*(1-x))
             lfo_vis.damage_self}
 
         phase_var = OSC::RemoteParam.new($remote, base+"Pstartphase")
@@ -52,6 +55,7 @@ Widget {
 
         refs << type_var
         refs << depth_var
+        refs << freq_var
         refs << phase_var
         self.valueRef = refs
 
@@ -94,14 +98,17 @@ Widget {
                 damage_self
             elsif(lfo_vis.drag_type == :lfo)
                 lfo_vis.drag_prev = ev.pos
-                dv = lfo_vis.depth + dy/100.0
+                dv = lfo_vis.depth + dy/300.0
                 dv = [1, [0, dv].max].min
                 lfo_vis.depth = dv
+                self.valueRef[1].value = dv
 
-                dt = 100*Math.exp(Math.log(0.01*lfo_vis.period) + dx/100.0)
-                #dt = lfo_vis.delay_time + dx/2.0
+                dt = 100*Math.exp(Math.log(0.01*lfo_vis.period) + dx/200.0)
                 dt = [1500, [20, dt].max].min
                 lfo_vis.period = dt
+
+                nval = 1-Math.log(lfo_vis.period/20)/Math.log(1500/20)
+                self.valueRef[2].value = nval
                 damage_self
             end
         end

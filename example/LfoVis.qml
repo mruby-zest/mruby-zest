@@ -35,7 +35,7 @@ Widget {
 
         delay_var = OSC::RemoteParam.new($remote, base+"Pdelay")
         delay_var.callback = lambda {|x|
-            lfo_vis.delay_time = 2000*x
+            lfo_vis.delay_time = Math.exp(Math.log(2000)*x)
             lfo_vis.damage_self}
 
         freq_var  = OSC::RemoteParam.new($remote, base+"Pfreq")
@@ -56,6 +56,7 @@ Widget {
         refs << type_var
         refs << depth_var
         refs << freq_var
+        refs << delay_var
         refs << phase_var
         self.valueRef = refs
 
@@ -91,10 +92,11 @@ Widget {
                 #lfo_vis.drag_prev.y = ev.pos.y if(dv == dv_)
                 #lfo_vis.updateType
 
-                dt = 100*Math.exp(Math.log(0.01*lfo_vis.delay_time) + dx/100.0)
-                dt_ = [4000, [0, dt].max].min
+                dt = Math.exp((Math.log(lfo_vis.delay_time)/Math.log(2000) + dx/200.0)*Math.log(2000))
+                dt_ = [2000, [1, dt].max].min
                 lfo_vis.delay_time = dt_
                 lfo_vis.drag_prev.x = ev.pos.x if(dt == dt_)
+                self.valueRef[3].value = Math.log(dt_)/Math.log(2000)
                 damage_self
             elsif(lfo_vis.drag_type == :lfo)
                 lfo_vis.drag_prev = ev.pos

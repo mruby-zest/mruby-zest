@@ -27,8 +27,16 @@ Group {
     }
 
     ParModuleRow {
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pfreq" }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pq" }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern:    box.extern + "basefreq"
+        }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern:    box.extern + "baseq"
+        }
 
         NumEntry {
             whenValue: lambda { box.cb}
@@ -47,6 +55,10 @@ Group {
             whenValue: lambda { box.cb};
             extern: box.extern + "Ptype"
         }
-        Knob { whenValue: lambda { box.cb};  extern: box.extern     + "Pgain" }
+        Knob {
+            type:      :float
+            whenValue: lambda { box.cb};
+            extern: box.extern + "gain"
+        }
     }
 }

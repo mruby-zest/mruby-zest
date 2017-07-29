@@ -32,7 +32,7 @@ Widget {
             v << r
         end
         self.valueRef = v
-        generate_children if(egrp.effects.length != 0)
+        generate_children #if(egrp.effects.length != 0)
     }
 
     function total_len()
@@ -119,23 +119,6 @@ Widget {
         end
         self.children = [self.children[0]]
 
-        #//Calculate offsets that every field exists at
-        @children_locs = []
-
-        begin
-            total = 0
-            (0...maxeffects).each do |r|
-                @children_locs[r] = total
-                if(effects.include?(r) && effects[r] != :none)
-                    lu = get_units(effects[r])
-                    total += lu
-                else
-                    total += 1
-                end
-            end
-            total
-        end
-
         #//Create new children
         generate_children()
 
@@ -169,17 +152,35 @@ Widget {
     {
         return if children.length > 1
 
+        #//Calculate offsets that every field exists at
+        @children_locs = []
+
+        begin
+            total = 0
+            (0...maxeffects).each do |r|
+                @children_locs[r] = total
+                if(effects.include?(r) && effects[r] != :none)
+                    lu = get_units(effects[r])
+                    total += lu
+                else
+                    total += 1
+                end
+            end
+            total
+        end
+
+
         #Box Weight array
         w = []
 
 
         running = 0
         excl    = 0
-        
+
         (0...self.nunits).each do |r|
             place = r + self.offset
             elm = find(@children_locs, place)
-            if(elm && effects[elm] != :none)
+            if(elm && effects[elm] && effects[elm] != :none)
                 uheight = get_units(effects[elm])
                 if(r + uheight <= nunits)
                     col = make_child(effects[elm])
@@ -188,7 +189,7 @@ Widget {
                     db.update_values
                     setup_widget(col)
                     w << uheight
-                    running += uheight 
+                    running += uheight
                     excl     = uheight - 1
                     next
                 end

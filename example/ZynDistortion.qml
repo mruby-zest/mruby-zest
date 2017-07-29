@@ -18,51 +18,61 @@ Widget {
     function refresh() {
         refresh_recur(self)
     }
-    WaveView {
-        id: wave
-        extern: dst.extern + "Distorsion/waveform"
+    GroupHeader {
+        label: "Distorsion"
+        extern: dst.extern
+        copyable: true
     }
     Widget {
-        ParModuleRow {
-            id: rw
-            layoutOpts: []
-
-            Selector {
-                extern: dst.extern + "Distorsion/preset"
-                whenValue: lambda { dst.refresh }
-                layoutOpts: [:long_mode]
-            }
-            Knob { extern: dst.extern + "Pvolume"}
-            Knob { extern: dst.extern + "Ppanning"}
-            Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }
-            Knob {   extern: dst.extern + "Distorsion/Plpf"}
-            Knob {   extern: dst.extern + "Distorsion/Phpf"}
-
+        WaveView {
+            id: wave
+            extern: dst.extern + "Distorsion/waveform"
         }
-        ParModuleRow {
-            id: rw2
-            layoutOpts: []
-            Selector {
-                extern: dst.extern + "Distorsion/Ptype";
-                whenValue: lambda {wave.refresh}
-                layoutOpts: [:long_mode]
+        Widget {
+            ParModuleRow {
+                id: rw
+                layoutOpts: []
+
+                Selector {
+                    extern: dst.extern + "Distorsion/preset"
+                    whenValue: lambda { dst.refresh }
+                    layoutOpts: [:long_mode]
+                }
+                Knob { extern: dst.extern + "Pvolume"}
+                Knob { extern: dst.extern + "Ppanning"}
+                Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }
+                Knob {   extern: dst.extern + "Distorsion/Plpf"}
+                Knob {   extern: dst.extern + "Distorsion/Phpf"}
+
             }
-            Knob {
-                extern: dst.extern + "Distorsion/Pdrive"; label: "drive"
-                whenValue: lambda {wave.refresh}
+            ParModuleRow {
+                id: rw2
+                layoutOpts: []
+                Selector {
+                    extern: dst.extern + "Distorsion/Ptype";
+                    whenValue: lambda {wave.refresh}
+                    layoutOpts: [:long_mode]
+                }
+                Knob {
+                    extern: dst.extern + "Distorsion/Pdrive"; label: "drive"
+                    whenValue: lambda {wave.refresh}
+                }
+                Knob {   extern: dst.extern + "Distorsion/Plevel"; label: "level" }
+                Col {
+                    ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}
+                    ToggleButton { extern: dst.extern + "Distorsion/Pstereo"}
+                }
             }
-            Knob {   extern: dst.extern + "Distorsion/Plevel"; label: "level" }
-            Col {
-                ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}
-                ToggleButton { extern: dst.extern + "Distorsion/Pstereo"}
+            function layout(l, selfBox) {
+                Draw::Layout::vpack(l, selfBox, children)
             }
         }
+
         function layout(l, selfBox) {
-            Draw::Layout::vpack(l, selfBox, children)
+            Draw::Layout::hpack(l, selfBox, children)
         }
     }
-
     function layout(l, selfBox) {
-        Draw::Layout::hpack(l, selfBox, children)
+        Draw::Layout::vfill(l, selfBox, children, [0.15, 0.85])
     }
 }

@@ -84,6 +84,11 @@ Widget {
         vel = velocity+(rand-0.5)*velrnd;
         vel = [0, [127, vel].min].max.to_i
 
+        if(note && data && data[note])
+            return
+        end
+
+
         if(note && $remote)
             $remote.action("/noteOn", 0, note, vel)
         end

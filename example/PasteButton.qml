@@ -1,6 +1,8 @@
 Button {
     id: paste_button
 
+    property Int index: nil
+
     onExtern: {
         paste_button.tooltip = "paste to " + paste_button.extern.to_s
     }
@@ -24,7 +26,11 @@ Button {
         return if !self.active
         self.value = 1.0
         if($remote && extern && !extern.empty?)
-            $remote.action "/presets/paste", extern
+            if(self.index)
+                $remote.action("/presets/paste", extern, self.index)
+            else
+                $remote.action("/presets/paste", extern)
+            end
         end
         damage_self
     }

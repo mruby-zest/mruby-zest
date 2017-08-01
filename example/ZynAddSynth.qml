@@ -104,9 +104,17 @@ Widget {
 
         header.children[1].setValue(vce+1)
 
-        if([:oscil, :modosc].include?(subview))
+        cpy_but.index  = nil
+        pst_but.index  = nil
+
+        if([:oscil, :modosc, :resonance].include?(subview))
             cpy_but.extern = extbase + ext[subview]
             pst_but.extern = extbase + ext[subview]
+        elsif([:modulate,:voice].include?(subview))
+            cpy_but.extern = extbase
+            pst_but.extern = extbase
+            cpy_but.index  = vce
+            pst_but.index  = vce
         else
             cpy_but.extern = extbase
             pst_but.extern = extbase

@@ -1,6 +1,8 @@
 Button {
     id: copy_button
 
+    property Int index: nil
+
     onExtern: {
         copy_button.tooltip = "copy from " + copy_button.extern.to_s
     }
@@ -24,7 +26,11 @@ Button {
         return if !self.active
         self.value = 1.0
         if($remote && extern && !extern.empty?)
-            $remote.action "/presets/copy", extern
+            if(self.index)
+                $remote.action("/presets/copy", extern, self.index)
+            else
+                $remote.action("/presets/copy", extern)
+            end
         end
         damage_self
     }

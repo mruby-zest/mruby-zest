@@ -68,14 +68,24 @@ Widget {
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color(textColor)
         ypos = height*h/2
-        lasty = h/2
+        lasty = ypos
         lastx = 0
-        vg.text_break_lines(input, w) do |str, width, minx, maxx|
+
+        #Break into lines
+        edit  = EditRegion.new(vg, input, w)
+        lines = edit.lines
+        line_widths = edit.line_widths
+
+        n = lines.length
+        (0...n).each do |i|
+            str   = lines[i]
+            width = line_widths[i]
             vg.text(0, ypos, str)
             lasty = ypos
             lastx = width
             ypos += height*h
         end
+
         if(@state)
             vg.text(lastx,lasty,"|")
         end

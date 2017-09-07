@@ -11,6 +11,9 @@ Widget {
     property Float  velrnd: 0
     property Int    octave: 0
 
+    //Widget hierarchy priority
+    property Int    priority: 10
+
     function set_data(data_)
     {
         if(self.data != data_)

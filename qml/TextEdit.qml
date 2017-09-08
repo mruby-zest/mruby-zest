@@ -38,17 +38,49 @@ Widget {
         "Text"
     }
 
+    function onSpecial(k, mode)
+    {
+        return if @edit.nil?
+        return if mode != :press
+        if(k == :up)
+            @edit.up
+        elsif(k == :down)
+            @edit.down
+        elsif(k == :left)
+            @edit.left
+        elsif(k == :right)
+            @edit.right
+        end
+        @state = true
+        now = Time.new
+        @next = now + 0.7
+        damage_self
+    }
+
     function onKey(k, mode)
     {
         return if mode != "press"
+        pos = self.label.length
+        pos = @edit.pos if @edit
+        ll = self.label
         if(k.ord == 8)
-            self.label[-1] = "\0" if self.label.length > 0
-            self.label = self.label[0...-1]
+            pos -= 1
+            if(pos >= ll.length)
+                self.label = ll.slice(0, ll.length-1)
+            elsif(pos >= 0)
+                self.label = ll.slice(0, pos) + ll.slice(pos+1, ll.length)
+            end
         else
-            self.label += k
+            self.label = ll.insert(pos, k)
         end
         ll = self.label
         self.valueRef.value = ll if self.valueRef
+        @edit     = EditRegion.new($vg, ll, w-20, height*h)
+        if(k.ord == 8)
+            @edit.pos = pos
+        else
+            @edit.pos = pos+1
+        end
         damage_self
     }
 
@@ -72,22 +104,17 @@ Widget {
         lastx = 0
 
         #Break into lines
-        edit  = EditRegion.new(vg, input, w)
-        lines = edit.lines
-        line_widths = edit.line_widths
+        @edit     ||= EditRegion.new(vg, input, w-20, height*h)
 
-        n = lines.length
-        (0...n).each do |i|
-            str   = lines[i]
-            width = line_widths[i]
-            vg.text(0, ypos, str)
-            lasty = ypos
-            lastx = width
-            ypos += height*h
-        end
-
-        if(@state)
-            vg.text(lastx,lasty,"|")
+        @edit.each_string do |x, y, str, cursor|
+            if(cursor == false)
+                vg.text(x+10, y, str)
+            else
+                if(@state)
+                vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
+                    vg.text(x+10, y, str)
+                end
+            end
         end
     }
 }

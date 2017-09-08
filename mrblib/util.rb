@@ -17,10 +17,11 @@ def pad(scale, bb)
 end
 
 class EditRegion
-    def initialize(vg, string, width)
+    def initialize(vg, string, width, height)
         @vg     = vg
         @string = string
         @width  = width
+        @row_h  = height
 
         #Info on input
         @widths = []
@@ -38,8 +39,17 @@ class EditRegion
         @line_widths = []
 
 
+        #cursor
+        @cursor_row = 0
+        @cursor_col = 0
+
         string_to_stats
         string_to_lines
+
+        #cursor
+        @cursor_row = @lines.length-1
+        @cursor_col = @lines[-1].length
+        calc_cursor_x
     end
 
     def lines
@@ -82,7 +92,8 @@ class EditRegion
     end
 
     def string_to_stats
-
+        @vg.font_face("bold")
+        @vg.font_size @row_h
         @string.each_char do |c|
             @widths << @vg.text_bounds(0, 0, c)
             if(c == " " || c == "\t")
@@ -119,5 +130,111 @@ class EditRegion
         flush_word_buffer
 
         @line_widths[@active_line] = @lastw
+    end
+
+    def left()
+        @cursor_col -= 1 if @cursor_col > 0
+        calc_cursor_x
+    end
+
+    def right()
+        n = @lines[@cursor_row].length
+        @cursor_col += 1 if @cursor_col < n
+        calc_cursor_x
+    end
+
+    def up()
+        @cursor_row -= 1 if @cursor_row > 0
+        n = @lines[@cursor_row].length
+        @cursor_col = n if @cursor_col > n
+
+        old_x = @cursor_x
+        best = 0
+        best_diff = 1.0/0.0
+        (0...n).each do |i|
+            @cursor_col = i
+            calc_cursor_x
+            new_diff = abs(old_x-@cursor_x)
+            if(best_diff > new_diff)
+                best_diff = new_diff
+                best = i
+            end
+        end
+
+        @cursor_col = best
+        calc_cursor_x
+    end
+
+    def down()
+        @cursor_row += 1 if @cursor_row < @lines.length-1
+        n = @lines[@cursor_row].length
+        @cursor_col = n if @cursor_col > n
+
+        old_x = @cursor_x
+        best = 0
+        best_diff = 1.0/0.0
+        (0...n).each do |i|
+            @cursor_col = i
+            calc_cursor_x
+            new_diff = abs(old_x-@cursor_x)
+            if(best_diff > new_diff)
+                best_diff = new_diff
+                best = i
+            end
+        end
+
+        @cursor_col = best
+        calc_cursor_x
+    end
+
+    def abs(x)
+        if(x > 0)
+            x
+        else
+            -x
+        end
+    end
+
+    def calc_cursor_x
+        @vg.font_face("bold")
+        @vg.font_size @row_h
+        str = @lines[@cursor_row][0,@cursor_col]
+        #puts "row = #{@cursor_row}"
+        #puts "col = #{@cursor_col}"
+        @cursor_x = @vg.text_bounds(0, 0, str)
+    end
+
+    def each_string(&block)
+        x  = 0
+        y  = @row_h/2
+        @lines.each do |str|
+            cursor = false
+            block.call(x,y,str,cursor)
+            y += @row_h
+        end
+        block.call(@cursor_x, @row_h/2 + @cursor_row*@row_h, "|", true)
+    end
+
+    def pos()
+        pos = @cursor_col
+        (0...@cursor_row).each do |i|
+            pos += @lines[i].length
+        end
+        pos
+    end
+
+    def pos=(x)
+        x = 0 if(x < 0)
+        p = x
+        (0...@lines.length).each do |i|
+            if(@lines[i].length > p)
+                @cursor_col = p
+                @cursor_row = i
+                calc_cursor_x
+                return
+            else
+                p -= @lines[i].length
+            end
+        end
     end
 end

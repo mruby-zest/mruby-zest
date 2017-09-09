@@ -135,6 +135,9 @@ Widget {
         elsif(type == :automate)
             main_widget.extern  = "/"
             main_widget.content = Qml::ZynAutomation
+        elsif(type == :colors)
+            main_widget.extern  = "/"
+            main_widget.content = Qml::ColorScheme
         else
             main_widget.content = Qml::Widget
         end

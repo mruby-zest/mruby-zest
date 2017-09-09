@@ -9,7 +9,7 @@ Group {
         id: top
         Knob { extern: box.extern+"PVolume" }
         Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
-        ToggleButton { extern: box.extern+"Pfilterbypass" }
+        BypassButton { extern: box.extern+"Pfilterbypass" }
 
     }
     ParModuleRow {

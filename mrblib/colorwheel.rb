@@ -6,7 +6,7 @@ def min(a,b)
     end
 end
 #hue -1..1
-def draw_color_wheel(vg, x, y, w, h, hue)
+def draw_color_wheel(vg, x, y, w, h, hue, sx, sy)
     vg.save()
 
     cx = x + w/2
@@ -93,8 +93,8 @@ def draw_color_wheel(vg, x, y, w, h, hue)
     end
 
     # Select circle on triangle
-    ax = Math::cos(120.0/180.0*Math::PI) * r*0.3
-    ay = Math::sin(120.0/180.0*Math::PI) * r*0.4
+    ax = r*sx
+    ay = r*Math::sin(120.0/180.0*Math::PI)*sy
     vg.path do
         vg.circle(ax, ay, 5)
         vg.stroke_color(color("ffffff", 192))

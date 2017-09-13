@@ -108,7 +108,7 @@ Widget {
     {
         view = root.get_view_pos(:view)
         root.set_view_pos(:view, :about)    if(view != :about)
-        root.set_view_pos(:view, :colors) if(view == :about)
+        root.set_view_pos(:view, :settings) if(view == :about)
         root.change_view
     }
 }

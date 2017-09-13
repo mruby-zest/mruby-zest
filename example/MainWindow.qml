@@ -138,6 +138,9 @@ Widget {
         elsif(type == :colors)
             main_widget.extern  = "/"
             main_widget.content = Qml::ColorScheme
+        elsif(type == :settings)
+            main_widget.extern  = "/"
+            main_widget.content = Qml::ZynSettings
         else
             main_widget.content = Qml::Widget
         end

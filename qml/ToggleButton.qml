@@ -22,6 +22,11 @@ Button {
     }
 
     function onMousePress(ev) {
+        if(root.learn_mode && extern)
+            $remote.automate(extern)
+            root.log(:tooltip, "Learning #{extern}")
+            return
+        end
         self.value = !self.value
         self.valueRef.value = self.value if self.valueRef
         damage_self

@@ -277,6 +277,7 @@ Widget {
             line.label = @browser.path
         end
         line.damage_self
+        line.instance_eval("undef :onKey") if line.respond_to?(:onKey)
 
         search = @browser.search_path
 

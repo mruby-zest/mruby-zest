@@ -98,7 +98,7 @@ class Path
 
     def windows_path?(path)
         x = path
-        return false if x.length < 2
+        return false if x.length < 3
         return false if x[0].ord < "A".ord || x[0].ord > "Z".ord
         return false if x[1].ord != 58
         return false if x[2].ord != 92

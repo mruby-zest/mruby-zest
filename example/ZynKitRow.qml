@@ -22,7 +22,7 @@ Widget {
     HSlider {
         id: minkey
         extern: kit_item.extern + "Pminkey"
-        label: "0"
+        value_label: true
     }
     ZynKitKeyButton {
         extern: kit_item.extern
@@ -34,6 +34,7 @@ Widget {
     HSlider {
         id: maxkey
         extern: kit_item.extern + "Pmaxkey"
+        value_label: true
     }
     FancyButton {
         id: add

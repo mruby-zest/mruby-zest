@@ -3,6 +3,7 @@ Valuator {
     property Float pad: 0.02
     property Float height: 0.6
     property Bool  active: true
+    property Bool  value_label: false
     vertical: false
 
     function draw_centered(vg, pad)
@@ -63,7 +64,12 @@ Valuator {
         vg.font_size height*h
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
         vg.fill_color(Draw::fade(Theme::TextColor))
-        vg.text(w/2,h/2,label.upcase)
+        if(value_label && self.valueRef)
+            vg.text(w/2,h/2,self.valueRef.display_value.to_s)
+        else
+            vg.text(w/2,h/2,label.upcase)
+        end
+
 
         if(!self.active)
             vg.path do

@@ -4,7 +4,10 @@ Group {
     copyable: false
 
     ParModuleRow {
-        Knob { extern: box.extern+"PFMVolume" }
+        Knob {
+            type:   :float
+            extern: box.extern + "FMvolume"
+        }
         Knob { extern: box.extern+"PFMVolumeDamp"}
         Knob { extern: box.extern+"PFMVelocityScaleFunction"}
 

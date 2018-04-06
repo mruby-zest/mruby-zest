@@ -90,6 +90,11 @@ Widget {
 
         if(ev.buttons.include? :leftButton)
             @prev = ev.pos
+            now = Time.new
+            if (@click_time && (now-@click_time) < 0.400)
+                @active_widget.reset
+            end
+            @click_time = now
         elsif(ev.buttons.include? :rightButton)
             if(children.empty?)
                 @active_widget.create_radial

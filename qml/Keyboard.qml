@@ -65,7 +65,7 @@ Widget {
             wid = white_key_id(i)
             bb  = black_bb(i, whiteKeys, false)
             wb  = white_bb(i, whiteKeys, false)
-            if(Rect.new(*bb).include? rel)
+            if((i != whiteKeys) && (Rect.new(*bb).include? rel))
                 return bid
             elsif(Rect.new(*wb).include? rel)
                 return wid
@@ -74,11 +74,20 @@ Widget {
         return nil
     }
 
+    function get_note_name(note)
+    {
+        return "" if note.nil?
+        note_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        octave_num = note / 12 -1
+        index = note % 12
+        note_names[index] + octave_num.floor.to_s + " " + note.to_s
+    }
+
     function onMousePress(ev)
     {
         note = get_note(ev.pos)
         self.prev_note = note
-
+        self.root.log(:tooltip, get_note_name(note))
         noteOn(note)
     }
 
@@ -100,11 +109,20 @@ Widget {
     function onMouseMove(ev)
     {
         note = get_note(ev.pos)
+        name = get_note_name(note)
+        self.root.log(:tooltip, name)
         if(note != self.prev_note)
             $remote.action("/noteOff", 0, self.prev_note)
             noteOn(note)
             self.prev_note = note
         end
+    }
+
+    function onMouseHover(ev)
+    {
+        note = get_note(ev.pos)
+        name = get_note_name(note)
+        self.root.log(:tooltip, name)
     }
 
     function onMouseRelease(ev)
@@ -151,6 +169,7 @@ Widget {
 
         if(act == "press")
             noteOn(note)
+            self.root.log(:tooltip, get_note_name(note))
         else
             $remote.action("/noteOff", 0, note)
         end

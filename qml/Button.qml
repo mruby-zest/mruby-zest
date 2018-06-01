@@ -9,6 +9,7 @@ Widget {
     property Bool     active: true
 
     function onMousePress(ev) {
+        return if !self.active
         button.value = !button.value
         damage_self
         whenValue.call if whenValue

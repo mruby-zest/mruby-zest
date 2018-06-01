@@ -22,6 +22,7 @@ Button {
     }
 
     function onMousePress(ev) {
+        return if !self.active
         if(root.learn_mode && extern)
             $remote.automate(extern)
             root.log(:tooltip, "Learning #{extern}")

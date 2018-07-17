@@ -101,11 +101,11 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
 
     int off = phase * (n-1);
 
-
     const int min_y = bound_y;
     const int max_y = bound_y + bound_h;
 
-    float ypos = bound_x + bound_h/2 - bound_h/2*f[off];
+    int ii = off%n;
+    float ypos = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
     if(ypos > max_y) ypos = max_y;
     if(ypos < min_y) ypos = min_y;
 
@@ -116,7 +116,7 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
             mrb_float_value(mrb, ypos));
 
     for(int i=1; i<n; ++i) {
-        int ii = (off+i)%n;
+        ii = (off+i)%n;
         ypos = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
         if(ypos > max_y) ypos = max_y;
         if(ypos < min_y) ypos = min_y;

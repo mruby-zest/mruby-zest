@@ -237,12 +237,14 @@ module Draw
     end
     module Grid
         def self.log_y(vg, min, max, bb)
-            med_fill     = color("114575")
+            med_fill     = Theme::GridLine
             log10 = Math.log(10)
             min_  = Math.log(min)/log10
             max_  = Math.log(max)/log10
             #1,2,3,4,5,6,7,8,9,10,20
             xx = min_.to_i
+            vg.translate(0.5,0.5)
+
             loop {
                 break if xx>max_
                 base = (xx-min_)/(max_-min_)
@@ -250,84 +252,113 @@ module Draw
                 (0...10).each do |shift|
                     delta = Math.log((shift+1)*1.0)/(log10*(max_-min_))
                     dy = bb.h*(base+delta);
-
+                    
                     next if(dy < 0 || dy > bb.h)
                     vg.path do |v|
                         v.move_to(bb.x,      bb.y+dy);
                         v.line_to(bb.x+bb.w, bb.y+dy);
                         v.stroke_color med_fill
+                        v.stroke_width 1.0
                         v.stroke
                     end
                 end
                 xx += 1
             }
+
+            vg.translate(-0.5,-0.5)
         end
         def self.log_x(vg, min, max, bb)
-            med_fill     = color("114575")
+            med_fill     = Theme::GridLine
             log10 = Math.log(10)
             min_  = Math.log(min)/log10
             max_  = Math.log(max)/log10
             #1,2,3,4,5,6,7,8,9,10,20
             xx = min_.to_i
+
+            x = (bb.x).floor
+            y = (bb.y).floor
+            h = (bb.h).floor
+
+            vg.translate(0.5,0.5)
+
             loop {
                 break if xx>max_
                 base = (xx-min_)/(max_-min_)
 
                 (0...10).each do |shift|
                     delta = Math.log((shift+1)*1.0)/(log10*(max_-min_))
-                    dx = bb.w*(base+delta);
+                    dx = (bb.w*(base+delta)).floor;
 
                     next if(dx < 0 || dx > bb.w)
                     vg.path do |v|
-                        v.move_to(bb.x+dx, bb.y);
-                        v.line_to(bb.x+dx, bb.y+bb.h);
+                        v.move_to(x+dx, y);
+                        v.line_to(x+dx, y+h);
                         v.stroke_color med_fill
-                        v.stroke_width 2
+                        v.stroke_width 1.0
                         v.stroke
                     end
                 end
                 xx += 1
             }
+
+            vg.translate(-0.5,-0.5)
         end
         def self.linear_x(vg, min, max, bb, thick=1.0)
             med_fill     = Theme::GridLine
             light_fill   = Theme::GridLine
             c = max
+
+            x = (bb.x).floor
+            y = (bb.y).floor
+            h = (bb.h).floor
+
+            vg.translate(0.5,0.5)
+
             (0..c).each do |ln|
                 vg.path do |v|
-                    off = (ln/c)*(bb.w)
-                    vg.move_to(bb.x+off, bb.y)
-                    vg.line_to(bb.x+off, bb.y+bb.h)
+                    off = ((ln/c)*(bb.w)).floor
+                    vg.move_to(x+off, y)
+                    vg.line_to(x+off, y+h)
                     if((ln%10) == 0)
                         v.stroke_color med_fill
-                        v.stroke_width 4.0*thick
+                        v.stroke_width 1.0*thick
                     else
                         v.stroke_color light_fill
-                        v.stroke_width 2.0*thick
+                        v.stroke_width 1.0*thick
                     end
                     v.stroke
                 end
             end
+            vg.translate(-0.5,-0.5)
         end
         def self.linear_y(vg, min, max, bb, thick=1.0, c=40)
             med_fill     = Theme::GridLine
             light_fill   = Theme::GridLine
             c = max
+            
+            x = (bb.x).floor
+            y = (bb.y).floor
+            w = (bb.w).floor
+            h = (bb.h).floor
+
+            vg.translate(0.5,0.5)
+
             (0..c).each do |ln|
                 vg.path do |v|
-                    off = (ln/c)*(bb.h)
-                    vg.move_to(bb.x,      bb.y+off)
-                    vg.line_to(bb.x+bb.w, bb.y+off)
+                    off = ((ln/c)*(bb.h)).floor
+                    vg.move_to(x,   y+off)
+                    vg.line_to(x+w, y+off)
                     if((ln%10) == 0)
                         v.stroke_color med_fill
-                        v.stroke_width 4.0*thick
+                        v.stroke_width 1.0*thick
                     else
                         v.stroke_color light_fill
-                        v.stroke_width 2.0*thick
+                        v.stroke_width 1.0*thick
                     end
                     v.stroke
                 end
             end
+            vg.translate(-0.5,-0.5)
         end
     end
 

@@ -62,7 +62,7 @@ Widget {
                        w*pad2 - 2*fixedpad, h*pad2 - 2*fixedpad)
         background Theme::VisualBackground
         Draw::Grid::log_x(vg, 50, 30000, box)
-        Draw::Grid::linear_y(vg, 1, 20, box)
+        Draw::Grid::linear_y(vg, 1, 10, box)
     }
 
     DataView {

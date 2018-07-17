@@ -38,8 +38,8 @@ Widget {
 
         background Theme::VisualBackground
 
-        Draw::Grid::linear_x(vg,0,10,box, 0.5)
-        Draw::Grid::linear_y(vg,0,10,box, 0.5)
+        Draw::Grid::linear_x(vg,0,10,box, 1.0)
+        Draw::Grid::linear_y(vg,0,10,box, 1.0)
 
         xpoints = Draw::DSP::linspace(-2,2,128)
         ypoints = nil

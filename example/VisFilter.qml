@@ -50,7 +50,7 @@ Widget {
 
     function refresh()
     {
-        self.valueRef.refresh if valueRef
+        self.valueRef.force_refresh if valueRef
     }
 
     function draw(vg)

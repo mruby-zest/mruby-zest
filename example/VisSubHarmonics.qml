@@ -13,7 +13,7 @@ Widget {
 
     function refresh()
     {
-        valueRef.refresh if valueRef
+        valueRef.force_refresh if valueRef
     }
 
     function update_coeff(x)

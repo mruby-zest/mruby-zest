@@ -44,21 +44,13 @@ Widget {
             grey2 = Theme::ButtonGrad2
             vg.linear_gradient(0,0,0,h, grey1, grey2)
         end
-        vg.stroke_color color("000000", 0xa0)
-        vg.path do |v|
-            v.rounded_rect(0,0,w/4,h, 5)
-            v.fill_paint(grad)
-            v.fill
-            v.stroke_width 1
-            v.stroke
-        end
 
         grey1 = Theme::ButtonGrad1
         grey2 = Theme::ButtonGrad2
         grad2 = vg.linear_gradient(0,0,0,h, grey1, grey2)
         vg.path do |v|
             pad = 0
-            v.rounded_rect(w/4+pad,0,w*3/4,h, 3)
+            v.rounded_rect(0,0,w,h, 3)
             if(value)
                 v.fill_paint grad
             else
@@ -78,7 +70,7 @@ Widget {
         else
             vg.fill_color(text_color2)
         end
-        vg.text(w*1.25/2,h/2,label.upcase)
+        vg.text(w/2 + pow.w / 2,h/2,label.upcase)
     }
 
     function onMousePress(ev) {
@@ -91,11 +83,11 @@ Widget {
     function layout(l,selfBox)
     {
         box = pow.fixed(l, selfBox, 0, 0, 0.25, 1)
+        box.x = 0
+        box.y = 0
+        box.h = selfBox.h
         if(layoutOpts.include? :no_constraint)
-            box.w = 0
-            box.y = 0
             box.w = 0.25*selfBox.w
-            box.h = selfBox.h
         end
         selfBox
     }

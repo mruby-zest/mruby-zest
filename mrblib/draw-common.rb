@@ -165,6 +165,7 @@ module Draw
                     vg.line_to(bb.x + bb.w*dat[i].x,
                                bb.y + bb.h/2*(1-dat[i].y))
                 end
+                vg.line_join NVG::ROUND
                 vg.stroke_width 3.0
                 vg.stroke_color stroke
                 vg.stroke

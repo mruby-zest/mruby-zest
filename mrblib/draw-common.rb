@@ -76,17 +76,23 @@ module Draw
         def self.under_highlight(vg, bb, dat, fill)
             n = dat.length
             vg.scissor(bb.x, bb.y+bb.h/2, bb.w, bb.h/2)
+            max_y = bb.y+bb.h/2
             vg.path do
                 vg.move_to(0.0, 0.0);
                 i = 0
                 while(i<n)
-                    vg.line_to(bb.x + bb.w*dat[i].x,
-                               bb.y + bb.h/2*(1-dat[i].y));
-                    i += 1
+                    dest_x = bb.x + bb.w*dat[i].x;
+                    dest_y = bb.y + bb.h/2*(1-dat[i].y);
+                    vg.line_to(dest_x, dest_y);
+                    i += 1;
+                    if (dest_y > max_y)
+                        max_y = dest_y;
+                    end
                 end
                 vg.line_to(bb.x+bb.w, 0.0)
                 vg.close_path
-                vg.fill_color fill
+                paint = vg.linear_gradient(bb.x, bb.y+bb.h/2,bb.x, max_y, NVG.rgba(16, 59, 79, 0), NVG.rgba(16, 59, 79, 255))
+                vg.fill_paint paint
                 vg.fill
             end
             vg.reset_scissor
@@ -95,15 +101,21 @@ module Draw
         def self.over_highlight(vg, bb, dat, fill)
             n = dat.length
             vg.scissor(bb.x, bb.y, bb.w, bb.h/2);
+            min_y = bb.y+bb.h/2
             vg.path do
                 vg.move_to(0.0,bb.y+bb.h)
                 (0...n).each do |i|
-                    vg.line_to(bb.x + bb.w*dat[i].x,
-                               bb.y + bb.h/2*(1-dat[i].y));
+                    dest_x = bb.x + bb.w*dat[i].x;
+                    dest_y = bb.y + bb.h/2*(1-dat[i].y);
+                    vg.line_to(dest_x, dest_y);
+                    if (dest_y < min_y)
+                        min_y = dest_y;
+                    end
                 end
                 vg.line_to(bb.x+bb.w,bb.y+bb.h)
                 vg.close_path
-                vg.fill_color fill
+                paint = vg.linear_gradient(bb.x, bb.y+bb.h/2,bb.x, min_y, NVG.rgba(16, 59, 79, 0), NVG.rgba(16, 59, 79, 255))
+                vg.fill_paint paint
                 vg.fill
             end
             vg.reset_scissor
@@ -752,7 +764,7 @@ module Theme
 
     TitleBar            = ButtonGrad1
     #Visualizations
-    VisualBackground    = color("212121")
+    VisualBackground    = color("1C1C1C")
     VisualStroke        = color("014767")
     VisualLightFill     = color("014767",55)
     VisualBright        = color("3ac5ec")

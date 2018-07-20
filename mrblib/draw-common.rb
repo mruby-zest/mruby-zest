@@ -765,7 +765,7 @@ module Theme
 
     TitleBar            = ButtonGrad1
     #Visualizations
-    VisualBackground    = color("1C1C1C")
+    VisualBackground    = color("212121")
     VisualStroke        = color("014767")
     VisualLightFill     = color("014767",55)
     VisualBright        = color("3ac5ec")

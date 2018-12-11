@@ -21,12 +21,13 @@ Widget {
         base = lfo_vis.extern
         type_var = OSC::RemoteParam.new($remote, base+"PLFOtype")
         type_var.mode = :options
+
         type_var.callback = lambda {|x|
             ntype = [:sine, :triangle, :square, :rampup,
-                :rampdown, :exp1, :exp2][x]
+                :rampdown, :exp1, :exp2, :ran][x]
             return if(ntype == lfo_vis.type)
             lfo_vis.type = [:sine, :triangle, :square, :rampup,
-                :rampdown, :exp1, :exp2][x]}
+                :rampdown, :exp1, :exp2, :ran][x]}
 
         depth_var = OSC::RemoteParam.new($remote, base+"Pintensity")
         depth_var.callback = lambda {|x|
@@ -145,6 +146,8 @@ Widget {
             Proc.new {|phase| (0.05 ** phase) * 2.0 - 1.0}
         when :exp2
             Proc.new {|phase| (0.001 ** phase) * 2.0 - 1.0}
+	when :ran
+	    Proc.new {|phase| 0 } #TODO: proper RAN LFO display
         else
             Proc.new {|x| Math.sin(2*3.14*x) }
         end

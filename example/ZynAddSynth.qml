@@ -19,7 +19,7 @@ Widget {
 
         TabButton { whenClick: lambda {header.setTab(0)}; label: "global"}
         TabButton { whenClick: lambda {header.setTab(1)}; label: "voice"}
-        TabButton { whenClick: lambda {header.setTab(2)}; label: "osc"}
+        TabButton { whenClick: lambda {header.setTab(2)}; label: "oscillator"}
         TabButton { whenClick: lambda {header.setTab(3)}; label: "mod-osc"}
         TabButton { whenClick: lambda {header.setTab(4)}; label: "modulation"}
         TabButton { whenClick: lambda {header.setTab(5)}; label: "voice list"}

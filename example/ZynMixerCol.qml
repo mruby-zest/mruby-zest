@@ -44,6 +44,7 @@ Widget {
     }
     HSlider {
         extern: col.extern + "Ppanning"
+        centered: true;
         label: "pan"
     }
     Selector {

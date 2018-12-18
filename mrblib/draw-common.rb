@@ -122,12 +122,17 @@ module Draw
         end
 
         def self.zero_line(vg, bb, co)
+            vg.translate(0.5, 0.5)
+
             vg.path do
-                vg.move_to(bb.x,      bb.y+bb.h/2)
-                vg.line_to(bb.x+bb.w, bb.y+bb.h/2)
+                y = (bb.y+bb.h/2).round()
+                vg.move_to(bb.x, y)
+                vg.line_to(bb.x+bb.w, y)
                 vg.stroke_color co
                 vg.stroke
             end
+
+            vg.translate(-0.5, -0.5)
         end
 
         def self.flat_line(vg, bb, co, yy)

@@ -143,12 +143,19 @@ module Draw
             n = dat.length
             #Draw Sel Line
             if(m >= 0 && m < n)
+                vg.translate(0.5, 0.5)
+
+                x = (bb.x + bb.w*dat[m].x).round()
+
                 vg.path do
-                    vg.move_to(bb.x + bb.w*dat[m].x, bb.y)
-                    vg.line_to(bb.x + bb.w*dat[m].x, bb.y + bb.h)
+                    vg.move_to(x, bb.y)
+                    vg.line_to(x, bb.y + bb.h)
                 end
+
                 vg.stroke_color co
                 vg.stroke
+
+                vg.translate(-0.5, -0.5)
             end
         end
 

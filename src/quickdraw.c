@@ -216,9 +216,14 @@ bar(mrb_state *mrb, mrb_value self)
     const float bound_w = get(mrb, bb, "w");
     const float bound_h = get(mrb, bb, "h");
 
-    const float y  = bound_y+bound_h;
+    const float y  = round(bound_y+bound_h);
     mrb_funcall(mrb, vg, "stroke_color", 1, color);
     mrb_funcall(mrb, vg, "stroke_width", 1, mrb_float_value(mrb, 1.0));
+
+    mrb_funcall(mrb, vg, "translate", 2,
+        mrb_float_value(mrb, 0.5f),
+        mrb_float_value(mrb, 0.5f));
+
     for(int i=0; i<n; ++i)
     {
         float x;
@@ -227,16 +232,26 @@ bar(mrb_state *mrb, mrb_value self)
         } else {
             x = bound_x + mrb_ary_ref(mrb, xx, i).value.f*bound_w/64.0;
         }
+
+        x = round(x);
+
+        const int target_y = round(y-bound_h*f[i]);
+
         mrb_funcall(mrb, vg, "begin_path", 0);
         mrb_funcall(mrb, vg, "move_to", 2,
                 mrb_float_value(mrb, x),
                 mrb_float_value(mrb, y));
         mrb_funcall(mrb, vg, "line_to", 2,
                 mrb_float_value(mrb, x),
-                mrb_float_value(mrb, y-bound_h*f[i]));
+                mrb_float_value(mrb, target_y));
         mrb_funcall(mrb, vg, "stroke", 0);
         mrb_funcall(mrb, vg, "close_path", 0);
     }
+
+    mrb_funcall(mrb, vg, "translate", 2,
+            mrb_float_value(mrb, -0.5f),
+            mrb_float_value(mrb, -0.5f));
+
     mrb_free(mrb, f);
     return self;
 }

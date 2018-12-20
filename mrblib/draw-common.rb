@@ -211,10 +211,12 @@ module Draw
 
         def self.env_marker(vg, x, y, scale)
             vg.path do
-                vg.rect(x-scale,y-scale,scale*2,scale*2);
-                vg.stroke_width 1.2
+                vg.translate(0.5, 0.5)
+                vg.rect((x-scale).round(),(y-scale).round(),(scale*2).round(),(scale*2).round());
+                vg.stroke_width 1.0
                 vg.fill
                 vg.stroke
+                vg.translate(-0.5, -0.5)
             end
         end
 

@@ -46,8 +46,8 @@ Widget {
             vg.fill_color Theme::VisualBackground
             vg.fill
         end
-        Draw::Grid::log_x(vg, 1, 20000, box)
-        Draw::Grid::linear_y(vg, 1, 20, box)
+        Draw::Grid::log_x(vg, 1, 201, box)
+        Draw::Grid::linear_y(vg, 0, 8, box)
     }
     DataView {
         id: data_view

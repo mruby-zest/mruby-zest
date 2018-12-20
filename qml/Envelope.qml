@@ -242,19 +242,30 @@ Widget {
         xdat = get_x_points()
         ydat = env.ypoints
 
-        fill_color   = Theme::VisualBackground
-        stroke_color = Theme::VisualStroke
-        light_fill   = Theme::VisualLightFill
-        bright       = Theme::VisualBright
-        dim          = Theme::VisualDim
-        sel_color    = Theme::VisualSelect
+        fill_color    = Theme::VisualBackground
+        stroke_color  = Theme::VisualStroke
+        light_fill    = Theme::VisualLightFill
+        bright        = Theme::VisualBright
+        dim           = Theme::VisualDim
+        sel_color     = Theme::VisualSelect
+        sustain_color = Theme::SustainPoint
 
-        padfactor = 20
+        padfactor = 5
         bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
         pts = Draw::zipToPos(xdat, ydat)
 
         background(fill_color)
+
+        #Draw borders of the envelope display
+        vg.translate(0.5, 0.5)
+        vg.path do |v|
+            v.stroke_width = 1
+            v.stroke_color = Theme::GridLine
+            v.rounded_rect(bb.x.round(), bb.y.round(), bb.w.round(), bb.h.round(), 2)
+            v.stroke()
+        end
+        vg.translate(-0.5, -0.5)
 
         #Draw Highlights
         Draw::WaveForm::under_highlight(vg, bb, pts, light_fill)

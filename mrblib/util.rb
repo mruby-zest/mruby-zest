@@ -16,12 +16,6 @@ def pad(scale, bb)
     bb[3] = h;
 end
 
-##
-# Limits a value to a range between min and max.
-def clamp(value, min, max)
-    return [min, [value, max].min].max;
-end
-
 class EditRegion
     def initialize(vg, string, width, height)
         @vg     = vg

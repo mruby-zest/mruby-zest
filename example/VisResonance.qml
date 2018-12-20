@@ -63,7 +63,7 @@ Widget {
         rely  = 1 - 2*(pos.y - global_y) / h
         relx  = (pos.x - global_x) / w
         return if(relx < 0 || relx > 1)
-        rely  = [1, [-1, rely].max].min
+        rely  = clamp(rely, -0.9999, 0.9999)
 
         n = draw_layer.points.length
         sel = (n*relx).to_i

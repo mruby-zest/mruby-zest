@@ -204,7 +204,7 @@ module Draw
                 scale = 3
                 vg.stroke_color sel_color if(selected == i)
                 vg.stroke_color bright    if(selected != i)
-                vg.fill_color   color(:black)
+                vg.fill_color   Theme::EnvelopePoint
                 Draw::WaveForm::env_marker(vg, xx, yy, scale)
             end
         end
@@ -765,6 +765,8 @@ module Theme
     InnerGrad1          = color("4E4E4F")
     InnerGrad2          = color("39393B")
 
+    SustainPoint        = color("005f8a")
+    EnvelopePoint       = color("232c36")
 
     #Keyboard Widget
     KeyWhiteGrad1       = color("B0B7C0")
@@ -781,11 +783,10 @@ module Theme
     VisualStroke        = color("014767")
     VisualLightFill     = color("014767",55)
     VisualBright        = color("3ac5ec")
-    VisualDim           = color("114575")
-    VisualDimTrans      = color("114575", 155)
+    VisualDim           = color("143644")
+    VisualDimTrans      = color("143644", 155)
     VisualSelect        = color("00ff00")
-
-    VisualLine          = color("00FAFF")
+    VisualLine          = color("00Cff7")
 
     GridLine            = color("253743")
 

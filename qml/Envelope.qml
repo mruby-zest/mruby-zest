@@ -264,10 +264,11 @@ Widget {
         Draw::WaveForm::zero_line(vg, bb, dim)
 
         #Indicate Sustain Point
-        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point, pts, dim)
+        Draw::WaveForm::env_sel_line(vg, bb, self.sustain_point, pts, sustain_color)
 
         #Draw Actual Line
         Draw::WaveForm::env_plot(vg, bb, pts, bright, selected)
+
     }
     Widget {
         id: run_view

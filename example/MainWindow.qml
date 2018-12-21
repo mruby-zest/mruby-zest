@@ -7,7 +7,7 @@ Widget {
     // p - constraint solution from parent widget
     function layout(l, selfBox)
     {
-        side.fixed(l,        selfBox, 0, 0.1, 0.1, 0.8)
+        side.fixed(l,        selfBox, 0, 0.1, 0.1025, 0.8025)
         head1.fixed(l,       selfBox, 0, 0,   1.0, 0.1)
         footerbox.fixed(l,        selfBox, 0, 0.9, 1.0, 0.1)
         main_widget.fixed(l, selfBox, 0.102, 0.1, 0.89, 0.80)

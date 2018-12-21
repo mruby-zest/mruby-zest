@@ -50,13 +50,24 @@ Widget {
     {
         off_color     = Theme::ButtonInactive
         on_color      = Theme::ButtonActive
-        outline_color = color("0089b9")
+        outline_color = Theme::ButtonActive
         text_color1   = Theme::TextActiveColor
         text_color2   = color("B9CADE")
+        background_color = Theme::VisualBackground
+
         #TODO check textcolor2 and outline
-        pad = 1/32
+        pad = 0.05
+
+        rect_x = (w*pad).round()
+        rect_y = (h*pad).round()
+        rect_w = (w*(1-2*pad)).round()
+        rect_h = (h*(1-2*pad)).round()
+
+        vg.translate(0.5, 0.5)
+
         vg.path do |v|
-            v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
+            v.rect(rect_x, rect_y, rect_w, rect_h)
+
             if(button.value)
                 v.fill_color on_color
             else
@@ -69,6 +80,20 @@ Widget {
                 v.stroke
             end
         end
+
+        #inner rectangle when enabled
+        if(self.enable)
+            vg.path do |v|
+                    v.stroke_color background_color
+
+                    stroke_width = 1
+                    v.stroke_width = stroke_width
+
+                    v.rect(rect_x + stroke_width, rect_y + stroke_width, rect_w - stroke_width * 2, rect_h - stroke_width * 2)
+                    v.stroke
+            end
+        end
+        vg.translate(-0.5, -0.5)
 
         vg.font_face("bold")
         vg.font_size (h*0.75).to_i

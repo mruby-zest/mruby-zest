@@ -548,7 +548,7 @@ module Draw
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, 0, off, 1,  h[i],
                             0, fixed_pad, 0, -2*fixed_pad)
-                off += h[i]
+                off += h[i] + pad
             end
             selfBox
         end

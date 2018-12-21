@@ -57,6 +57,6 @@ Widget {
     }
 
     function layout(l, selfBox) {
-        Draw::Layout::vfill(l, selfBox, children, [0.05,0.95], 1, 2)
+        Draw::Layout::vfill(l, selfBox, children, [0.05,0.95], 0, 2)
     }
 }

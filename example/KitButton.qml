@@ -96,9 +96,9 @@ Widget {
         vg.translate(-0.5, -0.5)
 
         vg.font_face("bold")
-        vg.font_size (h*0.75).to_i
+        vg.font_size (h*0.65).to_i
         vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-        if(value)
+        if(self.enable)
             vg.fill_color(text_color1)
         else
             vg.fill_color(text_color2)

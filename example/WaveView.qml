@@ -1,11 +1,12 @@
 Widget {
     id: wave_view
     property Bool   grid: true;
+    property Bool   draw_borders: false
     property Object valueRef: nil
     property Float  phase: 0.0
     property String noise: nil
     property Bool   noise_mode: false
-
+    property Float pad: 1/32
     function class_name() { "WaveView" }
 
     onExtern: {
@@ -70,7 +71,6 @@ Widget {
 
     function draw(vg)
     {
-        pad  = 1/32
         pad2 = (1-2*pad)
         box = Rect.new(w*pad, h*pad, w*pad2, h*pad2)
 
@@ -79,6 +79,17 @@ Widget {
         if(grid)
             Draw::Grid::linear_x(vg,0,10,box, 1.0)
             Draw::Grid::linear_y(vg,0,10,box, 1.0)
+        end
+
+        if(draw_borders)
+            vg.translate(0.5, 0.5)
+            vg.path do |v|
+                v.stroke_width = 1
+                v.stroke_color = Theme::GridLine
+                v.rounded_rect(box.x.round(), box.y.round(), box.w.round(), box.h.round(), 2)
+                v.stroke()
+            end
+            vg.translate(-0.5, -0.5)
         end
 
         if(extern.nil? || extern.empty?)

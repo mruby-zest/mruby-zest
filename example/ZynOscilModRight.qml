@@ -79,6 +79,8 @@ Widget {
             }
             WaveView {
                 id: osc_wave
+                draw_borders: true
+                pad: 0.0225
                 noise:  base.extern + "Type"
                 extern: base.extern + "OscilSmp/waveform"
                 grid: false
@@ -119,6 +121,8 @@ Widget {
             WaveView {
                 id: mod_wave
                 grid: false
+                pad: 0.0225
+                draw_borders: true
                 extern: base.extern + "FMSmp/waveform"
             }
             function layout(l, selfBox) {

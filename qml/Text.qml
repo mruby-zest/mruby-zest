@@ -3,6 +3,7 @@ Widget {
     property Color textColor: Theme::TextColor
     property Float height: 0.5
     property Symbol align: :center
+    property Symbol letterCase: :normal
 
     function class_name()
     {
@@ -13,8 +14,21 @@ Widget {
     {
         scale = 100
         $vg.font_size scale
-        bb = $vg.text_bounds(0, 0, label.upcase)
 
+        labelDisplay = ""
+
+        case self.letterCase
+        when :normal
+            labelDisplay = label
+        when :upper
+            labelDisplay = label.upcase
+        when :lower
+            labelDisplay = label.downcase
+        else
+            puts "[ERROR]: Invalid letterCase property detected in a Text widget: #{self.letterCase}"
+        end
+
+        bb = $vg.text_bounds(0, 0, labelDisplay)
 
         vg.font_face("bold")
         if(w/(self.height*h) < bb)
@@ -25,10 +39,10 @@ Widget {
         vg.fill_color(self.textColor)
         if(align == :center)
             vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            vg.text(w/2,h/2,label.upcase)
+            vg.text(w/2,h/2,labelDisplay)
         else
             vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
-            vg.text(0,h/2,label.upcase)
+            vg.text(0,h/2,labelDisplay)
         end
     }
 

@@ -1,9 +1,11 @@
 Widget {
     id: text
+
     property Color textColor: Theme::TextColor
     property Float height: 0.5
     property Symbol align: :center
     property Symbol letterCase: :normal
+    property String fontFace: "bold"
 
     function class_name()
     {
@@ -30,16 +32,19 @@ Widget {
 
         bb = $vg.text_bounds(0, 0, labelDisplay)
 
-        vg.font_face("bold")
+        vg.font_face(self.fontFace)
+
         if(w/(self.height*h) < bb)
             vg.font_size self.height*h
         else
             vg.font_size self.height*h
         end
+
         vg.fill_color(self.textColor)
+
         if(align == :center)
             vg.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            vg.text(w/2,h/2,labelDisplay)
+            vg.text(w/2, h/2, labelDisplay)
         else
             vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
             vg.text(0,h/2,labelDisplay)

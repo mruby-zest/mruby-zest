@@ -43,6 +43,30 @@ ToggleButton {
             vg.stroke_color(power_sign_stroke_color)
             vg.stroke
         end
+
+        vg.translate(0.5,0.5)
+
+        vg.path do |v|
+            hh = h/32
+            source_x = (x+2).round()
+            source_y = (hh).round()
+            dest_x = (w-2).round()
+            dest_y = source_y
+
+            v.move_to(source_x, source_y)
+            v.line_to(dest_x, dest_y)
+
+            if(self.value)
+                v.stroke_color color("16a39c")
+            else
+                v.stroke_color color("5c5c5c")
+            end
+
+            v.stroke_width 1
+            v.stroke
+        end
+
+        vg.translate(-0.5,-0.5)
     }
 
     function layout(l, selfBox)

@@ -66,7 +66,6 @@ Widget {
     {
         st0 = color("686868")
         st1 = color("2E3239")
-        st1 = color("010101")
         st2 = color("50C3C7")
         st3 = color("57C1A6")
 

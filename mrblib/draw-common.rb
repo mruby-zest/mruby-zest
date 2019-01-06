@@ -472,6 +472,10 @@ module Draw
 
         def self.norm_0_1(x)
             max = ary_max(x)
+
+            #avoid division by zero
+            max = [1, max].max
+
             n   = x.length
             (0...n).each do |i|
                 x[i] /= max

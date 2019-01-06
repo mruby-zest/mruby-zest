@@ -66,8 +66,14 @@ Widget {
     }
 
     function get_x_points() {
-        tmp = Draw::DSP::norm_0_1(Draw::DSP::cumsum(xpoints[0...points]))
-        Draw::DSP::pad_norm(tmp, 0.01)
+        cumsum = Draw::DSP::cumsum(xpoints[0...points])
+        tmp = Draw::DSP::norm_0_1(cumsum)
+
+        #we need to make sure that the first and last position make sense
+        tmp[0] = 0
+        tmp[-1] = 1
+
+        Draw::DSP::pad_norm(tmp, 0.0001)
     }
 
     function warp(x)

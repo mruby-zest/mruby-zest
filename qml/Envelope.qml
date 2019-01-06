@@ -250,7 +250,7 @@ Widget {
         sel_color     = Theme::VisualSelect
         sustain_color = Theme::SustainPoint
 
-        padfactor = 5
+        padfactor = 8
         bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
         pts = Draw::zipToPos(xdat, ydat)

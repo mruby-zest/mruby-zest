@@ -39,20 +39,29 @@ Widget {
 
         end
 
+        vg.translate(0.5,0.5)
+
         vg.path do |v|
-            hh = h/20
-            v.move_to(w*pad+3,       h*pad+hh)
-            v.line_to(w*(1-2*pad)-2, h*pad+hh)
-            if(cs == 0)
-                v.stroke_color color("5c5c5c")
-            elsif(cs == 1)
+            hh = h/32
+            source_x = 1
+            source_y = (hh).round()
+            dest_x = (w-2).round()
+            dest_y = source_y
+
+            v.move_to(source_x, source_y)
+            v.line_to(dest_x, dest_y)
+
+            if(self.value)
                 v.stroke_color color("16a39c")
+            else
+                v.stroke_color color("5c5c5c")
             end
-            if([0,1].include?(cs))
-                v.stroke_width hh 
-                v.stroke
-            end
+
+            v.stroke_width 1
+            v.stroke
         end
+
+        vg.translate(-0.5,-0.5)
     }
     
     function draw(vg)

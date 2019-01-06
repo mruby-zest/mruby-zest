@@ -48,7 +48,7 @@ ToggleButton {
 
         vg.path do |v|
             hh = h/32
-            source_x = (x+2).round()
+            source_x = 1
             source_y = (hh).round()
             dest_x = (w-2).round()
             dest_y = source_y

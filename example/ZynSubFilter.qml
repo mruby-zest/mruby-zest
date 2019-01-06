@@ -67,7 +67,7 @@ Widget {
         base = self.extern
         vis  = root.get_view_pos(:vis)
 
-        types = [:envelope, :lfo, :filter]
+        types = [:envelope, :filter]
         if(!types.include?(vis))
             vis = :envelope
             root.set_view_pos(:vis, vis)

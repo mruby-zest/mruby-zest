@@ -69,7 +69,8 @@ Widget {
         cumsum = Draw::DSP::cumsum(xpoints[0...points])
         tmp = Draw::DSP::norm_0_1(cumsum)
 
-        #we need to make sure that the first and last position make sense
+        #we need to make sure that the envelopes starts at 0 and finishes at 1
+        #(otherwise, the graph won't be displayed correctly)
         tmp[0] = 0
         tmp[-1] = 1
 

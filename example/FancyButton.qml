@@ -63,20 +63,30 @@ Widget {
 
         end
 
+        vg.translate(0.5,0.5)
+
         vg.path do |v|
             hh = h/20
-            v.move_to(w*pad+3,       h*pad+hh)
-            v.line_to(w*(1-2*pad)-2, h*pad+hh)
+            source_x = (w*pad+3).round()
+            source_y = (h*pad+hh).round()
+            dest_x = (w*(1-2*pad)-2).round()
+            dest_y = source_y
+
+            v.move_to(source_x, source_y)
+            v.line_to(dest_x, dest_y)
+
             if(cs == 0)
                 v.stroke_color color("5c5c5c")
             elsif(cs == 1)
                 v.stroke_color color("16a39c")
             end
             if([0,1].include?(cs))
-                v.stroke_width hh
+                v.stroke_width 1
                 v.stroke
             end
         end
+
+        vg.translate(-0.5,-0.5)
 
 
         text_color1   = Theme::TextActiveColor

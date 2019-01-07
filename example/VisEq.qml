@@ -54,5 +54,6 @@ Widget {
         normal: false
         pad: 0
         fixedpad: 5
+        under_highlight: true
     }
 }

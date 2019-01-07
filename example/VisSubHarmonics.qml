@@ -51,6 +51,7 @@ Widget {
         normal: false
         pad: 0.0
         fixedpad: 5
+        under_highlight: true
 
         function animate()
         {

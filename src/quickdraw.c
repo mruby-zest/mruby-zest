@@ -83,8 +83,9 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
     mrb_value bb;
     mrb_value do_norm;
     mrb_float phase;
+    mrb_bool under_highlight;
 
-    mrb_get_args(mrb, "oooof", &vg, &ypts, &bb, &do_norm, &phase);
+    mrb_get_args(mrb, "oooofb", &vg, &ypts, &bb, &do_norm, &phase, &under_highlight);
 
     int n = mrb_ary_len(mrb, ypts);
     float *f = (float*)mrb_malloc(mrb, n*sizeof(float));
@@ -105,32 +106,88 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
     const int max_y = bound_y + bound_h;
 
     int ii = off%n;
-    float ypos = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
+    float initial_y = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
+    float ypos = initial_y;
+
     if(ypos > max_y) ypos = max_y;
     if(ypos < min_y) ypos = min_y;
-
-    mrb_funcall(mrb, vg, "begin_path", 0);
     
-    mrb_funcall(mrb, vg, "move_to", 2,
-            mrb_float_value(mrb, bound_x),
-            mrb_float_value(mrb, ypos));
+    float y_peak = ypos;
 
-    for(int i=1; i<n; ++i) {
-        ii = (off+i)%n;
-        ypos = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
-        if(ypos > max_y) ypos = max_y;
-        if(ypos < min_y) ypos = min_y;
+    int stage;
 
-        mrb_funcall(mrb, vg, "line_to", 2,
-                mrb_float_value(mrb, bound_w*ii/n + bound_x),
-                mrb_float_value(mrb, ypos));
+    // If under-highlight is activated, we need to render the graph in two stages
+    // First stage is the highlight fill
+    // Second stage is the function's stroke
+    if (under_highlight) {
+        stage = 1;
     }
+    else {
+        stage = 2;
+    }
+
     mrb_value theme     = mrb_vm_const_get(mrb, mrb_intern_cstr(mrb, "Theme"));
     mrb_value linecolor = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "VisualLine"));
-    mrb_funcall(mrb, vg, "stroke_color", 1, linecolor);
-    mrb_funcall(mrb, vg, "stroke_width", 1, mrb_float_value(mrb, 2.0));
-    mrb_funcall(mrb, vg, "stroke", 0);
-    mrb_funcall(mrb, vg, "close_path", 0);
+    mrb_value highlight_grad_1 = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "FilterHighlight1"));
+    mrb_value highlight_grad_2 = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "FilterHighlight2"));
+
+    for (; stage <= 2; ++stage) {
+        mrb_funcall(mrb, vg, "begin_path", 0);
+
+        mrb_funcall(mrb, vg, "move_to", 2,
+                mrb_float_value(mrb, bound_x),
+                mrb_float_value(mrb, initial_y));
+
+        for(int i=1; i<n; ++i) {
+            ii = (off+i)%n;
+            ypos = -bound_h/2*f[ii] + bound_y+bound_h/2.0;
+
+            if(ypos > max_y) ypos = max_y;
+            if(ypos < min_y) ypos = min_y;
+
+            mrb_funcall(mrb, vg, "line_to", 2,
+                    mrb_float_value(mrb, bound_w*ii/n + bound_x),
+                    mrb_float_value(mrb, ypos));
+
+            if (ypos < y_peak)
+                y_peak = ypos;
+        }
+
+        if (stage == 1) {
+            y_peak = fmax(y_peak, (bound_y + bound_h) / 2.0f);
+
+            mrb_funcall(mrb, vg, "line_to", 2,
+                    mrb_float_value(mrb, bound_x + bound_w),
+                    mrb_float_value(mrb, bound_y + bound_h));
+
+            mrb_funcall(mrb, vg, "line_to", 2,
+                    mrb_float_value(mrb, bound_x),
+                    mrb_float_value(mrb, bound_y + bound_h));
+
+            mrb_funcall(mrb, vg, "line_to", 2,
+                    mrb_float_value(mrb, bound_x),
+                    mrb_float_value(mrb, initial_y));
+
+            mrb_value gradient_paint = mrb_funcall(mrb, vg, "linear_gradient", 6,
+                    mrb_float_value(mrb, bound_x),
+                    mrb_float_value(mrb, bound_y + bound_h),
+                    mrb_float_value(mrb, bound_x),
+                    mrb_float_value(mrb, y_peak),
+                    highlight_grad_1,
+                    highlight_grad_2);
+
+            mrb_funcall(mrb, vg, "fill_paint", 1, gradient_paint);
+
+            mrb_funcall(mrb, vg, "fill", 0);
+        }
+        else {
+            mrb_funcall(mrb, vg, "stroke_color", 1, linecolor);
+            mrb_funcall(mrb, vg, "stroke_width", 1, mrb_float_value(mrb, 2.0));
+            mrb_funcall(mrb, vg, "stroke", 0);
+        }
+
+        mrb_funcall(mrb, vg, "close_path", 0);
+    }
 
     mrb_free(mrb, f);
     return self;
@@ -259,7 +316,7 @@ bar(mrb_state *mrb, mrb_value self)
 void
 mrb_mruby_zest_gem_init(mrb_state *mrb) {
     struct RClass *module = mrb_define_module(mrb, "Draw");
-    mrb_define_class_method(mrb, module, "opt_plot", draw_oscil_plot, MRB_ARGS_REQ(5));
+    mrb_define_class_method(mrb, module, "opt_plot", draw_oscil_plot, MRB_ARGS_REQ(6));
     mrb_define_class_method(mrb, module, "opt_norm_harmonics", norm_harmonics, MRB_ARGS_REQ(1));
     mrb_define_class_method(mrb, module, "opt_bar", bar, MRB_ARGS_REQ(5));
 }

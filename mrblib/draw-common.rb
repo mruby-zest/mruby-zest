@@ -15,8 +15,8 @@ module Draw
             end
         end
 
-        def self.plot(vg, ypts, bb, do_norm=true, phase=0)
-            Draw::opt_plot(vg, ypts, bb, do_norm, phase)
+        def self.plot(vg, ypts, bb, do_norm=true, phase=0, under_highlight=false)
+            Draw::opt_plot(vg, ypts, bb, do_norm, phase, under_highlight)
             return
             ypts = DSP::normalize(ypts) if do_norm
             #xpts = Draw::DSP::linspace(0,1,ypts.length)
@@ -91,7 +91,7 @@ module Draw
                 end
                 vg.line_to(bb.x+bb.w, 0.0)
                 vg.close_path
-                paint = vg.linear_gradient(bb.x, bb.y+bb.h/2,bb.x, max_y, NVG.rgba(16, 59, 79, 0), NVG.rgba(16, 59, 79, 255))
+                paint = vg.linear_gradient(bb.x, bb.y+bb.h/2,bb.x, max_y, Theme::HighlightGrad1, Theme::HighlightGrad2)
                 vg.fill_paint paint
                 vg.fill
             end
@@ -793,6 +793,12 @@ module Theme
     VisualDimTrans      = color("143644", 155)
     VisualSelect        = color("00ff00")
     VisualLine          = color("00Cff7")
+
+    HighlightGrad1      = NVG.rgba(16, 59, 79, 0)
+    HighlightGrad2      = NVG.rgba(16, 59, 79, 255)
+
+    FilterHighlight1    = color("3ac5ec", 85)
+    FilterHighlight2    = color("3ac5ec", 155)
 
     GridLine            = color("253743")
 

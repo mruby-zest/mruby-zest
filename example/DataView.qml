@@ -19,11 +19,11 @@ Widget {
 
         vphase = ignore_phase ? 0 : phase
 
-        if(data.class == Array && data[0].class == Float)
+        if(data.class == Array && data[0].class == Float) # regular data
             Draw::WaveForm::plot(vg, self.data, box, normal, vphase, under_highlight)
 
-        elsif(data.class == Array && data[0] == -40)
-            Draw::WaveForm::plot(vg, self.data, box, normal, vphase)
+        elsif(data.class == Array && data[0] == -40) # returns true in the formant filter view sometimes
+            Draw::WaveForm::plot(vg, self.data, box, normal, vphase, under_highlight)
 
         elsif(data.class == Array && data[0] == 0 && data[5] == 0)
             Draw::WaveForm::plot(vg, self.data, box, false, vphase)

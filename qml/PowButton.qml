@@ -31,7 +31,7 @@ ToggleButton {
         if(self.value)
             power_sign_stroke_color = Theme::TextActiveColor
         else
-            power_sign_stroke_color = color("999999")
+            power_sign_stroke_color = Theme::TextColor
         end
 
         vg.line_cap(NVG::SQUARE);

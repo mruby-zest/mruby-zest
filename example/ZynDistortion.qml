@@ -19,7 +19,7 @@ Widget {
         refresh_recur(self)
     }
     GroupHeader {
-        label: "Distorsion"
+        label: "Distortion"
         extern: dst.extern
         copyable: true
     }

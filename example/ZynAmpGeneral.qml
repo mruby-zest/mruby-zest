@@ -6,7 +6,10 @@ Group {
 
     ParModuleRow {
         id: top
-        Knob { extern: box.extern+"PVolume" }
+        Knob { 
+            extern: box.extern+"Volume"
+            type:   :float
+        }
         Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
         Knob { extern: box.extern+"PPanning"}
         Knob { extern: box.extern+"PPunchStretch"}

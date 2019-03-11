@@ -5,7 +5,7 @@ Widget {
             l << "ZynAddSubFX is a powerful open source software synthesizer\n"
             l << "Zyn-Fusion is the completely rewritten interface for ZynAddSubFX's 3.0.0 Release\n"
             l << "\n"
-            l << "Maintainer (2009-2016):\n"
+            l << "Maintainer (2009-2019):\n"
             l << "    Mark McCurry\n"
             l << "\n"
             l << "Maintainer (2002-2010):\n"
@@ -41,8 +41,9 @@ Widget {
             l << "    Andre Sklenar (UI Pixmaps)\n"
             l << "    Harald Hvaal (General Code Modernization)\n"
             l << "    Olivier Jolly (DSSI Bank Load Fix)\n"
+            l << "    Daniel Sheeler (Legato Aftertouch Fixes)\n"
             l << "\n"
-            l << "This is the 3.0.0 version of ZynAddSubFX\n"
+            l << "This is the 3.0.4 version of ZynAddSubFX\n"
             l << "For more information please see http://zynaddsubfx.sourceforge.net/\n"
             l
         }

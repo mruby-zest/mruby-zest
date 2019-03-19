@@ -7,7 +7,7 @@ Group {
             ToggleButton { extern: port.extern+"portamento.receive"}
             ToggleButton { extern: port.extern+"portamento.pitchthreshtype"}
         }
-        Knob   { extern: port.extern+"portamento.pitchthresh"}
+        NuEntry   { extern: port.extern+"portamento.pitchthresh"}
         Knob   { extern: port.extern+"portamento.time"}
         Knob   { extern: port.extern+"portamento.updowntimestretch"}
     }

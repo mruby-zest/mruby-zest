@@ -12,7 +12,7 @@ Widget {
             end
         }
     }
-    HSlider {extern: "/Pvolume"; height: 0.8; label: "volume" }
+    HSlider {type: :float; extern: "/volume"; height: 0.8; label: "volume"; }
     Button  {layoutOpts: [:no_constraint]; label: "nrpn" }
     HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }
 

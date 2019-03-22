@@ -7,7 +7,7 @@ Group {
 
     ParModuleRow {
         id: top
-        Knob { extern: box.extern+"PVolume" }
+        Knob { extern: box.extern+"volume"; type: :float }
         Knob { extern: box.extern+"PAmpVelocityScaleFunction"}
         BypassButton { extern: box.extern+"Pfilterbypass" }
 

@@ -8,10 +8,11 @@ Widget {
 
     function set_level(l,r)
     {
-        old = children[1].children[1].value
-        if(old != cv(l))
-            children[1].children[1].value = cv(l)
-            children[1].children[0].value = cv(r)
+        oldl = children[1].children[0].value
+        oldr = children[1].children[1].value
+        if(oldl != cv(l) || oldr != cv(r))
+            children[1].children[0].value = cv(l)
+            children[1].children[1].value = cv(r)
             children[1].children[0].damage_self
             children[1].children[1].damage_self
         end
@@ -26,7 +27,8 @@ Widget {
         Slider {visual: true; centered: false; pad: 0.01}
         Slider {visual: true; centered: false; pad: 0.01}
         Slider {
-            extern: "/Pvolume"
+            type: :float
+            extern: "/Volume"
             centered: false
             pad: 0.01
         }

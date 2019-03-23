@@ -7,15 +7,20 @@ Widget {
     function bound(x)  { [0.0, [1.0, x].min].max }
     function cv(x)     {min_db = -40;bound((min_db-rap2dB(x))/min_db)}
 
-    function set_level(l)
+    function set_level(l,r)
     {
         old = children[2].children[0].value
         if(old != cv(l))
             children[2].children[0].value = cv(l)
-            children[2].children[1].value = cv(l)
             children[2].children[0].damage_self
+        end
+
+        old = children[2].children[1].value
+        if(old != cv(r))
+            children[2].children[1].value = cv(r)
             children[2].children[1].damage_self
         end
+
     }
 
     ToggleButton {

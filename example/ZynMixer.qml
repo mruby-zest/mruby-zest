@@ -8,8 +8,8 @@ Widget {
 
         if(self.data)
             children[0].set_level(data[0], data[1])
-            (1..16).each do |i|
-                children[i].set_level(data[6+i-1])
+            (0..15).each do |i|
+            children[i+1].set_level(data[6+2*i], data[6+2*i+1])
             end
         end
     }

@@ -353,7 +353,7 @@ Widget {
             pts ||= []
             return if pts.class != Array
 
-            padfactor = 20
+            padfactor = 12
             bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
             Draw::WaveForm::overlay(vg, bb, pts)

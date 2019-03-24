@@ -14,7 +14,9 @@ Widget {
 
                 Knob { extern: subamp.extern + "PVolume" }
                 Knob { extern: subamp.extern + "PPanning" }
-                Knob { extern: subamp.extern + "PAmpVelocityScaleFunction" }
+                Knob { extern: subamp.extern + "AmpVelocityScaleFunction"
+                       type: :float
+                 }
             }
             Widget {}
         }

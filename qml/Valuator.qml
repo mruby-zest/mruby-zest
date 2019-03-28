@@ -146,12 +146,27 @@ Widget {
     }
 
     function onMouseEnter(ev) {
-        self.root.log(:tooltip, self.tooltip)
+        dsp = self.tooltip
+        if (valuator.valueRef)
+            dsp = displayValueToText(valuator.valueRef.display_value) +
+              "    " + dsp
+        end
+        self.root.log(:tooltip, dsp)
     }
 
     function lim(x, low, high)
     {
         [low, [x, high].min].max
+    }
+
+    function displayValueToText(dval) {
+        tval = dval
+        if(valuator.units && valuator.units != "none")
+            tval = tval.round(2) if tval.class == Float
+            tval = tval.to_s
+            tval += " "
+            tval += valuator.units
+        end
     }
 
     function updatePosAbs(tmp) {
@@ -162,13 +177,7 @@ Widget {
             valuator.value = nvalue
             new_dsp = valuator.valueRef.display_value
             whenValue.call if whenValue && (new_dsp.nil? || old_dsp != new_dsp)
-            out_value = valuator.valueRef.display_value
-            if(valuator.units && valuator.units != "none")
-                out_value = out_value.round(2) if out_value.class == Float
-                out_value = out_value.to_s
-                out_value += " "
-                out_value += valuator.units
-            end
+            out_value = displayValueToText(valuator.valueRef.display_value)
             valuator.root.log(:user_value, out_value, src=valuator.label)
         else
             valuator.value = nvalue

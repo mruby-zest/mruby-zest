@@ -5,7 +5,10 @@ Group {
     Widget {
         ParModuleRow {
             whitespace: 2
-            Knob { extern: insset.extern + "Pvolume"}
+            Knob {
+                type: :float
+                extern: insset.extern + "Volume"
+            }
             Knob { extern: insset.extern + "Ppanning"}
             Knob {
                 id: minkey

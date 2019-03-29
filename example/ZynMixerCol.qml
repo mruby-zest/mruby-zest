@@ -38,7 +38,8 @@ Widget {
         Slider {visual: true; centered: false; pad: 0.01}
         Slider {visual: true; centered: false; pad: 0.01}
         Slider {
-            extern: col.extern + "Pvolume"
+            type: :float
+            extern: col.extern + "Volume"
             centered: false
             pad: 0.01
         }

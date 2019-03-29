@@ -115,6 +115,10 @@ Widget {
             if(@click_time && (now-@click_time) < 0.400)
                 $remote.default(extern) if extern
                 whenValue.call if whenValue
+                if (valuator.valueRef)
+                    dsp = displayValueToText(valuator.valueRef.display_value)
+                    self.root.log(:tooltip, dsp)
+                end
             end
             @click_time = now
         elsif(ev.buttons.include? :rightButton)
@@ -148,8 +152,8 @@ Widget {
     function onMouseEnter(ev) {
         dsp = self.tooltip
         if (valuator.valueRef)
-            dsp = displayValueToText(valuator.valueRef.display_value) +
-              "    " + dsp
+            dsp = displayValueToText(valuator.valueRef.display_value) + "   " +
+              dsp
         end
         self.root.log(:tooltip, dsp)
     }
@@ -160,13 +164,17 @@ Widget {
     }
 
     function displayValueToText(dval) {
-        tval = dval
+        if (dval.class == Float)
+            tval = dval.round(2)
+        else
+            tval = dval
+        end
+        tval = tval.to_s
         if(valuator.units && valuator.units != "none")
-            tval = tval.round(2) if tval.class == Float
-            tval = tval.to_s
             tval += " "
             tval += valuator.units
         end
+        return tval
     }
 
     function updatePosAbs(tmp) {

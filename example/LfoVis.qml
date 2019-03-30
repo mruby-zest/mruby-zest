@@ -39,12 +39,12 @@ Widget {
             lfo_vis.delay_time = Math.exp(Math.log(2000)*x)
             lfo_vis.damage_self}
 
-        freq_var  = OSC::RemoteParam.new($remote, base+"Pfreq")
+        freq_var  = OSC::RemoteParam.new($remote, base+"freq")
         freq_var.type = "f"
         freq_var.set_min(0)
-        freq_var.set_max(1)
+        freq_var.set_max(85.25)
         freq_var.callback = lambda {|x|
-            lfo_vis.period = 20*Math.exp(Math.log(1500/20)*(1-x))
+            lfo_vis.period = 20.0 * Math.exp(Math.log(1500/20) * (1 - x))
             lfo_vis.damage_self}
 
         phase_var = OSC::RemoteParam.new($remote, base+"Pstartphase")
@@ -109,8 +109,7 @@ Widget {
                 dt = 100*Math.exp(Math.log(0.01*lfo_vis.period) + dx/200.0)
                 dt = [1500, [20, dt].max].min
                 lfo_vis.period = dt
-
-                nval = 1-Math.log(lfo_vis.period/20)/Math.log(1500/20)
+                nval = 1.0 - Math.log(dt/20.0)/Math.log(1500.0/20.0)
                 self.valueRef[2].value = nval
                 damage_self
             end
@@ -271,7 +270,7 @@ Widget {
 
         onExtern: {
             return if run_view.extern.nil?
-            
+
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
             run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|

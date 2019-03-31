@@ -14,7 +14,7 @@ Group {
     }
     ParModuleRow {
         id: bot
-        Knob     {extern: box.extern+"Pdelay"}
+        Knob     { type: :float; extern: box.extern+"delay"}
         Knob     {extern: box.extern+"Prandomness"}
         Knob     {extern: box.extern+"Pfreqrand"}
         Col {

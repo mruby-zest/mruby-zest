@@ -34,7 +34,10 @@ Widget {
             lfo_vis.depth = x
             lfo_vis.damage_self}
 
-        delay_var = OSC::RemoteParam.new($remote, base+"Pdelay")
+        delay_var = OSC::RemoteParam.new($remote, base+"delay")
+        delay_var.type = "f"
+        delay_var.set_min(0.0)
+        delay_var.set_max(4.0)
         delay_var.callback = lambda {|x|
             lfo_vis.delay_time = Math.exp(Math.log(2000)*x)
             lfo_vis.damage_self}
@@ -97,7 +100,8 @@ Widget {
                 dt_ = [2000, [1, dt].max].min
                 lfo_vis.delay_time = dt_
                 lfo_vis.drag_prev.x = ev.pos.x if(dt == dt_)
-                self.valueRef[3].value = Math.log(dt_)/Math.log(2000)
+                value = Math.log(dt_)/Math.log(2000) 
+                self.valueRef[3].value = value
                 damage_self
             elsif(lfo_vis.drag_type == :lfo)
                 lfo_vis.drag_prev = ev.pos

@@ -12,7 +12,9 @@ Widget {
             ParModuleRow {
                 ToggleButton { extern: subamp.extern + "Pstereo" }
 
-                Knob { extern: subamp.extern + "PVolume" }
+                Knob { extern: subamp.extern + "Volume" 
+                       type: :float
+                }
                 Knob { extern: subamp.extern + "PPanning" }
                 Knob { extern: subamp.extern + "AmpVelocityScaleFunction"
                        type: :float

@@ -68,7 +68,7 @@ Valuator {
         draw_centered(vg) if  centered
         draw_normal(vg)   if !centered
 
-        
+
         vg.path do |v|
             yloc = (h-h*pad2*value)
             v.move_to(w*pad,  yloc)
@@ -78,6 +78,11 @@ Valuator {
             v.stroke
         end
     }
+
+    function onScroll(ev) {
+        super(ev) if !visual
+    }
+
     function onMousePress(ev) {
         mouse_handle(ev) if !visual
     }

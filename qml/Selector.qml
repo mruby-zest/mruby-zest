@@ -200,6 +200,20 @@ Widget {
         vg.text(3+w*pad*2,h/2, str)
     }
 
+    function onScroll(ev)
+    {
+        return if !self.active
+        i = self.selected
+        if (ev.dy > 0)
+            i = i - 1
+        else
+            i = i + 1
+        end
+        if ((i > -1) && (i < opt_vals.length))
+            set_value_user(i)
+        end
+    }
+
     function create_menu()
     {
         n = options.length

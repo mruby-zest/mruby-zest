@@ -204,11 +204,7 @@ Widget {
     {
         return if !self.active
         i = self.selected
-        if (ev.dy > 0)
-            i = i - 1
-        else
-            i = i + 1
-        end
+        i = i + (ev.dy > 0 ? -1 : 1)
         if ((i > -1) && (i < opt_vals.length))
             set_value_user(i)
         end

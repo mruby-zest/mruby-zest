@@ -86,6 +86,8 @@ Widget {
                 y << xx
             else
                 ps = xx.to_i
+                # this shouldn't be needed. TODO: figure out why ps ends up being out of range
+                ps = limit(ps, 0, wp.length)
                 fr = xx-ps
                 ps -= 1
                 y << xx if(ps >= wp.length)

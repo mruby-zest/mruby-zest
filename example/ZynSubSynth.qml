@@ -9,6 +9,7 @@ Widget {
         TabButton {label: "bandwidth" }
         TabButton {label: "frequency" }
         TabButton {label: "filter" }
+        TabButton {label: "oscilloscope"}
         CopyButton  { id: cpy; extern: subsynth.extern}
         PasteButton { extern: subsynth.extern}
 
@@ -26,6 +27,7 @@ Widget {
                        2 => :bandwidth,
                        3 => :frequency,
                        4 => :filter,
+                       5 => :oscilloscope,
                        }
             return if !mapping.include?(selected)
             root.set_view_pos(:subview, mapping[selected])
@@ -46,12 +48,14 @@ Widget {
                    :amplitude => Qml::ZynSubAmp,
                    :bandwidth => Qml::ZynSubBandwidth,
                    :frequency => Qml::ZynSubFreq,
-                   :filter    => Qml::ZynSubFilter}
+                   :filter    => Qml::ZynSubFilter,
+                   :oscilloscope => Qml::ZynOscilloscope}
         tabid   = {:harmonic  => 0,
                    :amplitude => 1,
                    :bandwidth => 2,
                    :frequency => 3,
-                   :filter    => 4}
+                   :filter    => 4,
+                   :oscilloscope => 5}
         if(!mapping.include?(vw))
             root.set_view_pos(:subview, :harmonic)
             vw = :harmonic

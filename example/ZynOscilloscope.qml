@@ -62,12 +62,12 @@ Widget {
             update_points([0]) if((now-@last)>0.1)
         }
 
-         function draw(vg){
-        padfactor = 12
-        bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor) 
-        return if  @runtime_points.nil?
-        pts = @runtime_points
-        Draw::WaveForm::plot(vg,pts,bb)
+        function draw(vg){
+            padfactor = 12
+            bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor) 
+            return if  @runtime_points.nil?
+            pts = @runtime_points
+            Draw::WaveForm::plot(vg,pts,bb)
         }
     }
 }

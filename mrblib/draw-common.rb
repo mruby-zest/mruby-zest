@@ -195,16 +195,21 @@ module Draw
                 vg.stroke
             end
             vg.stroke_width 1.0
-
-            sel_color    = Theme::VisualSelect
-            bright       = Theme::VisualBright
+            stroke_color     = Theme::VisualBright
+            fill_color       = Theme::EnvelopePoint
+            sel_stroke_color = Theme::PointStrokeSelect
+            sel_fill_color   = Theme::PointFillSelect
             (0...n).each do |i|
                 xx = bb.x + bb.w*dat[i].x;
                 yy = bb.y + bb.h/2*(1-dat[i].y);
                 scale = 3
-                vg.stroke_color sel_color if(selected == i)
-                vg.stroke_color bright    if(selected != i)
-                vg.fill_color   Theme::EnvelopePoint
+                if(selected == i)
+                    vg.stroke_color sel_stroke_color
+                    vg.fill_color   sel_fill_color
+                else
+                    vg.stroke_color stroke_color
+                    vg.fill_color   fill_color
+                end
                 Draw::WaveForm::env_marker(vg, xx, yy, scale)
             end
         end
@@ -222,7 +227,7 @@ module Draw
 
         def self.overlay(vg, bb, pts)
             n = pts.length/2
-            sel_color    = Theme::VisualSelect
+            sel_color    = Theme::PointStrokeSelect
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
                 xx = bb.x + bb.w*(pts[2*i])
@@ -243,7 +248,7 @@ module Draw
 
         def self.overlay_lfo(vg, bb, pts)
             n = pts.length/2
-            sel_color    = Theme::VisualSelect
+            sel_color    = Theme::PointStrokeSelect
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
                 xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2*i]
@@ -773,7 +778,8 @@ module Theme
 
     SustainPoint        = color("005f8a")
     EnvelopePoint       = color("232c36")
-
+    PointStrokeSelect   = color("ffffff")
+    PointFillSelect     = PointStrokeSelect
     #Keyboard Widget
     KeyWhiteGrad1       = color("B0B7C0")
     KeyWhiteGrad2       = color("91989E")

@@ -10,7 +10,7 @@ Widget {
     TextLine {
         id: namebox
     }
-    TextBox {label: "name"}
+    TextBox {label: "author"}
     TextEdit {
         id: authbox
         height: 0.25

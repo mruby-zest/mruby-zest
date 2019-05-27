@@ -203,8 +203,9 @@ Widget {
             children[i].value   = nv
         end
         ((n+1)...children.length).each do |i|
-            children[i].label = ""
-            children[i].value = false
+            children[i].label   = ""
+            children[i].tooltip = "" if stride == 2
+            children[i].value   = false
         end
         damage_self
     }

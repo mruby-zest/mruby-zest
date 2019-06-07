@@ -18,6 +18,14 @@ Widget {
         end
         vg.translate(-0.5, -0.5)   
     }
+
+    function layout(l, selfBox) {
+        main_width = 0.9
+        main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
+        Draw::Layout::hfill(l, selfBox, children,
+        [main_width, 1-main_width], 0, 2)
+    }
+
     Widget {
         id: run_view
         //animation layer
@@ -70,4 +78,29 @@ Widget {
             Draw::WaveForm::plot(vg,pts,bb)
         }
     }
+
+    Widget{
+        ParModuleRow {
+            lsize: 0.02
+            Selector{
+                id: selector
+                label: "change watch point"
+                options: ["ADnote", "SubAmpenvelope", "asdf"]
+                opt_vals: ["/part0/kit0/adpars/out","/part0/kit0/subpars/AmpEnvelope/out","/part0/kit0/adpars/out1"]
+                whenValue: lambda {
+                    run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
+                    run_view.valueRef.set_watch
+                    run_view.valueRef.callback = Proc.new {|x|
+                        run_view.runtime_points = x;
+                        run_view.damage_self
+                    }
+                }
+            }
+        }
+
+    function draw(vg) {
+            Draw::GradBox(vg, Rect.new(0,0,w,h))
+        }
+    }
+    
 }

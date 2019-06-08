@@ -67,7 +67,8 @@ Widget {
             run_view.valueRef.watch run_view.extern
             now     = Time.new
             @last ||= now
-            update_points([0]) if((now-@last)>0.1)
+            default = [10] * 180
+            update_points(default) if((now-@last)>0.1)
         }
 
         function draw(vg){

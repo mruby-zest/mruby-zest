@@ -55,8 +55,30 @@ Widget {
                 }
                 Knob {
                     extern: dst.extern + "Distorsion/Pdrive"; label: "drive"
-                    whenValue: lambda {wave.refresh}
+                                        whenValue: lambda {wave.refresh};
+                    function setValue(v) {
+                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.whenValue.call;
+                        valuator.damage_self
+                    }
                 }
+                Knob {
+                    extern: dst.extern + "Distorsion/Poffset"; label: "DC"
+                    whenValue: lambda {wave.refresh};
+                    function setValue(v) {
+                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.whenValue.call;
+                        valuator.damage_self
+                    }
+                }
+                Knob {
+                    extern: dst.extern + "Distorsion/Pfuncpar"; label: "shape"
+                    whenValue: lambda {wave.refresh};
+                    function setValue(v) {
+                        valuator.value = lim(v, 0.0, 1.0);
+                        valuator.whenValue.call;
+                        valuator.damage_self
+                    }
                 Knob {   extern: dst.extern + "Distorsion/Plevel"; label: "level" }
                 Col {
                     ToggleButton { extern: dst.extern + "Distorsion/Pprefiltering"}

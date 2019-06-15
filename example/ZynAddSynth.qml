@@ -24,6 +24,7 @@ Widget {
         TabButton { whenClick: lambda {header.setTab(4)}; label: "modulation"}
         TabButton { whenClick: lambda {header.setTab(5)}; label: "voice list"}
         TabButton { whenClick: lambda {header.setTab(6)}; label: "resonance"}
+        TabButton { whenClick: lambda {header.setTab(7)}; label: "oscilloscope"}
 
         CopyButton  {id: cpy_but}
         PasteButton {id: pst_but}
@@ -48,7 +49,8 @@ Widget {
                        3 => :modosc,
                        4 => :modulate,
                        5 => :vce_list,
-                       6 => :resonance}
+                       6 => :resonance,
+                       7 => :oscilloscope}
 
             root.set_view_pos(:subview, mapping[id])
             root.change_view
@@ -73,21 +75,24 @@ Widget {
                :modosc    => "VoicePar#{vce}/FMSmp/",
                :modulate  => "VoicePar#{vce}/",
                :vce_list  => "",
-               :resonance => "GlobalPar/Reson/"}
+               :resonance => "GlobalPar/Reson/",
+               :oscilloscope => ""}
         mapping = {:global    => Qml::ZynAddGlobal,
                    :voice     => Qml::ZynAddVoice,
                    :oscil     => Qml::ZynOscil,
                    :modosc    => Qml::ZynOscil,
                    :modulate  => Qml::ZynOscilMod,
                    :vce_list  => Qml::ZynAddVoiceList,
-                   :resonance => Qml::ZynResonance}
+                   :resonance => Qml::ZynResonance,
+                   :oscilloscope => Qml::ZynAddOscilloscope}
         tabid   = {:global    => 2,
                    :voice     => 3,
                    :oscil     => 4,
                    :modosc    => 5,
                    :modulate  => 6,
                    :vce_list  => 7,
-                   :resonance => 8}
+                   :resonance => 8,
+                   :oscilloscope => 9}
         if(!mapping.include?(subview))
             subview = :oscil
             root.set_view_pos(:subview, :oscil)

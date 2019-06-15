@@ -27,7 +27,7 @@ Widget {
                        2 => :bandwidth,
                        3 => :frequency,
                        4 => :filter,
-                       5 => :oscilloscope,
+                       5 => :oscilloscope
                        }
             return if !mapping.include?(selected)
             root.set_view_pos(:subview, mapping[selected])
@@ -49,7 +49,7 @@ Widget {
                    :bandwidth => Qml::ZynSubBandwidth,
                    :frequency => Qml::ZynSubFreq,
                    :filter    => Qml::ZynSubFilter,
-                   :oscilloscope => Qml::ZynOscilloscope}
+                   :oscilloscope => Qml::ZynSubOscilloscope}
         tabid   = {:harmonic  => 0,
                    :amplitude => 1,
                    :bandwidth => 2,

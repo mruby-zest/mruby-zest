@@ -1,7 +1,8 @@
 Widget {
     id: oscill 
-    extern: "/part0/kit0/subpars/AmpEnvelope/"
-    
+    extern: "/part0/kit0/adpars/"
+    property Array  opt_vals: []
+    property Array  options: []
     function draw(vg){   
         fill_color    = Theme::VisualBackground
         dim           = Theme::VisualDim
@@ -18,13 +19,11 @@ Widget {
         end
         vg.translate(-0.5, -0.5)   
     }
-
-    function layout(l, selfBox) {
-        main_width = 0.9
-        main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
-        Draw::Layout::hfill(l, selfBox, children,
-        [main_width, 1-main_width], 0, 2)
-    }
+    
+         onExtern: {
+            selector.options = oscill.options
+            selector.opt_vals = oscill.opt_vals
+            }
 
     Widget {
         id: run_view
@@ -32,22 +31,22 @@ Widget {
         layer: 1 
         extern: oscill.extern + "out"
         //Workaround due to buggy nested properties
-        
+
         function valueRef=(value_ref){
             @value_ref = value_ref
         }
-        
+
         function valueRef(){
             @value_ref
         }
-        
+
         function runtime_points=(x){
             @runtime_points = x
         }
-        
+
         onExtern: {
             return if run_view.extern.nil?
-            run_view.valueRef = OSC::RemoteParam.new($remote, "/part0/kit0/subpars/AmpEnvelope/out")
+            run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
             run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|
                 run_view.runtime_points = x;
@@ -67,7 +66,7 @@ Widget {
             run_view.valueRef.watch run_view.extern
             now     = Time.new
             @last ||= now
-            default = [10] * 180
+            default = [10] * 200
             update_points(default) if((now-@last)>0.1)
         }
 
@@ -80,28 +79,32 @@ Widget {
         }
     }
 
+    function layout(l, selfBox) {
+        main_width = 0.9
+        main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
+        Draw::Layout::hfill(l, selfBox, children,
+        [main_width, 1-main_width], 0, 2)
+    }
+
     Widget{
         ParModuleRow {
             lsize: 0.02
             Selector{
                 id: selector
                 label: "change watch point"
-                options: ["ADnote", "SubAmpenvelope", "asdf"]
-                opt_vals: ["/part0/kit0/adpars/out","/part0/kit0/subpars/AmpEnvelope/out","/part0/kit0/adpars/out1"]
-                whenValue: lambda {
-                    run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
-                    run_view.valueRef.set_watch
-                    run_view.valueRef.callback = Proc.new {|x|
-                        run_view.runtime_points = x;
-                        run_view.damage_self
+                whenValue: lambda {    
+                run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
+                run_view.valueRef.set_watch
+                run_view.valueRef.callback = Proc.new {|x|
+                run_view.runtime_points = x;
+                run_view.damage_self
                     }
                 }
             }
         }
-
+        
     function draw(vg) {
             Draw::GradBox(vg, Rect.new(0,0,w,h))
         }
     }
-    
-}
+} 

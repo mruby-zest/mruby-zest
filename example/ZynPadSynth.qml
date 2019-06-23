@@ -14,6 +14,7 @@ Widget {
         TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
+        TabButton { label: "oscilloscope"}
 
         ApplyButton {
             id: appl
@@ -42,7 +43,8 @@ Widget {
             #Define a mapping from tabs to values
             mapping = {0 => :harmonics,
                        1 => :oscil,
-                       2 => :global_pad}
+                       2 => :global_pad,
+                       3 => :oscilloscope}
             root.set_view_pos(:subview, mapping[selected])
             root.change_view
         }
@@ -64,14 +66,17 @@ Widget {
 
         mapping = {:harmonics   => Qml::ZynPadHarmonics,
                    :oscil       => Qml::ZynOscil,
-                   :global_pad  => Qml::ZynPadGlobal}
+                   :global_pad  => Qml::ZynPadGlobal,
+                   :oscilloscope => Qml::ZynPadOscilloscope}
         base = center.extern
         ext     = {:harmonics  => "",
                    :oscil      => "oscilgen/",
-                   :global_pad => ""}
+                   :global_pad => "",
+                   :oscilloscope => ""}
         tabid   = {:harmonics  => 0,
                    :oscil      => 1,
-                   :global_pad => 2}
+                   :global_pad => 2,
+                   :oscilloscope => 3}
         if(!mapping.include?(subview))
             subview = :oscil
             root.set_view_pos(:subview, :oscil)

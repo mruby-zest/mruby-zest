@@ -3,11 +3,14 @@ Widget {
     extern: "/part0/kit0/adpars/"
     property Array  opt_vals: []
     property Array  options: []
+    property Int width: 0.9
+    property Int xc: 0
+    property Int yc: 0
     function draw(vg){   
         fill_color    = Theme::VisualBackground
         dim           = Theme::VisualDim
         padfactor = 12
-        bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
+        bb = Draw::indent(Rect.new(xc,yc,w,h), padfactor, padfactor)
         background(fill_color)
         Draw::WaveForm::zero_line(vg, bb, dim)
         vg.translate(0.5, 0.5)
@@ -45,8 +48,11 @@ Widget {
         }
 
         onExtern: {
+            selector.options = oscill.options
+            selector.opt_vals = oscill.opt_vals
             return if run_view.extern.nil?
-            run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
+            puts oscill.opt_vals[selector.selected]
+            run_view.valueRef = OSC::RemoteParam.new($remote, oscill.opt_vals[selector.selected])
             run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|
                 run_view.runtime_points = x;
@@ -72,7 +78,7 @@ Widget {
 
         function draw(vg){
             padfactor = 12
-            bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor) 
+            bb = Draw::indent(Rect.new(oscill.xc,oscill.yc,w,h), padfactor, padfactor) 
             return if  @runtime_points.nil?
             pts = @runtime_points
             Draw::WaveForm::plot(vg,pts,bb)
@@ -80,7 +86,7 @@ Widget {
     }
 
     function layout(l, selfBox) {
-        main_width = 0.9
+        main_width = oscill.width
         main_width = layoutOpts[:main_width] if layoutOpts.include?(:main_width)
         Draw::Layout::hfill(l, selfBox, children,
         [main_width, 1-main_width], 0, 2)
@@ -93,7 +99,7 @@ Widget {
                 id: selector
                 label: "change watch point"
                 whenValue: lambda {    
-                run_view.valueRef = OSC::RemoteParam.new($remote, selector.opt_vals[selector.selected])
+                run_view.valueRef = OSC::RemoteParam.new($remote, oscill.opt_vals[selector.selected])
                 run_view.valueRef.set_watch
                 run_view.valueRef.callback = Proc.new {|x|
                 run_view.runtime_points = x;
@@ -104,7 +110,7 @@ Widget {
         }
         
     function draw(vg) {
-            Draw::GradBox(vg, Rect.new(0,0,w,h))
+            Draw::GradBox(vg, Rect.new(oscill.xc,oscill.yc,w,h))
         }
     }
 } 

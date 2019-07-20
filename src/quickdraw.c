@@ -87,7 +87,7 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
 
     mrb_get_args(mrb, "oooofb", &vg, &ypts, &bb, &do_norm, &phase, &under_highlight);
 
-    int n = mrb_ary_len(mrb, ypts);
+    int n = RARRAY_LEN(ypts);
     float *f = (float*)mrb_malloc(mrb, n*sizeof(float));
     for(int i=0; i<n; ++i)
         f[i] = mrb_ary_ref(mrb, ypts, i).value.f;
@@ -126,10 +126,13 @@ draw_oscil_plot(mrb_state *mrb, mrb_value self)
         stage = 2;
     }
 
-    mrb_value theme     = mrb_vm_const_get(mrb, mrb_intern_cstr(mrb, "Theme"));
-    mrb_value linecolor = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "VisualLine"));
-    mrb_value highlight_grad_1 = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "FilterHighlight1"));
-    mrb_value highlight_grad_2 = mrb_const_get(mrb, theme, mrb_intern_cstr(mrb, "FilterHighlight2"));
+    struct RClass *theme       = mrb_module_get(mrb, "Theme");
+    mrb_value linecolor        = mrb_mod_cv_get(mrb, theme, mrb_intern_cstr(mrb,
+                                                "VisualLine"));
+    mrb_value highlight_grad_1 = mrb_mod_cv_get(mrb, theme, mrb_intern_cstr(mrb,
+                                                "FilterHighlight1"));
+    mrb_value highlight_grad_2 = mrb_mod_cv_get(mrb, theme, mrb_intern_cstr(mrb,
+                                                "FilterHighlight2"));
 
     for (; stage <= 2; ++stage) {
         mrb_funcall(mrb, vg, "begin_path", 0);
@@ -211,7 +214,7 @@ norm_harmonics(mrb_state *mrb, mrb_value self)
 {
     mrb_value ary;
     mrb_get_args(mrb, "o", &ary);
-    int n = mrb_ary_len(mrb, ary);
+    int n = RARRAY_LEN(ary);
     float *f = (float*)mrb_malloc(mrb, n*sizeof(float));
     for(int i=0; i<n; ++i)
         f[i] = mrb_ary_ref(mrb, ary, i).value.f;
@@ -263,7 +266,7 @@ bar(mrb_state *mrb, mrb_value self)
 
     mrb_get_args(mrb, "ooooo", &vg, &ypts, &bb, &color, &xx);
 
-    int n = mrb_ary_len(mrb, ypts);
+    int n = RARRAY_LEN(ypts);
     float *f = (float*)mrb_malloc(mrb, n*sizeof(float));
     for(int i=0; i<n; ++i)
         f[i] = mrb_ary_ref(mrb, ypts, i).value.f;

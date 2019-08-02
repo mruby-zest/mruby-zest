@@ -14,7 +14,6 @@ Widget {
         TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"}
-        TabButton { label: "oscilloscope"}
 
         ApplyButton {
             id: appl
@@ -23,6 +22,16 @@ Widget {
             extern: center.extern + "needPrepare"
             whenValue: lambda {center.apply() }
         }
+        ApplyButton {
+            layoutOpts: [:no_constraint];
+            label: "   oscilloscope"
+            whenValue: lambda {
+            root.set_view_pos(:subview, :oscilloscope)
+            root.change_view
+            center.turn_off_tab()  
+             }
+        }
+
         CopyButton {
             id: copy
             extern: center.extern
@@ -91,4 +100,16 @@ Widget {
     }
 
     Swappable { id: swap }
+
+    function turn_off_tab()
+    {
+        n = 2
+        (0..n).each do |ch_id|
+            child = header.children[ch_id]
+                if(child.value)
+                    child.value = false
+                    child.damage_self
+                end
+            end
+    }
 }

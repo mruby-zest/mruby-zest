@@ -9,12 +9,23 @@ Widget {
         TabButton {label: "bandwidth" }
         TabButton {label: "frequency" }
         TabButton {label: "filter" }
-        TabButton {label: "oscilloscope"}
+
+        ApplyButton {
+            id: oscillbutton
+            layoutOpts: [:no_constraint];
+            label: "   oscilloscope"
+            whenValue: lambda {
+            root.set_view_pos(:subview, :oscilloscope)
+            root.change_view
+            subsynth.turn_off_tab()  
+             }
+        }
+
         CopyButton  { id: cpy; extern: subsynth.extern}
         PasteButton { extern: subsynth.extern}
 
         function layout(l, selfBox) {
-            selfBox = Draw::Layout::tabpack(l, selfBox, self, cpy)
+            selfBox = Draw::Layout::tabpack(l, selfBox, self, oscillbutton)
         }
 
         function set_tab(wid)
@@ -69,5 +80,18 @@ Widget {
     function onSetup(old=nil)
     {
         set_view
+    }
+
+    function turn_off_tab()
+    {
+        n = 2
+        (0..n).each do |ch_id|
+            child = subtabs.children[ch_id]
+           
+                if(child.value)
+                    child.value = false
+                    child.damage_self
+                end
+            end
     }
 }

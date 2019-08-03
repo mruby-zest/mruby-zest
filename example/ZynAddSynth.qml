@@ -24,7 +24,18 @@ Widget {
         TabButton { whenClick: lambda {header.setTab(4)}; label: "modulation"}
         TabButton { whenClick: lambda {header.setTab(5)}; label: "voice list"}
         TabButton { whenClick: lambda {header.setTab(6)}; label: "resonance"}
-        TabButton { whenClick: lambda {header.setTab(7)}; label: "oscilloscope"}
+
+
+        ApplyButton {
+            id: oscillbutton
+            layoutOpts: [:no_constraint];
+            label: "   oscilloscope"
+            whenValue: lambda {
+            root.set_view_pos(:subview, :oscilloscope)
+            root.change_view
+            center.turn_off_tab()  
+             }
+        }
 
         CopyButton  {id: cpy_but}
         PasteButton {id: pst_but}
@@ -36,7 +47,7 @@ Widget {
         function get_voice() { root.get_view_pos(:voice) }
 
         function layout(l, selfBox) {
-            selfBox = Draw::Layout::tabpack(l, selfBox, self, cpy_but)
+            selfBox = Draw::Layout::tabpack(l, selfBox, self, oscillbutton)
         }
 
 
@@ -129,4 +140,17 @@ Widget {
     }
 
     Swappable { id: swap }
+
+    function turn_off_tab()
+    {
+        n = 2
+        (0..n).each do |ch_id|
+            child = header.children[ch_id]
+           
+                if(child.value)
+                    child.value = false
+                    child.damage_self
+                end
+            end
+    }
 }

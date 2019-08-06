@@ -10,7 +10,7 @@ Widget {
         TabButton {label: "frequency" }
         TabButton {label: "filter" }
 
-        ApplyButton {
+        TriggerButton {
             id: oscillbutton
             layoutOpts: [:no_constraint];
             label: "   oscilloscope"

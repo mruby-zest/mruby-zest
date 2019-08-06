@@ -22,7 +22,7 @@ Widget {
             extern: center.extern + "needPrepare"
             whenValue: lambda {center.apply() }
         }
-        ApplyButton {
+        TriggerButton {
             layoutOpts: [:no_constraint];
             label: "   oscilloscope"
             whenValue: lambda {

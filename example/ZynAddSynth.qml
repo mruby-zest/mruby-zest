@@ -26,7 +26,7 @@ Widget {
         TabButton { whenClick: lambda {header.setTab(6)}; label: "resonance"}
 
 
-        ApplyButton {
+        TriggerButton {
             id: oscillbutton
             layoutOpts: [:no_constraint];
             label: "   oscilloscope"

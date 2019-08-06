@@ -64,7 +64,7 @@ Widget {
             root.set_view_pos(:subsubview, subsubview)
         end
         vis = root.get_view_pos(:vis)
-        types = [:envelope, :lfo, :filter]
+        types = [:envelope, :lfo, :filter, :oscilloscope]
         if(!types.include?(vis))
             vis = :envelope
             root.set_view_pos(:vis, vis)
@@ -84,6 +84,8 @@ Widget {
             set_vis_env(self.extern, subsubview)
         elsif(vis == :filter)
             set_vis_filter(self.extern, subsubview)
+         elsif(vis == :oscilloscope)
+            set_vis_oscilloscope()
         end
         db.update_values
     }
@@ -113,6 +115,12 @@ Widget {
             elm.refresh if elm.respond_to? :refresh
         }
     }
+
+    function set_vis_oscilloscope()
+    {
+        row1.content = Qml::ZynPadOscilloscope
+    }
+
 
     function set_vis_filter(ext, dummy)
     {

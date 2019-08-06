@@ -13,7 +13,7 @@ Widget {
         id: header
         TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
-        TabButton { label: "envelopes & lfos"}
+        TabButton { label: "envelopes & lfos"; whenClick: lambda {root.set_view_pos(:vis, :envelope)};}
 
         ApplyButton {
             id: appl
@@ -23,10 +23,12 @@ Widget {
             whenValue: lambda {center.apply() }
         }
         TriggerButton {
+            id: oscillbutton
             layoutOpts: [:no_constraint];
             label: "   oscilloscope"
             whenValue: lambda {
-            root.set_view_pos(:subview, :oscilloscope)
+            root.set_view_pos(:subview, :global_pad)
+            root.set_view_pos(:vis, :oscilloscope)
             root.change_view
             center.turn_off_tab()  
              }
@@ -106,6 +108,7 @@ Widget {
         n = 2
         (0..n).each do |ch_id|
             child = header.children[ch_id]
+           
                 if(child.value)
                     child.value = false
                     child.damage_self

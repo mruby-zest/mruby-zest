@@ -29,9 +29,10 @@ Widget {
         TriggerButton {
             id: oscillbutton
             layoutOpts: [:no_constraint];
-            label: "   oscilloscope"
+            label: "oscilloscope"
             whenValue: lambda {
-            root.set_view_pos(:subview, :oscilloscope)
+            root.set_view_pos(:subview, :global)
+            root.set_view_pos(:vis, :oscilloscope)
             root.change_view
             center.turn_off_tab()  
              }
@@ -64,6 +65,9 @@ Widget {
                        7 => :oscilloscope}
 
             root.set_view_pos(:subview, mapping[id])
+             if(id == 0)
+                root.set_view_pos(:vis, :envelope)
+            end
             root.change_view
         }
 
@@ -143,8 +147,8 @@ Widget {
 
     function turn_off_tab()
     {
-        n = 2
-        (0..n).each do |ch_id|
+        n = 7
+        (2..n).each do |ch_id|
             child = header.children[ch_id]
            
                 if(child.value)

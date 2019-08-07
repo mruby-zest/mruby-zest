@@ -79,7 +79,7 @@ Widget {
             root.set_view_pos(:subsubview, subsubview)
         end
         vis = root.get_view_pos(:vis)
-        types = [:envelope, :lfo, :filter]
+        types = [:envelope, :lfo, :filter, :oscilloscope]
         if(!types.include?(vis))
             vis = :envelope
             root.set_view_pos(:vis, vis)
@@ -97,6 +97,8 @@ Widget {
             set_vis_lfo(self.extern, subsubview)
         elsif(vis == :envelope)
             set_vis_env(self.extern, subsubview)
+        elsif(vis == :oscilloscope)
+            set_vis_oscilloscope()
         elsif(vis == :filter)
             set_vis_filter(self.extern, subsubview)
         end
@@ -181,6 +183,11 @@ Widget {
         amp_lfo.content = Qml::ZynLFO
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+    }
+
+     function set_vis_oscilloscope()
+    {
+        row1.content = Qml::ZynAddOscilloscope
     }
 
     function onSetup(old=nil)

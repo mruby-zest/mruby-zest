@@ -84,7 +84,7 @@ Widget {
 
     function turn_off_tab()
     {
-        n = 2
+        n = 5
         (0..n).each do |ch_id|
             child = subtabs.children[ch_id]
            

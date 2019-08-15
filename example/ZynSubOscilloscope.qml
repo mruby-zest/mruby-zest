@@ -1,5 +1,5 @@
 Widget{
-
+    id: suboscill
     extern: "/part0/kit0/subpars/"
     function layout(l, selfBox) {
         Draw::Layout::vfill(l, selfBox, children, [0.55, 0.4, 0.05])
@@ -56,11 +56,11 @@ Widget{
         end
 
         if(subsubview == :amplitude)
-            set_amp(self.extern)
+            set_amp(suboscill.extern)
         elsif(subsubview == :frequency)
-            set_freq(self.extern)
+            set_freq(suboscill.extern)
         elsif(subsubview == :filter)
-            set_filter(self.extern)
+            set_filter(suboscill.extern)
         end
 
     }
@@ -68,16 +68,16 @@ Widget{
       function set_amp(base)
     {
         footer.children[0].value = true
+        gen.extern = base
         env.extern  = base + "AmpEnvelope/"
         gen.content = Qml::ZynSubAmpbutton
         env.content = Qml::ZynAmpEnv
-     
-
     }
 
     function set_freq(base)
     {
         footer.children[1].value = true
+        gen.extern = base
         env.extern  = base + "FreqEnvelope/"
         gen.content = Qml::ZynSubFreqbutton
         env.content = Qml::ZynFreqEnv
@@ -88,7 +88,7 @@ Widget{
         footer.children[2].value = true
         gen.extern = base + "GlobalFilter/"
         env.extern  = base + "GlobalFilterEnvelope/"
-        gen.content = Qml::ZynAnalogFilter
+        gen.content = Qml::ZynSubAnalogFilter
         env.content = Qml::ZynFilterEnv
     }
 }

@@ -1,5 +1,5 @@
   ZynAnalogFilter {
             subsynth: true
             toggleable: self.extern + "PGlobalFilterEnabled"
-            extern: self.extern
+            extern: self.extern  + "GlobalFilter/"
         }

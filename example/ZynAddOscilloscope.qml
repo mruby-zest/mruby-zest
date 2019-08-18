@@ -1,10 +1,10 @@
 Group {
 ZynOscilloscope{
-    options: ["AddNote", "AddNote1"]
-    opt_vals: ["/part0/kit0/adpars/noteout","/part0/kit0/padpars/noteout1"] 
+    options: ["< mixing", "> mixing", "> punch", "> legato"]
+    opt_vals: ["/part0/kit0/adpars/noteout/be4_mix","/part0/kit0/adpars/noteout/after_mix","/part0/kit0/adpars/noteout/punch","/part0/kit0/adpars/noteout/legato"] 
     }
 ZynOscilloscope{
-    options: ["AddNote1", "SubNote1"]
-    opt_vals: ["/part0/kit0/adpars/noteout1","/part0/kit0/subpars/noteout1"] 
+    options: ["< mixing", "> mixing", "> punch", "> legato"]
+        opt_vals: ["/part0/kit0/adpars/noteout/be4_mix","/part0/kit0/adpars/noteout/after_mix","/part0/kit0/adpars/noteout/punch","/part0/kit0/adpars/noteout/legato"] 
     }
 }

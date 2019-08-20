@@ -5,17 +5,16 @@ Widget {
     TabGroup {
         id: subtabs
         TabButton {label: "harmonic" }
-        TabButton {label: "amplitude" }
+        TabButton {label: "global" }
         TabButton {label: "bandwidth" }
-        TabButton {label: "frequency" }
-        TabButton {label: "filter" }
 
         TriggerButton {
             id: oscillbutton
             layoutOpts: [:no_constraint];
             label: "   oscilloscope"
             whenValue: lambda {
-            root.set_view_pos(:subview, :oscilloscope)
+            root.set_view_pos(:subview, :sub_global)
+            root.set_view_pos(:vis, :oscilloscope)
             root.change_view
             subsynth.turn_off_tab()  
              }
@@ -34,11 +33,8 @@ Widget {
 
             #Define a mapping from tabs to values
             mapping = {0 => :harmonic,
-                       1 => :amplitude,
-                       2 => :bandwidth,
-                       3 => :frequency,
-                       4 => :filter,
-                       5 => :oscilloscope
+                       1 => :sub_global,
+                       2 => :bandwidth
                        }
             return if !mapping.include?(selected)
             root.set_view_pos(:subview, mapping[selected])
@@ -56,17 +52,11 @@ Widget {
     {
         vw = root.get_view_pos(:subview)
         mapping = {:harmonic  => Qml::ZynSubHarmonic,
-                   :amplitude => Qml::ZynSubAmp,
-                   :bandwidth => Qml::ZynSubBandwidth,
-                   :frequency => Qml::ZynSubFreq,
-                   :filter    => Qml::ZynSubFilter,
-                   :oscilloscope => Qml::ZynSubOscilloscope}
+                   :sub_global => Qml::ZynSubGlobal,
+                   :bandwidth => Qml::ZynSubBandwidth}
         tabid   = {:harmonic  => 0,
-                   :amplitude => 1,
-                   :bandwidth => 2,
-                   :frequency => 3,
-                   :filter    => 4,
-                   :oscilloscope => 5}
+                   :sub_global => 1,
+                   :bandwidth => 2}
         if(!mapping.include?(vw))
             root.set_view_pos(:subview, :harmonic)
             vw = :harmonic

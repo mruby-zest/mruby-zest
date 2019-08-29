@@ -110,7 +110,7 @@ Widget {
         gen.extern = base
         env.extern  = base + "FreqEnvelope/"
         gen.content = Qml::ZynSubFreqbutton
-        env.content = Qml::ZynFreqEnv
+        env.content = Qml::ZynSubFreqEnv
     }
 
     function set_filter(base)

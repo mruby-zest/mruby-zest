@@ -1,7 +1,7 @@
 Widget {
     id: voice_item
     property Int   num:     0
-    property Array weights: [0.05, 0.05, 0.2, 0.2, 0.3, 0.2]
+    property Array weights: [0.05, 0.05, 0.05, 0.2, 0.2, 0.3, 0.15]
 
     //voice ID
     ToggleButton {
@@ -9,11 +9,16 @@ Widget {
         label: (voice_item.num+1).to_s;
         layoutOpts: [:no_constraint]
     }
+    //AA Enabled
+    ToggleButton {
+        extern: voice_item.extern + "AAEnabled"
+        label: "AA";
+    }
     //mini wave view
     WaveView {
         extern: voice_item.extern + "OscilSmp/waveform"
         noise:  voice_item.extern + "Type"
-        grid: false
+        grid: false;
     }
     //volume
     HSlider {

@@ -113,6 +113,7 @@ Widget {
             }
             TriggerButton {
                 label: "save"
+                whenValue: lambda { bank.doSave() }
             }
             function setrw(x)
             {

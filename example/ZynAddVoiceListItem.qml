@@ -11,7 +11,7 @@ Widget {
     }
     //AA Enabled
     ToggleButton {
-        extern: voice_item.extern + "AAEnabled"
+        extern: voice_item.extern + "PAAEnabled"
         label: "AA";
     }
     //mini wave view

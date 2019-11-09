@@ -4,6 +4,7 @@ Group {
     property Function whenModified: nil
     property Bool     type: :analog
     property Bool     subsynth: false
+    property Int      defaultMaxStages: 5
 
     onType: {
         #Changes filter type
@@ -17,18 +18,24 @@ Group {
     function change_cat()
     {
         root.change_view()
+        if cat.selected == 3
+            # Moog filter has no stages implemented (yet?)
+            stages.changeMax(1)
+        else
+            stages.changeMax(defaultMaxStages)
+        end
         if(cat.selected == 1)
             typ.active = false
-            typ.damage_self
-            return
+        else
+            dest = self.extern + "Ptype"    if cat.selected == 0
+            dest = self.extern + "type-svf" if cat.selected == 2
+            dest = self.extern + "type-moog" if cat.selected == 3
+            if(typ.extern != dest)
+                typ.extern = dest
+                typ.extern()
+            end
+            typ.active = true
         end
-        dest = self.extern + "Ptype"    if cat.selected == 0
-        dest = self.extern + "type-svf" if cat.selected == 2
-        if(typ.extern != dest)
-            typ.extern = dest
-            typ.extern()
-        end
-        typ.active = true
         typ.damage_self
     }
 
@@ -78,11 +85,12 @@ Group {
     }
     ParModuleRow {
         NumEntry {
+            id: stages
             whenValue: lambda { box.cb}
             extern: box.extern + "Pstages"
             offset: 1
             minimum: 1
-            maximum: 5
+            maximum: defaultMaxStages
         }
         Selector {
             id: cat

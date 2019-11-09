@@ -24,6 +24,26 @@ Widget {
 
     }
 
+    function changeMin(wantedMin)
+    {
+        if (self.value > wantedMin)
+            delta = wantedMin - self.value
+            updatePos(delta)
+        end
+        self.minimum = wantedMin
+        damage_self
+    }
+
+    function changeMax(wantedMax)
+    {
+        if (self.value > wantedMax)
+            delta = wantedMax - self.value
+            updatePos(delta)
+        end
+        self.maximum = wantedMax
+        damage_self
+    }
+
     function class_name() {"num_entry"}
     function layout(l, selfBox)
     {

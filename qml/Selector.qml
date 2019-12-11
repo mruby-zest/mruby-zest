@@ -214,7 +214,7 @@ Widget {
     {
         n = options.length
         return if n < 1
-        widget = DropDown.new(self.db)
+        widget = Qml::DropDown.new(self.db)
         widget.w = self.w
         widget.h = self.h*n
         widget.x = 0

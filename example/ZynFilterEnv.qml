@@ -11,9 +11,21 @@ Group {
 
     ParModuleRow {
         id: top
-        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PA_dt" }
-        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PD_dt"}
-        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt"}
+        Knob { 
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"A_dt"
+            type:   :float
+        }
+        Knob { 
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"D_dt"
+            type:   :float
+        }
+        Knob     { 
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"R_dt"
+            type:   :float
+        }
         ToggleButton { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
     }
     ParModuleRow {

@@ -11,8 +11,16 @@ Group {
     ParModuleRow {
         id: top
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PA_val" }
-        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PA_dt" }
-        Knob { whenValue: lambda { box.cb }; extern: box.extern+"PR_dt"}
+        Knob { 
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"A_dt"
+            type:   :float
+        }
+        Knob     { 
+            whenValue: lambda { box.cb }; 
+            extern: box.extern+"R_dt"
+            type:   :float
+        }
         Knob { whenValue: lambda { box.cb }; extern: box.extern+"PR_val"}
     }
     ParModuleRow {

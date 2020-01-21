@@ -8,6 +8,7 @@ Group {
         id: top
         Knob { type: :float; extern: box.extern+"freq" }
         Knob { extern: box.extern+"Pintensity"}
+        Knob { extern: box.extern+"Pcutoff"}
         Knob { extern: box.extern+"Pstartphase"}
         Knob { extern: box.extern+"Pstretch"}
 

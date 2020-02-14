@@ -50,12 +50,17 @@ Widget {
         return if ins_sel.selected_val.nil?
         part = root.get_view_pos(:part)
         $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
+		bank.doBank # Test AnE
+		$remote.action("/bank/rescan")  ## Test
     }
 
     function doInsSelect()
     {
         doLoad if self.mode == :read
-        doSave if self.mode == :write
+         if (self.mode == :write)
+		 	doSave
+			ins_sel.clear # :prevents saving on wrong place when clicking twice
+		end
     }
 
     Widget {
@@ -127,6 +132,7 @@ Widget {
                     children[1].value = true
                 end
                 bank_type.clear
+				bank.doBank # test update preset column
                 children[0].damage_self
                 children[1].damage_self
             }

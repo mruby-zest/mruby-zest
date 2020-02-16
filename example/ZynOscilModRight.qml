@@ -23,6 +23,7 @@ Widget {
         ParModuleRow {
             NumEntry {
                 extern: base.extern + "Unison_size"
+				minimum: 1
             }
             Knob {
                 extern: base.extern + "Unison_frequency_spread"

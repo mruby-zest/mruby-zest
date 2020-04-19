@@ -38,7 +38,10 @@ Widget {
                     whenValue: lambda { dst.refresh }
                     layoutOpts: [:long_mode]
                 }
-                Knob { extern: dst.extern + "Pvolume"}
+                Knob { 
+                    extern: dst.extern + "Pvolume"
+                    whenValue: lambda {wave.refresh};
+                    }
                 Knob { extern: dst.extern + "Ppanning"}
                 Knob {   extern: dst.extern + "Distorsion/Plrcross"; label: "l.rc." }
                 Knob {   extern: dst.extern + "Distorsion/Plpf"}

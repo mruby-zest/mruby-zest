@@ -2,6 +2,7 @@ Widget {
     id: bank
 
     property Symbol mode: :read
+    property Symbol ind_selected: nil
 
     function doSearch()
     {
@@ -39,6 +40,7 @@ Widget {
     function doLoad()
     {
         ins = ins_sel.selected_val
+        self.ind_selected = ins.to_i
         part = root.get_view_pos(:part)
         return if part.class != Fixnum
         $remote.action("/load_xiz", part, ins) if !ins.empty?
@@ -47,9 +49,18 @@ Widget {
 
     function doSave()
     {
-        return if ins_sel.selected_val.nil?
         part = root.get_view_pos(:part)
-        $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
+        if not ins_sel.selected_val.nil?
+            $remote.action("/bank/save_to_slot", part, ins_sel.selected_val.to_i)
+        else
+            return
+        end
+    }
+    
+    function doSavePart()
+    {
+        part = root.get_view_pos(:part)
+        $remote.action("/part#{part}/savexml")
     }
 
     function doInsSelect()
@@ -113,7 +124,7 @@ Widget {
             }
             TriggerButton {
                 label: "save"
-                whenValue: lambda { bank.doSave() }
+                whenValue: lambda { bank.doSavePart() }
             }
             function setrw(x)
             {

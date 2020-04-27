@@ -53,7 +53,7 @@ Widget {
                 layoutOpts: []
                 Selector {
                     extern: dst.extern + "Distorsion/Ptype";
-                    whenValue: lambda {wave.refresh}
+                    whenValue: lambda {wave.refresh; funcpar.refresh}
                     layoutOpts: [:long_mode]
                 }
                 Knob {
@@ -76,6 +76,7 @@ Widget {
                 }
                 Knob {
                     extern: dst.extern + "Distorsion/Pfuncpar"; label: "shape";
+                    id: funcpar
                     whenValue: lambda {wave.refresh};
                     function setValue(v) {
                         valuator.value = lim(v, 0.0, 1.0);

@@ -1,6 +1,7 @@
 Widget {
     id: keyboard
     property Array  data: nil
+    property Array  prev_channels: Array.new(128)
     property Object valueRef: nil
     property Int    whiteKeys: 8*7-5
     property Float  fixpad: 1.5
@@ -91,6 +92,15 @@ Widget {
         noteOn(note)
     }
 
+    function channel()
+    {
+        if(self.root)
+            self.root.get_view_pos(:part)
+        else
+            0
+        end
+    }
+
     function noteOn(note)
     {
         vel = velocity+(rand-0.5)*velrnd;
@@ -100,9 +110,23 @@ Widget {
             return
         end
 
-
         if(note && $remote)
-            $remote.action("/noteOn", 0, note, vel)
+            chan = channel()
+            if(self.prev_channels[note])
+                noteOff(note)
+            end
+            self.prev_channels[note] = chan
+            $remote.action("/noteOn", chan, note, vel)
+        end
+    }
+
+    function noteOff(note)
+    {
+        if(note && $remote)
+            chan = self.prev_channels[note]
+            chan = channel() if chan.nil?
+            self.prev_channels[note] = nil
+            $remote.action("/noteOff", chan, note)
         end
     }
 
@@ -112,7 +136,7 @@ Widget {
         name = get_note_name(note)
         self.root.log(:tooltip, name)
         if(note != self.prev_note)
-            $remote.action("/noteOff", 0, self.prev_note)
+            noteOff(self.prev_note)
             noteOn(note)
             self.prev_note = note
         end
@@ -128,9 +152,7 @@ Widget {
     function onMouseRelease(ev)
     {
         note = get_note(ev.pos)
-        if(note && $remote)
-            $remote.action("/noteOff", 0, note)
-        end
+        noteOff(note)
     }
         //qwertz_high = ['q','2','w','3','e','r','5','t','6','z','7','u','i','9','o','0','p',252,"'",'+','\\']
         //qwertz_low  = ['y','s','x','d','c','v','g','b','h','n','j','m',',','l','.',246,'-']
@@ -171,7 +193,7 @@ Widget {
             noteOn(note)
             self.root.log(:tooltip, get_note_name(note))
         else
-            $remote.action("/noteOff", 0, note)
+            noteOff(note)
         end
 
     }

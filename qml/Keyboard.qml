@@ -2,6 +2,8 @@ Widget {
     id: keyboard
     property Array  data: nil
     property Array  prev_channels: Array.new(128)
+    property Array  partchannelRefs: Array.new(16)
+    property Array  partchannels: (0..15).to_a
     property Object valueRef: nil
     property Int    whiteKeys: 8*7-5
     property Float  fixpad: 1.5
@@ -27,6 +29,11 @@ Widget {
     {
         self.valueRef = OSC::RemoteParam.new($remote, "/active_keys")
         self.valueRef.callback = lambda { |x| keyboard.set_data x }
+        (0..15).each do |i|
+            self.partchannelRefs[i] = OSC::RemoteParam.new($remote, "/part#{i}/Prcvchn")
+            self.partchannelRefs[i].mode = :normal_int
+            self.partchannelRefs[i].callback = lambda { |x| self.partchannels[i] = x.to_i }
+        end
     }
 
     function animate()
@@ -95,7 +102,8 @@ Widget {
     function channel()
     {
         if(self.root)
-            self.root.get_view_pos(:part)
+            part = self.root.get_view_pos(:part)
+            self.partchannels[part]
         else
             0
         end

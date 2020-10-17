@@ -21,12 +21,15 @@ Group {
             extern: box.extern+"D_dt"
             type:   :float
         }
-        Knob     { 
+        Knob { 
             whenValue: lambda { box.cb }; 
             extern: box.extern+"R_dt"
             type:   :float
         }
-        ToggleButton { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+        Col {
+            ToggleButton { label: "FRCR"; whenValue: lambda { box.cb }; extern: box.extern+"Pforcedrelease"}
+            ToggleButton   { label: "repeat"; whenValue: lambda { box.cb }; extern: box.extern+"Prepeating"}
+        }
     }
     ParModuleRow {
         id: bot

@@ -1,4 +1,5 @@
 Valuator {
+    // Relative size of the scroll bar handle to the full length.
     property Float  bar_size: 0.1
     property Symbol style: :normal
 

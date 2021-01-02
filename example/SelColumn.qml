@@ -21,6 +21,8 @@ Widget {
             col.clear_sel if col.clear_on_extern
             col.setValue(col.filter(x)) if !col.skip
             col.setValue(x)             if  col.skip
+            // Resets the scroll bar to the top.
+            scroll.value = 1.0
         }
     }
 
@@ -47,7 +49,9 @@ Widget {
 
     function onScroll(ev)
     {
-        scroll.onScroll(ev)
+        return if !scroll.active
+        num_visible_rows = self.rows.length.to_f / getStride()
+        scroll.updatePos(ev.dy.to_f/(self.nrows-num_visible_rows))
     }
 
     function draw(vg)
@@ -89,6 +93,13 @@ Widget {
         vg.text(0.9*w/2,titleH/2,label.upcase)
     }
 
+    function getStride()
+    {
+        stride = 1
+        stride = 2 if skip
+        stride
+    }
+
     function onSetup(old=nil)
     {
         return if children.length > 10
@@ -102,8 +113,7 @@ Widget {
             if(rows.nil? || rows.empty?)
                 ch.label = ""
             else
-                stride = 1
-                stride = 2 if skip
+                stride = getStride()
                 ch.label = if(x>=rows.length/stride)
                     ""
                 else
@@ -114,7 +124,6 @@ Widget {
                 else
                     rows[x*stride+1]
                 end
-
             end
             ch.layoutOpts = [:no_constraint]
             ch.whenValue  = lambda {col.cb ch}
@@ -135,18 +144,17 @@ Widget {
 
     function tryScroll()
     {
-        #24 items are visible at a time
-        #center is at item nrows/2     at value 0
-        #center is at item len-nrows/2 at value 1
-        stride = 1
-        stride = 2 if skip
         return if rows.nil?
+
+        stride = getStride()
         n = rows.length/stride
         return if n<nrows
-        center = (n-nrows)*(1-scroll.value)+nrows/2
-        off    = (center-nrows/2).to_i
-        if(off != self.oldOff)
-            setValue(rows, off)
+
+        offset = (1.0-scroll.value)*(n-nrows) + 0.5
+        offset = offset.to_i
+
+        if(offset != self.oldOff)
+            setValue(rows, offset)
         end
     }
 
@@ -186,8 +194,7 @@ Widget {
         return if(self.rows == x && offset == oldOff)
         self.oldOff = offset
         self.rows = x
-        stride = 1
-        stride = 2 if skip
+        stride = getStride()
         nn = x.length/stride
         nsize = [0.05, [1.0, self.nrows*1.0/nn].min].max
         if(nsize != scroll.bar_size)

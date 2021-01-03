@@ -46,7 +46,8 @@ Widget {
         Knob {
             id: oct
             value: 0.5; label: "octave"
-            whenValue: lambda {key.octave = (4*(oct.value-0.5)).to_i}
+            tooltip: "by-octave keyboard key shift"
+            whenValue: lambda { key.octave = (4*(oct.value-0.5)).to_i }
         }
         Knob     {
             id: cc

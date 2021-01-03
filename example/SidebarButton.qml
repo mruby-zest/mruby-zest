@@ -2,6 +2,13 @@ Widget {
     id: button
     property Function whenClick: nil
     property Bool value: false
+    tooltip: ""
+
+    function onMouseEnter(ev) {
+        if(self.tooltip != "")
+            self.root.log(:tooltip, self.tooltip)
+        end
+    }
 
     function onMousePress(ev) {
         self.value = !self.value
@@ -63,7 +70,7 @@ Widget {
 
         vg.translate(-0.5,-0.5)
     }
-    
+
     function draw(vg)
     {
         #h = button.h

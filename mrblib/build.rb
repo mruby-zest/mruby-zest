@@ -306,25 +306,6 @@ end
 GlobalIRCache = Hash.new
 QmlIRCache    = nil
 
-def createInstanceOld(name, parent, pdb)
-    qml_ir = QmlIRCache
-    ir     = qml_ir[name]
-    pbvm   = ProgBuildVM.new(ir, qml_ir, pdb)
-    child  = pbvm.instance
-
-    #TODO fix hackyness here with UI paths
-    children = parent.children
-    children << child
-    parent.children = children
-    npath = "#{parent.ui_path}#{children.length}/"
-    child.ui_path = npath
-    child.properties.each do |key,p|
-        p.ppath = npath
-    end
-
-    child
-end
-
 def runBuildTest
     l = Parser.new
     qml_data = [Dir.glob("../mruby-zest/mrblib/*.qml"), Dir.glob("../mruby-zest/qml/*.qml"), Dir.glob("../mruby-zest/test/*.qml"), Dir.glob("../mruby-zest/example/*.qml")].flatten

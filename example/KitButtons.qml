@@ -38,6 +38,9 @@ Widget {
             [0,1,2,3].each do |c|
                 ii         = (1+c + 4*r)
                 but        = Qml::KitButton.new(db)
+                but.tooltip = "part: use middle mouse to toggle" if self.sym == :part
+                but.tooltip = "kits: use middle mouse to toggle" if self.sym == :kit
+                but.tooltip = "voice: use middle mouse to toggle" if self.sym == :voice
                 but.label  = ii.to_s
                 but.action = lambda {|act|
                     if(act == :change_view)

@@ -4,6 +4,7 @@ Widget {
     SidebarButton {
         id: partsetting
         label: "part settings"
+        tooltip: "show part settings panel"
         whenClick: lambda { side.set_content :part }
     }
     Indent {
@@ -13,16 +14,19 @@ Widget {
     SidebarButton {
         id: browser
         label: "browser"
+        tooltip: "show instruments browser panel"
         whenClick: lambda { side.set_content :banks }
     }
     SidebarButton {
         id: mixer
         label: "mixer"
+        tooltip: "show mixer settings panel"
         whenClick: lambda { side.set_content :mixer }
     }
     SidebarButton {
         id: kitedit
         label: "kits"
+        tooltip: "show kits panel"
         whenClick: lambda { side.set_content :kits }
     }
     Indent {
@@ -32,11 +36,13 @@ Widget {
     SidebarButton {
         id: arp
         label: "macro learn"
+        tooltip: "show macro learn panel"
         whenClick: lambda { side.set_content :automate }
     }
     SidebarButton {
         id: eff
         label: "effects"
+        tooltip: "show the effects panel"
         whenClick: lambda { side.set_content :effects }
     }
     FancyButton {

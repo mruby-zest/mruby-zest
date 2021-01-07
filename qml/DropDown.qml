@@ -37,7 +37,7 @@ Widget {
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color text_color
 
-        pad  = 1/64
+        pad  = 1.0/64
         options.each_with_index do |opt, i|
             vg.text(3+w*pad*2,dy*(i+0.5),opt.upcase)
         end
@@ -71,7 +71,7 @@ Widget {
     function onMouseMove(ev)
     {
         n   = options.length
-        opt = (n*(ev.pos.y-global_y)/h).to_i
+        opt = ((n*(ev.pos.y-global_y))/h).to_i
         self.hl = opt
         damage_self
     }

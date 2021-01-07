@@ -62,7 +62,7 @@ Widget {
         cur_time   = Time.new
         @atime   ||= cur_time
         old_time   = @atime
-        if((cur_time-old_time) >= 1/30.0)
+        if((cur_time-old_time) >= 1.0/30.0)
             @atime = cur_time
             slide.refresh
         end

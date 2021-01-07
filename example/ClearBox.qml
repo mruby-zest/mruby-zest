@@ -26,7 +26,7 @@ Widget {
         off_color     = Theme::ButtonInactive
         on_color      = Theme::ButtonActive
         cs = 0
-        pad = 1/64
+        pad = 1.0/64
         vg.path do |v|
             v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
             if(self.value == true)
@@ -51,7 +51,7 @@ Widget {
 
         end
 
-        pad = 1/4
+        pad = 1.0/4
 
         vg.stroke_color(color("bbbbbb")) #if !self.active
         #vg.stroke_color(color("55ff55")) if  self.active

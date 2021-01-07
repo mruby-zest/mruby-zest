@@ -2,7 +2,7 @@ Widget {
     layer: 1
     property Array data: nil;
     property Bool  normal: true
-    property Float pad:   1/32
+    property Float pad:   1.0/32
     property Float fixedpad: 0
     property Float phase: 0
     property Bool  ignore_phase: false

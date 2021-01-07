@@ -1,6 +1,6 @@
 Widget {
     id: hm
-    property Float pad: 1/32
+    property Float pad: 1.0/32
     property Object valueRef: nil
     property Array  points:   nil
     property Bool   needRefresh: false
@@ -71,7 +71,7 @@ Widget {
             v.move_to(pad*w, h*(pad+pad2))
             n = ypoints.length
             ypoints.each_with_index do |y, i|
-                v.line_to(pad*w+pad2*w*i/n, (1-y)/2*h)
+                v.line_to(pad*w+pad2*w*i*1.0/n, (1.0-y)/2*h)
             end
             v.line_to((pad+pad2)*w,(pad+pad2)*h)
             v.close_path

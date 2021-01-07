@@ -21,7 +21,7 @@ Widget {
 
     function layout(l, selfBox)
     {
-        step = 1/(cols+1)
+        step = 1.0/(cols+1)
         children[0].fixed(l, selfBox, 0, 0, step, 1)
         off = step*(1+row_id)
         (1...children.length).each do |bx|

@@ -58,7 +58,7 @@ Widget {
 
     function draw(vg)
     {
-        pad  = 1/32
+        pad  = 1.0/32
         pad2 = (1-2*pad)
         background Theme::VisualBackground
         bb = Rect.new(pad*w, pad*h, pad2*w, pad2*h)

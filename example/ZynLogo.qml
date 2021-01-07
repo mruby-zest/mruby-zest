@@ -34,7 +34,7 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color logo_top
-        vg.text(w*1/2,h/2,"ZYN")
+        vg.text(w/2,h/2,"ZYN")
     }
 
     function draw_path(vg, path, co)

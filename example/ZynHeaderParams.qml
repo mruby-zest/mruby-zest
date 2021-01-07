@@ -17,9 +17,9 @@ Widget {
     HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }
 
     function layout(l, selfBox) {
-        padw  = 1/256
+        padw  = 1.0/256
         padw2 = 0.5-2*padw
-        padh = 1/32
+        padh = 1.0/32
         padh2 = 0.5-2*padh
         children[0].fixed(l, selfBox, 0.0+padw, 0.0+padh, padw2, padh2)
         children[1].fixed(l, selfBox, 0.5+padw, 0.0+padh, padw2, padh2)

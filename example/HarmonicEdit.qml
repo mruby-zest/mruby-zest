@@ -63,7 +63,7 @@ Widget {
 
     function layout(l, selfBox)
     {
-        n = children.length
+        n = children.length*1.0
         children.each_with_index do |ch, id|
             ch.fixed(l, selfBox, id/n, 0, 1.0/n, 1.0)
         end

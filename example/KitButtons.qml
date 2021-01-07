@@ -91,7 +91,9 @@ Widget {
             (0...cols).each do |c|
                 child = ch[b]
                 b += 1
-                child.fixed(l, selfBox, c/4, r/self.rows, 0.25, 1/self.rows)
+                child.fixed(l,     selfBox, 
+                            c/4.0, r*1.0/self.rows,
+                            0.25,  1.0/self.rows)
             end
         end
         selfBox

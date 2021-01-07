@@ -52,13 +52,13 @@ Widget {
         l.rightOf(amplLBox, freqLBox)
         l.rightOf(freqLBox, filtLBox)
 
-        l.punish2([selfBox.w], [1/3.0], amplLBox.w)
-        l.punish2([selfBox.w], [1/3.0], freqLBox.w)
-        l.punish2([selfBox.w], [1/3.0], filtLBox.w)
+        l.punish2([selfBox.w], [1.0/3], amplLBox.w)
+        l.punish2([selfBox.w], [1.0/3], freqLBox.w)
+        l.punish2([selfBox.w], [1.0/3], filtLBox.w)
 
-        l.punish2([selfBox.w], [1/3.0], amplEBox.w)
-        l.punish2([selfBox.w], [1/3.0], freqEBox.w)
-        l.punish2([selfBox.w], [1/3.0], filtEBox.w)
+        l.punish2([selfBox.w], [1.0/3], amplEBox.w)
+        l.punish2([selfBox.w], [1.0/3], freqEBox.w)
+        l.punish2([selfBox.w], [1.0/3], filtEBox.w)
 
         #Global Optimizatoin
         l.topOf(headBox, row1Box)

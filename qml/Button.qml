@@ -5,7 +5,7 @@ Widget {
     property String   renderer: nil;
     property Float    textScale: 0.75;
     property Function whenValue: nil;
-    property Float    pad: 1/64
+    property Float    pad: 1.0/64
     property Bool     active: true
 
     function onMousePress(ev) {

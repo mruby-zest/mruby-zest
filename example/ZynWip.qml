@@ -16,7 +16,7 @@ Widget {
         vg.text_align NVG::ALIGN_MIDDLE | NVG::ALIGN_CENTER
         vg.font_size 30.0
         vg.fill_color color("ffffff")
-        vg.text(550, 10, "Format Vowel (Live?) View [radius=1/q]")
+        vg.text(550, 10, "Format Vowel (Live?) View [radius=1.0/q]")
         vg.text(20, 470, "-10 dB")
         vg.text(20, 300, "-5 dB")
         vg.text(20, 100, "0 dB")

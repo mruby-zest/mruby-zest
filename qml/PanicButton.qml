@@ -8,7 +8,7 @@ TriggerButton {
     {
         text_color1   = color("505050")
         text_color2   = color("B9CADE")
-        pad = 1/64
+        pad = 1.0/64
         vg.path do |v|
             v.rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad))
             paint = v.linear_gradient(0,0,0,h,

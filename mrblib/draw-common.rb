@@ -247,7 +247,7 @@ module Draw
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
                 xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2*i]
-                yy = bb.y + bb.h/2*(1-pts[2*i+1]/127)
+                yy = bb.y + bb.h/2*(1-pts[2*i+1]/127.0)
 
                 vg.stroke_color sel_color
                 vg.fill_color   color(:black)
@@ -439,7 +439,7 @@ module Draw
             lb = Math.log10(b)
             out = []
             (0...n).each do |i|
-                out << 10**(la + i/n*(lb-la))
+                out << 10.0**(la + i*1.0/n*(lb-la))
             end
             out
         end
@@ -447,7 +447,7 @@ module Draw
         def self.linspace(a,b,n)
             out = []
             (0...n).each do |i|
-                out << a + i/n*(b-a)
+                out << a + i*1.0/n*(b-a)
             end
             out
         end
@@ -514,8 +514,8 @@ module Draw
     end
     module Layout
         def self.vpack(l, selfBox, b, x=0, w=1,fixed_pad=0, y=0, h=1)
-            off = 0+y
-            delta = h/b.length
+          off = 0.0+y
+            delta = h*1.0/b.length
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, x, off, w, delta,
                         0, fixed_pad, 0, -2*fixed_pad)
@@ -525,7 +525,7 @@ module Draw
         end
 
         def self.hpack(l, selfBox, children, y=0, h=1, fixed_pad=0)
-            off = 0
+          off = 0.0
             delta = 1.0/children.length
             children.each_with_index do |ch,i|
                 l.fixed_long(ch, selfBox, off, y, delta, h,
@@ -536,7 +536,7 @@ module Draw
         end
 
         def self.hfill(l, selfBox, b, w, pad=0, fixed_pad=0)
-            off = pad/2
+            off = pad/2.0
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, off, 0, w[i], 1,
                             fixed_pad, 0, -2*fixed_pad, 0)
@@ -548,7 +548,7 @@ module Draw
         def self.vfill(l, selfBox, b, h, pad=0, fixed_pad=0)
             #puts "vfill"
             #puts "selfBox = #{selfBox}"
-            off = 0
+            off = 0.0
             b.each_with_index do |bb,i|
                 l.fixed_long(bb, selfBox, 0, off, 1,  h[i],
                             0, fixed_pad, 0, -2*fixed_pad)
@@ -634,7 +634,7 @@ module Draw
 
             boxes = []
             children.each_with_index do |ch, ind|
-                box = ch.fixed_long(l, selfBox, 0, ind/n, 1, 1/n,
+                box = ch.fixed_long(l, selfBox, 0, ind*1.0/n, 1, 1.0/n,
                                    hpad, 0, -2*hpad, 0)
                 minheight = box.h if box.h < minheight
                 boxes << box

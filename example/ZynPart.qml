@@ -7,7 +7,7 @@ Widget {
             (1..16).each do |i|
                 but = Qml::ToggleButton.new(self.db)
                 but.label = i.to_s
-                but.pad   = 1/512
+                but.pad   = 1.0/512
                 but.layoutOpts = [:no_constraint]
                 but.textScale  = 0.5
                 but.extern = "/part#{i-1}/Penabled"
@@ -16,7 +16,7 @@ Widget {
             (1..16).each do |i|
                 but = Qml::LabelButton.new(self.db)
                 but.label = "None"
-                but.pad   = 1/512
+                but.pad   = 1.0/512
                 but.layoutOpts = [:no_constraint, :left_text]
                 but.textScale  = 0.5
                 but.extern = "/part#{i-1}/Pname"

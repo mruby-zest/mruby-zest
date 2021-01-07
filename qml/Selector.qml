@@ -120,7 +120,7 @@ Widget {
 
     function draw_strike(vg)
     {
-        pad  = 1/64
+        pad  = 1.0/64
         pad2 = (1-2*pad)
         vg.path do
             vg.move_to(w*pad, h*pad)
@@ -133,7 +133,7 @@ Widget {
 
     function draw_arrow(vg)
     {
-        pad  = 1/64
+        pad  = 1.0/64
         pad2 = (1-2*pad)
 
         vg.path do |v|
@@ -154,7 +154,7 @@ Widget {
 
     function draw_button(vg)
     {
-        pad  = 1/64
+        pad  = 1.0/64
         pad2 = (1-2*pad)
         vg.path do |v|
             v.rounded_rect(w*pad, h*pad, w*(1-2*pad), h*(1-2*pad), 2)
@@ -185,7 +185,7 @@ Widget {
 
         return if options[selected].nil?
 
-        pad  = 1/64
+        pad  = 1.0/64
         text_color = Theme::TextColor
 
         vg.font_face("bold")

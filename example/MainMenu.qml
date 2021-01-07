@@ -1,7 +1,7 @@
 Widget {
     id: menu
     function layout(l, selfBox) {
-        pad  = 1/32
+        pad  = 1.0/32
         pad2 = 0.5-2*pad
         children[0].fixed(l, selfBox, 0.0+pad, 0.0+pad, pad2, pad2)
         children[1].fixed(l, selfBox, 0.5+pad, 0.0+pad, pad2, pad2)

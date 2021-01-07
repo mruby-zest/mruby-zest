@@ -67,7 +67,7 @@ Widget {
     function draw(vg)
     {
         text_color = Theme::TextColor
-        pad  = 1/64
+        pad  = 1.0/64
         pad2 = (1-2*pad)
         return if options[selected].nil?
 

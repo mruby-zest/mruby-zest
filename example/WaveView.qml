@@ -6,7 +6,7 @@ Widget {
     property Float  phase: 0.0
     property String noise: nil
     property Bool   noise_mode: false
-    property Float pad: 1/32
+    property Float pad: 1.0/32
     function class_name() { "WaveView" }
 
     onExtern: {

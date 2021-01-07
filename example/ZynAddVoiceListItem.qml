@@ -51,7 +51,7 @@ Widget {
         chBox   = []
 
         off = 0.0
-        hpad = 1/128
+        hpad = 1.0/128
         children.each_with_index do |ch, ind|
             weight = weights[ind]
             ch.fixed(l, selfBox, off+hpad, 0.0, weight-2*hpad, 1.0)

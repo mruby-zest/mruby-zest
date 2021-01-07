@@ -2,7 +2,7 @@ Widget {
     property Function whenValue: nil
     function draw(vg)
     {
-        pad  = 1/64
+        pad  = 1.0/64
         pad2 = (1-2*pad)
         vg.path do |v|
             v.rect(w*pad, h*pad, w*pad2, h*pad2)
@@ -15,8 +15,8 @@ Widget {
         end
 
         vg.path do |v|
-            v.move_to(w*1/3, 0)
-            v.line_to(w*1/3, h)
+            v.move_to(w*1.0/3, 0)
+            v.line_to(w*1.0/3, h)
             v.move_to(w*2/3, 0)
             v.line_to(w*2/3, h)
             v.stroke
@@ -31,29 +31,29 @@ Widget {
         vg.fill_color text_color
         vg.path do |v|
             v.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            v.text(1/6*w,h/2,"Mn")
+            v.text(1.0/6.0*w,h/2,"Mn")
         end
         
         #Pause Icon
         vg.path do |v|
             v.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            v.text(3/6*w,h/2,"R")
+            v.text(3/6.0*w,h/2,"R")
         end
         
         #Play Icon
         vg.path do |v|
             v.text_align NVG::ALIGN_CENTER | NVG::ALIGN_MIDDLE
-            v.text(5/6*w,h/2,"Mx")
+            v.text(5/6.0*w,h/2,"Mx")
         end
     }
 
     function onMouseHover(ev)
     {
         rel = (ev.pos.x-global_x)/w
-        if(rel < 1/3)
+        if(rel < 1.0/3.0)
             self.root.log(:tooltip, 
             "Capture minimum key")
-        elsif(rel < 2/3)
+        elsif(rel < 2/3.0)
             self.root.log(:tooltip, 
             "Reset key range")
         else
@@ -65,9 +65,9 @@ Widget {
     function onMousePress(ev)
     {
         rel = (ev.pos.x-global_x)/w
-        if(rel < 1/3)
+        if(rel < 1.0/3.0)
             $remote.action(extern + "captureMin")
-        elsif(rel < 2/3)
+        elsif(rel < 2/3.0)
             $remote.action(extern + "Pminkey", 0)
             $remote.action(extern + "Pmaxkey", 127)
         else

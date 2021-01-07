@@ -262,11 +262,11 @@ Widget {
         padw = 5
         padh = 3
         if(children.length > 1 && self.shownWeights.length > 0)
-            off = 0
+            off = 0.0
             children[1..-1].each_with_index do |ch, i|
                 lh = shownWeights[i]
                 ch.fixed_long(l, selfBox, 0, off/nunits, 0.98,
-                  lh/nunits, padw, padh, -2*padw, -2*padh)
+                  lh*1.0/nunits, padw, padh, -2*padw, -2*padh)
                 off += lh
             end
         end

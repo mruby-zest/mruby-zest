@@ -29,7 +29,7 @@ Widget {
         n = (children.length + 1)/2
 
         l.fixed_long(children[0], selfBox,
-            0, 0, 1, 1/n,
+            0, 0, 1, 1.0/n,
             0, 0, 0, 0)
         (1...n).each do |i|
             l.fixed_long(children[i+n-1], selfBox,

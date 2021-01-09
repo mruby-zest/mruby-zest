@@ -189,7 +189,7 @@ Widget {
         stride = 1
         stride = 2 if skip
         nn = x.length/stride
-        nsize = [0.05, [1.0, self.nrows/nn].min].max
+        nsize = [0.05, [1.0, self.nrows*1.0/nn].min].max
         if(nsize != scroll.bar_size)
             scroll.bar_size = nsize
             scroll.damage_self

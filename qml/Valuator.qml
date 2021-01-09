@@ -18,7 +18,7 @@ Widget {
 
     onExtern: {
         meta = OSC::RemoteMetadata.new($remote, valuator.extern)
-        valuator.label   = meta.short_name
+        valuator.label   = meta.short_name if valuator.label == ""
         valuator.tooltip = meta.tooltip
         valuator.units   = meta.units
 

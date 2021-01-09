@@ -313,6 +313,11 @@ Widget {
         {
             @value_ref
         }
+        
+        function runtime_points()
+        {
+            return @runtime_points
+        }
 
         function runtime_points=(pts)
         {
@@ -324,9 +329,12 @@ Widget {
             run_view.valueRef = OSC::RemoteParam.new($remote, run_view.extern)
             run_view.valueRef.set_watch
             run_view.valueRef.callback = Proc.new {|x|
-                run_view.update_points(env.warp(x))
-                run_view.runtime_points = env.warp(x);
-                run_view.root.damage_item run_view
+                y = run_view.runtime_points
+                if(y.nil? || y.length != 0 || x.length != 0)
+                    run_view.update_points(env.warp(x))
+                    run_view.runtime_points = env.warp(x);
+                    run_view.root.damage_item run_view
+                end
             }
         }
 

@@ -43,7 +43,7 @@ Widget {
             l << "    Olivier Jolly (DSSI Bank Load Fix)\n"
             l << "    Daniel Sheeler (Legato Aftertouch Fixes)\n"
             l << "\n"
-            l << "This is the 3.0.4 version of ZynAddSubFX\n"
+            l << "This is the 3.0.6 version of ZynAddSubFX\n"
             l << "For more information please see http://zynaddsubfx.sourceforge.net/\n"
             l
         }

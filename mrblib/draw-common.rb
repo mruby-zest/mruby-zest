@@ -751,6 +751,7 @@ module Theme
     HarmonicColor       = color("026392")
 
     TextColor           = color("CECECE")
+    BackgroundTextColor = color("818181")
     TextActiveColor     = color("52FAFE")
     TextModColor        = color("5BDBBA")
 

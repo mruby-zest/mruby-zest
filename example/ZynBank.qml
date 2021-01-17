@@ -62,7 +62,7 @@ Widget {
         id: lhs
         SearchBox {
             id: search
-            whenValue: lambda { bank.doSearch}
+            whenValue: lambda { bank.doSearch }
         }
         Widget {
             SelColumn {

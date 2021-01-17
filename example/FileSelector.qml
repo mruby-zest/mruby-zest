@@ -258,7 +258,7 @@ Widget {
             return
         elsif(k.ord == 8)
             @browser.del_char
-        else
+        elsif k.ord >= 32
             @browser.add_char k
         end
 

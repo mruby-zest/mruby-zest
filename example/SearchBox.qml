@@ -29,7 +29,11 @@ Widget {
         vg.font_size h*0.8
         vg.text_align NVG::ALIGN_LEFT | NVG::ALIGN_MIDDLE
         vg.fill_color = Theme::TextColor
-        l = label.empty? ? "search..." : label
+        l = label
+        if(root.key_widget != self and label.empty?)
+            vg.fill_color = Theme::BackgroundTextColor
+            l = "search..."
+        end
         vg.text(8,h/2,l.upcase)
         bnd = vg.text_bounds(0,0,l.upcase)
         if(@state)

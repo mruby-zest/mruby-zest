@@ -135,8 +135,8 @@ Widget {
     //85-573px selector y
     //594-628px add y
     function layout(l, selfBox) {
-        mockx   = 1181
-        mocky   = 659
+        mockx   = 1181.0
+        mocky   = 659.0
         xpad    = 280/mockx
         xskip   = 20/mockx
 

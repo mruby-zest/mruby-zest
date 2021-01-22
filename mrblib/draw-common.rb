@@ -478,7 +478,7 @@ module Draw
 
             n   = x.length
             (0...n).each do |i|
-                x[i] /= max
+                x[i] /= 1.0*max
             end
             x
         end
@@ -495,7 +495,7 @@ module Draw
             sum = ary_sum(x)
             n   = x.length
             (0...n).each do |i|
-                x[i] /= sum
+                x[i] /= 1.0*sum
             end
             x
         end

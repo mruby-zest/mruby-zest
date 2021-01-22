@@ -231,6 +231,7 @@ Widget {
     }
 
     function lookup(type) {
+        type = type.to_i
         mapper = {0=>:none,
                   1=>:reverb,
                   2=>:echo,
@@ -265,7 +266,7 @@ Widget {
             off = 0.0
             children[1..-1].each_with_index do |ch, i|
                 lh = shownWeights[i]
-                ch.fixed_long(l, selfBox, 0, off/nunits, 0.98,
+                ch.fixed_long(l, selfBox, 0, off*1.0/nunits, 0.98,
                   lh*1.0/nunits, padw, padh, -2*padw, -2*padh)
                 off += lh
             end

@@ -68,6 +68,11 @@ Widget {
         doLoad if self.mode == :read
         doSave if self.mode == :write
     }
+    
+    function doRescan()
+    {
+        $remote.action("/bank/rescan")
+    }
 
     Widget {
         id: lhs
@@ -125,6 +130,10 @@ Widget {
             TriggerButton {
                 label: "overwrite"
                 whenValue: lambda { bank.doSavePart() }
+            }
+            TriggerButton {
+                label: "rescan"
+                whenValue: lambda { bank.doRescan() }
             }
             function setrw(x)
             {

@@ -123,7 +123,7 @@ Widget {
                 layoutOpts: [:no_constraint]
             }
             TriggerButton {
-                label: "save"
+                label: "overwrite"
                 whenValue: lambda { bank.doSavePart() }
             }
             function setrw(x)

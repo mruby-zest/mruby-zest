@@ -147,4 +147,12 @@ Object {
             widget.y
         end
     }
+
+    function onMouseLeave(ev)
+    {
+        if (self.root.respond_to?(:log))
+            self.root.log(:tooltip, "")
+        end
+    }
+
 }

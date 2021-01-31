@@ -21,7 +21,7 @@ Widget {
             col.clear_sel if col.clear_on_extern
             col.setValue(col.filter(x)) if !col.skip
             col.setValue(x)             if  col.skip
-            // Resets the scroll bar to the top.
+            # Resets the scroll bar to the top.
             scroll.value = 1.0
         }
     }

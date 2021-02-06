@@ -152,6 +152,7 @@ Widget {
             Widget {
                 TriggerButton  {
                     label: "R"
+                    tooltip: "Reset harmonic shift"
                     whenValue: lambda {
                         $remote.action(base_osc.extern + "Pharmonicshift", 0.to_i)
                         base_osc.refresh

@@ -9,9 +9,6 @@ Widget {
     }
 
     //Draw the header
-    //PowButton {
-    //    id: pow
-    //}
     ClearBox {
         id: clr
         tooltip: "clear automation slot"
@@ -19,7 +16,7 @@ Widget {
     }
     Widget {
         TextField {
-            id: name
+            id: slot_name
             label: "slot"
         }
         HSlider {
@@ -47,8 +44,7 @@ Widget {
     }
 
     onExtern: {
-        #pow.extern   = slot.extern + "active"
-        name.extern  = slot.extern + "name"
+        slot_name.extern  = slot.extern + "name"
         slide.extern = slot.extern + "value"
     }
 

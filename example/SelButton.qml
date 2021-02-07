@@ -54,9 +54,4 @@ Button {
         end
         vg.text(8,h/2,ll)
     }
-    function onMouseEnter(ev) {
-        if(self.tooltip != "")
-            self.root.log(:tooltip, self.tooltip)
-        end
-    }
 }

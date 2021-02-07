@@ -49,6 +49,7 @@ Widget {
 
         ClearBox {
             id: clr
+            tooltip: "remove this parameter from the slot"
             whenValue: lambda {$remote.action(param.extern + "clear")}
         }
     }

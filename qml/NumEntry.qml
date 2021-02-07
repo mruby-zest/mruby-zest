@@ -113,12 +113,6 @@ Widget {
         updatePos(-1) if ev.dy < 0
     }
 
-    function onMouseEnter(ev) {
-        if(self.tooltip != "")
-            self.root.log(:tooltip, self.tooltip)
-        end
-    }
-
     function onMousePress(ev)
     {
         return if !ev.buttons.include? :leftButton

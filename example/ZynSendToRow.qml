@@ -3,14 +3,14 @@ Widget {
     property Int row_id: 0
     property Int cols:   4
     TextSel {
-        id: name
+        id: send_name
         extern: "/sysefx#{row.row_id}/efftype"
     }
 
     function onSetup(old=nil)
     {
         return if children.length > 1
-        name.label = (row.row_id+1).to_s + " reverb"
+        send_name.label = (row.row_id+1).to_s + " reverb"
         (cols-row_id).times do |x|
             ch = Qml::HSlider.new(db)
             ch.extern = "/sysefxfrom#{row_id}/to#{x+row_id+1}"

@@ -2,15 +2,9 @@ Widget {
     id: button
     property signal action: nil;
     property Bool   value:    false;
-    property Bool   enable:   false
+    property Bool   enable:   false;
     tooltip: "Use Middle Mouse To Toggle"
     
-    function onMouseEnter(ev) {
-        if(self.tooltip != "")
-            self.root.log(:tooltip, self.tooltip)
-        end
-    }
-
     function set_enable(v) {
         if(button.enable != v)
             button.enable = v

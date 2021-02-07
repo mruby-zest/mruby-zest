@@ -112,12 +112,6 @@ Widget {
         create_menu if self.active && options.length != 1
     }
 
-    function onMouseEnter(ev) {
-        if(self.tooltip != "")
-            self.root.log(:tooltip, self.tooltip)
-        end
-    }
-
     function draw_strike(vg)
     {
         pad  = 1.0/64

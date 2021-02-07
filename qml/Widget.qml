@@ -147,6 +147,12 @@ Object {
             widget.y
         end
     }
+    
+    function onMouseEnter(ev) {
+        if(self.tooltip != "" and self.root.respond_to?(:log))
+            self.root.log(:tooltip, self.tooltip)
+        end
+    }
 
     function onMouseLeave(ev)
     {

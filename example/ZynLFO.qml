@@ -18,9 +18,12 @@ Group {
         Knob     { type: :float; extern: box.extern+"delay"}
         Knob     {extern: box.extern+"Prandomness"}
         Knob     {extern: box.extern+"Pfreqrand"}
+        Knob     { type: :float; extern: box.extern+"speedratio"}
         Col {
             Selector {extern: box.extern+"PLFOtype"}
             ToggleButton   { label: "sync"; extern: box.extern+"Pcontinous"}
+            Selector { extern: box.extern+"ratiofixed"}
+            
         }
     }
 }

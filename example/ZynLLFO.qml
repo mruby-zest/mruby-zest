@@ -5,6 +5,8 @@ ParModule {
     label:  "generic lfo"
     id:    lfo_mod
     Knob     {extern: lfo_mod.extern+"Pfreq"}
+    Knob     { type: :float; extern: lfo_mod.extern+"speedratio"}
+    Selector { extern: box.extern+"ratiofixed"}
     Knob     {extern: lfo_mod.extern+"Pintensity"}
     Knob     {extern: lfo_mod.extern+"Pcutoff"}
     Knob     {extern: lfo_mod.extern+"Pstartphase"}

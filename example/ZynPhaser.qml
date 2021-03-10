@@ -36,8 +36,8 @@ Group {
 
         Knob { extern: phaser.extern + "Pvolume"}
         Knob { extern: phaser.extern + "Ppanning"}
-
         Knob { extern: phaser.extern + "Phaser/lfo.Pfreq" }
+        Selector { extern: phaser.extern + "ratiofixed" }
         Knob { extern: phaser.extern + "Phaser/lfo.Prandomness" }
         Selector { extern: phaser.extern + "Phaser/lfo.PLFOtype" }
         Knob { extern: phaser.extern + "Phaser/lfo.Pstereo" }

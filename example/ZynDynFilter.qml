@@ -33,6 +33,7 @@ Widget {
         Knob { extern: dyn.extern + "Ppanning"}
 
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreq" }
+        Selector {     extern: dyn.extern + "ratiofixed" }
         Knob {         extern: dyn.extern + "DynamicFilter/Pfreqrnd" }
         Selector {     extern: dyn.extern + "DynamicFilter/PLFOtype" }
         Knob {         extern: dyn.extern + "DynamicFilter/PStereo" }

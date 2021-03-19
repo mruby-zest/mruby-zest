@@ -34,6 +34,9 @@ Widget {
         Swappable {
             id: lfo
         }
+        Swappable {
+            id: seq
+        }
     }
     Widget {
         id: footer
@@ -67,13 +70,17 @@ Widget {
         gen.extern  = base
         env.extern  = base + "AmpEnvelope/"
         lfo.extern  = base + "AmpLfo/"
+        seq.extern  = base + "AmpSeq/"
         gen.content = Qml::ZynAmpVoiceGeneral
         env.content = Qml::ZynAmpEnv
         lfo.content = Qml::ZynLFO
+        seq.content = Qml::ZynSEQ
         env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
         lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :amp)}
+        seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :amp)}
         env.children[0].toggleable = base + "PAmpEnvelopeEnabled"
         lfo.children[0].toggleable = base + "PAmpLfoEnabled"
+        seq.children[0].toggleable = base + "PAmpSeqEnabled"
     }
 
     function set_freq(base)
@@ -82,13 +89,17 @@ Widget {
         gen.extern  = base
         env.extern  = base + "FreqEnvelope/"
         lfo.extern  = base + "FreqLfo/"
+        seq.extern  = base + "FreqSeq/"
         gen.content = Qml::ZynFreqGeneralVoice
         env.content = Qml::ZynFreqEnv
         lfo.content = Qml::ZynLFO
+        seq.content = Qml::ZynSEQ
         env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
         lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :freq)}
+        seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :freq)}
         env.children[0].toggleable = base + "PFreqEnvelopeEnabled"
         lfo.children[0].toggleable = base + "PFreqLfoEnabled"
+        seq.children[0].toggleable = base + "PFreqSeqEnabled"
     }
 
     function set_filter(base)
@@ -97,15 +108,19 @@ Widget {
         gen.extern  = base + "VoiceFilter/"
         env.extern  = base + "FilterEnvelope/"
         lfo.extern  = base + "FilterLfo/"
+        seq.extern  = base + "FilterSeq/"
         gen.content = Qml::ZynAnalogFilter
         env.content = Qml::ZynFilterEnv
         lfo.content = Qml::ZynLFO
+        seq.content = Qml::ZynSEQ
         gen.children[0].whenClick = lambda {row1.setDataVis(:filter, :filter)}
         env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
         lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+        seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :filter)}
         env.children[0].toggleable = base + "PFilterEnvelopeEnabled"
         gen.children[0].toggleable = base + "PFilterEnabled"
         lfo.children[0].toggleable = base + "PFilterLfoEnabled"
+        seq.children[0].toggleable = base + "PFilterSeqEnabled"
     }
 
     function set_vis_lfo(ext, tab)
@@ -117,6 +132,17 @@ Widget {
         row1.extern  = ext + e_
         row1.content = Qml::LfoVis
         row1.children[0].children[0].extern = lfo.extern+"out"
+    }
+
+    function set_vis_seq(ext, tab)
+    {
+        e_  = {:filter    => "FilterSeq/",
+               :amplitude => "AmpSeq/",
+               :frequency => "FreqSeq/"}[tab]
+        return if e_.nil?
+        row1.extern  = ext + e_
+        row1.content = Qml::SeqVis
+        row1.children[0].children[0].extern = seq.extern+"out"
     }
 
     function set_vis_env(ext, tab)
@@ -159,7 +185,7 @@ Widget {
         end
 
         vis = root.get_view_pos(:vis)
-        types = [:envelope, :lfo, :filter]
+        types = [:envelope, :lfo, :filter, :seq]
         if(!types.include?(vis))
             vis = :envelope
             root.set_view_pos(:vis, vis)
@@ -177,6 +203,8 @@ Widget {
 
         if(vis == :lfo)
             set_vis_lfo(base, subsubview)
+        elsif(vis == :seq)
+            set_vis_seq(base, subsubview)
         elsif(vis == :envelope)
             set_vis_env(base, subsubview)
         elsif(vis == :filter)

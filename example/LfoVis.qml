@@ -149,10 +149,10 @@ Widget {
             Proc.new {|phase| (0.05 ** phase) * 2.0 - 1.0}
         when :exp2
             Proc.new {|phase| (0.001 ** phase) * 2.0 - 1.0}
-	when :random
-	    Proc.new {|phase| 0 } #TODO: proper RAN LFO display
+        when :random
+           Proc.new {|phase| 0 } #TODO: proper RAN LFO display
         else
-            Proc.new {|x| Math.sin(2*3.14*x) }
+            Proc.new {|x| Math.cos(2*Math::PI*x) }
         end
 
         # root point
@@ -160,11 +160,9 @@ Widget {
         # func points
         resolution = 128
         (0..resolution).each do |i|
-            x = 0.2+0.8*i/resolution
-            phase = i/resolution + lfo_vis.phase
-            phase -= 1 if phase > 1
-
-            y = shape.call(phase)
+            x = 0.2+0.8*i.to_f/resolution.to_f
+            phase = i.to_f/resolution.to_f + lfo_vis.phase-0.5
+            y = shape.call(phase % 1.0)
             p << y
             p << x
         end

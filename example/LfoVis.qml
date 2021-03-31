@@ -297,7 +297,16 @@ Widget {
             padfactor = 10
             bb = Draw::indent(Rect.new(0,0,w,h), padfactor, padfactor)
 
-            Draw::WaveForm::overlay_lfo(vg, bb, pts)
+            scale = case root.get_view_pos(:subsubview)
+                when :amplitude
+                    1.0
+                when :frequency
+                    1.0/2048.0
+                when :filter
+                    0.25
+                end
+
+            Draw::WaveForm::overlay_lfo(vg, bb, pts, scale)
         }
     }
 }

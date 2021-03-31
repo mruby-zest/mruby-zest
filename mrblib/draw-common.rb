@@ -246,8 +246,8 @@ module Draw
             sel_color    = Theme::VisualSelect
             dim_color    = Theme::VisualDimTrans
             (0...n).each do |i|
-                xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2*i]
-                yy = bb.y + bb.h/2*(1-pts[2*i+1]/127.0)
+                xx = bb.x + 0.2*bb.w + 0.8*bb.w*pts[2.0*i]
+                yy = bb.y + bb.h/2.0*(1.0-pts[2*i+1])
 
                 vg.stroke_color sel_color
                 vg.fill_color   color(:black)

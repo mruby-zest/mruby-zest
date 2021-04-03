@@ -22,6 +22,7 @@ Group {
         Knob { extern: echo.extern + "Ppanning"}
 
         Knob { extern: echo.extern + "Echo/Pdelay"   }
+        Selector { extern: echo.extern+"ratiofixed"}
         Knob { extern: echo.extern + "Echo/Plrdelay" }
         Knob { extern: echo.extern + "Echo/Plrcross" }
         Knob { extern: echo.extern + "Echo/Pfb" }

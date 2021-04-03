@@ -22,6 +22,7 @@ Group {
         Knob { extern: wah.extern + "Ppanning"}
 
         Knob { extern: wah.extern + "Alienwah/Pfreq"   }
+        Selector { extern: wah.extern + "ratiofixed" }
         Knob { extern: wah.extern + "Alienwah/Pfreqrnd"   }
         Selector     { extern: wah.extern + "Alienwah/PLFOtype" }
         Knob { extern: wah.extern + "Alienwah/PStereo" }

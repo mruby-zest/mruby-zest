@@ -261,6 +261,26 @@ module Draw
                 end
             end
         end
+        
+        def self.overlay_seq(vg, bb, pts, scale=1.0)
+            n = pts.length/2
+            sel_color    = Theme::VisualSelect
+            dim_color    = Theme::VisualDimTrans
+            (0...n).each do |i|
+                xx = bb.x + bb.w*pts[2*i]
+                yy = bb.y + bb.h/2.0*(1.0-pts[2*i+1]*scale)
+
+                vg.stroke_color sel_color
+                vg.fill_color   color(:black)
+                env_marker(vg, xx, yy, 3)
+                vg.path do |v|
+                    v.move_to(xx, bb.y)
+                    v.line_to(xx, bb.y + bb.h)
+                    v.stroke_color dim_color
+                    v.stroke
+                end
+            end
+        end
     end
     module Grid
         def self.log_y(vg, min, max, bb)

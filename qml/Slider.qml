@@ -18,13 +18,21 @@ Valuator {
             dst = h/2
             vg.path do |v|
                 v.rect(pad*w, src, pad2*w, (src-dst).abs)
-                v.fill_color Theme::SliderActive
+                if active
+                    v.fill_color Theme::SliderActive
+                else
+                    v.fill_color Theme::ButtonInactive
+                end
                 v.fill
             end
         else
             vg.path do |v|
                 v.rect(pad*w, h/2, pad2*w, pad2*h*(0.5-value))
-                v.fill_color Theme::SliderActive
+                if active
+                    v.fill_color Theme::SliderActive
+                else
+                    v.fill_color Theme::ButtonInactive
+                end
                 v.fill
             end
         end

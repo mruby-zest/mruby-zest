@@ -23,7 +23,7 @@ Widget {
     Widget {
         id: row2
         function layout(l, selfBox) {
-            Draw::Layout::hpack(l, selfBox, children)
+            Draw::Layout::hfill(l, selfBox, children, [0.23, 0.2, 0.4, 0.17])
         }
 
 
@@ -41,6 +41,9 @@ Widget {
         }
         Swappable {
             id: amp_lfo
+        }
+        Swappable {
+            id: amp_seq
         }
     }
     Widget {
@@ -79,7 +82,7 @@ Widget {
             root.set_view_pos(:subsubview, subsubview)
         end
         vis = root.get_view_pos(:vis)
-        types = [:envelope, :lfo, :filter, :oscilloscope]
+        types = [:envelope, :lfo, :seq, :filter, :oscilloscope]
         if(!types.include?(vis))
             vis = :envelope
             root.set_view_pos(:vis, vis)
@@ -95,6 +98,8 @@ Widget {
 
         if(vis == :lfo)
             set_vis_lfo(self.extern, subsubview)
+        elsif(vis == :seq)
+            set_vis_seq(self.extern, subsubview)
         elsif(vis == :envelope)
             set_vis_env(self.extern, subsubview)
         elsif(vis == :oscilloscope)
@@ -105,6 +110,17 @@ Widget {
         db.update_values
     }
 
+    function set_vis_seq(ext, tab)
+    {
+        e_  = {:filter    => "FilterSeq/",
+               :amplitude => "AmpSeq/",
+               :frequency => "FreqSeq/"}[tab]
+        return if e_.nil?
+        row1.extern  = ext + e_
+        row1.content = Qml::SeqVis
+        row1.children[0].children[0].extern = amp_seq.extern
+    }
+    
     function set_vis_lfo(ext, tab)
     {
         e_  = {:filter    => "FilterLfo/",
@@ -152,11 +168,14 @@ Widget {
         amp_gen.extern  = base
         amp_env.extern  = base + "AmpEnvelope/"
         amp_lfo.extern  = base + "AmpLfo/"
+        amp_seq.extern  = base + "AmpSeq/"
         amp_gen.content = Qml::ZynAmpGeneral
         amp_env.content = Qml::ZynAmpEnv
         amp_lfo.content = Qml::ZynLFO
+        amp_seq.content = Qml::ZynSEQ
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :amp)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :amp)}
+        amp_seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :amp)}
     }
 
     function set_freq(base)
@@ -165,11 +184,14 @@ Widget {
         amp_gen.extern  = base
         amp_env.extern  = base + "FreqEnvelope/"
         amp_lfo.extern  = base + "FreqLfo/"
+        amp_seq.extern  = base + "FreqSeq/"
         amp_gen.content = Qml::ZynFreqGeneral
         amp_env.content = Qml::ZynFreqEnv
         amp_lfo.content = Qml::ZynLFO
+        amp_seq.content = Qml::ZynSEQ
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :freq)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :freq)}
+        amp_seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :freq)}
     }
 
     function set_filter(base)
@@ -178,11 +200,14 @@ Widget {
         amp_gen.extern  = base + "GlobalFilter/"
         amp_env.extern  = base + "FilterEnvelope/"
         amp_lfo.extern  = base + "FilterLfo/"
+        amp_seq.extern  = base + "FilterSeq/"
         amp_gen.content = Qml::ZynAnalogFilter
         amp_env.content = Qml::ZynFilterEnv
         amp_lfo.content = Qml::ZynLFO
+        amp_seq.content = Qml::ZynSEQ
         amp_env.children[0].whenClick = lambda {row1.setDataVis(:env, :filter)}
         amp_lfo.children[0].whenClick = lambda {row1.setDataVis(:lfo, :filter)}
+        amp_seq.children[0].whenClick = lambda {row1.setDataVis(:seq, :filter)}
     }
 
      function set_vis_oscilloscope()

@@ -13,7 +13,7 @@ Widget {
         }
     }
     HSlider {type: :float; extern: "/Volume"; height: 0.8; label: "volume"; }
-    Button  {layoutOpts: [:no_constraint]; label: "nrpn" }
+    NumEntry {extern: "/tempo"; label: "Tempo"}
     HSlider {extern: "/Pkeyshift"; height: 0.8; label: "key shift" }
 
     function layout(l, selfBox) {

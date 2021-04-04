@@ -22,6 +22,7 @@ Group {
         Knob { extern: chorus.extern + "Ppanning"}
 
         Knob { extern: chorus.extern + "Chorus/Pfreq" }
+        Selector { extern: chorus.extern + "ratiofixed" }
         Knob { extern: chorus.extern + "Chorus/Pfreqrnd" }
         Selector { extern: chorus.extern + "Chorus/PLFOtype" }
         Knob { extern: chorus.extern + "Chorus/PStereo" }

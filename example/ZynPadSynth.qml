@@ -14,6 +14,7 @@ Widget {
         TabButton { label: "harmonic structure";}
         TabButton { label: "oscillator";}
         TabButton { label: "envelopes & lfos"; whenClick: lambda {root.set_view_pos(:vis, :envelope)};}
+        TabButton { whenClick: lambda {header.set_tab(3)}; label: "resonance"}
 
         ApplyButton {
             id: appl
@@ -30,7 +31,7 @@ Widget {
             root.set_view_pos(:subview, :global_pad)
             root.set_view_pos(:vis, :oscilloscope)
             root.change_view
-            center.turn_off_tab()  
+            center.turn_off_tab()
              }
         }
 
@@ -55,7 +56,8 @@ Widget {
             mapping = {0 => :harmonics,
                        1 => :oscil,
                        2 => :global_pad,
-                       3 => :oscilloscope}
+                       3 => :resonance,
+                       4 => :oscilloscope}
             root.set_view_pos(:subview, mapping[selected])
             root.change_view
         }
@@ -78,16 +80,19 @@ Widget {
         mapping = {:harmonics   => Qml::ZynPadHarmonics,
                    :oscil       => Qml::ZynOscil,
                    :global_pad  => Qml::ZynPadGlobal,
+                   :resonance => Qml::ZynResonance,
                    :oscilloscope => Qml::ZynPadOscilloscope}
         base = center.extern
         ext     = {:harmonics  => "",
                    :oscil      => "oscilgen/",
                    :global_pad => "",
+                   :resonance => "resonance/",
                    :oscilloscope => ""}
         tabid   = {:harmonics  => 0,
                    :oscil      => 1,
                    :global_pad => 2,
-                   :oscilloscope => 3}
+                   :resonance => 3,
+                   :oscilloscope => 4}
         if(!mapping.include?(subview))
             subview = :oscil
             root.set_view_pos(:subview, :oscil)
@@ -108,7 +113,7 @@ Widget {
         n = 2
         (0..n).each do |ch_id|
             child = header.children[ch_id]
-           
+
                 if(child.value)
                     child.value = false
                     child.damage_self
